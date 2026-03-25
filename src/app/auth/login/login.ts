@@ -20,6 +20,7 @@ export class Login {
   error: string | null = null;
   loading = false;
   showPassword = false;
+  isFlipping = false;
 
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
     this.loginForm = this.fb.group({
@@ -88,5 +89,12 @@ export class Login {
 
   viewPassword() {
     this.showPassword = !this.showPassword;
+  }
+
+  goToUrl(url: string) {
+    this.isFlipping = true;
+    setTimeout(() => {
+      this.router.navigateByUrl(url);
+    }, 550); // Tiempo óptimo para evitar trabas en el DOM
   }
 }
