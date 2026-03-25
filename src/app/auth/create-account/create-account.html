@@ -4,8 +4,8 @@
   <main class="login-main flex-column">
 
     <div class="w-100 my-auto d-flex flex-column align-items-center">
-      <!-- Logo (solo móvil) -->
-      <div class="text-center mb-4 mt-n2 d-md-none">
+      <!-- Logo (solo móvil, calibrado exactamente a 900px) -->
+      <div class="text-center mb-4 mt-n2 logo-mobile">
         <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
       </div>
 
@@ -32,7 +32,7 @@
 
           <!-- Campo: Password -->
           <div class="mb-4">
-            <label for="inputPassword" class="form-label fw-semibold">Password</label>
+            <label for="inputPassword" class="form-label fw-semibold">Contraseña</label>
             <div class="input-glow-wrapper">
               <div class="input-group">
                 <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
@@ -117,10 +117,10 @@
 
   <!-- Panel derecho con la imagen (visible solo en pantallas grandes) -->
   <aside class="login-sidebar position-relative">
-    <div class="position-absolute w-100 top-0 d-flex justify-content-start pt-5 ps-5 ms-3" style="z-index: 10;">
+    <div class="position-absolute top-0 start-0 w-100 p-4 p-md-5" style="z-index: 50;">
       <!-- Logo -->
-      <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="90">
+      <img src="assets/img/emenetLogo.png" alt="Emenet Logo" class="img-fluid" style="max-height: 90px;">
     </div>
-    <img src="assets/img/crear/emenet.webp" alt="Emenet Comunicaciones" class="sidebar-image">
+    <img src="assets/img/crear/emenet.webp" alt="Emenet Comunicaciones" class="sidebar-image img-fluid w-100 h-100" loading="lazy">
   </aside>
 </div>

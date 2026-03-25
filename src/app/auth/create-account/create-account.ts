@@ -9,7 +9,7 @@ import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
   selector: 'app-create-account',
-  imports: [ReactiveFormsModule, NgIf, RouterLink, NgxSonnerToaster],
+  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css'
 })
