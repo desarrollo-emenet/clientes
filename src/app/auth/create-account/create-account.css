@@ -5,7 +5,7 @@
 .login-layout {
   display: flex;
   height: 100dvh;
-  /* dvh respeta el espacio visible real de la pantalla en móviles */
+  /*espacio visible real de la pantalla en móviles */
   width: 100%;
   background-color: #ffffff;
   overflow: hidden;
@@ -72,6 +72,7 @@
 .logo-mobile {
   display: block;
 }
+
 @media (min-width: 900px) {
   .logo-mobile {
     display: none !important;
@@ -351,8 +352,6 @@
    Efecto Voltear Pantalla Completa
    ========================================================================== */
 .login-layout {
-  /* Al eliminar perspective general y transform-style: preserve-3d
-     evitamos por completo bugs de Z-index o clips en Safari/iOS y móviles. */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform, opacity;
