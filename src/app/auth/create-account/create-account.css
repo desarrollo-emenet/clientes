@@ -38,12 +38,15 @@
   overflow-y: auto;
 
   /* Ocultar barra de desplazamiento que genera la línea visual al animar en 3D en móviles */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE y Edge */
 }
 
 .login-main::-webkit-scrollbar {
-  display: none; /* Chrome, Safari y Opera */
+  display: none;
+  /* Chrome, Safari y Opera */
 }
 
 @media (min-width: 768px) {
@@ -331,85 +334,68 @@
    Efecto Voltear Pantalla Completa
    ========================================================================== */
 .login-layout {
-  perspective: 2500px;
-  -webkit-perspective: 2500px;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
+  /* Al eliminar perspective general y transform-style: preserve-3d
+     evitamos por completo bugs de Z-index o clips en Safari/iOS y móviles. */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
-/* Fix para navegadores que desaparecen el contenido (Safari, Firefox) */
-.login-main,
-.login-sidebar {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-
 .flip-in {
-  -webkit-animation: flipScreenIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation: flipScreenIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .flip-out {
-  -webkit-animation: flipScreenOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation: flipScreenOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  -webkit-animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none;
 }
 
+/* 
+  Optimizamos inyectando perspective en la propiedad transform.
+  Esto asegura un renderizado plano sin bugs en WebKit. 
+*/
 @-webkit-keyframes flipScreenIn {
   0% {
-    -webkit-transform: rotateY(-90deg) scale(0.92);
-    transform: rotateY(-90deg) scale(0.92);
+    -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
     opacity: 0;
   }
-
   100% {
-    -webkit-transform: rotateY(0deg) scale(1);
-    transform: rotateY(0deg) scale(1);
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
 }
 
 @keyframes flipScreenIn {
   0% {
-    -webkit-transform: rotateY(-90deg) scale(0.92);
-    transform: rotateY(-90deg) scale(0.92);
+    transform: perspective(2500px) rotateY(-90deg) scale(0.92);
     opacity: 0;
   }
-
   100% {
-    -webkit-transform: rotateY(0deg) scale(1);
-    transform: rotateY(0deg) scale(1);
+    transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
 }
 
 @-webkit-keyframes flipScreenOut {
   0% {
-    -webkit-transform: rotateY(0deg) scale(1);
-    transform: rotateY(0deg) scale(1);
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
-
   100% {
-    -webkit-transform: rotateY(90deg) scale(0.92);
-    transform: rotateY(90deg) scale(0.92);
+    -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
     opacity: 0;
   }
 }
 
 @keyframes flipScreenOut {
   0% {
-    -webkit-transform: rotateY(0deg) scale(1);
-    transform: rotateY(0deg) scale(1);
+    transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
-
   100% {
-    -webkit-transform: rotateY(90deg) scale(0.92);
-    transform: rotateY(90deg) scale(0.92);
+    transform: perspective(2500px) rotateY(90deg) scale(0.92);
     opacity: 0;
   }
 }
