@@ -10,11 +10,12 @@
 
 
     <form [formGroup]="recoverForm" (ngSubmit)="recover()">
-      <div class="mb-3">
+      <div class="mb-4">
         <label for="exampleInputEmail1" class="form-label fw-semibold">Correo electrónico</label>
-        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1"
-          placeholder="correo@dominio.com" aria-describedby="emailHelp" />
-
+        <div class="input-glow-wrapper">
+          <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1"
+            placeholder="correo@dominio.com" aria-describedby="emailHelp" />
+        </div>
 
         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-2 small text-danger">
           <div *ngIf="email.errors?.['required']">Email requerido</div>
@@ -25,15 +26,22 @@
       </div>
 
       <div class="mb-3">
-        <div class="d-flex justify-content-between mb-4">
-          <a routerLink="/iniciar-sesion" class="text-muted text-decoration-none">Regresar a inicio de sesion</a>
+        <div class="d-flex justify-content-between mb-5">
+          <a routerLink="/iniciar-sesion" class="link-subtle">Regresar a inicio de sesion</a>
         </div>
       </div>
-      <button type="submit" class="btn btn-secondary btn-lg w-100" [disabled]="loading">
 
-        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-        Recuperar
-      </button>
+      <!-- Botón Recuperar -->
+      <div class="btn-water-wrapper">
+        <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
+          <span class="water-fill"></span>
+          <span class="btn-water-content">
+             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+             <span>{{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}</span>
+          </span>
+        </button>
+      </div>
+
 
 
 
