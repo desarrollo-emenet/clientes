@@ -36,10 +36,16 @@ export class ClientService {
     return this.http.patch(`${this.apiLocalUrl}/usuarios/${id}`, data, { headers });
   }
 
-  //peticiones para servicios
+ //envia correo de verificacion para agregar servicio
   addService(data: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.apiLocalUrl}/servicio`, data, { headers });
+  }
+
+  //verificador de codigo se agrega el servicio
+  confirmarServicio(data: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${this.apiLocalUrl}/servicio/verificar`, data, { headers });
   }
 
   //metodo index 

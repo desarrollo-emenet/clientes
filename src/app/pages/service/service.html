@@ -40,6 +40,31 @@
           </div>
         </div>
       </form>
+
+      <!-- Verificación -->
+      <div *ngIf="mostrarConfirmacion" class="mt-4 p-3 border rounded bg-light">
+
+        <h6 class="fw-bold mb-2">Verificación de servicio</h6>
+
+        <p class="text-muted mb-3" style="font-size: 0.9em;">
+          Ingresa el código enviado a tu correo
+        </p>
+
+        <div class="input-group">
+
+          <input type="text" class="form-control text-center fw-bold" placeholder="------" maxlength="6"
+            [(ngModel)]="codigo" style="letter-spacing: 6px; font-size: 1.2rem;" />
+
+          <button class="btn btn-success" (click)="confirmarCodigo()">
+            Confirmar
+          </button>
+        </div>
+        <p class="text-muted mt-2 mb-0" style="font-size: 0.85em;">
+          Tiempo restante: <strong>{{ tiempoFormateado }}</strong>
+        </p>
+
+      </div>
+      
     </div>
   </div>
 
