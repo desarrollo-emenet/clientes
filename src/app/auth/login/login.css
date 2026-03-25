@@ -40,6 +40,14 @@
   background-color: #ffffff;
   overflow-y: auto;
   /* Si la pantalla es muy pequeña, solo el formulario hará scroll */
+
+  /* Ocultar barra de desplazamiento que genera la línea visual al animar en 3D en móviles */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+.login-main::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
 }
 
 @media (min-width: 768px) {
@@ -329,26 +337,48 @@
    ========================================================================== */
 .login-layout {
   perspective: 2500px;
+  -webkit-perspective: 2500px;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   will-change: transform, opacity;
+}
+
+/* Fix para navegadores que desaparecen el contenido (Safari, Firefox) */
+.login-main,
+.login-sidebar {
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .flip-in {
+  -webkit-animation: flipScreenIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation: flipScreenIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .flip-out {
+  -webkit-animation: flipScreenOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation: flipScreenOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none;
 }
 
+@-webkit-keyframes flipScreenIn {
+  0%   { -webkit-transform: rotateY(-90deg) scale(0.92); transform: rotateY(-90deg) scale(0.92); opacity: 0; }
+  100% { -webkit-transform: rotateY(0deg) scale(1); transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
 @keyframes flipScreenIn {
-  0%   { transform: rotateY(-90deg) scale(0.92); opacity: 0; }
-  100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+  0%   { -webkit-transform: rotateY(-90deg) scale(0.92); transform: rotateY(-90deg) scale(0.92); opacity: 0; }
+  100% { -webkit-transform: rotateY(0deg) scale(1); transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+@-webkit-keyframes flipScreenOut {
+  0%   { -webkit-transform: rotateY(0deg) scale(1); transform: rotateY(0deg) scale(1); opacity: 1; }
+  100% { -webkit-transform: rotateY(90deg) scale(0.92); transform: rotateY(90deg) scale(0.92); opacity: 0; }
 }
 
 @keyframes flipScreenOut {
-  0%   { transform: rotateY(0deg) scale(1); opacity: 1; }
-  100% { transform: rotateY(90deg) scale(0.92); opacity: 0; }
+  0%   { -webkit-transform: rotateY(0deg) scale(1); transform: rotateY(0deg) scale(1); opacity: 1; }
+  100% { -webkit-transform: rotateY(90deg) scale(0.92); transform: rotateY(90deg) scale(0.92); opacity: 0; }
 }

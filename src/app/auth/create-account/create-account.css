@@ -36,6 +36,14 @@
   padding: 2rem 1rem;
   background-color: #ffffff;
   overflow-y: auto;
+
+  /* Ocultar barra de desplazamiento que genera la línea visual al animar en 3D en móviles */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+.login-main::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
 }
 
 @media (min-width: 768px) {
