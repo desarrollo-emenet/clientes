@@ -1,4 +1,4 @@
-<div class="auth-hero min-vh-100 d-flex flex-column align-items-center justify-content-start py-5">
+<div class="login-layout flip-in" [class.flip-out]="isFlipping">
   <!-- Logo -->
   <div class="text-center mb-4 mt-n4">
     <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
@@ -27,7 +27,7 @@
 
       <div class="mb-3">
         <div class="d-flex justify-content-between mb-5">
-          <a routerLink="/iniciar-sesion" class="link-subtle">Regresar a inicio de sesion</a>
+          <a (click)="goToUrl('/iniciar-sesion')" class="link-subtle" style="cursor: pointer;">Regresar a inicio de sesion</a>
         </div>
       </div>
 
@@ -36,16 +36,13 @@
         <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
           <span class="water-fill"></span>
           <span class="btn-water-content">
-             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-             <span>{{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}</span>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            <span>{{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}</span>
           </span>
         </button>
       </div>
 
-
-
-
     </form>
     <ngx-sonner-toaster richColors closeButton position="top-center" />
   </div>
-</div>
+</div>

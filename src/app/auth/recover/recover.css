@@ -1,12 +1,32 @@
-form {
-  margin: 20px;
+/* ==========================================================================
+   Fondo de Pantalla Completa y Alineación
+   ========================================================================== */
+.login-layout {
+  /*background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)),
+    url('/assets/img/recuperar/f8.jpeg');*/
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .auth-card {
   width: 100%;
   max-width: 500px;
   border-radius: 35px;
-  /* Radio menos agresivo en móviles para no comerse el padding en las esquinas */
+  /* Radio menos agresivo en móviles para no comerse el padding en las esquinas*/
   border: 4px solid transparent;
   /* Interior blanco + borde degradado solo en la parte superior */
   background: linear-gradient(#fff, #fff) padding-box,
@@ -187,4 +207,69 @@ form {
 
 .link-subtle:hover {
   color: #3472df !important;
+}
+
+/* El contenido de .login-layout ahora está al inicio para consistencia */
+
+.flip-in {
+  -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.flip-out {
+  -webkit-animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* 
+  Optimizamos inyectando perspective en la propiedad transform.
+  Esto asegura un renderizado plano sin bugs en WebKit. 
+*/
+@-webkit-keyframes flipScreenIn {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flipScreenIn {
+  0% {
+    transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flipScreenOut {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes flipScreenOut {
+  0% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
 }
