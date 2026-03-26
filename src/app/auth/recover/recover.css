@@ -172,3 +172,19 @@ form {
     --angle: 360deg;
   }
 }
+
+/* ==========================================================================
+   Enlaces: Regresar a iniciar sesion
+   ========================================================================== */
+
+.link-subtle {
+  color: #0f172a !important;
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-subtle:hover {
+  color: #3472df !important;
+}
