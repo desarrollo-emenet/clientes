@@ -26,9 +26,10 @@ export class CreateAccount {
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
     this.createForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
-    }, { validators: this.passwordMatchValidator });
+      //password: ['', [Validators.required, Validators.minLength(8)]],
+      //password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
+    }, //{ validators: this.passwordMatchValidator }
+    );
   }
 
 
@@ -45,8 +46,8 @@ export class CreateAccount {
 
 
   get numero_cliente() { return this.createForm.controls['numero_cliente']; }
-  get password() { return this.createForm.controls['password']; }
-  get passwordConfirmation() { return this.createForm.controls['password_confirmation']; }
+  //get password() { return this.createForm.controls['password']; }
+  //get passwordConfirmation() { return this.createForm.controls['password_confirmation']; }
 
 
 
@@ -64,9 +65,9 @@ export class CreateAccount {
 
     const payload1: any = {
       numero_cliente: codigoNormalizado,
-      email: raw.email,
-      password: raw.password,
-      password_confirmation: raw.password_confirmation
+      //email: raw.email,
+      //password: raw.password,
+      //password_confirmation: raw.password_confirmation
     };
 
     this.api.register(payload1 as any).subscribe({
