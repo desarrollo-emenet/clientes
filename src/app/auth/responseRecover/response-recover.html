@@ -17,9 +17,12 @@
           <div class="input-group">
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
               class="form-control" placeholder="Nueva contraseña (mín 8 caracteres)" />
-            <button type="button" class="btn btn-outline-light border-0" (click)="viewPassword()" style="background: white;">
-              <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt=""
-                width="20" height="20">
+            <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
+              title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
+              <div class="eye-icon-wrap">
+                <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt="toggle" width="20"
+                  height="20">
+              </div>
             </button>
           </div>
         </div>
@@ -56,8 +59,8 @@
 
       <!-- Acciones -->
       <div class="d-flex flex-column gap-3 align-items-center mt-2">
-        <div class="btn-water-wrapper w-100">
-          <button type="submit" class="btn-water w-100" [disabled]="loading" [class.loading]="loading">
+        <div class="btn-water-wrapper">
+          <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
             <span class="water-fill"></span>
             <span class="btn-water-content">
               <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
