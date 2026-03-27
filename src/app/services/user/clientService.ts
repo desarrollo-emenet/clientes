@@ -35,17 +35,17 @@ export class ClientService {
     const headers = this.getHeaders();
     return this.http.patch(`${this.apiLocalUrl}/usuarios/${id}`, data, { headers });
   }
-
+ 
  //envia correo de verificacion para agregar servicio
   addService(data: any): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiLocalUrl}/servicio`, data, { headers });
+    return this.http.post<any>(`${this.apiLocalUrl}/servicios`, data, { headers });
   }
 
   //verificador de codigo se agrega el servicio
   confirmarServicio(data: any): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiLocalUrl}/servicio/verificar`, data, { headers });
+    return this.http.post<any>(`${this.apiLocalUrl}/servicios/verificar`, data, { headers });
   }
 
   //metodo index 
@@ -62,7 +62,7 @@ export class ClientService {
 
   deleteService(id: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.delete<any>(`${this.apiLocalUrl}/servicio/${id}`, { headers });
+    return this.http.delete<any>(`${this.apiLocalUrl}/servicios/${id}`, { headers });
   }
 
   verifyAccessService(cliente: string): Observable<{has_access: boolean, servicio?: any}>{
