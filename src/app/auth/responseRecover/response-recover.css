@@ -348,3 +348,95 @@
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   Password Strength Meter
+   ========================================================================== */
+
+.strength-meter {
+  padding: 4px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.strength-bar-container {
+  height: 6px;
+  background: #edf2f7;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color 0.3s ease;
+}
+
+.strength-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+  background-color: transparent !important;
+}
+
+.strength-feedback {
+  font-size: 0.7rem;
+  color: #718096;
+  font-style: italic;
+}
+
+/* Strength Colors */
+.strength-bar.strength-none {
+  background-color: #cbd5e0 !important;
+}
+
+.strength-bar.strength-weak {
+  background-color: #f56565 !important;
+}
+
+.strength-bar.strength-medium {
+  background-color: #ed8936 !important;
+}
+
+.strength-bar.strength-good {
+  background-color: #4299e1 !important;
+}
+
+.strength-bar.strength-strong {
+  background-color: #48bb78 !important;
+}
+
+.strength-text.strength-none {
+  color: #a0aec0 !important;
+}
+
+.strength-text.strength-weak {
+  color: #e53e3e !important;
+}
+
+.strength-text.strength-medium {
+  color: #dd6b20 !important;
+}
+
+.strength-text.strength-good {
+  color: #3573df !important;
+}
+
+.strength-text.strength-strong {
+  color: #42a948 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

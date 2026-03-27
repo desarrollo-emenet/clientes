@@ -9,14 +9,14 @@
     <p class="text-center text-muted mb-4">Ingresa tu nueva contraseña</p>
 
     <form [formGroup]="recoverForm" (ngSubmit)="recoverPassword()">
-      
+
       <!-- Contraseña -->
       <div class="mb-4">
         <label class="form-label fw-semibold">Nueva Contraseña</label>
         <div class="input-glow-wrapper">
           <div class="input-group">
-            <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-              class="form-control" placeholder="Nueva contraseña (mín 8 caracteres)" />
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
+              placeholder="Nueva contraseña (mín 8 caracteres)" />
             <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
               title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
               <div class="eye-icon-wrap">
@@ -30,7 +30,20 @@
           <div *ngIf="password.errors?.['minlength']">Mínimo 8 caracteres.</div>
           <div *ngIf="password.errors?.['required']">Requerida.</div>
         </div>
+
+        <!-- Password Strength Meter -->
+        <div class="strength-meter mt-3" *ngIf="password.value">
+          <div class="strength-bar-container">
+            <div class="strength-bar" [ngClass]="strengthColor" 
+              [style.width.%]="passwordStrength * 25"></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <span class="strength-text" [ngClass]="strengthColor">{{ strengthText }}</span>
+            <span class="strength-feedback" *ngIf="passwordStrength < 3">Usa símbolos y números</span>
+          </div>
+        </div>
       </div>
+
 
       <!-- Confirmar Contraseña -->
       <div class="mb-4">
@@ -68,7 +81,7 @@
             </span>
           </button>
         </div>
-        
+
         <a (click)="cancel()" class="link-subtle" style="cursor: pointer;">Cancelar y regresar</a>
       </div>
 
@@ -77,4 +90,4 @@
     </form>
     <ngx-sonner-toaster richColors closeButton position="top-center" />
   </div>
-</div>
+</div>
