@@ -193,3 +193,84 @@
     --angle: 360deg;
   }
 }
+
+/* ==========================================================================
+   Enlaces: Regresar a iniciar sesion
+   ========================================================================== */
+
+.link-subtle {
+  color: #0f172a !important;
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-subtle:hover {
+  color: #3472df !important;
+}
+
+/* El contenido de .login-layout ahora está al inicio para consistencia */
+
+.flip-in {
+  -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.flip-out {
+  -webkit-animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* 
+  Optimizamos inyectando perspective en la propiedad transform.
+  Esto asegura un renderizado plano sin bugs en WebKit. 
+*/
+@-webkit-keyframes flipScreenIn {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flipScreenIn {
+  0% {
+    transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flipScreenOut {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes flipScreenOut {
+  0% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
+}
