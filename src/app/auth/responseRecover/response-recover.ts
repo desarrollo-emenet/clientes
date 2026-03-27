@@ -15,10 +15,9 @@ export class ResponseRecover {
   recoverForm!: FormGroup;
   showPassword = false;
   loading = false;
+  isFlipping = false;
   error = '';
-
   token: string | null = null;
-
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private api: LoginS) {
 
@@ -37,9 +36,9 @@ export class ResponseRecover {
     const pass = group.get('password')?.value;
     const confirm = group.get('password_confirmation')?.value;
     if (pass && confirm && pass !== confirm) {
-    return { passwordMissMatch: true };
-  }
-  return null;
+      return { passwordMissMatch: true };
+    }
+    return null;
   }
 
   get password() {
@@ -66,13 +65,12 @@ export class ResponseRecover {
     this.api.sendPasswordUpdate(payload as any).subscribe({
       next: (res) => {
         this.loading = false;
-        //console.log(res);
-        this.router.navigate(['/iniciar-sesion']);
+        toast.success('Contraseña actualizada correctamente');
+        this.goToUrl('/iniciar-sesion');
       },
       error: (e) => {
         this.loading = false;
         toast.error('No se pudo actualizar la contraseña')
-        //this.error = e?.error?.message ?? 'No se pudo actualizar la contraseña';
       }
     });
   }
@@ -81,10 +79,14 @@ export class ResponseRecover {
     this.showPassword = !this.showPassword;
   }
 
-
   cancel() {
-    this.router.navigate(['/iniciar-sesion']);
+    this.goToUrl('/iniciar-sesion');
   }
 
-
+  goToUrl(url: string) {
+    this.isFlipping = true;
+    setTimeout(() => {
+      this.router.navigateByUrl(url);
+    }, 550);
+  }
 }
