@@ -1,27 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
 
 @Component({
   selector: 'app-recover',
-  imports: [ReactiveFormsModule, NgIf, RouterLink, NgxSonnerToaster],
+  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
   templateUrl: './recover.html',
   styleUrl: './recover.css'
 })
-export class Recover {
+export class Recover implements OnInit {
   recoverForm!: FormGroup;
   loading = false;
+  isFlipping = false;
   error = '';
-  
-
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
     this.recoverForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     })
+  }
+
+  ngOnInit() {
   }
 
   get email() {
@@ -51,6 +53,10 @@ export class Recover {
     });  
   }
 
-
-
+  goToUrl(url: string) {
+    this.isFlipping = true;
+    setTimeout(() => {
+      this.router.navigateByUrl(url);
+    }, 550); // Tiempo óptimo para evitar trabas en el DOM
+  }
 }

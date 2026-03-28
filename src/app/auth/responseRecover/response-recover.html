@@ -1,68 +1,93 @@
-<div class="auth-hero min-vh-100 d-flex flex-column align-items-center justify-content-start py-5">
-    <img src="assets/img/emenetLogo.png" alt="Logo" height="100" class="mb-3 opacity-75">
-    <div class="auth-card shadow-lg p-4 p-sm-5">
-        <div class="card-body">
-            <h4 class="mb-3">¿Has olvidado tu contraseña?</h4>
+<div class="login-layout flip-in" [class.flip-out]="isFlipping">
+  <!-- Logo -->
+  <div class="text-center mb-4 mt-n4">
+    <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
+  </div>
 
-            <form [formGroup]="recoverForm" (ngSubmit)="recoverPassword()">
+  <div class="auth-card shadow-lg p-4 p-sm-5">
+    <h3 class="text-center fw-bold mb-1">¿Has olvidado tu contraseña?</h3>
+    <p class="text-center text-muted mb-4">Ingresa tu nueva contraseña</p>
 
-                <!-- Contraseña -->
-                <div class="mb-3">
-                    <label class="form-label">Nueva Contraseña</label>
-                    <div class="input-group">
-                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                            class="form-control" placeholder="Nueva contraseña (mín 8 caracteres)" />
+    <form [formGroup]="recoverForm" (ngSubmit)="recoverPassword()">
 
-                        <button type="button" class="btn btn-outline-secondary" (click)="viewPassword()">
-                            <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt=""
-                                width="24" height="24">
-                        </button>
-                    </div>
-                    <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                        class="mt-2 small text-danger">
-                        <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.
-                        </div>
-                        <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
-                    </div>
-
-                    <div class="form-text">
-                        Recomnedaciones <br>
-                        <ul>
-                            <li>No usar palabras obvias o fácilmente deducibles</li>
-                            <li>Combinar letras con caracterez</li>
-                        </ul>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Confirmar Contraseña</label>
-                        <input type="password" formControlName="password_confirmation" class="form-control"
-                            placeholder="Repite la contraseña" />
-                        <div class="invalid-feedback d-block"
-                            *ngIf="(passwordConfirmation.touched || recoverForm.touched) && recoverForm.hasError('passwordMissMatch')">
-                            Las contraseñas no coinciden.
-                        </div>
-                        <div class="invalid-feedback d-block"
-                            *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.['required']">
-                            La contraseña es requerida.
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <!-- Acciones -->
-                <div class="d-flex gap-2 justify-content-end mt-4">
-                    <button type="button" class="btn btn-outline-secondary" (click)="cancel()"
-                        [disabled]="loading">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="loading">
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                        Guardar cambios
-                    </button>
-                </div>
-                <div *ngIf="error" class="mt-3 alert alert-danger">{{ error }}</div>
-
-            </form>
-            <ngx-sonner-toaster richColors closeButton position="top-center" />
+      <!-- Contraseña -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Nueva Contraseña</label>
+        <div class="input-glow-wrapper">
+          <div class="input-group">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
+              placeholder="Nueva contraseña (mín 8 caracteres)" />
+            <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
+              title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
+              <div class="eye-icon-wrap">
+                <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt="toggle" width="20"
+                  height="20">
+              </div>
+            </button>
+          </div>
         </div>
-    </div>
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 small text-danger">
+          <div *ngIf="password.errors?.['minlength']">Mínimo 8 caracteres.</div>
+          <div *ngIf="password.errors?.['required']">Requerida.</div>
+        </div>
+
+        <!-- Password Strength Meter -->
+        <div class="strength-meter mt-3" *ngIf="password.value">
+          <div class="strength-bar-container">
+            <div class="strength-bar" [ngClass]="strengthColor" 
+              [style.width.%]="passwordStrength * 25"></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <span class="strength-text" [ngClass]="strengthColor">{{ strengthText }}</span>
+            <span class="strength-feedback" *ngIf="passwordStrength < 3">Usa símbolos y números</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Confirmar Contraseña -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Confirmar Contraseña</label>
+        <div class="input-glow-wrapper">
+          <input type="password" formControlName="password_confirmation" class="form-control"
+            placeholder="Repite la contraseña" />
+        </div>
+        <div class="mt-2 small text-danger"
+          *ngIf="(passwordConfirmation.touched || recoverForm.touched) && recoverForm.hasError('passwordMissMatch')">
+          Las contraseñas no coinciden.
+        </div>
+        <div class="mt-2 small text-danger"
+          *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.['required']">
+          Requerida.
+        </div>
+      </div>
+
+      <div class="form-text mb-4">
+        <small class="text-muted">
+          <strong>Recomendaciones:</strong><br>
+          • Evita palabras obvias.<br>
+          • Combina letras y caracteres especiales.
+        </small>
+      </div>
+
+      <!-- Acciones -->
+      <div class="d-flex flex-column gap-3 align-items-center mt-2">
+        <div class="btn-water-wrapper">
+          <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
+            <span class="water-fill"></span>
+            <span class="btn-water-content">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              <span>{{ loading ? 'GUARDANDO...' : 'GUARDAR CAMBIOS' }}</span>
+            </span>
+          </button>
+        </div>
+
+        <a (click)="cancel()" class="link-subtle" style="cursor: pointer;">Cancelar y regresar</a>
+      </div>
+
+      <div *ngIf="error" class="mt-3 alert alert-danger py-2 small text-center">{{ error }}</div>
+
+    </form>
+    <ngx-sonner-toaster richColors closeButton position="top-center" />
+  </div>
 </div>

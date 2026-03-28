@@ -1,22 +1,21 @@
-<div class="auth-hero min-vh-100 d-flex flex-column align-items-center justify-content-start py-5">
-  <img src="assets/img/emenetLogo.png" alt="Logo" height="100" class="mb-3 opacity-75" />
+<div class="login-layout flip-in" [class.flip-out]="isFlipping">
+  <!-- Logo -->
+  <div class="text-center mb-4 mt-n4">
+    <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
+  </div>
 
   <div class="auth-card shadow-lg p-4 p-sm-5">
     <h3 class="text-center fw-bold mb-1">Recuperar contraseña</h3>
+    <p class="text-center text-muted mb-4">Ingresa tu correo para buscar tu cuenta</p>
+
 
     <form [formGroup]="recoverForm" (ngSubmit)="recover()">
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label fw-semibold"
-          >Ingresa tu correo electrónico para buscar tu cuenta.</label
-        >
-        <input
-          formControlName="email"
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          placeholder="correo@dominio.com"
-          aria-describedby="emailHelp"
-        />
+      <div class="mb-4">
+        <label for="exampleInputEmail1" class="form-label fw-semibold">Correo electrónico</label>
+        <div class="input-glow-wrapper">
+          <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1"
+            placeholder="correo@dominio.com" aria-describedby="emailHelp" />
+        </div>
 
         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-2 small text-danger">
           <div *ngIf="email.errors?.['required']">Email requerido</div>
@@ -27,20 +26,23 @@
       </div>
 
       <div class="mb-3">
-        <div class="d-flex justify-content-between mb-4">
-          <a routerLink="/iniciar-sesion" class="text-muted text-decoration-none"
-            >Regresar a inicio de sesion</a
-          >
+        <div class="d-flex justify-content-between mb-5">
+          <a (click)="goToUrl('/iniciar-sesion')" class="link-subtle" style="cursor: pointer;">Regresar a inicio de sesion</a>
         </div>
       </div>
-      <button type="submit" class="btn btn-secondary btn-lg w-100" [disabled]="loading">
-        
-        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-        Recuperar
-      </button>
 
+      <!-- Botón Recuperar -->
+      <div class="btn-water-wrapper">
+        <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
+          <span class="water-fill"></span>
+          <span class="btn-water-content">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            <span>{{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}</span>
+          </span>
+        </button>
+      </div>
 
     </form>
     <ngx-sonner-toaster richColors closeButton position="top-center" />
   </div>
-</div>
+</div>

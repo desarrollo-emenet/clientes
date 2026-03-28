@@ -1,21 +1,29 @@
-
-<div class="auth-hero min-vh-100 d-flex flex-column align-items-center justify-content-start py-5">
-  <img src="assets/img/emenetLogo.png" alt="Logo" height="100" class="mb-3 opacity-75">
+<div class="login-layout flip-in" [class.flip-out]="isFlipping">
+  <!-- Logo -->
+  <div class="logo-wrapper text-center mb-4 mt-n4">
+    <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
+  </div>
 
   <div class="auth-card shadow-lg p-4 p-sm-5">
-    <h3 class="text-center fw-bold mb-1">¡Correo verificado correctamente!</h3>
-    <br>
-    <p class="text-center">Tu cuenta ha sido activada. Ahora puedes iniciar sesión y comenzar a usar la plataforma.</p>
-
-    <button class="btn btn-secondary btn-lg w-100" routerLink="/iniciar-sesion">
-      Iniciar sesión
-    </button>
-
-    <p class="small-text text-center">
-      Serás redirigido automáticamente en <span>{{ countdown }}</span> segundos...
+    <h3 class="text-center fw-bold mb-2">¡Correo verificado!</h3>
+    <p class="text-center text-muted mb-4">
+      Tu cuenta ha sido activada. Ahora puedes iniciar sesión y comenzar a usar la plataforma.
     </p>
 
-        <ngx-sonner-toaster richColors position="top-center" />
+    <!-- Botón con Efecto de Agua -->
+    <div class="btn-water-wrapper">
+      <button type="button" class="btn-water" (click)="goToUrl('/iniciar-sesion')">
+        <span class="water-fill"></span>
+        <span class="btn-water-content">
+          <span>INICIAR SESIÓN</span>
+        </span>
+      </button>
+    </div>
 
+    <p class="small-text text-center">
+      Serás redirigido automáticamente en <strong>{{ countdown }}</strong> segundos...
+    </p>
+
+    <ngx-sonner-toaster richColors closeButton position="top-center" />
   </div>
 </div>
