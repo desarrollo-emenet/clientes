@@ -68,7 +68,7 @@ export class Notification implements OnInit, OnDestroy{
     //notificacion adeudo pendiente
     try {
       const data: any = await this.clientS.getClientePorNumero(numeroCliente).toPromise();
-      console.log(data);
+      //console.log(data);
       if (!data) return;
 
       if(data.cliente?.cliente?.clasificacion === 'BAJA'){

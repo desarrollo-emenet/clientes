@@ -58,7 +58,7 @@ export class Dashboard {
 
     const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
-        console.log(res);
+        //console.log(res);
         this.data = res;
         this.loading = false;
 
