@@ -8,7 +8,7 @@
                     <form [formGroup]="updateForm" (ngSubmit)="update()">
 
                         <!-- Correo -->
-                        <div class="mb-3">
+                        <!--<div class="mb-3">
                             <label for="InputEmail1" class="form-label fw-semibold">Email</label>
                             <input formControlName="email" type="email" class="form-control" id="InputEmail1"
                                  aria-describedby="emailHelp" placeholder="correo@dominio.com">
@@ -23,7 +23,7 @@
                                     Email debe tener formato valido
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <!-- Contraseña -->
                         <div class="mb-3">
@@ -41,7 +41,7 @@
                                         width="24" height="24">
                                 </button>
                             </div>
-                            <small> <small> el campo vacio si no deseas cambiar la contraseña </small> </small>
+                            <!--<small> <small> el campo vacio si no deseas cambiar la contraseña </small> </small>-->
 
                             <div *ngIf="password.invalid && (password.dirty || password.touched)"
                                 class="mt-2 small text-danger">

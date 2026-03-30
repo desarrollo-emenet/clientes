@@ -23,14 +23,14 @@ export class EditProfile {
 
   ngOnInit(): void {
     this.updateForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      //email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.minLength(8)]]
     });
 
     this.loadUserData();
   }
 
-  get email() { return this.updateForm.controls['email']!; }
+  //get email() { return this.updateForm.controls['email']!; }
   get password() { return this.updateForm.controls['password']!; }
 
   loadUserData() {
