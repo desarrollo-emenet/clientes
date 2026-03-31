@@ -1,99 +1,125 @@
 .services-container {
-  max-width: 980px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
 }
 
-/* Inputs */
-.form-control {
-  border-radius: 0 12px 12px 0;
-  border-color: #dee2e6;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* Banner Grid Left Column */
+.banner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
 }
 
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
-}
-
-.input-group-text {
-  border-radius: 12px 0 0 12px;
-  background-color: #f8f9fa;
-  border-color: #dee2e6;
-}
-
-
-
-/* Card base */
-.service-card {
+.banner-card {
+  aspect-ratio: 1 / 1;
   border-radius: 16px;
-  background: linear-gradient(180deg, #ffffff, #f9fafb);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  background: #fff;
 }
 
-/* Hover elegante */
+.banner-card:hover {
+  transform: scale(1.02);
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-content {
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+}
+
+.banner-disney {
+  background: linear-gradient(135deg, #1a1a40 0%, #3a0ca3 100%);
+}
+
+.banner-disney h5 {
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.banner-disney .price {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Right Column Refinements */
+.custom-input-group {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.custom-input-group .form-control {
+  border-radius: 10px !important;
+  background: transparent !important;
+}
+
+.custom-input-group .btn-primary {
+  border-radius: 10px !important;
+}
+
+/* Service Cards Refined */
+.service-card {
+  border-radius: 20px;
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0,0,0,0.03) !important;
+}
+
 .service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Línea superior decorativa */
+/* Decorative progress-like bar on top of service cards */
 .service-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  height: 4px;
+  height: 6px;
   width: 100%;
-  background: linear-gradient(90deg, #0d6efd, #20c997);
+  background: linear-gradient(90deg, #1a9fd4, #20c997);
+  border-radius: 20px 20px 0 0;
 }
 
-/* Título */
-.service-card h5 {
-  font-size: 1.05rem;
-}
-
-/* Badge principal */
 .status-badge {
-  font-size: 0.7rem;
-  padding: 0.45em 0.9em;
-  border-radius: 999px;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0.5px;
+  border-radius: 8px;
 }
 
-/* Badges secundarios */
-.badge {
-  font-weight: 500;
-}
-
-/* Botones */
-.service-card .btn {
-  border-radius: 10px;
-  transition: all 0.2s ease;
+/* Buttons inside service card */
+.service-card .btn-outline-primary {
+  border-width: 1.5px;
+  color: #1a9fd4;
+  border-color: #1a9fd4;
 }
 
 .service-card .btn-outline-primary:hover {
-  background-color: #0d6efd;
+  background-color: #1a9fd4;
   color: #fff;
-}
-
-.service-card .btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-
-@media (max-width: 575.98px) {
-  .services-container {
-    padding: 0.75rem 0.5rem;
-  }
 }
 
 /* ==============================
-   NAV – service-nav
+   NAV – service-nav (Unchanged or slightly adjusted)
    ============================== */
 .service-nav {
   background: #fff;
@@ -104,6 +130,7 @@
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
+
 
 /* Fila superior */
 .service-nav__top {
