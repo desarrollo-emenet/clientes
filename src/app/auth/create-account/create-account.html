@@ -30,64 +30,6 @@
             </div>
           </div>
 
-          <!-- Campo: Password -->
-          <!-- <div class="mb-4">
-            <label for="inputPassword" class="form-label fw-semibold">Contraseña</label>
-            <div class="input-glow-wrapper">
-              <div class="input-group">
-                <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                  class="form-control input-glow border-end-0" autocomplete="new-password"
-                  placeholder="Contraseña (mín 8 caracteres)" />
-                <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
-                  title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
-                  <div class="eye-icon-wrap">
-                    <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt="toggle"
-                      width="20" height="20">
-                  </div>
-                </button>
-              </div>
-            </div>
-            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 text-danger small">
-              <span *ngIf="password.errors?.['required']">La contraseña es requerida.</span>
-              <span *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</span>
-            </div>
-            <div class="form-text small mt-1 text-muted">
-              Recomendaciones:<br>
-              - No usar palabras obvias o fácilmente deducibles.<br>
-              - Combinar letras con caracteres.
-            </div>
-          </div>-->
-
-
-          <!-- Campo: Confirmar Contraseña -->
-          <!-- <div class="mb-4">
-            <label for="inputPasswordConfirm" class="form-label fw-semibold">Confirmar Contraseña</label>
-            <div class="input-glow-wrapper">
-              <div class="input-group">
-                <input id="inputPasswordConfirm" [type]="showPassword ? 'text' : 'password'"
-                  formControlName="password_confirmation" class="form-control input-glow border-end-0"
-                  autocomplete="new-password" placeholder="Repite la contraseña" />
-                <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
-                  title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
-                  <div class="eye-icon-wrap">
-                    <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt="toggle"
-                      width="20" height="20">
-                  </div>
-                </button>
-              </div>
-            </div>
-            <div
-              *ngIf="(passwordConfirmation.touched || createForm.touched) && createForm.hasError('passwordMissMatch')"
-              class="mt-2 text-danger small">
-              Las contraseñas no coinciden.
-            </div>
-            <div *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.['required']"
-              class="mt-2 text-danger small">
-              La contraseña es requerida.
-            </div>
-          </div>-->
-
-
           <p class="info-title">
             Accede y gestiona tu cuenta en segundos
           </p>
