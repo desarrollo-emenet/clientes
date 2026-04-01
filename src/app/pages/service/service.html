@@ -1,108 +1,87 @@
 <!--nav buscar servicio-->
 <nav class="service-nav">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <!-- Fila superior: logo | saludo | número + estado -->
+        <div class="service-nav__top">
+          <div class="service-nav__logo">
+            <img src="assets/img/emenetLogo.png" alt="Logo Emenet" />
+          </div>
 
-  <!-- Fila superior: logo | saludo | número + estado -->
-  <div class="service-nav__top">
-    <div class="service-nav__logo">
-      <img src="assets/img/emenetLogo.png" alt="Logo Emenet" />
-    </div>
+          <h1 class="service-nav__saludo">Buenos días, Max</h1>
 
-    <h1 class="service-nav__saludo">Buenos días, Max</h1>
+          <div class="service-nav__meta">
+            <span class="service-nav__numero">
+              # {{ servicios[0]?.cliente?.cliente }}
+            </span>
+            <span class="service-nav__estado badge" [ngClass]="{                
+                'bg-success': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+                'bg-danger': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+                'bg-secondary': !servicios[0]?.cliente?.infoRed?.estado
+              }">
+              {{ servicios[0]?.cliente?.infoRed?.estado || 'CANCELADO' }}
+            </span>
+          </div>
+        </div>
 
-    <div class="service-nav__meta">
-      <span class="service-nav__numero">
-        # {{ servicios[0]?.cliente?.cliente }}
-      </span>
-      <span class="service-nav__estado badge" [ngClass]="{
-          'bg-success': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-          'bg-danger': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-          'bg-secondary': !servicios[0]?.cliente?.infoRed?.estado
-        }">
-        {{ servicios[0]?.cliente?.infoRed?.estado || 'CANCELADO' }}
-      </span>
+        <!-- Fila inferior: input + agregar | ver detalles | eliminar -->
+        <div class="service-nav__actions">
+          <form (ngSubmit)="service()" [formGroup]="serviceForm" class="service-nav__form">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Número de cliente" formControlName="numero_cliente"
+                [class.is-invalid]="
+                  numero_cliente.invalid &&
+                  (numero_cliente.dirty || numero_cliente.touched)
+                " />
+              <button class="btn btn-primary px-4" type="submit" [disabled]="adding || serviceForm.invalid">
+                <span *ngIf="adding" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Agregar
+              </button>
+            </div>
+
+            <div *ngIf="
+                numero_cliente.invalid &&
+                (numero_cliente.dirty || numero_cliente.touched)
+              " class="invalid-feedback d-block mt-1">
+              <div *ngIf="numero_cliente.errors?.['required']">
+                El número de cliente es obligatorio.
+              </div>
+              <div *ngIf="numero_cliente.errors?.['maxlength']">
+                Número demasiado largo.
+              </div>
+              <div *ngIf="numero_cliente.errors?.['pattern']">
+                Formato inválido. Use el formato 00XXXXXX-X.
+              </div>
+            </div>
+          </form>
+
+          <div class="service-nav__botones">
+            <button class="btn btn-outline-primary btn-sm" (click)="verDetalles(servicios[0]?.cliente?.cliente)">
+              <i class="bi bi-eye me-1"></i>
+              Ver detalles
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="eliminarServicio(servicios[0]?.idServicio)">
+              <i class="bi bi-trash me-1"></i>
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <!-- Fila inferior: input + agregar | ver detalles | eliminar -->
-  <div class="service-nav__actions">
-    <form (ngSubmit)="service()" [formGroup]="serviceForm" class="service-nav__form">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Número de cliente" formControlName="numero_cliente"
-          [class.is-invalid]="
-            numero_cliente.invalid &&
-            (numero_cliente.dirty || numero_cliente.touched)
-          " />
-        <button class="btn btn-primary px-4" type="submit" [disabled]="adding || serviceForm.invalid">
-          <span *ngIf="adding" class="spinner-border spinner-border-sm me-2" role="status"></span>
-          Agregar
-        </button>
-      </div>
-
-      <div *ngIf="
-          numero_cliente.invalid &&
-          (numero_cliente.dirty || numero_cliente.touched)
-        " class="invalid-feedback d-block mt-1">
-        <div *ngIf="numero_cliente.errors?.['required']">
-          El número de cliente es obligatorio.
-        </div>
-        <div *ngIf="numero_cliente.errors?.['maxlength']">
-          Número demasiado largo.
-        </div>
-        <div *ngIf="numero_cliente.errors?.['pattern']">
-          Formato inválido. Use el formato 00XXXXXX-X.
-        </div>
-      </div>
-    </form>
-
-    <div class="service-nav__botones">
-      <button class="btn btn-outline-primary btn-sm" (click)="verDetalles(servicios[0]?.cliente?.cliente)">
-        <i class="bi bi-eye me-1"></i>
-        Ver detalles
-      </button>
-      <button class="btn btn-outline-danger btn-sm" (click)="eliminarServicio(servicios[0]?.idServicio)">
-        <i class="bi bi-trash me-1"></i>
-        Eliminar
-      </button>
-    </div>
-  </div>
-
 </nav>
 
 <div class="services-container py-4">
 
-  <div class="row g-4">
-    <!-- Columna Izquierda: Banners (Visible solo en pantallas grandes) -->
-    <div class="col-lg-5 d-none d-lg-block">
-      <div class="banner-grid">
-        <div class="banner-card">
-          <div class="banner-content banner-disney">
-            <span class="badge bg-light text-dark mb-2">Streaming</span>
-            <h5>DISNEY+</h5>
-            <div class="price">$89.00</div>
-          </div>
-        </div>
-        <div class="banner-card">
-          <img src="assets/img/login/eme.png" alt="Emenet WiFi" class="banner-img" />
-        </div>
-        <div class="banner-card">
-          <img src="assets/img/tv_banner_1774994972042.png" alt="TV en Vivo" class="banner-img" />
-        </div>
-        <div class="banner-card">
-          <img src="assets/img/bitcoin_banner_1774994990717.png" alt="Pago Bitcoin" class="banner-img" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Columna Derecha: Servicios -->
-    <div class="col-lg-7">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
       <!-- Header -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h3 class="fw-bold mb-0">Mis servicios</h3>
-        </div>
+      <div class="text-center mb-4">
+        <h3 class="fw-bold mb-0">Mis servicios</h3>
       </div>
 
-      <!-- Formulario agregar servicio -->
+      <!-- Formulario agregar servicio  -->
       <div class="card shadow-sm mb-4 border-0 rounded-4">
         <div class="card-body p-4">
           <form (ngSubmit)="service()" [formGroup]="serviceForm">
@@ -160,7 +139,7 @@
       </div>
 
       <!-- Cards de Servicios -->
-      <div *ngIf="!loading" class="row row-cols-1 g-4">
+      <div *ngIf="!loading" class="row row-cols-1 g-4 mb-4">
         <div *ngFor="let s of servicios" class="col">
           <div class="card service-card h-100 border-0 shadow-sm rounded-4">
             <div class="card-body p-4 d-flex flex-column">
@@ -191,8 +170,38 @@
         </div>
       </div>
 
+      <!-- Modal Banner -->
+      <div class="modal-overlay" *ngIf="showBannerModal" (click)="cerrarModal()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+          <div class="banner-card-modal">
+            <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">&times;</button>
+            <div class="banner-modal-content">
+              <div class="d-flex justify-content-center">
+                <span class="badge text-bg-light border rounded-pill px-3 py-2 fw-semibold">Avisos</span>
+              </div>
+
+              <h2 class="h4 fw-semibold text-center mt-3 mb-1">Importante</h2>
+              <p class="text-body-secondary text-center mb-4">Estimado cliente</p>
+
+              <p class="text-body-secondary mb-0">
+                El jueves 2 de abril laboramos en un horario de 9:00 AM a 3:00 PM.<br>
+                Y para el día viernes 3 de abril se suspenderan labores y reanudaremos el día sábado 4 de abril
+              </p>
+
+              <div class="text-center my-4">
+                <img src="assets/img/emenetLogo.png" alt="Aviso" class="img-fluid" width="200" />
+              </div>
+              <p class="text-center">ATENTAMENTE</p>
+
+              <!--<div class="d-grid mt-3">
+                <button type="button" class="btn btn-primary rounded-pill fw-semibold py-2" (click)="cerrarModal()">
+                  Aceptar
+                </button>
+              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
       <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
     </div>
-  </div>
-
-</div>

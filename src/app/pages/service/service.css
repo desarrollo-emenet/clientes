@@ -12,16 +12,24 @@
 }
 
 .banner-card {
-  aspect-ratio: 1 / 1;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
   background: #fff;
 }
 
+.banner-card:not(.banner-horizontal) {
+  aspect-ratio: 1 / 2;
+}
+
+.banner-horizontal {
+  aspect-ratio: 3 / 1;
+  min-height: 180px;
+}
+
 .banner-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .banner-img {
@@ -42,17 +50,18 @@
   color: #fff;
 }
 
-.banner-disney {
+.banner-modal {
   background: linear-gradient(135deg, #1a1a40 0%, #3a0ca3 100%);
 }
 
-.banner-disney h5 {
+.banner-modal h5,
+.banner-modal h2 {
   font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 0.5rem;
 }
 
-.banner-disney .price {
+.banner-modal .price {
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -79,7 +88,7 @@
   border-radius: 20px;
   background: #ffffff;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0,0,0,0.03) !important;
+  border: 1px solid rgba(0, 0, 0, 0.03) !important;
 }
 
 .service-card:hover {
@@ -124,7 +133,7 @@
 .service-nav {
   background: #fff;
   border-bottom: 1px solid #e9ecef;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -136,6 +145,7 @@
 .service-nav__top {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-bottom: 0.6rem;
 }
@@ -152,14 +162,12 @@
   color: #1a9fd4;
   font-weight: 600;
   margin: 0;
-  flex: 1;
 }
 
 .service-nav__meta {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-left: auto;
 }
 
 .service-nav__numero {
@@ -179,13 +187,13 @@
 /* Fila inferior */
 .service-nav__actions {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .service-nav__form {
-  flex: 1;
   min-width: 260px;
 }
 
@@ -222,4 +230,100 @@
     width: 100%;
     justify-content: flex-end;
   }
+}
+
+/* ==============================
+   MODAL BANNER AESTHETICS
+   ============================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-container {
+  width: 90%;
+  max-width: 520px;
+  position: relative;
+  animation: slideBottom 0.22s ease-out;
+}
+
+.banner-card-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.banner-modal-content {
+  text-align: left;
+  color: #111827;
+}
+
+.modal-price {
+  background: #f8f9fa;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.modal-price .symbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  vertical-align: top;
+  margin-top: -0.25rem;
+}
+
+.modal-price .value {
+  font-size: 2.25rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.btn-close-custom {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-close-custom:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #111827;
+  transform: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideBottom {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }

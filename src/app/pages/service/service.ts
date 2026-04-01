@@ -21,6 +21,7 @@ export class Service implements OnInit, OnDestroy {
   tiempoRestante: number = 0;
   intervalo: any = null;
   numeroClienteTemp: string = '';
+  showBannerModal: boolean = false;
 
   //servicios es un array de cualquier tipo
   servicios: any[] = [];
@@ -37,6 +38,11 @@ export class Service implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.load();
+    this.showBannerModal = true;
+  }
+
+  cerrarModal() {
+    this.showBannerModal = false;
   }
 
   ngOnDestroy(): void {
