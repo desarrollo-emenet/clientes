@@ -7,48 +7,62 @@
 
                     <form [formGroup]="updateForm" (ngSubmit)="update()">
 
-                        <!-- Correo -->
-                        <!--<div class="mb-3">
-                            <label for="InputEmail1" class="form-label fw-semibold">Email</label>
-                            <input formControlName="email" type="email" class="form-control" id="InputEmail1"
-                                 aria-describedby="emailHelp" placeholder="correo@dominio.com">
-
-                            <div class="invalid-feedback" *ngIf="email.invalid && (email.dirty || email.touched)"
-                                class="mt-2 small text-danger">
-
-                                <div *ngIf="email.errors?.['required']">
-                                    Email requerido
-                                </div>
-                                <div *ngIf="email.errors?.['email']">
-                                    Email debe tener formato valido
-                                </div>
-                            </div>
-                        </div>-->
-
-                        <!-- Contraseña -->
+                        <!-- Contraseña actual-->
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Contraseña</label>
+                            <label class="form-label fw-semibold">Contraseña actual</label>
                             <div class="input-group">
-                                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                                    class="form-control" placeholder="Nueva contraseña (mín 8 caracteres)" />
-
-                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                                    class="mt-2 small text-danger">
-                                </div>
+                                <input [type]="showPassword ? 'text' : 'password'" formControlName="old_password"
+                                    class="form-control" placeholder="Contraseña actual" />
 
                                 <button type="button" class="btn btn-outline-secondary" (click)="viewPassword()">
                                     <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt=""
                                         width="24" height="24">
                                 </button>
-                            </div>
-                            <!--<small> <small> el campo vacio si no deseas cambiar la contraseña </small> </small>-->
 
-                            <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                                class="mt-2 small text-danger">
-                                <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 8
-                                    caracteres.</div>
-                                <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                    class="mt-2 small text-danger">
+                                    <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
+                                </div>
+
                             </div>
+                        </div>
+
+                        <!-- Contraseña nueva -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Contraseña nueva</label>
+                            <div class="input-group">
+                                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                    class="form-control" placeholder="Nueva contraseña (mín 8 caracteres)" />
+
+                                <button type="button" class="btn btn-outline-secondary" (click)="viewPassword()">
+                                    <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt=""
+                                        width="24" height="24">
+                                </button>
+
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                    class="mt-2 small text-danger">
+                                    <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 8
+                                        caracteres.</div>
+                                    <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Confirmar contraseña -->
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Contraseña</label>
+                            <input type="password" formControlName="password_confirmation" class="form-control"
+                                placeholder="Confirma la contraseña" />
+                            <div class="invalid-feedback d-block"
+                                *ngIf="(passwordConfirmation.touched || updateForm.touched) && updateForm.hasError('passwordMissMatch')">
+                                Las contraseñas no coinciden.
+                            </div>
+                            <div class="invalid-feedback d-block"
+                                *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.['required']">
+                                La contraseña es requerida.
+                            </div>
+
+
                         </div>
 
                         <!-- Acciones -->

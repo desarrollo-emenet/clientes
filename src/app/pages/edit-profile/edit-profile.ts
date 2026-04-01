@@ -24,45 +24,39 @@ export class EditProfile {
   ngOnInit(): void {
     this.updateForm = this.fb.group({
       //email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.minLength(8)]]
-    });
+      old_password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.minLength(8)]],
+      password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
+    }, { validators: this.passwordMatchValidator });
+  }
 
-    this.loadUserData();
+  passwordMatchValidator(group: FormGroup) {
+    const pass = group.get('password')?.value;
+    const confirm = group.get('password_confirmation')?.value;
+    if (pass && confirm && pass !== confirm) {
+      return { passwordMissMatch: true };
+    }
+    return null;
   }
 
   //get email() { return this.updateForm.controls['email']!; }
+  get old_password() { return this.updateForm.controls['old_password']!; }
   get password() { return this.updateForm.controls['password']!; }
-
-  loadUserData() {
-
-    this.clientS.getAuthenticatedUser().subscribe({
-      next: user => {
-        this.updateForm.patchValue({
-          email: user.email ?? ''
-        });
-        //console.log(user);
-      },
-      error: (err) => {
-        console.error('Error al cargar datos del usuario', err);
-      }
-    });
-  }
-
+  get passwordConfirmation() { return this.updateForm.controls['password_confirmation']; }
 
 
   update() {
     if (this.updateForm.invalid) { this.updateForm.markAllAsTouched(); return; }
 
     this.loading = true;
+
     const raw = this.updateForm.value;
 
     const payload: any = {
-      email: raw.email,
+      old_password: raw.old_password,
+      password: raw.password,
+      password_confirmation: raw.password_confirmation
     };
-
-    if(raw.password && raw.password.length >= 8) {
-      payload.password = raw.password;
-    }
 
 
     this.clientS.getAuthenticatedUser().subscribe({
@@ -73,8 +67,7 @@ export class EditProfile {
             this.loading = false;
             toast.success('Perfil actualizado');
             this.updateForm.get('password')?.reset();
-            
-            this.loadUserData();
+
             setTimeout(() => {
               this.auth.goNavigate('/perfil');
             }, 1500);
@@ -82,9 +75,17 @@ export class EditProfile {
           },
           error: (e) => {
             this.loading = false;
-            toast.error('Error update:', e);
-            toast.error = e?.error?.message ?? 'No se pudo actualiza';
-          }
+            //console.error('Error en servicio', e);
+            if (e?.status === 0) {
+              toast.error('No se pudo conectar al servidor');
+            }else if (e?.status === 422) {
+              toast.error('Datos inválidos. Revisa el formulario.');
+            }else if (e?.status === 403) {
+              toast.error('Contraseña actual incorrecta');
+            }else {
+              toast.error(e?.error?.message ?? 'No se pudo actualizar');
+            }
+          },
         });
       },
       error: err => {
@@ -93,6 +94,7 @@ export class EditProfile {
       }
     });
   }
+
   cancel() {
     this.auth.goNavigate('/perfil')
   }
