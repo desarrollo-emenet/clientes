@@ -57,7 +57,7 @@
   font-weight: 700;
 }
 
-/* Right Column Refinements */
+/* Right Column Refinements*/
 .custom-input-group {
   background: #f8f9fa;
   border-radius: 12px;
@@ -222,4 +222,4 @@
     width: 100%;
     justify-content: flex-end;
   }
-}
+}
