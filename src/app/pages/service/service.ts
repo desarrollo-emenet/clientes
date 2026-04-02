@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { Subscription } from 'rxjs';
+import { Header } from '../../shared/header/header';
+import { Footer } from '../../shared/footer/footer';
 
 @Component({
   selector: 'app-service',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header, Footer],
   templateUrl: './service.html',
   styleUrl: './service.css'
 })

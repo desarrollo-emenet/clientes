@@ -1,78 +1,9 @@
-<!--nav buscar servicio-->
-<nav class="service-nav">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-8">
-        <!-- Fila superior: logo | saludo | número + estado -->
-        <div class="service-nav__top">
-          <div class="service-nav__logo">
-            <img src="assets/img/emenetLogo.png" alt="Logo Emenet" />
-          </div>
-          <h1 class="service-nav__saludo">Buenos días, Max</h1>
+<app-header></app-header>
 
-          <div class="service-nav__meta">
-            <span class="service-nav__numero">
-              # {{ servicios[0]?.cliente?.cliente }}
-            </span>
-            <span class="service-nav__estado badge" [ngClass]="{                
-                'bg-success': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                'bg-danger': servicios[0]?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                'bg-secondary': !servicios[0]?.cliente?.infoRed?.estado
-              }">
-              {{ servicios[0]?.cliente?.infoRed?.estado || 'CANCELADO' }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Fila inferior: input + agregar | ver detalles | eliminar -->
-        <div class="service-nav__actions">
-          <form (ngSubmit)="service()" [formGroup]="serviceForm" class="service-nav__form">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Número de cliente" formControlName="numero_cliente"
-                [class.is-invalid]="
-                  numero_cliente.invalid &&
-                  (numero_cliente.dirty || numero_cliente.touched)
-                " />
-              <button class="btn btn-primary px-4" type="submit" [disabled]="adding || serviceForm.invalid">
-                <span *ngIf="adding" class="spinner-border spinner-border-sm me-2" role="status"></span>
-                Agregar
-              </button>
-            </div>
-            <div *ngIf="
-                numero_cliente.invalid &&
-                (numero_cliente.dirty || numero_cliente.touched)
-              " class="invalid-feedback d-block mt-1">
-              <div *ngIf="numero_cliente.errors?.['required']">
-                El número de cliente es obligatorio.
-              </div>
-              <div *ngIf="numero_cliente.errors?.['maxlength']">
-                Número demasiado largo.
-              </div>
-              <div *ngIf="numero_cliente.errors?.['pattern']">
-                Formato inválido. Use el formato 00XXXXXX-X.
-              </div>
-            </div>
-          </form>
-
-          <div class="service-nav__botones">
-            <button class="btn btn-outline-primary btn-sm" (click)="verDetalles(servicios[0]?.cliente?.cliente)">
-              <i class="bi bi-eye me-1"></i>
-              Ver detalles
-            </button>
-            <button class="btn btn-outline-danger btn-sm" (click)="eliminarServicio(servicios[0]?.idServicio)">
-              <i class="bi bi-trash me-1"></i>
-              Eliminar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
 <div class="services-container py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
-      <!-- Header -->
+     
       <div class="text-center mb-4">
         <h3 class="fw-bold mb-0">Mis servicios</h3>
       </div>
@@ -178,7 +109,7 @@
                   <i class="bi bi-calendar-x-fill text-danger me-2"></i>
                   El <strong>viernes 3 de abril</strong> suspenderemos labores.<br>
                   <i class="bi bi-arrow-repeat text-success me-2"></i>
-                  Reanudamos el <strong>sábado 4 de abril</strong>.
+                  Reanudamos el <strong>Lunes 6 de abril<br class="d-block"> Por su comprensión ¡Gracias!</strong>.
                 </p>
               </div>
              <!-- <div class="text-center mb-4">
@@ -194,3 +125,7 @@
 
       <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
     </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
