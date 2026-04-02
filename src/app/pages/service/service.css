@@ -1,10 +1,41 @@
 .services-container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
-/* Banner Grid Left Column */
+.service-page {
+  background: #ffffff;
+  min-height: calc(100vh - 140px);
+}
+
+.service-page__intro h3 {
+  letter-spacing: -0.02em;
+}
+
+.service-page__subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.service-layout {
+  margin-top: 0.25rem;
+}
+
+.service-panel {
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06) !important;
+}
+
+.service-column-left .service-panel {
+  margin-bottom: 0;
+}
+
+.service-column-right {
+  padding-top: 2.2rem;
+}
+
+/* Columna izquierda */
 .banner-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -66,156 +97,302 @@
   font-weight: 700;
 }
 
-/* Right Column Refinements*/
+/* columna derecha*/
 .custom-input-group {
-  background: #f8f9fa;
+  background: #f8fafc;
   border-radius: 12px;
   padding: 4px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e2e8f0;
 }
 
 .custom-input-group .form-control {
   border-radius: 10px !important;
   background: transparent !important;
+  min-height: 46px;
 }
 
 .custom-input-group .btn-primary {
   border-radius: 10px !important;
 }
 
-/* Service Cards Refined */
+.input-glow-wrapper {
+  position: relative;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.input-glow-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  background: conic-gradient(from var(--angle, 0deg), transparent 0%, transparent 30%, #3472de 45%, #0055ff 50%, transparent 70%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  animation: spin-border 2s linear infinite;
+}
+
+.input-glow-wrapper:focus-within::before {
+  opacity: 1;
+}
+
+.input-glow-wrapper .form-control,
+.input-glow-wrapper .input-group {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+}
+
+.input-glow-wrapper .form-control:focus {
+  outline: none;
+  border-color: #e2e8f0;
+  box-shadow: none;
+}
+
+.input-glow-wrapper .form-control {
+  min-height: 46px;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.service-form-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.verification-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.verification-card p {
+  font-size: 0.9rem;
+}
+
+.verification-input {
+  letter-spacing: 6px;
+  font-size: 1.2rem;
+}
+
+/*Tarjetas de servicio */
 .service-card {
-  border-radius: 20px;
+  position: relative;
+  border-radius: 14px;
   background: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.03) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #e2e8f0 !important;
+  overflow: hidden;
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.1) !important;
 }
 
-/* Decorative progress-like bar on top of service cards */
+/* Barra decorativa que simula un indicador de progreso */
 .service-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  height: 6px;
+  height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, #1a9fd4, #20c997);
-  border-radius: 20px 20px 0 0;
+  background: linear-gradient(90deg, #3472de, #20c997);
+  border-radius: 14px 14px 0 0;
 }
 
 .status-badge {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
+  letter-spacing: 0.4px;
+  border-radius: 999px;
 }
 
-/* Buttons inside service card */
-.service-card .btn-outline-primary {
-  border-width: 1.5px;
-  color: #1a9fd4;
-  border-color: #1a9fd4;
-}
-
-.service-card .btn-outline-primary:hover {
-  background-color: #1a9fd4;
-  color: #fff;
-}
-
-/* Fila superior */
-.service-nav__top {
-  display: flex;
+.service-card-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 0.6rem;
 }
 
-.service-nav__logo img {
-  height: 48px;
-  width: auto;
+.service-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.service-list-item .service-card .card-body {
+  padding: 1rem 1rem 0.95rem !important;
+}
+
+  /* Botón con Efecto de Agua */
+  .btn-water {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  padding: 10px 20px;
+    border: 1.5px solid #0f172a;
+    border-radius: 999px;
+    background: transparent;
+    color: #0f172a;
+  font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    transition: color 0.45s ease, border-color 0.35s ease, box-shadow 0.28s ease, transform 0.15s ease;
+    outline: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .btn-water .water-fill {
+    position: absolute;
+    bottom: -110%;
+    left: -5%;
+    width: 110%;
+    height: 120%;
+    background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+    transition: bottom 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+    z-index: 0;
+  }
+
+  .btn-water:hover:not(:disabled) .water-fill,
+  .btn-water:focus-visible:not(:disabled) .water-fill {
+    bottom: -5%;
+    border-radius: 0;
+  }
+
+  .btn-water.loading .water-fill {
+    bottom: -5%;
+    border-radius: 0;
+  }
+
+  .btn-water-content {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.45s ease;
+  }
+
+  .btn-water:hover:not(:disabled) .btn-water-content,
+  .btn-water:focus-visible:not(:disabled) .btn-water-content {
+    color: #ffffff;
+  }
+
+  .btn-water.loading .btn-water-content {
+    color: #ffffff;
+  }
+
+  .btn-water:hover:not(:disabled) {
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.2);
+  }
+/*Modal*/
+.modal-ack-image-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-ack-image {
+  width: 170px;
+  height: auto;
   object-fit: contain;
 }
 
-.service-nav__saludo {
-  font-size: 1.25rem;
-  font-style: italic;
-  color: #1a9fd4;
-  font-weight: 600;
-  margin: 0;
+.btn-water:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #cbd5e1;
+  color: #94a3b8;
 }
 
-.service-nav__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+.btn-water:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
-.service-nav__numero {
-  font-weight: 600;
-  color: #343a40;
-  font-size: 0.95rem;
+.btn-water-inline {
+  min-width: 145px;
+  min-height: 42px;
 }
 
-.service-nav__estado {
-  font-size: 0.72rem;
-  padding: 0.35em 0.85em;
-  border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.btn-water-inline-sm {
+  min-width: 118px;
+  min-height: 34px;
+  padding: 7px 14px;
+  font-size: 0.68rem;
 }
 
-/* Fila inferior */
-.service-nav__actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+.btn-water-modal {
+  width: 100%;
+  max-width: 180px;
+  min-height: 42px;
 }
 
-.service-nav__form {
-  min-width: 260px;
+.btn-water-success {
+  border-color: #15803d;
+  color: #15803d;
 }
 
-.service-nav__botones {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-shrink: 0;
+.btn-water-success .water-fill {
+  background: linear-gradient(160deg, #15803d 0%, #166534 100%);
 }
 
-.service-nav__botones .btn {
-  border-radius: 8px;
-  font-size: 0.85rem;
+.btn-water-danger {
+  border-color: #b91c1c;
+  color: #b91c1c;
+}
+
+.btn-water-danger .water-fill {
+  background: linear-gradient(160deg, #b91c1c 0%, #991b1b 100%);
 }
 
 @media (max-width: 767.98px) {
-  .service-nav__saludo {
-    font-size: 1rem;
+  .services-container {
+    padding: 0 0.75rem;
   }
 
-  .service-nav__actions {
-    flex-direction: column;
+  .service-column-right {
+    padding-top: 0;
   }
 
-  .service-nav__form {
-    width: 100%;
+  .service-form-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
 
-  .service-nav__botones {
-    width: 100%;
-    justify-content: flex-end;
+  .btn-water-inline,
+  .btn-water-inline-sm {
+    width: auto;
+    justify-self: center;
+  }
+
+  .service-card-actions {
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
 }
 
 /* ==============================
-   MODAL BANNER AESTHETICS
+   MODAL BANNER
    ============================== */
 .modal-overlay {
   position: fixed;

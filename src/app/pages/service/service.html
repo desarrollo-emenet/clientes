@@ -1,131 +1,139 @@
 <app-header></app-header>
 
-<div class="services-container py-4">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
-     
-      <div class="text-center mb-4">
-        <h3 class="fw-bold mb-0">Mis servicios</h3>
+<section class="service-page py-4">
+  <div class="services-container">
+    <div class="row g-4 justify-content-center align-items-start service-layout">
+      <div class="col-12 col-lg-6 service-column-left">
+        <div class="service-page__intro text-center mb-3">
+          <h3 class="fw-bold mb-2">Mis servicios</h3>
+          <p class="service-page__subtitle mb-0">Administra y consulta tus servicios en un solo lugar</p>
+        </div>
+
+        <div class="card service-panel shadow-sm border-0 rounded-4">
+          <div class="card-body p-4">
+            <form (ngSubmit)="service()" [formGroup]="serviceForm">
+              <label class="form-label fw-semibold mb-3">Agregar nuevo servicio</label>
+              <div class="service-form-grid">
+                <div class="input-glow-wrapper">
+                  <input type="text" class="form-control input-glow px-4" placeholder="Número de cliente"
+                    formControlName="numero_cliente"
+                    [class.is-invalid]="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)" />
+                </div>
+ 
+                <button class="btn-water btn-water-inline" type="submit" [disabled]="adding" [class.loading]="adding">
+                  <span class="water-fill"></span>
+                  <span class="btn-water-content">
+                    <span *ngIf="adding" class="spinner-border spinner-border-sm" role="status"></span>
+                    <span>{{ adding ? 'Agregando' : 'Agregar' }}</span>
+                  </span>
+                </button>
+              </div>
+
+              <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
+                class="invalid-feedback d-block mt-2">
+                <div *ngIf="numero_cliente.errors?.['required']">
+                  El número de cliente es obligatorio.
+                </div>
+                <div *ngIf="numero_cliente.errors?.['maxlength']">
+                  Número demasiado largo.
+                </div>
+                <div *ngIf="numero_cliente.errors?.['pattern']">
+                  Formato inválido. Use el formato 00XXXXXX-X.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <!-- Formulario agregar servicio  -->
-      <div class="card shadow-sm mb-4 border-0 rounded-4">
-        <div class="card-body p-4">
-          <form (ngSubmit)="service()" [formGroup]="serviceForm">
-            <label class="form-label fw-semibold mb-3">Agregar nuevo servicio</label>
 
-            <div class="input-group custom-input-group">
-              <input type="text" class="form-control bg-light border-0 px-4" placeholder="Número de cliente"
-                formControlName="numero_cliente"
-                [class.is-invalid]="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)" />
-
-              <button class="btn btn-primary px-4 fw-bold" type="submit" [disabled]="adding || serviceForm.invalid">
-                <span *ngIf="adding" class="spinner-border spinner-border-sm me-2" role="status"></span>
-                Agregar
-              </button>
-            </div>
-            <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
-              class="invalid-feedback d-block mt-1">
-              <div *ngIf="numero_cliente.errors?.['required']">
-                El número de cliente es obligatorio.
-              </div>
-              <div *ngIf="numero_cliente.errors?.['maxlength']">
-                Número demasiado largo.
-              </div>
-              <div *ngIf="numero_cliente.errors?.['pattern']">
-                Formato inválido. Use el formato 00XXXXXX-X.
-              </div>
-            </div>
-          </form>
-          <!-- Verificación -->
-          <div *ngIf="mostrarConfirmacion" class="mt-4 p-3 border rounded bg-light">
-            <h6 class="fw-bold mb-2">Verificación de servicio</h6>
-            <p class="text-muted mb-3" style="font-size: 0.9em;">
-              Ingresa el código enviado a tu correo
-            </p>
+      <div class="col-12 col-lg-6 service-column-right">
+        <div *ngIf="mostrarConfirmacion" class="verification-card mb-3">
+          <h6 class="fw-bold mb-2">Verificación de servicio</h6>
+          <p class="text-muted mb-3">Ingresa el código enviado a tu correo</p>
+          <div class="service-form-grid">
             <div class="input-group">
-              <input type="text" class="form-control text-center fw-bold" placeholder="------" maxlength="6"
-                [(ngModel)]="codigo" style="letter-spacing: 6px; font-size: 1.2rem;" />
-              <button class="btn btn-success" (click)="confirmarCodigo()">
-                Confirmar
-              </button>
+              <input type="text" class="form-control text-center fw-bold verification-input" placeholder="------"
+                maxlength="6" [(ngModel)]="codigo" />
             </div>
-            <p class="text-muted mt-2 mb-0" style="font-size: 0.85em;">
-              Tiempo restante: <strong>{{ tiempoFormateado }}</strong>
-            </p>
+            <button class="btn-water btn-water-inline btn-water-success" type="button" (click)="confirmarCodigo()">
+              <span class="water-fill"></span>
+              <span class="btn-water-content">Confirmar</span>
+            </button>
           </div>
+          <p class="text-muted mt-3 mb-0">
+            Tiempo restante: <strong>{{ tiempoFormateado }}</strong>
+          </p>
         </div>
-      </div>
-      <!-- Loader -->
-      <div *ngIf="loading" class="text-center py-5">
-        <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
-        <p class="mt-3 text-muted">Cargando servicios...</p>
-      </div>
-      <!-- Cards de Servicios -->
-      <div *ngIf="!loading" class="row row-cols-1 g-4 mb-4">
-        <div *ngFor="let s of servicios" class="col">
-          <div class="card service-card h-100 border-0 shadow-sm rounded-4">
-            <div class="card-body p-4 d-flex flex-column">
-              <!-- Header -->
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold mb-0"># {{ s.cliente?.cliente }}</h5>
-                <span class="badge status-badge px-3 py-2" [ngClass]="{
-                  'bg-success-subtle text-success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                  'bg-danger-subtle text-danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                  'bg-secondary-subtle text-secondary': !s.cliente?.infoRed?.estado
-                }">
-                  {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
-                </span>
-              </div>
-              <!-- Acciones -->
-              <div class="mt-auto pt-3 border-top d-flex gap-3">
-                <button class="btn btn-outline-primary rounded-pill flex-grow-1 py-2 fw-semibold"
-                  (click)="verDetalles(s.cliente?.cliente)">
-                  Ver detalles
-                </button>
-                <button class="btn btn-outline-danger rounded-pill px-4 py-2" (click)="eliminarServicio(s.idServicio)">
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Modal Banner  -->
-      <div class="modal-overlay" *ngIf="showBannerModal" (click)="cerrarModal()">
-        <div class="modal-container" (click)="$event.stopPropagation()">
-          <div class="banner-card-modal">
-            <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">&times;</button>
-            <div class="modal-header-accent">
-              <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 fw-bold shadow-sm">AVISO IMPORTANTE</span>
-              <h2 class="h3 fw-bold mb-0">¡Tenemos noticias!</h2>
-            </div>
-            <div class="banner-modal-content">
-              <h3 class="h5 fw-bold text-dark mb-3">Estimado cliente</h3>
-              <div class="bg-light rounded-4 p-4 mb-4 border-start border-4 border-primary text-start">
-                <p class="text-dark mb-0 fs-6 lh-base">
-                  <i class="bi bi-clock-fill text-primary me-2"></i>
-                  El <strong>jueves 2 de abril</strong> laboramos de <strong>9:00 AM a 3:00 PM</strong>.<br>
-                  <i class="bi bi-calendar-x-fill text-danger me-2"></i>
-                  El <strong>viernes 3 de abril</strong> suspenderemos labores.<br>
-                  <i class="bi bi-arrow-repeat text-success me-2"></i>
-                  Reanudamos el <strong>Lunes 6 de abril<br class="d-block"> Por su comprensión ¡Gracias!</strong>.
-                </p>
-              </div>
-             <!-- <div class="text-center mb-4">
-                <img src="assets/img/emenetLogo.png" alt="Emenet Logo" class="img-fluid" width="180" />
-              </div>-->
-              <div class="d-grid gap-2">
-               
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
+          <p class="mt-3 text-muted">Cargando servicios...</p>
+        </div>
+
+        <div *ngIf="!loading" class="service-list">
+          <div *ngFor="let s of servicios" class="service-list-item">
+            <div class="card service-card h-100 border-0 shadow-sm rounded-4">
+              <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h5 class="fw-bold mb-0"># {{ s.cliente?.cliente }}</h5>
+                  <span class="badge status-badge px-3 py-2" [ngClass]="{
+                    'bg-success-subtle text-success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+                    'bg-danger-subtle text-danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+                    'bg-secondary-subtle text-secondary': !s.cliente?.infoRed?.estado
+                  }">
+                    {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+                  </span>
+                </div>
+
+                <div class="service-card-actions mt-auto pt-3 border-top">
+                  <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
+                    <span class="water-fill"></span>
+                    <span class="btn-water-content">Ver detalles</span>
+                  </button>
+
+                  <button class="btn-water btn-water-inline-sm btn-water-danger" type="button"
+                    (click)="eliminarServicio(s.idServicio)">
+                    <span class="water-fill"></span>
+                    <span class="btn-water-content">Eliminar</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
     </div>
+
+    <div class="modal-overlay" *ngIf="showBannerModal" (click)="cerrarModal()">
+      <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="banner-card-modal">
+          <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">&times;</button>
+          <div class="modal-header-accent">
+            <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 fw-bold shadow-sm">AVISO IMPORTANTE</span>
+            <h2 class="h3 fw-bold mb-0">¡Tenemos noticias!</h2>
+          </div>
+          <div class="banner-modal-content">
+            <h3 class="h5 fw-bold text-dark mb-3">Estimado cliente</h3>
+            <div class="bg-light rounded-4 p-4 mb-4 border-start border-4 border-primary text-start">
+              <p class="text-dark mb-0 fs-6 lh-base">
+                <i class="bi bi-clock-fill text-primary me-2"></i>
+                El <strong>jueves 2 de abril</strong> laboramos de <strong>9:00 AM a 3:00 PM</strong>.<br>
+                <i class="bi bi-calendar-x-fill text-danger me-2"></i>
+                El <strong>viernes 3 de abril</strong> suspenderemos labores.<br>
+                <i class="bi bi-arrow-repeat text-success me-2"></i>
+                Reanudamos el <strong>Lunes 6 de abril<br> Por su comprensión ¡Gracias!</strong>.
+              </p>
+            </div>
+            <div class="modal-ack-image-wrap">
+              <img src="assets/img/emenetLogo.png" alt="Emenet" class="modal-ack-image" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
   </div>
-</div>
+</section>
 
 <app-footer></app-footer>
