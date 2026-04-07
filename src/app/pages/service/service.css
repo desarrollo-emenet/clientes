@@ -80,7 +80,7 @@
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(210, 210, 215, 0.6);
+  border: none;
   border-radius: 20px;
   box-shadow:
     0 2px 18px rgba(0, 0, 0, 0.06),
@@ -97,10 +97,10 @@
 /* Etiqueta superior */
 .apple-card__label {
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6e6e73;
+  color: #1d1d1f;
   margin-bottom: 1.1rem;
 }
 
@@ -116,15 +116,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 52px;
+  height: 4px;
   background: linear-gradient(90deg, #0071e3, #34aadc);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 4px 4px 0 4px;
   border-radius: 20px 20px 0 0;
   pointer-events: none;
   z-index: 2;
@@ -263,14 +256,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   margin-bottom: 0.85rem;
 }
 
+.service-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
 .service-card__number {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1d1d1f;
   letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.service-card__client-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6e6e73;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 .service-card__divider {

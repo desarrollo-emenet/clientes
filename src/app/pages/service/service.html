@@ -111,7 +111,10 @@
             <div class="service-card__side-accent"></div>
             <div class="apple-card__body">
               <div class="service-card__header">
-                <span class="service-card__number"># {{ s.cliente?.cliente }}</span>
+                <div class="service-card__info">
+                  <span class="service-card__number"># {{ s.cliente?.cliente }}</span>
+                  <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+                </div>
                 <span class="apple-badge" [ngClass]="{
                     'apple-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
                     'apple-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
