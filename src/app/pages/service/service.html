@@ -6,24 +6,23 @@
     <div class="row g-4 justify-content-center align-items-start service-layout">
       <div class="col-12 col-lg-6 service-column-left">
         <div class="service-page__intro text-center mb-3">
+          <span class="service-chip mb-3">Panel personal</span>
           <h2 class="fw-bold mb-2">Mis servicios</h2>
-          <p class="service-page__subtitle mb-0" style="font-size: 1.2rem;">Administra y consulta tus servicios en un solo lugar</p>
+          <p class="service-page__subtitle mb-0">Administra y consulta tus servicios en un solo lugar</p>
         </div>
 
         <div class="card service-panel shadow-sm border-0 rounded-4">
           <div class="card-body p-4">
+            <p class="service-block-title mb-3">Agregar nuevo servicio</p>
             <form (ngSubmit)="service()" [formGroup]="serviceForm">
-              <div class="ios-form-header">
-                <div class="ios-pill">Agregar nuevo servicio</div>
-              </div>
-              <label class="form-label fw-semibold mb-3">Número de cliente</label>
+              <label class="form-label fw-semibold mb-3">Agregar nuevo servicio</label>
               <div class="service-form-grid">
                 <div class="input-glow-wrapper">
                   <input type="text" class="form-control input-glow px-4" placeholder="Número de cliente"
                     formControlName="numero_cliente"
                     [class.is-invalid]="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)" />
                 </div>
- 
+
                 <button class="btn-water btn-water-inline" type="submit" [disabled]="adding" [class.loading]="adding">
                   <span class="water-fill"></span>
                   <span class="btn-water-content">
@@ -88,6 +87,7 @@
                     {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
                   </span>
                 </div>
+                <p class="service-card-caption mb-3">Gestión rápida de tu servicio con vista resumida de estado.</p>
 
                 <div class="service-card-actions mt-auto pt-3 border-top">
                   <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
@@ -113,7 +113,8 @@
         <div class="banner-card-modal">
           <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">&times;</button>
           <div class="modal-header-accent">
-            <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 fw-bold shadow-sm">AVISO IMPORTANTE</span>
+            <span class="badge rounded-pill bg-white text-primary px-3 py-2 mb-3 fw-bold shadow-sm">AVISO
+              IMPORTANTE</span>
             <h2 class="h3 fw-bold mb-0">¡Tenemos noticias!</h2>
           </div>
           <div class="banner-modal-content">
@@ -131,7 +132,8 @@
             <!--<div class="modal-ack-image-wrap">
               <img src="assets/img/emenetLogo.png" alt="Emenet" class="modal-ack-image" />
             </div>-->
-            <a href="https://emenet.mx/pagar-servicio" target="_blank" class="btn-water btn-water-inline btn-water-primary text-decoration-none">
+            <a href="https://emenet.mx/pagar-servicio" target="_blank"
+              class="btn-water btn-water-inline btn-water-primary text-decoration-none">
               <span class="water-fill"></span>
               <span class="btn-water-content">Pagar servicio</span>
             </a>
