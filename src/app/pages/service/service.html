@@ -13,7 +13,10 @@
         <div class="card service-panel shadow-sm border-0 rounded-4">
           <div class="card-body p-4">
             <form (ngSubmit)="service()" [formGroup]="serviceForm">
-              <label class="form-label fw-semibold mb-3">Agregar nuevo servicio</label>
+              <div class="ios-form-header">
+                <div class="ios-pill">Agregar nuevo servicio</div>
+              </div>
+              <label class="form-label fw-semibold mb-3">Número de cliente</label>
               <div class="service-form-grid">
                 <div class="input-glow-wrapper">
                   <input type="text" class="form-control input-glow px-4" placeholder="Número de cliente"
