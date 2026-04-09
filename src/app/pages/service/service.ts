@@ -143,6 +143,7 @@ export class Service implements OnInit, OnDestroy {
         this.mostrarConfirmacion = false;
         this.codigo = '';
         this.numeroClienteTemp = '';
+        this.serviceForm.controls['numero_cliente'].reset();
         this.load();
       },
       error: (e) => {
