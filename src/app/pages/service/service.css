@@ -70,7 +70,7 @@
 .service-column-right {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -115,6 +115,7 @@
    ============================================================ */
 .service-panel {
   border-top-color: transparent;
+  height: 157px;
 }
 
 .service-panel .apple-card__accent {
@@ -225,6 +226,7 @@
    SERVICE CARD — tarjeta de servicio individual
    ============================================================ */
 .service-card {
+  height: 157px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -310,7 +312,7 @@
 .service-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2.5rem;
 }
 
 /* ============================================================
@@ -619,8 +621,29 @@
     grid-template-columns: 1fr;
   }
 
+  /* El panel apila input + botón → necesita altura automática */
+  .service-panel {
+    height: auto;
+  }
+
+  .service-panel .apple-card__body {
+    padding: 1.2rem 1.25rem 1.3rem;
+  }
+
   .service-form-grid {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  /* Botón ocupa todo el ancho para fácil toque */
+  .service-form-grid .btn-water-inline {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* Las service-cards también necesitan altura libre en móvil */
+  .service-card {
+    height: auto;
   }
 
   .service-card__actions {

@@ -16,7 +16,6 @@
 
       <!-- Columna izquierda: formulario + verificación -->
       <div class="service-column-left">
-
         <div class="apple-card service-panel">
           <div class="apple-card__accent"></div>
           <div class="apple-card__body">
@@ -114,6 +113,7 @@
                 <div class="service-card__info">
                   <span class="service-card__number"># {{ s.cliente?.cliente }}</span>
                   <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+
                 </div>
                 <span class="apple-badge" [ngClass]="{
                     'apple-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
