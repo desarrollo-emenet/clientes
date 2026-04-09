@@ -63,9 +63,12 @@ export class Dashboard {
         this.loading = false;
 
         const clasificacion = res?.cliente?.cliente?.clasificacion;
+        //const estado = res?.cliente?.cliente?.infoRed?.estado;
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
-        }
+        } //else if ( estado === 'Suspendido') {
+          //this.mostrarMensaje = true;
+        //}
 
       },
       error: (e) => {
