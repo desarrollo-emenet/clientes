@@ -1,93 +1,657 @@
+/* ============================================================
+   BASE — sistema de fuentes y reset Apple
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+.service-page {
+  background: linear-gradient(135deg, #edf4fb 0%, #fefeff 100%);
+  min-height: calc(100vh - 140px);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'Segoe UI', sans-serif;
+  padding: 3.5rem 0 4rem;
+}
+
 .services-container {
-  max-width: 980px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 1rem 0.5rem;
+  padding: 0 1.5rem;
 }
 
-/* Inputs */
-.form-control {
-  border-radius: 0 12px 12px 0;
-  border-color: #dee2e6;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* ============================================================
+   HERO
+   ============================================================ */
+.service-hero {
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+.service-hero__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0071e3;
+  margin-bottom: 0.5rem;
 }
 
-.input-group-text {
-  border-radius: 12px 0 0 12px;
-  background-color: #f8f9fa;
-  border-color: #dee2e6;
+.service-hero__title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
 }
 
+.service-hero__subtitle {
+  font-size: 1.05rem;
+  color: #6e6e73;
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
 
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.service-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
 
-/* Card base */
-.service-card {
-  border-radius: 16px;
-  background: linear-gradient(180deg, #ffffff, #f9fafb);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.service-column-left,
+.service-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.service-column-left .apple-card,
+.service-column-right .apple-card {
+  width: 100%;
+}
+
+/* ============================================================
+   APPLE CARD — componente base
+   ============================================================ */
+.apple-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: none;
+  border-radius: 20px;
+  box-shadow:
+    0 2px 18px rgba(0, 0, 0, 0.06),
+    0 0 0 0.5px rgba(0, 0, 0, 0.04);
   position: relative;
   overflow: hidden;
+  transition: box-shadow 0.25s ease;
 }
 
-/* Hover elegante */
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+.apple-card__body {
+  padding: 1.5rem 1.5rem 1.4rem;
 }
 
-/* Línea superior decorativa */
-.service-card::before {
-  content: "";
+/* Etiqueta superior */
+.apple-card__label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1d1d1f;
+  margin-bottom: 1.1rem;
+}
+
+/* ============================================================
+   SERVICE PANEL — borde superior con vuelta lateral
+   ============================================================ */
+.service-panel {
+  border-top-color: transparent;
+  height: 157px;
+}
+
+.service-panel .apple-card__accent {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   height: 4px;
+  background: linear-gradient(90deg, #0071e3, #34aadc);
+  border-radius: 20px 20px 0 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   APPLE INPUT
+   ============================================================ */
+.apple-input {
   width: 100%;
-  background: linear-gradient(90deg, #0d6efd, #20c997);
+  height: 46px;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Título */
-.service-card h5 {
-  font-size: 1.05rem;
+.apple-input::placeholder {
+  color: #aeaeb2;
 }
 
-/* Badge principal */
-.status-badge {
-  font-size: 0.7rem;
-  padding: 0.45em 0.9em;
-  border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.apple-input:focus {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
 }
 
-/* Badges secundarios */
-.badge {
+.apple-input.is-invalid {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.14);
+}
+
+/* ============================================================
+   APPLE ERROR
+   ============================================================ */
+.apple-error {
+  font-size: 0.8rem;
+  color: #ff3b30;
   font-weight: 500;
 }
 
-/* Botones */
-.service-card .btn {
-  border-radius: 10px;
-  transition: all 0.2s ease;
+/* ============================================================
+   APPLE TEXT SECONDARY
+   ============================================================ */
+.apple-text-secondary {
+  font-size: 0.9rem;
+  color: #6e6e73;
+  margin: 0;
 }
 
-.service-card .btn-outline-primary:hover {
-  background-color: #0d6efd;
+/* ============================================================
+   APPLE BADGE
+   ============================================================ */
+.apple-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.apple-badge--success {
+  background: #d1f3e0;
+  color: #1a7a45;
+}
+
+.apple-badge--danger {
+  background: #fde8e8;
+  color: #c41e1e;
+}
+
+.apple-badge--neutral {
+  background: #e8e8ed;
+  color: #6e6e73;
+}
+
+/* ============================================================
+   FORMULARIO — grid
+   ============================================================ */
+.service-form-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.input-glow-wrapper {
+  position: relative;
+  border-radius: 12px;
+  background: #fff;
+}
+
+/* ============================================================
+   SERVICE CARD — tarjeta de servicio individual
+   ============================================================ */
+.service-card {
+  height: 157px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.1),
+    0 0 0 0.5px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Acento superior — visible solo en hover */
+.service-card__side-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0071e3, #34aadc);
+  border-radius: 20px 20px 0 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: scaleX(0.6);
+  transform-origin: center;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.service-card:hover .service-card__side-accent {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.service-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.service-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.service-card__number {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.service-card__client-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6e6e73;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.service-card__divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.07);
+  margin-bottom: 0.9rem;
+}
+
+.service-card__actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+/* ============================================================
+   LISTA de servicios
+   ============================================================ */
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+.service-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.service-loading__spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(0, 113, 227, 0.15);
+  border-top-color: #0071e3;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   VERIFICACIÓN
+   ============================================================ */
+.verification-card .apple-card__body {
+  padding: 1.4rem 1.5rem;
+}
+
+/* ============================================================
+   BOTONES — Minimalistas estilo Apple
+   ============================================================ */
+.btn-water {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 980px;
+  background: rgba(0, 0, 0, 0.04);
+  color: #1d1d1f;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+  letter-spacing: 0.01em;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* La water-fill queda invisible — solo se preserva la estructura */
+.btn-water .water-fill {
+  display: none;
+}
+
+.btn-water-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-water:hover:not(:disabled) {
+  background: #0071e3;
+  color: #ffffff;
+  border-color: #0071e3;
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+}
+
+.btn-water:active:not(:disabled) {
+  background: #0077ed;
+  transform: scale(0.985);
+  box-shadow: none;
+}
+
+.btn-water.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.btn-water:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Tamaños */
+.btn-water-inline {
+  min-width: 130px;
+  height: 42px;
+}
+
+.btn-water-inline-sm {
+  min-width: 108px;
+  height: 34px;
+  font-size: 0.82rem;
+  padding: 0 14px;
+}
+
+/* Variante éxito */
+.btn-water-success {
+  border-color: rgba(21, 128, 61, 0.25);
+  color: #15803d;
+  background: rgba(21, 128, 61, 0.06);
+}
+
+.btn-water-success:hover:not(:disabled) {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);
+}
+
+/* Variante peligro */
+.btn-water-danger {
+  border-color: rgba(185, 28, 28, 0.22);
+  color: #b91c1c;
+  background: rgba(185, 28, 28, 0.05);
+}
+
+.btn-water-danger:hover:not(:disabled) {
+  background: #b91c1c;
+  color: #ffffff;
+  border-color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2);
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-container {
+  width: 90%;
+  max-width: 500px;
+  animation: slideUp 0.22s ease-out;
+}
+
+.banner-card-modal {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  position: relative;
+}
+
+.modal-header-accent {
+  background: linear-gradient(135deg, #169dd1 0%, #3812a5 100%);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.modal-eyebrow-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.22);
   color: #fff;
+  border-radius: 999px;
+  padding: 5px 16px;
+  margin-bottom: 0.85rem;
 }
 
-.service-card .btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: #fff;
+.modal-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
 }
 
+.banner-modal-content {
+  padding: 2rem;
+  text-align: center;
+}
 
-@media (max-width: 575.98px) {
+.modal-subtitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 1rem;
+}
+
+.modal-info-box {
+  background: #f5f5f7;
+  border-radius: 14px;
+  border-left: 3.5px solid #0071e3;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.modal-info-text {
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: #1d1d1f;
+  margin: 0;
+}
+
+.modal-icon {
+  margin-right: 0.4rem;
+}
+
+.modal-icon--blue {
+  color: #0071e3;
+}
+
+.modal-icon--red {
+  color: #ff3b30;
+}
+
+.modal-icon--green {
+  color: #34c759;
+}
+
+.btn-close-custom {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  background: rgba(255, 255, 255, 0.22);
+  border: none;
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  z-index: 10;
+}
+
+.btn-close-custom:hover {
+  background: rgba(255, 255, 255, 0.38);
+  transform: rotate(90deg);
+}
+
+/* ============================================================
+   ANIMACIONES
+   ============================================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 767.98px) {
+  .service-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .service-hero__title {
+    font-size: 2rem;
+  }
+
   .services-container {
-    padding: 0.75rem 0.5rem;
+    padding: 0 1rem;
+  }
+
+  .service-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* El panel apila input + botón → necesita altura automática */
+  .service-panel {
+    height: auto;
+  }
+
+  .service-panel .apple-card__body {
+    padding: 1.2rem 1.25rem 1.3rem;
+  }
+
+  .service-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  /* Botón ocupa todo el ancho para fácil toque */
+  .service-form-grid .btn-water-inline {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* Las service-cards también necesitan altura libre en móvil */
+  .service-card {
+    height: auto;
+  }
+
+  .service-card__actions {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .btn-water-inline-sm {
+    width: 100%;
   }
 }

@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { Subscription } from 'rxjs';
+import { Header } from '../../shared/header/header';
+import { Footer } from '../../shared/footer/footer';
 
 @Component({
   selector: 'app-service',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header, Footer],
   templateUrl: './service.html',
   styleUrl: './service.css'
 })
@@ -21,6 +23,7 @@ export class Service implements OnInit, OnDestroy {
   tiempoRestante: number = 0;
   intervalo: any = null;
   numeroClienteTemp: string = '';
+  showBannerModal: boolean = false;
 
   //servicios es un array de cualquier tipo
   servicios: any[] = [];
@@ -37,6 +40,11 @@ export class Service implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.load();
+    this.showBannerModal = true;
+  }
+
+  cerrarModal() {
+    this.showBannerModal = false;
   }
 
   ngOnDestroy(): void {
@@ -135,6 +143,7 @@ export class Service implements OnInit, OnDestroy {
         this.mostrarConfirmacion = false;
         this.codigo = '';
         this.numeroClienteTemp = '';
+        this.serviceForm.controls['numero_cliente'].reset();
         this.load();
       },
       error: (e) => {
