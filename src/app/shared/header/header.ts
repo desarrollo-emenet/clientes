@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { UserMenuComponent } from '../user-menu/user-menu.component';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [UserMenuComponent],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
