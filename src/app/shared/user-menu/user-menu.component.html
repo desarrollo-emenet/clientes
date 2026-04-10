@@ -65,7 +65,7 @@
 
     <hr class="dropdown-divider my-0">
 
-    <div class="dropdown-items py-1">
+    <div class="dropdown-items py-1" *ngIf="!isServiceRoute">
       <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/perfil')">
         <i class="fa-regular fa-user"></i>
         <span>Perfil</span>
@@ -95,7 +95,8 @@
         <i [class]="'bi ' + (theme === 'dark' ? 'bi-sun' : 'bi-moon')"></i>
         <span>{{ theme === 'dark' ? 'Modo claro' : 'Modo oscuro' }}</span>
       </button>
-    </div>-->
+    </div>
+   -->
 
     <hr class="dropdown-divider my-0">
 

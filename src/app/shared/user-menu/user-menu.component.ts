@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { LoginS } from '../../services/auth/login';
 import { ClientService } from '../../services/user/clientService';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-menu',
@@ -15,6 +16,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   user: any = null;
   theme: 'light' | 'dark' = 'light';
   avatarUrl: string = '';
+  isServiceRoute = false;
 
   constructor(
     private router: Router,
@@ -25,10 +27,20 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadTheme();
     this.loadUser();
+    this.checkCurrentRoute();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkCurrentRoute();
+    });
   }
 
   ngOnDestroy(): void {
     document.removeEventListener('click', this.closeDropdownOnClickOutside);
+  }
+
+  checkCurrentRoute(): void {
+    this.isServiceRoute = this.router.url === '/servicios';
   }
 
   @HostListener('document:click', ['$event'])
@@ -104,7 +116,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   navigateTo(route: string): void {
     this.isDropdownOpen = false;
-    if (route === '/perfil' && this.user?.numeroCliente) {
+    if ((route === '/perfil' || route === '/notificaciones') && this.user?.numeroCliente) {
       this.router.navigate([route, this.user.numeroCliente]);
     } else {
       this.router.navigate([route]);
