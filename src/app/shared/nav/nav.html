@@ -5,12 +5,14 @@
   <nav class="list-group list-group-flush">
     <button routerLink="/servicios" routerLinkActive="active" (click)="linkClick.emit()"
       class="list-group-item list-group-item-action">
-      <img src="assets/img/wifi.png" alt="">
+      <!--<img src="assets/img/wifi.png" alt="">-->
+      <i class="fa-solid fa-wifi" style="color: #1ee5fe;"></i>
       Servicios
     </button>
 
     <button routerLinkActive="active" (click)="goDashboard()" class="list-group-item list-group-item-action">
-      <img src="assets/img/home.png" alt="" width="30" height="30">
+      <!--<img src="assets/img/home.png" alt="" width="30" height="30">-->
+      <i class="fa-solid fa-house-signal" style="color: #1ee5fe;"></i>
       Dashboard</button>
 
     <!--<button routerLinkActive="active" (click)="goNotification()" class="list-group-item list-group-item-action">
@@ -18,7 +20,8 @@
       Notificaciones</button>-->
 
     <button routerLinkActive="active" (click)="goEstadoCuenta()" class="list-group-item list-group-item-action">
-      <img src="assets/img/cuenta.png" alt="">
+      <!--<img src="assets/img/cuenta.png" alt="">-->
+      <i class="fa-solid fa-money-check-dollar" style="color: #1ee5fe;"></i>
       Estado de cuenta
     </button>
 
