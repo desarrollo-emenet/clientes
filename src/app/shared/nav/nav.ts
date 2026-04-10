@@ -12,7 +12,10 @@ import { toast } from 'ngx-sonner';
 })
 export class NavComponent {
   servicios: any[] = [];
-  constructor(private auth: LoginS, private router: Router) { }
+  clienteNumero: string = '';
+  constructor(private auth: LoginS, private router: Router) {
+    this.clienteNumero = localStorage.getItem('servicio_activo') || '';
+  }
 
   @Output() linkClick = new EventEmitter<void>();
 

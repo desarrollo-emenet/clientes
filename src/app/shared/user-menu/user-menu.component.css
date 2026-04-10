@@ -21,14 +21,14 @@
 .avatar-placeholder {
   font-size: 14px;
   font-weight: 600;
-}
+} 
 
 .user-dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
   width: 280px;
-  background: white;
+  background: rgba(255, 255, 255, 0.736);
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -66,7 +66,7 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(243, 244, 246, 0.8);
+  background: rgba(246, 243, 243, 0.8);
 }
 
 .dropdown-item.text-danger {
@@ -88,6 +88,12 @@
 .rotate-icon {
   transform: rotate(180deg);
   transition: transform 0.2s ease;
+}
+
+.text-wrap {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 
 /* Dark mode support */

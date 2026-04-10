@@ -56,9 +56,9 @@ export class UserMenuComponent implements OnInit, OnDestroy {
       this.clientService.getClientePorNumero(clienteNumero).subscribe({
         next: (res) => {
           this.user = {
-            nombre: res.cliente?.cliente?.nombre || 'Usuario',
+            nombre: res.cliente?.cliente?.nombre || 'Cliente',
             numeroCliente: res.numero_cliente || clienteNumero,
-            email: res.cliente?.cliente?.email || 'Sin email',
+            email: res.cliente?.cliente?.email || 'No. Cliente',
             roles: res.cliente?.cliente?.roles || []
           };
           this.avatarUrl = '';
@@ -66,9 +66,9 @@ export class UserMenuComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error('Error loading client details:', err);
           this.user = {
-            nombre: 'Usuario',
+            nombre: 'Cliente',
             numeroCliente: clienteNumero,
-            email: 'Sin email'
+            email: 'No. Cliente'
           };
           this.avatarUrl = '';
         }
@@ -76,9 +76,9 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     } else {
       // Fallback if no servicio_activo
       this.user = {
-        nombre: 'Usuario',
+        nombre: 'Cliente',
         numeroCliente: '',
-        email: 'Sin email'
+        email: 'No. Cliente'
       };
       this.avatarUrl = '';
     }
@@ -104,7 +104,11 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   navigateTo(route: string): void {
     this.isDropdownOpen = false;
-    this.router.navigate([route]);
+    if (route === '/perfil' && this.user?.numeroCliente) {
+      this.router.navigate([route, this.user.numeroCliente]);
+    } else {
+      this.router.navigate([route]);
+    }
   }
 
   handleLogout(): void {

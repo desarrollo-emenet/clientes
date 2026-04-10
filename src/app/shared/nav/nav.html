@@ -29,13 +29,13 @@
       Formas de pago
     </button>
 
-    <button routerLink="/visitas" routerLinkActive="active" (click)="linkClick.emit()"
+    <button [routerLink]="['/visitas']" routerLinkActive="active" (click)="linkClick.emit()"
       class="list-group-item list-group-item-action">
       <img src="assets/img/visit.png" alt="" width="30" height="30">
       Visitas
     </button>
 
-    <button routerLinkActive="active" (click)="goPerfil()" class="list-group-item list-group-item-action">
+    <button routerLinkActive="active" (click)="goPerfil(); linkClick.emit()" class="list-group-item list-group-item-action">
       <img src="assets/img/usuario.png" alt="">
       Perfil
     </button>
@@ -47,3 +47,4 @@
     </button>
   </nav>
 </div>
+<p></p>
