@@ -4,32 +4,23 @@
 
   <nav class="list-group list-group-flush">
     <button routerLink="/servicios" routerLinkActive="active" (click)="linkClick.emit()"
-      class="list-group-item list-group-item-action">
-      <!--<img src="assets/img/wifi.png" alt="">-->
-      <i class="fa-solid fa-wifi" style="color: #1ee5fe;"></i>
-      Servicios
+      class="list-group-item list-group-item-action" title="Servicios">
+      <i class="fa-solid fa-wifi"></i>
     </button>
 
-    <button routerLinkActive="active" (click)="goDashboard()" class="list-group-item list-group-item-action">
-      <!--<img src="assets/img/home.png" alt="" width="30" height="30">-->
-      <i class="fa-solid fa-house-signal" style="color: #1ee5fe;"></i>
-      Dashboard</button>
+    <button routerLinkActive="active" (click)="goDashboard()" class="list-group-item list-group-item-action" title="Dashboard">
+      <i class="fa-solid fa-house-signal"></i>
+    </button>
 
-    <!--<button routerLinkActive="active" (click)="goNotification()" class="list-group-item list-group-item-action">
-      <img src="assets/img/notificaciones.png" alt="" width="30" height="30">
-      Notificaciones</button>-->
-
-    <button routerLinkActive="active" (click)="goEstadoCuenta()" class="list-group-item list-group-item-action">
-      <!--<img src="assets/img/cuenta.png" alt="">-->
-      <i class="fa-solid fa-money-check-dollar" style="color: #1ee5fe;"></i>
-      Estado de cuenta
+    <button routerLinkActive="active" (click)="goEstadoCuenta()" class="list-group-item list-group-item-action" title="Estado de cuenta">
+     <i class="fa-solid fa-circle-dollar-to-slot" style="color: #1ee5fe;"></i>
     </button>
 
    <!--<button routerLink="/formas-de-pago" routerLinkActive="active" (click)="linkClick.emit()"
       class="list-group-item list-group-item-action">
       <img src="assets/img/pagos.png" alt="">
       Formas de pago
-    </button>-->
+    </button> -->
 
     <!--<button [routerLink]="['/visitas']" routerLinkActive="active" (click)="linkClick.emit()"
       class="list-group-item list-group-item-action">

@@ -1,13 +1,15 @@
 /* ----- SIDEBAR GENERAL ----- */
 .sidebar-container {
-  width: 240px;
+  width: 60px;
   flex-shrink: 0;
-  padding: 12px;
+  padding: 8px 4px;
   background: #ffffff;
   border-right: 1px solid #e5e7eb;
-  height: calc(100vh - 56px); 
+  height: calc(100vh - 56px);
   overflow-y: auto;
   transition: transform .3s ease-in-out;
+  display: flex;
+  justify-content: center;
 }
 
 /* Layout Windows */
