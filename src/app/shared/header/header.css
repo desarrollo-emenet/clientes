@@ -26,3 +26,23 @@
    flex-direction: row;
    gap: 8px;
  }
+
+ :host ::ng-deep .header-nav app-nav .list-group-item {
+   flex-direction: row;
+   gap: 6px;
+   width: auto;
+   height: auto;
+   padding: 6px 12px;
+   border-radius: 8px;
+ }
+
+ :host ::ng-deep .header-nav app-nav .list-group-item i {
+   font-size: 18px;
+ }
+
+ :host ::ng-deep .header-nav app-nav .nav-label {
+   font-size: 13px;
+   color: #333;
+   margin-top: 0;
+   white-space: nowrap;
+ }

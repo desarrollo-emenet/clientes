@@ -39,6 +39,10 @@
     height: 44px;
     justify-content: flex-start;
   }
+
+  .nav-label {
+    display: none;
+  }
 }
 
 .list-group {
@@ -64,11 +68,18 @@
 }
 
 .list-group-item i {
-  color: #1ee5fe !important;
+  color: #00262b !important;
   font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.nav-label {
+  font-size: 12px;
+  color: #333;
+  margin-top: 4px;
+  text-align: center;
 }
 
 .list-group-item:hover {
