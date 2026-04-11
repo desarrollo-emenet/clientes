@@ -18,7 +18,7 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    position: relative;
+    position: static;
     height: auto;
     box-shadow: none;
     border-radius: 0;
@@ -26,6 +26,8 @@
     padding: 8px;
     flex-direction: column;
     gap: 0;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
 
   .list-group {

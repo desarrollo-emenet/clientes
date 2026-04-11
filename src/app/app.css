@@ -1,3 +1,10 @@
+/* Prevent scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+  touch-action: none;
+  height: 100vh;
+}
+
 /* ----- SIDEBAR GENERAL ----- */
 .sidebar-container {
   width: 60px;
@@ -12,7 +19,7 @@
   justify-content: center;
 }
 
-/* Layout Windows */
+/* Layout Windows  */
 .app-wrapper {
   display: flex; 
 }
@@ -41,6 +48,8 @@
     transform: translateX(-110%);
     z-index: 2000;
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
 
   .sidebar-container.open {
@@ -55,6 +64,7 @@
     bottom: 0;
     background: rgba(0,0,0,.45);
     z-index: 1990;
+    touch-action: none;
   }
 }
 

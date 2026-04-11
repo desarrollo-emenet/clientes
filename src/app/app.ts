@@ -49,7 +49,8 @@ export class App {
         const rawUrl = (event as NavigationEnd).urlAfterRedirects ?? (event as NavigationEnd).url;
         this.checkSidebar(rawUrl);
         this.checkheader(rawUrl);
-
+        // Cerrar menu y restaurar scroll al cambiar de ruta
+        this.closeSidebar();
       });
   }
 
@@ -68,10 +69,22 @@ export class App {
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
+    this.updateBodyScrollLock();
   }
 
   closeSidebar() {
     this.sidebarOpen = false;
+    this.updateBodyScrollLock();
+  }
+
+  private updateBodyScrollLock(): void {
+    if (typeof document !== 'undefined') {
+      if (this.sidebarOpen) {
+        document.body.classList.add('menu-open');
+      } else {
+        document.body.classList.remove('menu-open');
+      }
+    }
   }
 
   checkheader(url: string) {
