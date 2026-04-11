@@ -13,6 +13,10 @@
       <h5 class="mb-0 fw-bold text-dark">Comunicaciones</h5>
     </div>
 
+    <div class="header-nav d-none d-md-flex" *ngIf="showNavButtons">
+      <app-nav></app-nav>
+    </div>
+
     <app-user-menu></app-user-menu>
 
   </div>

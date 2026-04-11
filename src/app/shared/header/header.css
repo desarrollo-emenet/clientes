@@ -5,3 +5,24 @@
   padding: 4px 8px;
   cursor: pointer;
 }
+
+ .header-nav {
+   display: flex;
+   align-items: center;
+ }
+
+ :host ::ng-deep .header-nav app-nav .sidebar {
+   box-shadow: none;
+   border-radius: 0;
+   padding: 0;
+   margin: 0;
+   position: static;
+   max-height: none;
+   width: auto;
+ }
+
+ :host ::ng-deep .header-nav app-nav .list-group {
+   display: flex;
+   flex-direction: row;
+   gap: 8px;
+ }

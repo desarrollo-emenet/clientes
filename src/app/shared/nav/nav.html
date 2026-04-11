@@ -8,11 +8,11 @@
       <i class="fa-solid fa-wifi"></i>
     </button>
 
-    <button routerLinkActive="active" (click)="goDashboard()" class="list-group-item list-group-item-action" title="Dashboard">
+    <button routerLinkActive="active" (click)="goDashboard(); linkClick.emit()" class="list-group-item list-group-item-action" title="Dashboard">
       <i class="fa-solid fa-house-signal"></i>
     </button>
 
-    <button routerLinkActive="active" (click)="goEstadoCuenta()" class="list-group-item list-group-item-action" title="Estado de cuenta">
+    <button routerLinkActive="active" (click)="goEstadoCuenta(); linkClick.emit()" class="list-group-item list-group-item-action" title="Estado de cuenta">
      <i class="fa-solid fa-circle-dollar-to-slot" style="color: #1ee5fe;"></i>
     </button>
 

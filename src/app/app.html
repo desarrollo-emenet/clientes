@@ -7,7 +7,7 @@
   <div class="app-wrapper flex-grow-1">
 
     <!--RUTAS PERMITIDAS -->
-    <aside class="sidebar-container" *ngIf="showSidebar" [class.open]="sidebarOpen">
+    <aside class="sidebar-container d-md-none" *ngIf="showSidebar" [class.open]="sidebarOpen">
       <app-nav (linkClick)="closeSidebar()"></app-nav>
     </aside>
 
