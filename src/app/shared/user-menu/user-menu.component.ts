@@ -129,13 +129,26 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   }
 
   getInitials(): string {
-    if (this.user?.name) {
-      return this.user.name.charAt(0).toUpperCase();
+    const fullName = this.user?.nombre || this.user?.name || this.user?.username || '';
+    if (!fullName) {
+      return 'U';
     }
-    if (this.user?.username) {
-      return this.user.username.charAt(0).toUpperCase();
+
+    // Split by spaces and filter out empty strings
+    const names = fullName.trim().split(/\s+/).filter((n: string) => n.length > 0);
+    if (names.length === 0) {
+      return 'U';
     }
-    return 'U';
+
+    // Get first letter of first name
+    let initials = names[0].charAt(0).toUpperCase();
+
+    // If there are more names, add first letter of last name (last word)
+    if (names.length > 1) {
+      initials += names[names.length - 1].charAt(0).toUpperCase();
+    }
+
+    return initials;
   }
 
   isAdmin(): boolean {

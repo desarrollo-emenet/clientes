@@ -1,7 +1,6 @@
-<!--Dropdown User Menu version max -->
 <div class="user-menu-container">
   <button 
-    class="user-dropdown-trigger d-flex align-items-center gap-2 px-3 py-2 rounded-3 bg-light border border-secondary-subtle"
+    class="user-dropdown-trigger"
     (click)="toggleDropdown()"
     [attr.aria-expanded]="isDropdownOpen"
     aria-haspopup="true"
@@ -11,98 +10,79 @@
         *ngIf="avatarUrl"
         [src]="avatarUrl" 
         [alt]="user?.name || 'Cliente'"
-        class="rounded-circle"
-        width="32"
-        height="32"
+        class="avatar-img"
       >
       <div 
         *ngIf="!avatarUrl"
-        class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
-        style="width: 32px; height: 32px;"
+        class="avatar-placeholder"
       >
         {{ getInitials() }}
       </div>
     </div>
-    <div class="user-info d-none d-sm-block text-start">
-      <div class="fw-bold text-dark small mb-0 text-wrap">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
-      <div class="text-muted small mb-0">{{ user?.numeroCliente ? 'Cliente: ' + user?.numeroCliente : (user?.email || 'No. Cliente') }}</div>
+    <div class="user-info">
+      <div class="user-name">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
+      <div class="user-role">{{ user?.numeroCliente ? 'Cliente ' + user?.numeroCliente : (user?.email || '') }}</div>
     </div>
-    <i class="bi bi-chevron-down d-none d-sm-block" [class.rotate-icon]="isDropdownOpen"></i>
+    <i class="bi bi-chevron-down dropdown-arrow" [class.rotate-icon]="isDropdownOpen"></i>
   </button>
 
   <div 
-    class="user-dropdown dropdown-menu shadow" 
+    class="user-dropdown"
     [class.show]="isDropdownOpen"
     (click)="$event.stopPropagation()"
   >
-    <div class="dropdown-header d-flex align-items-center gap-3 p-3">
+    <div class="dropdown-header">
       <div class="avatar-large">
         <img 
           *ngIf="avatarUrl"
           [src]="avatarUrl" 
           [alt]="user?.name || 'Cliente'"
-          class="rounded-circle"
-          width="48"
-          height="48"
+          class="avatar-img-large"
         >
         <div 
           *ngIf="!avatarUrl"
-          class="avatar-placeholder-large rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white"
-          style="width: 48px; height: 48px;"
+          class="avatar-placeholder-large"
         >
           {{ getInitials() }}
         </div>
       </div>
-      <div class="flex-grow-1">
-        <div class="fw-bold text-dark text-wrap">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
-        <div class="text-muted small">{{ user?.numeroCliente ? 'Cliente: ' + user?.numeroCliente : (user?.email || 'No. Cliente') }}</div>
-        <div *ngIf="isAdmin()" class="d-flex align-items-center gap-1 mt-1">
-          <i class="bi bi-star-fill text-warning"></i>
-          <span class="small text-warning fw-medium">Admin</span>
+      <div class="header-info">
+        <div class="header-name">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
+        <div class="header-role">{{ user?.numeroCliente ? 'Cliente ' + user?.numeroCliente : (user?.email || '') }}</div>
+        <div *ngIf="isAdmin()" class="admin-badge">
+          <i class="bi bi-star-fill"></i>
+          <span>Admin</span>
         </div>
       </div>
     </div>
 
-    <hr class="dropdown-divider my-0">
-
-    <div class="dropdown-items py-1" *ngIf="!isServiceRoute">
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/perfil')">
+    <div class="dropdown-section" *ngIf="!isServiceRoute">
+      <button class="dropdown-item" (click)="navigateTo('/perfil')">
         <i class="fa-regular fa-user"></i>
         <span>Perfil</span>
       </button>
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/notificaciones')">
+      <button class="dropdown-item" (click)="navigateTo('/notificaciones')">
         <i class="fa-regular fa-bell"></i>
         <span>Notificaciones</span>
       </button>
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/formas-de-pago')">
-        <i class="fa-solid fa-hand-holding-dollar"></i>
+      <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
+        <i class="fa-solid fa-credit-card"></i>
         <span>Formas de pago</span>
       </button>
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/visitas')">
-        <i class="fa-solid fa-screwdriver-wrench"></i>
+      <button class="dropdown-item" (click)="navigateTo('/visitas')">
+        <i class="fa-solid fa-wrench"></i>
         <span>Visitas</span>
       </button>
-      <hr class="dropdown-divider my-1">
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="navigateTo('/#')">
+      <div class="section-divider"></div>
+      <button class="dropdown-item" (click)="navigateTo('/#')">
         <i class="fa-solid fa-headset"></i>
         <span>Soporte</span>
       </button>
     </div>
 
-    <!--<hr class="dropdown-divider my-0">
-    <div class="theme-toggle py-1">
-      <button class="dropdown-item d-flex align-items-center gap-3" (click)="toggleTheme()">
-        <i [class]="'bi ' + (theme === 'dark' ? 'bi-sun' : 'bi-moon')"></i>
-        <span>{{ theme === 'dark' ? 'Modo claro' : 'Modo oscuro' }}</span>
-      </button>
-    </div>
-   -->
-
-    <hr class="dropdown-divider my-0">
-
-    <div class="logout-section py-1">
-      <button class="dropdown-item d-flex align-items-center gap-3 text-danger" (click)="handleLogout()">
-        <i class="fa-solid fa-right-from-bracket"></i>
+    <div class="dropdown-footer">
+      <button class="dropdown-item logout-item" (click)="handleLogout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <span>Cerrar sesión</span>
       </button>
     </div>
