@@ -64,7 +64,7 @@
   border-radius: 8px;
   background: transparent;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   width: 40px;
   height: 40px;
 }
@@ -75,6 +75,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.list-group-item:hover i {
+  color: #007AFF !important;
 }
 
 .nav-label {
@@ -86,6 +91,7 @@
 
 .list-group-item:hover {
   background: rgba(30, 229, 254, 0.15);
+  transform: scale(1.08);
 }
 
 .list-group-item.active {

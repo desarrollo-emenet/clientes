@@ -154,4 +154,23 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   isAdmin(): boolean {
     return this.user?.roles?.includes('admin');
   }
+
+  getFirstName(): string {
+    const fullName = this.user?.nombre || this.user?.name || this.user?.username || '';
+    if (!fullName) return 'Cliente';
+    const names = fullName.trim().split(/\s+/).filter((n: string) => n.length > 0);
+    if (names.length === 0) return 'Cliente';
+    if (names.length === 1) return names[0];
+    // Return all names except the last one (apellido)
+    return names.slice(0, -1).join(' ');
+  }
+
+  getLastName(): string {
+    const fullName = this.user?.nombre || this.user?.name || this.user?.username || '';
+    if (!fullName) return '';
+    const names = fullName.trim().split(/\s+/).filter((n: string) => n.length > 0);
+    if (names.length <= 1) return '';
+    // Return only the last name
+    return names[names.length - 1];
+  }
 }

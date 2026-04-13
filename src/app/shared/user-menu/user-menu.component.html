@@ -47,7 +47,10 @@
         </div>
       </div>
       <div class="header-info">
-        <div class="header-name">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
+        <div class="header-name">
+          <div class="first-name">{{ getFirstName() }}</div>
+          <div class="last-name" *ngIf="getLastName()">{{ getLastName() }}</div>
+        </div>
         <div class="header-role">{{ user?.numeroCliente ? 'Cliente ' + user?.numeroCliente : (user?.email || '') }}</div>
         <div *ngIf="isAdmin()" class="admin-badge">
           <i class="bi bi-star-fill"></i>
