@@ -109,12 +109,6 @@
     width: 100%;
 }
 
-
-
-
-
-
-
 /* Copyright */
 .titulo-final {
     flex: 1;
@@ -202,3 +196,4 @@
 .social-icons-footer a:hover {
     color: #007aff;
 }
+
