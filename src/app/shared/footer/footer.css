@@ -61,17 +61,12 @@
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: #007aff;
+    color: #2179B5;
     margin-bottom: 12px;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.content-foo h4 i {
-    font-size: 14px;
-    color: #007aff;
 }
 
 .content-foo p {
@@ -97,7 +92,7 @@
     left: 0;
     width: 0;
     height: 1px;
-    background: #007aff;
+    background: #2179B5;
     transition: width 0.3s ease;
 }
 
