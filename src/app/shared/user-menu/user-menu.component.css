@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  background: linear-gradient(135deg, #2179B5 0%, #5856D6 100%);
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -149,7 +149,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  background: linear-gradient(135deg, #2179B5 0%, #5856D6 100%);
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -260,7 +260,7 @@
 }
 
 .dropdown-item:hover i {
-  color: #007AFF;
+  color: #2179B5;
 }
 
 /* === LOGOUT SECTION === */
