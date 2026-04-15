@@ -3,44 +3,18 @@
   <!--<div class="menu-header">📋 Menu</div>-->
 
   <nav class="list-group list-group-flush">
+      <button routerLinkActive="active" (click)="goDashboard(); linkClick.emit()" class="list-group-item list-group-item-action" title="Inicio">
+      <i class="fa-solid fa-house"></i>
+      <span class="nav-label">Inicio</span>
+    </button>
+    <button routerLinkActive="active" (click)="goEstadoCuenta(); linkClick.emit()" class="list-group-item list-group-item-action" title="Estado de cuenta">
+      <i class="fi fi-bs-file-invoice-dollar"></i>
+      <span class="nav-label">Estado de cuenta</span>
+    </button>
     <button routerLink="/servicios" routerLinkActive="active" (click)="linkClick.emit()"
       class="list-group-item list-group-item-action" title="Servicios">
       <i class="fa-solid fa-wifi"></i>
       <span class="nav-label">Servicios</span>
     </button>
-
-    <button routerLinkActive="active" (click)="goDashboard(); linkClick.emit()" class="list-group-item list-group-item-action" title="Inicio">
-      <i class="fa-solid fa-house"></i>
-      <span class="nav-label">Inicio</span>
-    </button>
-
-    <button routerLinkActive="active" (click)="goEstadoCuenta(); linkClick.emit()" class="list-group-item list-group-item-action" title="Estado de cuenta">
-      <i class="fi fi-bs-file-invoice-dollar"></i>
-      <span class="nav-label">Estado de cuenta</span>
-    </button>
-
-   <!--<button routerLink="/formas-de-pago" routerLinkActive="active" (click)="linkClick.emit()"
-      class="list-group-item list-group-item-action">
-      <img src="assets/img/pagos.png" alt="">
-      Formas de pago
-    </button> 
-   -->
-
-    <!--<button [routerLink]="['/visitas']" routerLinkActive="active" (click)="linkClick.emit()"
-      class="list-group-item list-group-item-action">
-      <img src="assets/img/visit.png" alt="" width="30" height="30">
-      Visitas
-    </button>-->
-
-    <!--<button routerLinkActive="active" (click)="goPerfil(); linkClick.emit()" class="list-group-item list-group-item-action">
-      <img src="assets/img/usuario.png" alt="">
-      Perfil
-    </button>-->
-
-    <!--<button (click)="logout()" routerLinkActive="active" (click)="linkClick.emit()"
-      class="list-group-item list-group-item-action logout">
-      <img src="assets/img/salir.png" alt="" width="20" height="20">
-      Cerrar Sesión
-    </button>-->
   </nav>
 </div>
