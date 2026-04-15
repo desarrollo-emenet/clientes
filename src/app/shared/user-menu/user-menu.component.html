@@ -1,0 +1,93 @@
+<div class="user-menu-container">
+  <button 
+    class="user-dropdown-trigger"
+    (click)="toggleDropdown()"
+    [attr.aria-expanded]="isDropdownOpen"
+    aria-haspopup="true"
+  >
+    <div class="avatar-container">
+      <img 
+        *ngIf="avatarUrl"
+        [src]="avatarUrl" 
+        [alt]="user?.name || 'Cliente'"
+        class="avatar-img"
+      >
+      <div 
+        *ngIf="!avatarUrl"
+        class="avatar-placeholder"
+      >
+        {{ getInitials() }}
+      </div>
+    </div>
+    <div class="user-info">
+      <div class="user-name">{{ user?.nombre || user?.name || user?.username || 'Cliente' }}</div>
+      <div class="user-role">{{ user?.numeroCliente ? 'Cliente ' + user?.numeroCliente : (user?.email || '') }}</div>
+    </div>
+    <i class="bi bi-chevron-down dropdown-arrow" [class.rotate-icon]="isDropdownOpen"></i>
+  </button>
+
+  <div 
+    class="user-dropdown"
+    [class.show]="isDropdownOpen"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="dropdown-header">
+      <div class="avatar-large">
+        <img 
+          *ngIf="avatarUrl"
+          [src]="avatarUrl" 
+          [alt]="user?.name || 'Cliente'"
+          class="avatar-img-large"
+        >
+        <div 
+          *ngIf="!avatarUrl"
+          class="avatar-placeholder-large"
+        >
+          {{ getInitials() }}
+        </div>
+      </div>
+      <div class="header-info">
+        <div class="header-name">
+          <div class="first-name">{{ getFirstName() }}</div>
+          <div class="last-name" *ngIf="getLastName()">{{ getLastName() }}</div>
+        </div>
+        <div class="header-role">{{ user?.numeroCliente ? 'Cliente ' + user?.numeroCliente : (user?.email || '') }}</div>
+        <div *ngIf="isAdmin()" class="admin-badge">
+          <i class="bi bi-star-fill"></i>
+          <span>Admin</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-section" *ngIf="!isServiceRoute">
+      <button class="dropdown-item" (click)="navigateTo('/perfil')">
+        <i class="fa-regular fa-user"></i>
+        <span>Perfil</span>
+      </button>
+      <button class="dropdown-item" (click)="navigateTo('/notificaciones')">
+        <i class="fa-regular fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Formas de pago</span>
+      </button>
+      <button class="dropdown-item" (click)="navigateTo('/visitas')">
+        <i class="fa-solid fa-wrench"></i>
+        <span>Visitas</span>
+      </button>
+      <div class="section-divider"></div>
+      <a class="dropdown-item" href="https://emenet.mx/contactanos" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-headset"></i>
+        <span>Soporte</span>
+      </a>
+    </div>
+
+    <div class="dropdown-footer">
+      <button class="dropdown-item logout-item" (click)="handleLogout()"> 
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </div>
+</div>

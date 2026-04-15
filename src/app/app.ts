@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, HostListener } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Footer } from './shared/footer/footer';
 import { Header } from './shared/header/header';
@@ -49,7 +49,8 @@ export class App {
         const rawUrl = (event as NavigationEnd).urlAfterRedirects ?? (event as NavigationEnd).url;
         this.checkSidebar(rawUrl);
         this.checkheader(rawUrl);
-
+        // Cerrar menu y restaurar scroll al cambiar de ruta
+        this.closeSidebar();
       });
   }
 
@@ -68,10 +69,22 @@ export class App {
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
+    this.updateBodyScrollLock();
   }
 
   closeSidebar() {
     this.sidebarOpen = false;
+    this.updateBodyScrollLock();
+  }
+
+  private updateBodyScrollLock(): void {
+    if (typeof document !== 'undefined') {
+      if (this.sidebarOpen) {
+        document.body.classList.add('menu-open');
+      } else {
+        document.body.classList.remove('menu-open');
+      }
+    }
   }
 
   checkheader(url: string) {
@@ -89,5 +102,25 @@ export class App {
 
   closeheader() {
     this.headerOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    // Solo en modo móvil y cuando el sidebar está abierto
+    if (!this.sidebarOpen || !this.showSidebar) {
+      return;
+    }
+
+    const sidebarEl = document.querySelector('.sidebar-container');
+    const hamburgerBtn = document.querySelector('.hamburger-btn');
+    const target = event.target as HTMLElement;
+
+    // Si el clic fue dentro del sidebar o en el botón hamburguesa, no cerrar
+    if (sidebarEl?.contains(target) || hamburgerBtn?.contains(target)) {
+      return;
+    }
+
+    // Cerrar el sidebar
+    this.closeSidebar();
   }
 }

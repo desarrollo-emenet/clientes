@@ -1,57 +1,96 @@
 /* SIDEBAR */
 .sidebar {
-  box-shadow: 0 6px 18px rgba(202, 48, 9, 0.06);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.08);
   border-radius: 12px;
-  padding: 12px;
-  margin: 0; 
+  padding: 6px 4px;
+  margin: 0;
   flex-shrink: 0;
-  transition: width .25s ease, transform .25s ease;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
   position: sticky;
-  top: 0; 
-  max-height: 100vh; 
-  overflow-y: hidden !important;
+  top: 0;
+  max-height: 100vh;
+  width: 48px;
+  overflow: visible;
 }
 
 
 @media (max-width: 768px) {
   .sidebar {
-    position: relative;
+    position: static;
     height: auto;
     box-shadow: none;
     border-radius: 0;
+    width: auto;
+    padding: 8px;
+    flex-direction: column;
+    gap: 0;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
+
+  .list-group {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .list-group-item {
+    padding: 10px;
+    width: 100%;
+    height: 44px;
+    justify-content: flex-start;
+  }
+
+  .nav-label {
+    display: none;
+  }
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .list-group-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  justify-content: center;
+  padding: 8px;
   border: none;
-  border-radius: 10px;
-  color: #222;
-  font-weight: 500;
+  border-radius: 8px;
   background: transparent;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
 }
+
+.list-group-item i {
+  color: #00262b !important;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.list-group-item:hover i {
+  color: #2179B5 !important;
+}
+
+
 
 .list-group-item:hover {
-  background: rgba(0, 123, 255, 0.089);
-  transform: translateX(4px);
+  background: rgb(241, 245, 249);
+  transform: scale(1.08);
 }
 
-.list-group-item img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.logout {
-  color: #d9534f;
+.list-group-item.active {
+  background: rgba(30, 229, 254, 0.2);
 }
 
 
@@ -62,5 +101,3 @@
 .sidebar::-webkit-scrollbar {
   display: none; 
 }
-
-

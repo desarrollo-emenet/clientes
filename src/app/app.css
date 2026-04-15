@@ -1,16 +1,25 @@
-/* ----- SIDEBAR GENERAL ----- */
-.sidebar-container {
-  width: 240px;
-  flex-shrink: 0;
-  padding: 12px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  height: calc(100vh - 56px); 
-  overflow-y: auto;
-  transition: transform .3s ease-in-out;
+/* Prevent scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+  touch-action: none;
+  height: 100vh;
 }
 
-/* Layout Windows */
+/* ----- SIDEBAR GENERAL ----- */
+.sidebar-container {
+  width: 60px;
+  flex-shrink: 0;
+  padding: 8px 4px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  transition: transform .3s ease-in-out;
+  display: flex;
+  justify-content: center;
+}
+
+/* Layout Windows  */
 .app-wrapper {
   display: flex; 
 }
@@ -39,6 +48,8 @@
     transform: translateX(-110%);
     z-index: 2000;
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
 
   .sidebar-container.open {
@@ -53,6 +64,7 @@
     bottom: 0;
     background: rgba(0,0,0,.45);
     z-index: 1990;
+    touch-action: none;
   }
 }
 
