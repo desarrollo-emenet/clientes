@@ -97,7 +97,7 @@
 }
 
 .content-foo a:hover {
-    color: #007aff;
+    color: #2179B5;
 }
 
 .content-foo a:hover::after {
@@ -115,7 +115,7 @@
 }
 
 .titulo-final strong {
-    color: #007aff;
+    color: #2179B5;
     font-weight: 600;
 }
 
@@ -189,6 +189,6 @@
 }
 
 .social-icons-footer a:hover {
-    color: #007aff;
+    color: #2179B5;
 }
 
