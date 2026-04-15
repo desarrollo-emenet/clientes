@@ -1,6 +1,6 @@
 /* SIDEBAR */
 .sidebar {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.08);
   border-radius: 12px;
   padding: 6px 4px;
   margin: 0;
@@ -79,18 +79,13 @@
 }
 
 .list-group-item:hover i {
-  color: #007AFF !important;
+  color: #2179B5 !important;
 }
 
-.nav-label {
-  font-size: 12px;
-  color: #333;
-  margin-top: 4px;
-  text-align: center;
-}
+
 
 .list-group-item:hover {
-  background: rgba(30, 229, 254, 0.15);
+  background: rgb(241, 245, 249);
   transform: scale(1.08);
 }
 
