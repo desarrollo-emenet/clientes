@@ -290,14 +290,54 @@
   .user-info {
     display: none;
   }
-  
+
   .user-dropdown-trigger {
     padding: 6px;
+    gap: 0;
   }
-  
+
   .user-dropdown {
-    right: -10px;
-    width: 260px;
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .user-dropdown {
+    right: 8px;
+    left: 8px;
+    max-width: none;
+    border-radius: 14px;
+  }
+
+  .dropdown-header {
+    padding: 14px;
+  }
+
+  .dropdown-section {
+    padding: 8px;
+  }
+
+  .dropdown-item {
+    padding: 12px 10px;
+    font-size: 15px;
+  }
+
+  .dropdown-footer {
+    padding: 8px 8px 10px;
+  }
+
+  .header-name {
+    font-size: 14px;
+  }
+
+  .header-role {
+    font-size: 11px;
   }
 }
 

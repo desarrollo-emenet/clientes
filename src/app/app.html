@@ -1,10 +1,10 @@
-<div class="d-flex flex-column min-vh-100">
+<div class="d-flex flex-column">
 
   <div class="app-header" *ngIf="showheader" [class.open]="headerOpen">
   <app-header (toggleSidebar)="toggleSidebar()" ></app-header>
   </div>
 
-  <div class="app-wrapper flex-grow-1">
+  <div class="app-wrapper">
 
     <!--RUTAS PERMITIDAS -->
     <aside class="sidebar-container d-md-none" *ngIf="showSidebar" [class.open]="sidebarOpen">
@@ -15,12 +15,12 @@
     <div class="backdrop" *ngIf="showSidebar && sidebarOpen" (click)="closeSidebar()"></div>
 
     <!-- Contenido -->
-    <main class="flex-grow-1">
+    <main>
       <router-outlet></router-outlet>
 
     </main>
 
   </div>
-  <app-footer class="mt-auto" *ngIf="showFooter"></app-footer>
+  <app-footer *ngIf="showFooter"></app-footer>
 
 </div>

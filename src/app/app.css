@@ -1,3 +1,9 @@
+/* Prevent horizontal scroll on entire page */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* Prevent scroll when mobile menu is open */
 body.menu-open {
   overflow: hidden;
@@ -21,7 +27,17 @@ body.menu-open {
 
 /* Layout Windows  */
 .app-wrapper {
-  display: flex; 
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* El main debe ocupar todo el ancho restante en el flex */
+.app-wrapper main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
 
 /* MODO PC (>=768px) */
