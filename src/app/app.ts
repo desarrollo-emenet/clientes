@@ -44,7 +44,8 @@ export class App {
     '/perfil',
     '/formas-de-pago',
     '/estadoCuenta',
-    '/edit-perfil'
+    '/edit-perfil',
+    '/visitas'
   ];
 
   constructor(private router: Router) {
