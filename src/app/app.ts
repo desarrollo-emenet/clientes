@@ -22,6 +22,7 @@ export class App {
 
   headerOpen = false;
   showheader = true;
+  showFooter = true;
 
   hiddenSidebarRoutes = [
     '/iniciar-sesion',
@@ -37,10 +38,20 @@ export class App {
     '/'
   ];
 
+  hiddenFooterRoutes = [
+    '/dashboard',
+    '/notificaciones',
+    '/perfil',
+    '/formas-de-pago',
+    '/estadoCuenta',
+    '/edit-perfil'
+  ];
+
   constructor(private router: Router) {
     //pagina de iniciar sesion sin sidebar
     this.checkSidebar(window.location.pathname);
     this.checkheader(window.location.pathname);
+    this.checkFooter(window.location.pathname);
 
     // Detectar cambios de ruta 
     this.router.events
@@ -49,6 +60,7 @@ export class App {
         const rawUrl = (event as NavigationEnd).urlAfterRedirects ?? (event as NavigationEnd).url;
         this.checkSidebar(rawUrl);
         this.checkheader(rawUrl);
+        this.checkFooter(rawUrl);
         // Cerrar menu y restaurar scroll al cambiar de ruta
         this.closeSidebar();
       });
@@ -98,6 +110,19 @@ export class App {
 
     // validar exactamente contra la lista
     this.showheader = !this.hiddenSidebarRoutes.includes(cleanUrl);
+  }
+
+  checkFooter(url: string) {
+    // proteger contra valores nulos/indefinidos
+    if (!url) {
+      this.showFooter = true;
+      return;
+    }
+    // cortar todo lo que venga despues de '?'
+    const cleanUrl = url.split('?')[0];
+
+    // verificar si la URL comienza con alguna de las rutas donde el footer debe ocultarse
+    this.showFooter = !this.hiddenFooterRoutes.some(route => cleanUrl.startsWith(route));
   }
 
   closeheader() {
