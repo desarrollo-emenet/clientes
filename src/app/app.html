@@ -1,26 +1,24 @@
 <div class="d-flex flex-column">
 
-  <div class="app-header" *ngIf="showheader" [class.open]="headerOpen">
-  <app-header (toggleSidebar)="toggleSidebar()" ></app-header>
+  <div class="app-header" *ngIf="showheader">
+    <app-header></app-header>
   </div>
 
   <div class="app-wrapper">
 
-    <!--RUTAS PERMITIDAS -->
-    <aside class="sidebar-container d-md-none" *ngIf="showSidebar" [class.open]="sidebarOpen">
-      <app-nav (linkClick)="closeSidebar()"></app-nav>
-    </aside>
-
-    <!-- Backdrop SOLO si hay sidebar -->
-    <div class="backdrop" *ngIf="showSidebar && sidebarOpen" (click)="closeSidebar()"></div>
-
     <!-- Contenido -->
     <main>
       <router-outlet></router-outlet>
-
     </main>
 
   </div>
+
+  <!-- Bottom nav — solo móvil (<768px) -->
+  <nav class="bottom-nav d-md-none" *ngIf="showSidebar"
+       [ngClass]="{ 'hidden': bottomNavOculto }">
+    <app-nav></app-nav>
+  </nav>
+
   <app-footer *ngIf="showFooter"></app-footer>
 
 </div>

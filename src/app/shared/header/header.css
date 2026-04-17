@@ -1,48 +1,40 @@
-.hamburger-btn {
-  background: transparent;
-  border: none;
-  font-size: 28px;
-  padding: 4px 8px;
-  cursor: pointer;
+.header-nav {
+  display: flex;
+  align-items: center;
 }
 
- .header-nav {
-   display: flex;
-   align-items: center;
- }
+:host ::ng-deep .header-nav app-nav .sidebar {
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  position: static;
+  max-height: none;
+  width: auto;
+}
 
- :host ::ng-deep .header-nav app-nav .sidebar {
-   box-shadow: none;
-   border-radius: 0;
-   padding: 0;
-   margin: 0;
-   position: static;
-   max-height: none;
-   width: auto;
- }
+:host ::ng-deep .header-nav app-nav .list-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
 
- :host ::ng-deep .header-nav app-nav .list-group {
-   display: flex;
-   flex-direction: row;
-   gap: 8px;
- }
+:host ::ng-deep .header-nav app-nav .list-group-item {
+  flex-direction: row;
+  gap: 6px;
+  width: auto;
+  height: auto;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
 
- :host ::ng-deep .header-nav app-nav .list-group-item {
-   flex-direction: row;
-   gap: 6px;
-   width: auto;
-   height: auto;
-   padding: 6px 12px;
-   border-radius: 8px;
- }
+:host ::ng-deep .header-nav app-nav .list-group-item i {
+  font-size: 18px;
+}
 
- :host ::ng-deep .header-nav app-nav .list-group-item i {
-   font-size: 18px;
- }
-
- :host ::ng-deep .header-nav app-nav .nav-label {
-   font-size: 13px;
-   color: #333;
-   margin-top: 0;
-   white-space: nowrap;
- }
+:host ::ng-deep .header-nav app-nav .nav-label {
+  font-size: 13px;
+  color: #333;
+  margin-top: 0;
+  white-space: nowrap;
+}

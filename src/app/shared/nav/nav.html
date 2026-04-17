@@ -1,20 +1,27 @@
 <div class="sidebar">
 
-  <!--<div class="menu-header">📋 Menu</div>-->
-
   <nav class="list-group list-group-flush">
-      <button routerLinkActive="active" (click)="goDashboard(); linkClick.emit()" class="list-group-item list-group-item-action" title="Inicio">
+
+    <button routerLink="/dashboard" routerLinkActive="active"
+      class="list-group-item list-group-item-action" title="Inicio"
+      (click)="goDashboard()">
       <i class="fa-solid fa-house"></i>
       <span class="nav-label">Inicio</span>
     </button>
-    <button routerLinkActive="active" (click)="goEstadoCuenta(); linkClick.emit()" class="list-group-item list-group-item-action" title="Estado de cuenta">
+
+    <button routerLink="/estadoCuenta" routerLinkActive="active"
+      class="list-group-item list-group-item-action" title="Estado de cuenta"
+      (click)="goEstadoCuenta()">
       <i class="fi fi-bs-file-invoice-dollar"></i>
       <span class="nav-label">Estado de cuenta</span>
     </button>
-    <button routerLink="/servicios" routerLinkActive="active" (click)="linkClick.emit()"
+
+    <button routerLink="/servicios" routerLinkActive="active"
       class="list-group-item list-group-item-action" title="Servicios">
       <i class="fa-solid fa-wifi"></i>
       <span class="nav-label">Servicios</span>
     </button>
+
   </nav>
+
 </div>

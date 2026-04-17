@@ -1,50 +1,12 @@
-/* SIDEBAR */
+/* ============================================================
+   SIDEBAR — desktop (dentro del header como nav horizontal)
+   ============================================================ */
 .sidebar {
-  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.08);
-  border-radius: 12px;
-  padding: 6px 4px;
-  margin: 0;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  position: sticky;
-  top: 0;
-  max-height: 100vh;
-  width: 48px;
-  overflow: visible;
-}
-
-
-@media (max-width: 768px) {
-  .sidebar {
-    position: static;
-    height: auto;
-    box-shadow: none;
-    border-radius: 0;
-    width: auto;
-    padding: 8px;
-    flex-direction: column;
-    gap: 0;
-    overscroll-behavior: contain;
-    touch-action: pan-y;
-  }
-
-  .list-group {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .list-group-item {
-    padding: 10px;
-    width: 100%;
-    height: 44px;
-    justify-content: flex-start;
-  }
-
-  .nav-label {
-    display: none;
-  }
+  padding: 0;
+  margin: 0;
 }
 
 .list-group {
@@ -82,8 +44,6 @@
   color: #2179B5 !important;
 }
 
-
-
 .list-group-item:hover {
   background: rgb(241, 245, 249);
   transform: scale(1.08);
@@ -93,11 +53,80 @@
   background: rgba(30, 229, 254, 0.2);
 }
 
+/* ============================================================
+   BOTTOM NAV — móvil
+   Los estilos de posición los maneja app.css (.bottom-nav)
+   Aquí solo adaptamos la apariencia interna del nav
+   ============================================================ */
+:host-context(.bottom-nav) .sidebar {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 24px;
+  gap: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
 
+:host-context(.bottom-nav) .list-group {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+:host-context(.bottom-nav) .list-group-item {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: auto;
+  flex: 1;
+  height: 60px;
+  border-radius: 0;
+  padding: 8px 4px 4px;
+}
+
+:host-context(.bottom-nav) .list-group-item i {
+  font-size: 22px;
+  color: #6e6e73 !important;
+}
+
+:host-context(.bottom-nav) .list-group-item:hover i,
+:host-context(.bottom-nav) .list-group-item.active i {
+  color: #2179B5 !important;
+}
+
+:host-context(.bottom-nav) .nav-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #6e6e73;
+  margin-top: 0;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+:host-context(.bottom-nav) .list-group-item.active .nav-label {
+  color: #2179B5;
+}
+
+:host-context(.bottom-nav) .list-group-item:hover {
+  background: rgba(33, 121, 181, 0.06);
+  transform: none;
+}
+
+:host-context(.bottom-nav) .list-group-item.active {
+  background: rgba(33, 121, 181, 0.08);
+}
+
+/* Scrollbar oculto */
 .sidebar {
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
 
 .sidebar::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
