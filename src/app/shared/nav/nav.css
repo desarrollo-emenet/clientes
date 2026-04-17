@@ -45,12 +45,12 @@
 }
 
 .list-group-item:hover {
-  background: rgb(241, 245, 249);
+  background: rgba(222, 225, 229, 0.556);
   transform: scale(1.08);
 }
 
 .list-group-item.active {
-  background: rgba(30, 229, 254, 0.2);
+  background:rgba(222, 225, 229, 0.473)
 }
 
 /* ============================================================
