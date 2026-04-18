@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NgIf, NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { Subscription } from 'rxjs';
@@ -8,11 +8,12 @@ import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgIf, NgxSonnerToaster, NgClass],
+  imports: [RouterLink, NgIf, NgxSonnerToaster, NgClass, NgFor, CurrencyPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
+
   isLogin = false;
   username = 'Marcos'
   error = '';
@@ -24,10 +25,46 @@ export class Dashboard {
 
   constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router, private auth: LoginS) { }
 
+  getSaludo(): string {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      return 'Buenos días';
+
+    }
+    if (hour >= 12 && hour < 19) {
+      return 'Buenas tardes';
+    }
+    return 'Buenas noches';
+  }
+
+  calcularTotalMensual(servicios: any): number {
+    if (!servicios) return 0;
+    let total = 0;
+
+    if (servicios.internet && servicios.internet.precio) {
+      total += Number(servicios.internet.precio);
+    }
+
+    if (servicios.camaras && servicios.camaras.precio) {
+      const precio = Number(servicios.camaras.precio) || 0;
+      const noCamaras = Number(servicios.camaras.canServicios) || 0;
+      total += precio * noCamaras;
+    }
+
+    if (servicios.telefono) {
+      const precio = Number(servicios.telefono.precio) || 0;
+      const lineas = Number(servicios.telefono.canServicios) || 0;
+      total += precio * lineas;
+    }
+
+    return total;
+  }
+
   ngOnInit(): void {
     const sub = this.route.paramMap.subscribe(params => {
       const numero = params.get('numero_cliente');
       if (numero) {
+
         this.loadClientData(numero);
       } else {
         const userSub = this.clientS.getAuthenticatedUser().subscribe({

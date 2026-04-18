@@ -1,11 +1,51 @@
+<!--  HEADER  -->
+<header class="hero">
+    <div class="hero-carousel">
+        <div class="slide active" style="background-image:url('assets/img/dash/1.webp')"></div>
+        <div class="slide" style="background-image:url('assets/img/dash/2.webp')"></div>
+        <div class="slide" style="background-image:url('assets/img/dash/3.webp')"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content hero-reveal">
+        <span class="hero-eyebrow badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+          'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+          'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
+          }">Cliente - {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}</span>
+        <h5 class="hero-title">{{ getSaludo() }}</h5>
+        <p class="hero-subtitle">{{ data.cliente?.cliente?.nombre }}</p>
+        <p class="hero-subtitle">Cliente: {{ data.numero_cliente }}</p>
+    </div>
+</header>
+
 <div class="container-fluid">
   <div class="row g-0 min-vh-100">
-
-
     <main class="col-12 col-md-9 col-lg-12 px-3 px-lg-4 py-4 bg-light">
       <!--  *ngIf="data else cargando"-->
       <div *ngIf="data" class="mb-4">
+        <div class="mb-4">
+          <h4 class="mb-3">Estado de cuenta</h4>
+          <section class="summary-card">
+            <div class="summary-left">
+              <div class="sub">Tipo de servicio: {{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</div>
+              <div class="value">Velocidad: {{ data.cliente?.cliente?.planInternet || 0 }} <span class="unit">Mbps</span></div>
+              
+            </div>
 
+            <div class="summary-center">
+              <div class="value">Total mensual: {{ calcularTotalMensual(data.cliente?.servicios) | currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="value">Camaras: {{data.cliente?.servicios?.camaras?.canServicios|| 0}} servicio(s)</div>
+            </div>
+
+            <div class="summary-right" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+              <div class="balance">
+                <div class="balance-value">Saldo pendiente: {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
+              </div>
+              <div class="d-grid mt-2">
+                <button class="btn btn-secondary btn-sm w-100" *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0" routerLink="/formas-de-pago">Pagar ahora</button>
+              </div>
+            </div>
+          </section>
+        </div>
         <!-- Tarjeta principal -->
         <div class="card shadow-sm">
           <div class="card-header bg-white d-flex align-items-center justify-content-between">
@@ -61,7 +101,7 @@
             </div>
 
 
-            <!-- Acciones rápidas -->
+            <!-- Acciones rápidas-->
             <div class="card subcard shadow-sm">
               <div class="card-header bg-white">
                 <strong>Acciones rápidas</strong>
