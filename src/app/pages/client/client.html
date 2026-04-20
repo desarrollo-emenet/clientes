@@ -92,6 +92,37 @@
                                         </div>
                                     </div>
                                 </div>
+                                 <div class="col-12 col-md-6 col-lg-4"
+                                    *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+                                    <div class="card service-card h-100 border-0 rounded-4 bg-soft shadow-sm">
+                                        <div class="card-body d-flex gap-3 align-items-center">
+
+                                            <div class="w-100">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <div class="text-muted small">TV</div>
+                                                        <div class="kpi fs-5">{{ data.cliente?.servicios?.cuentasTv?.canServicios
+                                                            || 0
+                                                            }}
+                                                            servicio(s)</div>
+                                                    </div>
+
+                                                    <div class="text-end">
+                                                        <div class="service-meta">Precio</div>
+                                                        <div class="price">
+                                                          
+                                                            {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
+                                                            currency:'MXN':'symbol':'1.0-0' }}/mes
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2 small text-muted">Precio por cuenta</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
 

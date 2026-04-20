@@ -72,7 +72,7 @@ export class Client implements OnInit {
     
         const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
           next: res => {
-            //console.log(res);
+            console.log(res);
             this.data = res,
               this.loading = false;
           },
@@ -118,9 +118,19 @@ export class Client implements OnInit {
       const precio = Number(servicios.telefono.precio) || 0;
       const lineas = Number(servicios.telefono.canServicios) || 0;
       total += precio * lineas;
+  
+    }
+    if (servicios.cuentasTv) {
+      const precio = Number(servicios.cuentasTv.precio) || 0;
+      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
+      total += precio * canServicios;
+
     }
 
     return total;
+    //console.log('Total servicio:', servicios.cuentasTv.precio);
+    //console.log('Total mesualidad:', total);
+    //return 0;
   }
 
     get latestPayments() {

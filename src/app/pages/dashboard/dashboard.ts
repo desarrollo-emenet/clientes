@@ -56,8 +56,20 @@ export class Dashboard {
       const lineas = Number(servicios.telefono.canServicios) || 0;
       total += precio * lineas;
     }
+    if (servicios.cuentasTv) {
+      const precio = Number(servicios.cuentasTv.precio) || 0;
+      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
+      total += precio * canServicios;
+
+    }
 
     return total;
+  }
+
+  getMesPagoReciente(): string {
+    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    return estadoCuenta[estadoCuenta.length - 1].mensualidad;
+
   }
 
   ngOnInit(): void {

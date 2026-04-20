@@ -57,21 +57,21 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:scroll', ['$event'])
-  closeDropdownOnScroll(): void {
+  closeDropdownOnScroll(_event: Event): void {
     if (this.isDropdownOpen) {
       this.isDropdownOpen = false;
     }
   }
 
   @HostListener('window:wheel', ['$event'])
-  closeDropdownOnWheel(): void {
+  closeDropdownOnWheel(_event: WheelEvent): void {
     if (this.isDropdownOpen) {
       this.isDropdownOpen = false;
     }
   }
 
   @HostListener('window:touchmove', ['$event'])
-  closeDropdownOnTouchMove(): void {
+  closeDropdownOnTouchMove(_event: TouchEvent): void {
     if (this.isDropdownOpen) {
       this.isDropdownOpen = false;
     }

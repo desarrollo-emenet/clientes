@@ -12,66 +12,105 @@
           'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
           }">Cliente - {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}</span>
         <h5 class="hero-title">{{ getSaludo() }}</h5>
-        <p class="hero-subtitle">{{ data.cliente?.cliente?.nombre }}</p>
-        <p class="hero-subtitle">Cliente: {{ data.numero_cliente }}</p>
+        <p class="hero-subtitle hero-customer-name">{{ data.cliente?.cliente?.nombre }}</p>
+        <p class="hero-subtitle hero-customer-id"><strong>Cliente: {{ data.numero_cliente }}</strong></p>
     </div>
 </header>
 
 <div class="container-fluid">
   <div class="row g-0 min-vh-100">
-    <main class="col-12 col-md-9 col-lg-12 px-3 px-lg-4 py-4 bg-light">
+    <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
       <!--  *ngIf="data else cargando"-->
       <div *ngIf="data" class="mb-4">
-        <div class="mb-4">
-          <h4 class="mb-3">Estado de cuenta</h4>
-          <section class="summary-card">
-            <div class="summary-left">
-              <div class="sub">Tipo de servicio: {{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</div>
-              <div class="value">Velocidad: {{ data.cliente?.cliente?.planInternet || 0 }} <span class="unit">Mbps</span></div>
-              
-            </div>
-
-            <div class="summary-center">
-              <div class="value">Total mensual: {{ calcularTotalMensual(data.cliente?.servicios) | currency:'MXN':'symbol':'1.0-0' }}</div>
-              <div class="value">Camaras: {{data.cliente?.servicios?.camaras?.canServicios|| 0}} servicio(s)</div>
-            </div>
-
-            <div class="summary-right" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-              <div class="balance">
-                <div class="balance-value">Saldo pendiente: {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
-              </div>
-              <div class="d-grid mt-2">
-                <button class="btn btn-secondary btn-sm w-100" *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0" routerLink="/formas-de-pago">Pagar ahora</button>
-              </div>
-            </div>
-          </section>
-        </div>
-        <!-- Tarjeta principal -->
-        <div class="card shadow-sm">
-          <div class="card-header bg-white d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-
-              <div>
-                <p>Buenos días</p>
-                <h5 class="mb-0">{{ data.cliente?.cliente?.nombre }}</h5>
-                <small class="text-muted">Cliente: <strong>{{ data.numero_cliente }}</strong></small>
-                <br> <small class="text-muted">Servicio: </small> <small
-                  class="badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                    'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                    'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
-                    }">{{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }} </small>
-              </div>
-            </div>
-
-            <div class="text-end">
-              <img src="../../../assets/img/emenetLogo.png" alt="emenet" width="110" height="70">
+        <section class="analysis-panel mb-4">
+          <div class="analysis-panel__header">
+            <div class="analysis-panel__header-text">
+              <h4 class="analysis-panel__title">Panel de Servicios</h4>
+              <p class="analysis-panel__subtitle">Resumen general del cliente</p>
             </div>
           </div>
 
-          <div class="card-body d-flex flex-column gap-3">
+          <div class="analysis-panel__body">
+            <ul class="analysis-list">
+              <li class="analysis-item">
+                <span class="analysis-key">Tipo de servicio</span>
+                <span class="analysis-val">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
+              </li>
+              <li class="analysis-item">
+                <span class="analysis-key">Mes pagado</span>
+                <span class="analysis-val">{{ getMesPagoReciente() }}</span>
+              </li>
+              <li class="analysis-item">
+                <span class="analysis-key">Velocidad</span>
+                <span class="analysis-val">{{ data.cliente?.cliente?.planInternet || 0 }} Mbps</span>
+              </li>
+              <p></p>
 
-            <!-- Dirección & Contacto -->
-            <div class="card subcard shadow-sm">
+              <li class="analysis-item">
+                <span class="analysis-key">Costo plan</span>
+                <span class="analysis-val">{{ (data.cliente?.servicios?.internet?.precio || 0) |
+                                                            currency:'MXN':'symbol':'1.0-0' }}/mes</span>
+              </li>
+             
+              <!--*ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0"-->
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+                
+                <span class="analysis-key">Cámaras</span>
+                <span class="analysis-val">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</span>
+              </li>
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+                <span class="analysis-key">Costo camaras</span>
+                <span class="analysis-val">{{ (data.cliente?.servicios?.camaras?.precio || 0) |
+                                                            currency:'MXN':'symbol':'1.0-0' }}/mes</span>
+              </li>
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+                <span class="analysis-key">Telefonia</span>
+                <span class="analysis-val">{{ data.cliente?.servicios?.telefono?.canServicios
+                                                            || 0
+                                                            }}
+                                                            línea(s)</span>
+              </li>
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+                <span class="analysis-key">Costo linea</span>
+                <span class="analysis-val"> {{ (data.cliente?.servicios?.telefono?.precio || 0) |
+                                                            currency:'MXN':'symbol':'1.0-0' }}/mes</span>
+              </li>
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+                <span class="analysis-key">Television</span>
+                <span class="analysis-val">{{ data.cliente?.servicios?.cuentasTv?.canServicios
+                                                            || 0
+                                                            }}
+                                                            servicio(s)</span>
+              </li>
+              <li class="analysis-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+                <span class="analysis-key">Television</span>
+                <span class="analysis-val">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
+                                                            currency:'MXN':'symbol':'1.0-0' }}/mes</span>
+              </li>
+               <li class="analysis-item">
+                <span class="analysis-key">Total mensual</span>
+                <span class="analysis-val">{{ calcularTotalMensual(data.cliente.servicios) |
+                                        currency:'MXN':'symbol':'1.0-0' }}</span>
+              </li>
+              
+         
+              
+              <li class="analysis-item" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+                <span class="analysis-key">Saldo pendiente</span>
+                <span class="analysis-valadeudo">{{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.0-0' }}</span>
+              </li>
+              
+            
+            </ul>
+
+            <div class="d-grid mt-3" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+              <button class="btn btn-secondary btn-sm w-100" *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0" routerLink="/formas-de-pago">Pagar ahora</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dirección & Contacto -->
+           <!--<div class="card subcard shadow-sm">
               <div class="card-header bg-white">
                 <strong>Dirección & contacto</strong>
               </div>
@@ -98,25 +137,27 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
 
             <!-- Acciones rápidas-->
-            <div class="card subcard shadow-sm">
-              <div class="card-header bg-white">
-                <strong>Acciones rápidas</strong>
+            <section class="analysis-panel mb-4">
+              <div class="analysis-panel_acciones">
+                <div class="analysis-panel__header-text">
+                  <h4 class="analysis-panel__title">Acciones rápidas</h4>
+                  <p class="analysis-panel_acciones_subtitle">Atajos y soporte</p>
+                </div>
               </div>
-              <div class="card-body d-flex flex-column gap-2">
+
+              <div class="analysis-panel__body">
                 <div class="d-flex gap-2 flex-wrap">
                   <!--<button routerLink="/estado-cuenta" class="btn btn-outline-primary btn-sm">Ver estado de cuenta</button>-->
-                  <button class="btn btn-outline-primary btn-sm" (click)="goEstadoCuenta()">Ver vestado de
-                    cuenta</button>
+                  <button class="btn btn-outline-primary btn-sm" (click)="goEstadoCuenta()">Ver vestado de cuenta</button>
                   <button routerLink="/visitas" class="btn btn-outline-primary btn-sm">Ver visitas</button>
-                  <a href="https://emenet.mx/test-velocidad" target="_blank" class="btn btn-outline-dark btn-sm">Probar
-                    velocidad</a>
+                  <a href="https://emenet.mx/test-velocidad" target="_blank" class="btn btn-outline-dark btn-sm">Probar velocidad</a>
                 </div>
 
-                <div class="pt-2 border-top mt-2">
+                <div class="pt-2 border-top mt-3">
                   <div class="fw-semibold mb-1">Soporte emenet</div>
                   <div class="text-muted small">
                     <a class="btn btn-light" (click)="contactSupport()">
@@ -128,10 +169,8 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
-          </div>
-        </div>
       </div>
 
       <ng-template #cargando>
