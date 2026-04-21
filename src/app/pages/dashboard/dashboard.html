@@ -210,119 +210,149 @@
         </section>
 
       </div>
-      <section>
-        <div>
-          <h4>Detalles del cliente</h4>
-          <div>
-
-            <h5 class="hero-title">{{ getSaludo() }}</h5>
-            <p class="hero-subtitle hero-customer-name">{{ data.cliente?.cliente?.nombre }}</p>
-            <p class="hero-subtitle hero-customer-id"><strong>Cliente: {{ data.numero_cliente }}</strong></p>
-            <span class="hero-eyebrow badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+      <section class="analysis-panel analysis-panel--soft mb-4" *ngIf="data">
+        <div class="analysis-panel__header">
+          <div class="analysis-panel__header-text">
+            <h4 class="analysis-panel__title">{{ getSaludo() }}</h4>
+             <div class="client-panel__name">{{ data.cliente?.cliente?.nombre }}</div>
+              <div class="client-panel__sub">Clave {{ data.numero_cliente }}</div>
+              <span class="hero-eyebrow badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
           'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
           'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
           }">Cliente - {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}</span>
           </div>
-          <div class="card subcard shadow-sm">
-            <h4>Información de contacto</h4>
-            <div class="card-header bg-white">
-              <strong>Dirección & contacto</strong>
+
+      
+        </div>
+
+        <div class="analysis-panel__body">
+          <div class="client-panel__top">
+            <div class="client-panel__id-pill">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>{{ data.cliente?.cliente?.municipio || '—' }} {{ data.cliente?.cliente?.infoRed?.ip || '' }}</span>
             </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <div class="fw-semibold">Dirección</div>
-                <div class="text-muted">
-                  {{ data?.cliente?.cliente?.direccion }}<br>
-                  {{ data?.cliente?.cliente?.colonia }}, {{ data?.cliente?.cliente?.municipio }}, {{
-                  data.cliente?.cliente?.estado }}<br>
-                  {{ data?.cliente?.cliente?.pais }}
-                </div>
-              </div>
-
-              <div class="row gy-2">
-                <div class="col-12 col-md-6">
-                  <div class="fw-semibold">Correo</div>
-                  <div class="text-muted">{{ data.cliente?.cliente?.correo || '—' }}</div>
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <div class="fw-semibold">Teléfono</div>
-                  <div class="text-muted">{{ data.cliente?.cliente?.telefono || '—' }}</div>
-                </div>
-              </div>
+            <div class="client-panel__tools">
+              <button class="client-panel__icon-btn" type="button" disabled aria-label="Copiar">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+              <button class="client-panel__icon-btn" type="button" disabled aria-label="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </div>
 
-          <div>
-            <h4>Detalles del servicio</h4>
-            <p class="analysis-item">
-              <span class="analysis-key">Tipo de servicio</span>
-              <span class="analysis-val">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
-            </p>
-            <p class="analysis-item">
-              <span class="analysis-key">Mes pagado</span>
-              <span class="analysis-val">{{ getMesPagoReciente() }}</span>
-            </p>
+          <div class="client-panel__grid">
+            <div class="client-panel__left">
+              <div class="client-panel__name">{{ data.cliente?.cliente?.nombre }}</div>
+              <div class="client-panel__sub">Clave {{ data.numero_cliente }}</div>
 
-            <p class="analysis-item">
-              <span class="analysis-key">Velocidad</span>
-              <span class="analysis-val">{{ data.cliente?.cliente?.planInternet || 0 }} Mbps</span>
-            </p>
+              <div class="client-panel__stack">
+                <div class="client-panel__row">
+                  <div class="client-panel__row-icon" aria-hidden="true">
+                    <i class="fa-solid fa-phone"></i>
+                  </div>
+                  <div class="client-panel__row-body">
+                    <div class="client-panel__row-label">Teléfono</div>
+                    <div class="client-panel__row-value">{{ data.cliente?.cliente?.telefono || '—' }}</div>
+                  </div>
+                </div>
 
-            <p class="analysis-item">
-              <span class="analysis-key">Costo plan</span>
-              <span class="analysis-val">{{ (data.cliente?.servicios?.internet?.precio || 0) |
-                currency:'MXN':'symbol':'1.0-0' }}/mes</span>
-            </p>
+                <div class="client-panel__row">
+                  <div class="client-panel__row-icon" aria-hidden="true">
+                    <i class="fa-regular fa-envelope"></i>
+                  </div>
+                  <div class="client-panel__row-body">
+                    <div class="client-panel__row-label">Correo</div>
+                    <div class="client-panel__row-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
+                  </div>
+                </div>
 
-            <!--*ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0"-->
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+                <div class="client-panel__row">
+                  <div class="client-panel__row-icon" aria-hidden="true">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <div class="client-panel__row-body">
+                    <div class="client-panel__row-label">Dirección</div>
+                    <div class="client-panel__row-value">
+                      {{ data?.cliente?.cliente?.direccion || '—' }}
+                    </div>
+                    <div class="client-panel__row-muted" *ngIf="data?.cliente?.cliente?.colonia || data?.cliente?.cliente?.municipio || data?.cliente?.cliente?.estado || data?.cliente?.cliente?.pais">
+                      {{ data?.cliente?.cliente?.colonia }}, {{ data?.cliente?.cliente?.municipio }}, {{ data?.cliente?.cliente?.estado }}, {{ data?.cliente?.cliente?.pais }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <span class="analysis-key">Cámaras</span>
-              <span class="analysis-val">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</span>
-            </p>
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
-              <span class="analysis-key">Costo camaras</span>
-              <span class="analysis-val">{{ (data.cliente?.servicios?.camaras?.precio || 0) |
-                currency:'MXN':'symbol':'1.0-0' }}/mes</span>
-            </p>
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
-              <span class="analysis-key">Telefonia</span>
-              <span class="analysis-val">{{ data.cliente?.servicios?.telefono?.canServicios
-                || 0
-                }}
-                línea(s)</span>
-            </p>
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
-              <span class="analysis-key">Costo linea</span>
-              <span class="analysis-val"> {{ (data.cliente?.servicios?.telefono?.precio || 0) |
-                currency:'MXN':'symbol':'1.0-0' }}/mes</span>
-            </p>
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
-              <span class="analysis-key">Television</span>
-              <span class="analysis-val">{{ data.cliente?.servicios?.cuentasTv?.canServicios
-                || 0
-                }}
-                servicio(s)</span>
-            </p>
-            <p class="analysis-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
-              <span class="analysis-key">Television</span>
-              <span class="analysis-val">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
-                currency:'MXN':'symbol':'1.0-0' }}/mes</span>
-            </p>
-            <p class="analysis-item">
-              <span class="analysis-key">Total mensual</span>
-              <span class="analysis-val">{{ calcularTotalMensual(data.cliente.servicios) |
-                currency:'MXN':'symbol':'1.0-0' }}</span>
-            </p>
+            <div class="client-panel__right">
+              <div class="client-panel__tabs">
+                <button class="client-panel__tab client-panel__tab--active" type="button" disabled>Ubicación</button>
+                <button class="client-panel__tab" type="button" disabled>Servicios</button>
+              </div>
 
+              <div class="client-panel__cards">
+                <div class="client-panel__mini-grid">
+                  <div class="client-panel__mini">
+                    <div class="client-panel__mini-k">PAÍS / ESTADO</div>
+                    <div class="client-panel__mini-v">{{ data?.cliente?.cliente?.pais || '—' }}, {{ data?.cliente?.cliente?.estado || '—' }}</div>
+                  </div>
+                  <div class="client-panel__mini">
+                    <div class="client-panel__mini-k">MUNICIPIO / COLONIA</div>
+                    <div class="client-panel__mini-v">{{ data?.cliente?.cliente?.municipio || '—' }}, {{ data?.cliente?.cliente?.colonia || '—' }}</div>
+                  </div>
+                </div>
 
+                <div class="client-panel__mini">
+                  <div class="client-panel__mini-k">CALLE Y CÓDIGO POSTAL</div>
+                  <div class="client-panel__mini-v">
+                    {{ data?.cliente?.cliente?.direccion || '—' }}
+                    <span class="client-panel__mini-muted" *ngIf="data?.cliente?.cliente?.cp"> · CP: {{ data?.cliente?.cliente?.cp }}</span>
+                  </div>
+                </div>
 
-            <p class="analysis-item" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-              <span class="analysis-key">Saldo pendiente</span>
-              <span class="analysis-valadeudo">{{ (data.cliente?.cliente?.deuda ?? 0) |
-                currency:'MXN':'symbol':'1.0-0' }}</span>
-            </p>
+                <div class="client-panel__mini client-panel__mini--service">
+                  <div class="client-panel__mini-k">SERVICIOS</div>
+                  <div class="client-panel__service-list">
+                    <div class="client-panel__service-line">
+                      <span class="client-panel__service-label">Tipo</span>
+                      <span class="client-panel__service-value">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
+                    </div>
+                    <div class="client-panel__service-line">
+                      <span class="client-panel__service-label">Mes pagado</span>
+                      <span class="client-panel__service-value">{{ getMesPagoReciente() }}</span>
+                    </div>
+                    <div class="client-panel__service-line">
+                      <span class="client-panel__service-label">Plan</span>
+                      <span class="client-panel__service-value">{{ data.cliente?.cliente?.planInternet || 0 }} Mbps</span>
+                    </div>
+                    <div class="client-panel__service-line">
+                      <span class="client-panel__service-label">Costo</span>
+                      <span class="client-panel__service-value">{{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes</span>
+                    </div>
+                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+                      <span class="client-panel__service-label">Cámaras</span>
+                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }}</span>
+                    </div>
+                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+                      <span class="client-panel__service-label">Telefonía</span>
+                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.telefono?.canServicios || 0 }}</span>
+                    </div>
+                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+                      <span class="client-panel__service-label">TV</span>
+                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }}</span>
+                    </div>
+                    <div class="client-panel__service-line">
+                      <span class="client-panel__service-label">Total</span>
+                      <span class="client-panel__service-value">{{ calcularTotalMensual(data.cliente.servicios) | currency:'MXN':'symbol':'1.0-0' }}</span>
+                    </div>
+                    <div class="client-panel__service-line" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+                      <span class="client-panel__service-label">Saldo</span>
+                      <span class="client-panel__service-value client-panel__service-value--danger">{{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.0-0' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
