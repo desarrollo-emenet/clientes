@@ -210,152 +210,214 @@
         </section>
 
       </div>
-      <section class="analysis-panel analysis-panel--soft mb-4" *ngIf="data">
-        <div class="analysis-panel__header">
-          <div class="analysis-panel__header-text">
-            <h4 class="analysis-panel__title">{{ getSaludo() }}</h4>
-             <div class="client-panel__name">{{ data.cliente?.cliente?.nombre }}</div>
-              <div class="client-panel__sub">Clave {{ data.numero_cliente }}</div>
-              <span class="hero-eyebrow badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-          'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-          'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
-          }">Cliente - {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}</span>
+      <section class="client-details-section" *ngIf="data">
+        <h2 class="client-details-title">Detalles del Cliente</h2>
+        
+        <div class="client-card">
+          <div class="client-card-header">
+            <div class="client-avatar">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <div class="client-info">
+              <h3 class="client-name">{{ data.cliente?.cliente?.nombre }}</h3>
+              <div class="client-id-pill">
+                <i class="fa-regular fa-id-card"></i>
+                <span>Cliente #{{ data.numero_cliente }}</span>
+              </div>
+              <div class="client-badges">
+                <span class="badge badge-success" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'">Activo</span>
+                <span class="badge badge-danger" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'">Suspendido</span>
+                <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado">Cancelado</span>
+                <span class="badge badge-purple">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
+              </div>
+            </div>
           </div>
 
-      
+          <div class="client-actions">
+            <a class="action-item" routerLink="/formas-de-pago">
+              <div class="action-icon action-icon-blue">
+                <i class="fa-solid fa-dollar-sign"></i>
+              </div>
+              <span class="action-label">Pagos<br>realizados</span>
+            </a>
+            <button class="action-item" type="button" disabled>
+              <div class="action-icon action-icon-green">
+                <i class="fa-solid fa-user-pen"></i>
+              </div>
+              <span class="action-label">Personalizar<br>nombre</span>
+            </button>
+            <button class="action-item" type="button" disabled>
+              <div class="action-icon action-icon-purple">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <span class="action-label">Dirección</span>
+            </button>
+            <button class="action-item" type="button" disabled>
+              <div class="action-icon action-icon-red">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+              <span class="action-label">Eliminar chat</span>
+            </button>
+            <a class="action-item" [href]="'mailto:' + (data.cliente?.cliente?.correo || '')">
+              <div class="action-icon action-icon-orange">
+                <i class="fa-regular fa-envelope"></i>
+              </div>
+              <span class="action-label">Correo</span>
+            </a>
+          </div>
         </div>
 
-        <div class="analysis-panel__body">
-          <div class="client-panel__top">
-            <div class="client-panel__id-pill">
-              <i class="fa-solid fa-location-dot"></i>
-              <span>{{ data.cliente?.cliente?.municipio || '—' }} {{ data.cliente?.cliente?.infoRed?.ip || '' }}</span>
-            </div>
-            <div class="client-panel__tools">
-              <button class="client-panel__icon-btn" type="button" disabled aria-label="Copiar">
-                <i class="fa-regular fa-copy"></i>
-              </button>
-              <button class="client-panel__icon-btn" type="button" disabled aria-label="Cerrar">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
+        <div class="contact-section">
+          <div class="section-header-accent">
+            <div class="accent-bar"></div>
+            <h4>Información de Contacto</h4>
           </div>
 
-          <div class="client-panel__grid">
-            <div class="client-panel__left">
-              <div class="client-panel__name">{{ data.cliente?.cliente?.nombre }}</div>
-              <div class="client-panel__sub">Clave {{ data.numero_cliente }}</div>
-
-              <div class="client-panel__stack">
-                <div class="client-panel__row">
-                  <div class="client-panel__row-icon" aria-hidden="true">
-                    <i class="fa-solid fa-phone"></i>
-                  </div>
-                  <div class="client-panel__row-body">
-                    <div class="client-panel__row-label">Teléfono</div>
-                    <div class="client-panel__row-value">{{ data.cliente?.cliente?.telefono || '—' }}</div>
-                  </div>
-                </div>
-
-                <div class="client-panel__row">
-                  <div class="client-panel__row-icon" aria-hidden="true">
-                    <i class="fa-regular fa-envelope"></i>
-                  </div>
-                  <div class="client-panel__row-body">
-                    <div class="client-panel__row-label">Correo</div>
-                    <div class="client-panel__row-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
-                  </div>
-                </div>
-
-                <div class="client-panel__row">
-                  <div class="client-panel__row-icon" aria-hidden="true">
-                    <i class="fa-solid fa-location-dot"></i>
-                  </div>
-                  <div class="client-panel__row-body">
-                    <div class="client-panel__row-label">Dirección</div>
-                    <div class="client-panel__row-value">
-                      {{ data?.cliente?.cliente?.direccion || '—' }}
-                    </div>
-                    <div class="client-panel__row-muted" *ngIf="data?.cliente?.cliente?.colonia || data?.cliente?.cliente?.municipio || data?.cliente?.cliente?.estado || data?.cliente?.cliente?.pais">
-                      {{ data?.cliente?.cliente?.colonia }}, {{ data?.cliente?.cliente?.municipio }}, {{ data?.cliente?.cliente?.estado }}, {{ data?.cliente?.cliente?.pais }}
-                    </div>
-                  </div>
-                </div>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-blue">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Teléfono</div>
+                <div class="contact-value">{{ data.cliente?.cliente?.telefono || '—' }}</div>
+              </div>
+              <div class="contact-actions" *ngIf="data.cliente?.cliente?.telefono">
+                <a class="contact-btn contact-btn-green" [href]="'tel:' + data.cliente?.cliente?.telefono">
+                  <i class="fa-solid fa-phone"></i>
+                </a>
+                <a class="contact-btn contact-btn-whatsapp" [href]="'https://wa.me/52' + data.cliente?.cliente?.telefono" target="_blank">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </a>
               </div>
             </div>
 
-            <div class="client-panel__right">
-              <div class="client-panel__tabs">
-                <button class="client-panel__tab client-panel__tab--active" type="button" disabled>Ubicación</button>
-                <button class="client-panel__tab" type="button" disabled>Servicios</button>
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-orange">
+                <i class="fa-regular fa-envelope"></i>
               </div>
+              <div class="contact-content">
+                <div class="contact-label">Correo Electrónico</div>
+                <div class="contact-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
+              </div>
+              <div class="contact-actions" *ngIf="data.cliente?.cliente?.correo">
+                <a class="contact-btn contact-btn-orange" [href]="'mailto:' + data.cliente?.cliente?.correo">
+                  <i class="fa-regular fa-envelope"></i>
+                </a>
+              </div>
+            </div>
 
-              <div class="client-panel__cards">
-                <div class="client-panel__mini-grid">
-                  <div class="client-panel__mini">
-                    <div class="client-panel__mini-k">PAÍS / ESTADO</div>
-                    <div class="client-panel__mini-v">{{ data?.cliente?.cliente?.pais || '—' }}, {{ data?.cliente?.cliente?.estado || '—' }}</div>
-                  </div>
-                  <div class="client-panel__mini">
-                    <div class="client-panel__mini-k">MUNICIPIO / COLONIA</div>
-                    <div class="client-panel__mini-v">{{ data?.cliente?.cliente?.municipio || '—' }}, {{ data?.cliente?.cliente?.colonia || '—' }}</div>
-                  </div>
-                </div>
-
-                <div class="client-panel__mini">
-                  <div class="client-panel__mini-k">CALLE Y CÓDIGO POSTAL</div>
-                  <div class="client-panel__mini-v">
-                    {{ data?.cliente?.cliente?.direccion || '—' }}
-                    <span class="client-panel__mini-muted" *ngIf="data?.cliente?.cliente?.cp"> · CP: {{ data?.cliente?.cliente?.cp }}</span>
-                  </div>
-                </div>
-
-                <div class="client-panel__mini client-panel__mini--service">
-                  <div class="client-panel__mini-k">SERVICIOS</div>
-                  <div class="client-panel__service-list">
-                    <div class="client-panel__service-line">
-                      <span class="client-panel__service-label">Tipo</span>
-                      <span class="client-panel__service-value">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
-                    </div>
-                    <div class="client-panel__service-line">
-                      <span class="client-panel__service-label">Mes pagado</span>
-                      <span class="client-panel__service-value">{{ getMesPagoReciente() }}</span>
-                    </div>
-                    <div class="client-panel__service-line">
-                      <span class="client-panel__service-label">Plan</span>
-                      <span class="client-panel__service-value">{{ data.cliente?.cliente?.planInternet || 0 }} Mbps</span>
-                    </div>
-                    <div class="client-panel__service-line">
-                      <span class="client-panel__service-label">Costo</span>
-                      <span class="client-panel__service-value">{{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes</span>
-                    </div>
-                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
-                      <span class="client-panel__service-label">Cámaras</span>
-                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }}</span>
-                    </div>
-                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
-                      <span class="client-panel__service-label">Telefonía</span>
-                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.telefono?.canServicios || 0 }}</span>
-                    </div>
-                    <div class="client-panel__service-line" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
-                      <span class="client-panel__service-label">TV</span>
-                      <span class="client-panel__service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }}</span>
-                    </div>
-                    <div class="client-panel__service-line">
-                      <span class="client-panel__service-label">Total</span>
-                      <span class="client-panel__service-value">{{ calcularTotalMensual(data.cliente.servicios) | currency:'MXN':'symbol':'1.0-0' }}</span>
-                    </div>
-                    <div class="client-panel__service-line" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-                      <span class="client-panel__service-label">Saldo</span>
-                      <span class="client-panel__service-value client-panel__service-value--danger">{{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.0-0' }}</span>
-                    </div>
-                  </div>
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-purple">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Dirección</div>
+                <div class="contact-value">
+                  {{ data?.cliente?.cliente?.direccion }}
+                  <span *ngIf="data?.cliente?.cliente?.colonia">, {{ data?.cliente?.cliente?.colonia }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.municipio">, {{ data?.cliente?.cliente?.municipio }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.estado">, {{ data?.cliente?.cliente?.estado }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.pais">, {{ data?.cliente?.cliente?.pais }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- Detalles del Servicio -->
+      <div class="service-details-section" *ngIf="data">
+        <div class="section-header-accent">
+          <div class="accent-bar"></div>
+          <h4>Detalles del Servicio</h4>
+        </div>
+
+        <div class="service-list">
+          <!-- Internet -->
+          <div class="service-item">
+            <div class="service-icon service-icon-blue">
+              <i class="fa-solid fa-wifi"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Internet</div>
+              <div class="service-value">{{ data.cliente?.cliente?.planInternet || 0 }} Megas Fibra</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+            </div>
+          </div>
+
+          <!-- Estado de Cuenta -->
+          <div class="service-item">
+            <div class="service-icon service-icon-blue-light">
+              <i class="fa-regular fa-file-lines"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Estado de Cuenta</div>
+              <div class="service-value">{{ data.cliente?.pagos?.length || 0 }} registros</div>
+              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} {{ (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
+            </div>
+          </div>
+
+          <!-- Router -->
+          <div class="service-item">
+            <div class="service-icon service-icon-green">
+              <i class="fa-solid fa-server"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Router</div>
+              <div class="service-value">{{ data.cliente?.cliente?.infoRed?.nombreNodo || '—' }} {{ data.cliente?.cliente?.infoRed?.ip || '' }}</div>
+            </div>
+          </div>
+
+          <!-- Dirección IP -->
+          <div class="service-item">
+            <div class="service-icon service-icon-purple">
+              <i class="fa-solid fa-link"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Dirección IP</div>
+              <div class="service-value service-value-mono">{{ data.cliente?.cliente?.infoRed?.ip || '—' }}</div>
+            </div>
+            <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.cliente?.cliente?.infoRed?.ip)" *ngIf="data.cliente?.cliente?.infoRed?.ip">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+
+          <!-- Estado de la Conexión -->
+          <div class="service-item">
+            <div class="service-icon service-icon-orange">
+              <i class="fa-solid fa-signal"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Estado de la Conexión</div>
+              <div class="service-value">
+                <span class="status-badge" [ngClass]="{
+                  'status-active': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+                  'status-inactive': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+                  'status-cancelled': !data.cliente?.cliente?.infoRed?.estado
+                }">
+                  <span class="status-dot"></span>
+                  {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Número de Cliente -->
+          <div class="service-item">
+            <div class="service-icon service-icon-gray">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Número de Cliente</div>
+              <div class="service-value service-value-mono">{{ data.numero_cliente || '—' }}</div>
+            </div>
+            <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.numero_cliente)" *ngIf="data.numero_cliente">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <ng-template #cargando>
         <div

@@ -163,5 +163,14 @@ export class Dashboard {
     window.open('https://emenet.mx/planes', '_blank');
   }
 
+  copiarAlPortapapeles(texto: string): void {
+    if (!texto) return;
+    navigator.clipboard.writeText(texto).then(() => {
+      toast.success('Copiado al portapapeles');
+    }).catch(() => {
+      toast.error('No se pudo copiar');
+    });
+  }
 
-} 
+
+}
