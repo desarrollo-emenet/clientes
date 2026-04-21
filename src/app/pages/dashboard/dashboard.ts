@@ -17,7 +17,7 @@ export class Dashboard {
   isLogin = false;
   username = 'Marcos'
   error = '';
-  mostrarMensaje = false 
+  mostrarMensaje = false
 
   data: any = null;
   loading = false;
@@ -116,7 +116,7 @@ export class Dashboard {
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
         } //else if ( estado === 'Suspendido') {
-          //this.mostrarMensaje = true;
+        //this.mostrarMensaje = true;
         //}
 
       },
@@ -141,14 +141,18 @@ export class Dashboard {
   }
 
   contactSupport() {
-    const phone = '7121748293';
+    const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 
 
   goEstadoCuenta() {
-    this.auth.goNavigate('/estadoCuenta')
+    this.auth.goNavigate('/estadoCuenta');
+  }
+
+  navigateTo(ruta: string) {
+    this.router.navigateByUrl(ruta);
   }
 
   cerrarModal() {
