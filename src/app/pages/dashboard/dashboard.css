@@ -379,6 +379,7 @@
 .eye-l,
 .eye-r {
   transform-origin: center;
+  transform-box: fill-box;
 }
 
 /* Parpadeo de ojos */
