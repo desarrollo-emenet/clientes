@@ -1,0 +1,581 @@
+<main class="page">
+    <div class="holder">
+
+        <!-- NAVEGACIÓN -->
+        <nav class="page-nav">
+            <button class="nav-btn" [ngClass]="{ active: activeSection === 'ayuda' }" (click)="showSection('ayuda')">
+                Ayuda
+            </button>
+            <button class="nav-btn" [ngClass]="{ active: activeSection === 'faq' }" (click)="showSection('faq')">
+                Preguntas frecuentes
+            </button>
+        </nav>
+
+        <!-- AYUDA -->
+        <div id="ayuda" class="section" [ngClass]="{ active: activeSection === 'ayuda' }">
+            <h1 class="page-heading">Falla del servicio de internet</h1>
+            <p class="page-sub">Sigue estos pasos para identificar y resolver problemas con tu conexión.</p>
+
+            <!-- 1 -->
+            <details class="help-block">
+                <summary class="help-summary">
+                    <span class="help-label">1. Inspección visual</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+                    <ol class="step-list">
+                        <li>Revisa visualmente la fibra o cable (que no esté doblado o dañado).</li>
+                        <li>No desconectes la fibra óptica.</li>
+                        <li>Verifica que el equipo esté conectado y encendido.</li>
+                        <li>Revisa los LEDs: deben estar en verde (POWER, PON, WLAN).</li>
+                        <li>Si ves alguna luz roja, puede indicar falla.</li>
+                        <li>Confirma en tu celular que aparezcan las redes WiFi (2.4G y 5G).</li>
+                    </ol>
+                </div>
+            </details>
+
+            <!-- 2 -->
+            <details class="help-block">
+                <summary class="help-summary">
+                    <span class="help-label">2. Luz roja en el equipo</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+                    <div class="alert-card">
+                        <span class="alert-dot"></span>
+                        Indica un problema en la fibra óptica. Comunícate con soporte técnico para atención inmediata.
+                    </div>
+                </div>
+            </details>
+
+            <!-- 3 -->
+            <details class="help-block">
+                <summary class="help-summary">
+                    <span class="help-label">3. Tengo WiFi pero no hay internet</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+                    <ol class="step-list">
+                        <li>Reinicia el equipo (desconéctalo 1 minuto).</li>
+                        <li>Intenta conectarte desde otro dispositivo.</li>
+                        <li>Olvida la red WiFi y vuelve a conectarte.</li>
+                        <li>Prueba con cable Ethernet si es posible.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <!-- 4 -->
+            <details class="help-block">
+                <summary class="help-summary">
+                    <span class="help-label">4. Internet lento</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+                    <ol class="step-list">
+                        <li>Verifica que no haya más de 8 dispositivos conectados.</li>
+                        <li>Acércate al módem (el alcance es limitado).</li>
+                        <li>Desconecta otros equipos y prueba por cable Ethernet.</li>
+                        <li>Coloca el ONT en un lugar abierto y sin humedad.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <!-- 5 -->
+            <details class="help-block">
+                <summary class="help-summary">
+                    <span class="help-label">5. No aparecen las redes WiFi</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+                    <ol class="step-list">
+                        <li>Revisa el LED WLAN (o 2.4G/5G); debe estar en verde.</li>
+                        <li>Verifica desde otro dispositivo si detecta la red.</li>
+                        <li>Si el LED WLAN está apagado, presiona el botón WLAN por 10 segundos hasta que encienda.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <!-- ONT -->
+            <details class="help-block" style="margin-top: 24px;">
+                <summary class="help-summary">
+                    <span class="help-label">Referencia del equipo ONT — puertos y botones</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+
+                    <div class="ont-views">
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'puertos' }"
+                            (click)="showView('puertos')">Puertos y botones</button>
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'power' }"
+                            (click)="showView('power')">LED Power</button>
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'ponlos' }"
+                            (click)="showView('ponlos')">LED PON/LOS</button>
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'lan' }"
+                            (click)="showView('lan')">LED LAN1/LAN2</button>
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'wlanwps' }"
+                            (click)="showView('wlanwps')">LED WLAN y WPS</button>
+                    </div>
+
+                    <!--  -->
+                    <div id="v-puertos" class="view-panel active">
+                        <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }"> ... </div>
+                        <div class="view-panel" [ngClass]="{ active: activeView === 'power' }"> ... </div>
+                        <div class="view-panel" [ngClass]="{ active: activeView === 'ponlos' }"> ... </div>
+                        <div class="view-panel" [ngClass]="{ active: activeView === 'lan' }"> ... </div>
+                        <div class="view-panel" [ngClass]="{ active: activeView === 'wlanwps' }"> ... </div>
+
+
+                        <div class="ont-img-placeholder">
+                            <img src="" alt="">
+                        </div>
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Ítem</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="num">1</td>
+                                    <td>On/Off</td>
+                                    <td>Botón de encendido y apagado de la ONT</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">2</td>
+                                    <td>Power</td>
+                                    <td>Entrada de fuente de alimentación</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">3</td>
+                                    <td>LAN1 / LAN2</td>
+                                    <td>Puertos LAN para cables de red RJ45</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">4</td>
+                                    <td>WPS</td>
+                                    <td>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin
+                                        requerir contraseña</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">5</td>
+                                    <td>WLAN</td>
+                                    <td>Activa o desactiva las redes inalámbricas WLAN</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">6</td>
+                                    <td>Reset</td>
+                                    <td>Presionar más de 10s para reiniciar de fábrica el equipo</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">7</td>
+                                    <td>Puerto óptico</td>
+                                    <td>Puerto para conector de fibra óptica SC/APC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="v-power" class="view-panel">
+                        <img src="" alt="">
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>La ONT está encendida</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>No tiene corriente eléctrica</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="v-ponlos" class="view-panel">
+                        <img src="" alt="">
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagados</span></td>
+                                    <td>La ONT está bloqueada. Contactar a soporte técnico</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span> / <span
+                                            class="badge badge-red">Rojo</span></td>
+                                    <td>La ONT está bloqueada. Contactar a soporte técnico</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span> / <span
+                                            class="badge badge-off">Apagado</span></td>
+                                    <td>Conexión establecida con el proveedor</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-red">Rojo</span> / <span
+                                            class="badge badge-off">Apagado</span></td>
+                                    <td>No hay conexión con la fibra óptica</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="v-lan" class="view-panel">
+                        <img src="" alt="">
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>La conexión Ethernet está en estado normal</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
+                                    <td>Se está transmitiendo información por los puertos Ethernet</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>No está configurada la conexión Ethernet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="v-wlanwps" class="view-panel">
+                        <img src="" alt="">
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>Indicador</th>
+                                    <th>Estado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>WLAN</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>La función WLAN está activada</td>
+                                </tr>
+                                <tr>
+                                    <td>WLAN</td>
+                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
+                                    <td>Se está transmitiendo información por las WLAN</td>
+                                </tr>
+                                <tr>
+                                    <td>WLAN</td>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>La función WLAN está desactivada</td>
+                                </tr>
+                                <tr>
+                                    <td>WPS</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>La función WPS está activada</td>
+                                </tr>
+                                <tr>
+                                    <td>WPS</td>
+                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
+                                    <td>Un equipo WiFi está accediendo al sistema</td>
+                                </tr>
+                                <tr>
+                                    <td>WPS</td>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>La función WPS está desactivada</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </details>
+        </div><!-- /ayuda -->
+
+
+
+        <!-- SECCIÓN FAQ -->
+        <div id="faq" class="section" [ngClass]="{ active: activeSection === 'faq' }">
+            <h1 class="page-heading">Preguntas frecuentes</h1>
+            <p class="page-sub">Encuentra respuestas a las dudas más comunes sobre nuestros servicios.</p>
+
+
+            <details class="faq-section">
+                <summary class="section-summary">
+                    <span class="section-label">Servicio de Internet</span>
+                    <span class="section-chevron">▼</span>
+                </summary>
+                <div class="questions-list">
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Qué interfiere en mi red WiFi?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Obstáculos físicos como paredes y pisos reducen la señal.<br>
+                            La distancia también influye: mientras más lejos estés, menor será la intensidad.<br>
+                            Otras redes o dispositivos pueden saturar el canal WiFi.
+                        </div>
+                        <div class="faq-content">
+                            <strong>Recomendaciones:</strong><br>
+                            <ul>
+                                <li>Coloca el módem en un lugar central de tu hogar.</li>
+                                <li>Evita colocar el módem en espacios cerrados como closets o debajo de muebles.</li>
+                                <li>Mantén al menos 1 metro de distancia entre el módem y otros dispositivos.</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cómo puedo expandir mi señal WiFi?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Se recomienda usar un Access Point conectado por cable Ethernet para mayor estabilidad y
+                            mejor
+                            rendimiento.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cómo valido que mi velocidad sea correcta?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            <ul>
+                                <li>Cierra aplicaciones que usen internet</li>
+                                <li>Desconecta otros dispositivos</li>
+                                <li>Usa cable Ethernet o red 5 GHz cerca del módem</li>
+                                <li>Realiza la prueba en: <a href="https://emenet.mx/test-velocidad"></a></li>
+                            </ul>
+                        </div>
+                        <div class="faq-content">
+                            <strong>Resultado esperado:</strong> Puede haber una variación de ±15% del plan contratado.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cuál es la diferencia entre 2.4 GHz y 5 GHz?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            <strong>2.4 GHz:</strong> Mayor alcance, menor velocidad.<br>
+                            <strong>5 GHz:</strong> Mayor velocidad, menor alcance.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cómo cambio mi contraseña WiFi?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Si el equipo lo permite, el cambio se realiza de forma remota. En caso contrario, se agenda
+                            una
+                            visita técnica.
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+
+            <details class="faq-section">
+                <summary class="section-summary">
+                    <span class="section-label">Soporte Técnico</span>
+                    <span class="section-chevron">▼</span>
+                </summary>
+                <div class="questions-list">
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cómo puedo contactar a soporte?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Tel: <a href="tel:7131334557">713 133 4557</a><br>
+                            WhatsApp: <a href="https://wa.me/527291792524" target="_blank">729 179 2524</a><br>
+                            Zona Ixtlahuaca/Jiquipilco/Temoaya: <a href="https://wa.me/7133473674">713 347 3674</a><br>
+                            Correo: <a href="mailto:clientes@emenet.mx">clientes@emenet.mx</a>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>Horarios de atención</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Lunes a viernes: 9:00 am – 6:00 pm<br>
+                            Sábado: 9:00 am – 3:00 pm<br>
+                            Domingo: Cerrado<br>
+                            Chat Bot disponible 24/7
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cuánto tarda una visita técnica?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            De 1 a 48 horas dependiendo de la zona y disponibilidad.
+                        </div>
+                    </details>
+
+                </div>
+            </details>
+
+            <details class="faq-section">
+                <summary class="section-summary">
+                    <span class="section-label">Cancelación y Cambios</span>
+                    <span class="section-chevron">▼</span>
+                </summary>
+                <div class="questions-list">
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Puedo cancelar el servicio?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Sí, siempre que no tengas adeudos. Es necesario devolver los equipos.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Qué pasa si cambio de domicilio?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Puedes solicitar el cambio. Si hay cobertura, se realiza la instalación con costo adicional.
+                        </div>
+                    </details>
+
+                </div>
+            </details>
+
+            <details class="faq-section">
+                <summary class="section-summary">
+                    <span class="section-label">Pagos</span>
+                    <span class="section-chevron">▼</span>
+                </summary>
+                <div class="questions-list">
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Hay cargos adicionales?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Sí, pueden aplicar en casos como daños, reparaciones o cambio de domicilio.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Qué pasa si no pago a tiempo?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            La fecha de pago es del 1 al 5. Después de eso, el servicio se suspende, pero puedes pagar y
+                            se
+                            reconecta sin costo.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>¿Cuánto tarda la reconexión?</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Entre 1 y 5 horas después del pago.
+                        </div>
+                    </details>
+
+                </div>
+            </details>
+
+            <details class="faq-section">
+                <summary class="section-summary">
+                    <span class="section-label">Como pagar</span>
+                    <span class="section-chevron">▼</span>
+                </summary>
+                <div class="questions-list">
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>Pago en línea</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Ingresa a <a href="https://emenet.mx/pagar-servicio" target="_blank">pagar servicio</a><br>
+                            Introduce tu número de cliente y realiza el pago.<br>
+                            Activación en máximo 1 hora.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>Depósito en HSBC</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV<br>
+                            Cuenta: 4062409131<br>
+                            Envía tu comprobante después de pagar.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>Transferencia bancaria</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            Banco: HSBC<br>
+                            CLABE: 021453040624091311<br>
+                            Incluye el nombre del titular como referencia.<br>
+                            Comparte tu comprobante.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="q-summary">
+                            <span>Pago en tiendas</span>
+                            <span class="q-icon">+</span>
+                        </summary>
+                        <div class="faq-content">
+                            OXXO, Farmacia del Ahorro y Financiera del Bienestar<br>
+                            Cuenta: 4741764001982278<br>
+                            Envía tu comprobante después de pagar.
+                        </div>
+                    </details>
+
+                </div>
+            </details>
+
+        </div>
+
+    </div>
+</main>
