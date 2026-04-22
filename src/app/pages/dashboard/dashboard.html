@@ -1,23 +1,4 @@
-<!--  HEADER  -->
-<header class="hero">
-  <div class="hero-carousel">
-    <div class="slide active" style="background-image:url('assets/img/dash/1.webp')"></div>
-    <div class="slide" style="background-image:url('assets/img/dash/2.webp')"></div>
-    <div class="slide" style="background-image:url('assets/img/dash/3.webp')"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content hero-reveal">
-    <span class="hero-eyebrow badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-          'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-          'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
-          }">Cliente - {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}</span>
-    <h5 class="hero-title">{{ getSaludo() }}</h5>
-    <p class="hero-subtitle hero-customer-name">{{ data.cliente?.cliente?.nombre }}</p>
-    <p class="hero-subtitle hero-customer-id"><strong>Cliente: {{ data.numero_cliente }}</strong></p>
-  </div>
-</header>
-
-<div class="container-fluid">
+<div class="container-fluid mt-4">
   <div class="row g-0 min-vh-100">
     <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
       <!--  *ngIf="data else cargando"-->
@@ -219,6 +200,7 @@
               <i class="fa-regular fa-user"></i>
             </div>
             <div class="client-info">
+              <h4 class="client-greeting">{{ getSaludo() }}</h4>
               <h3 class="client-name">{{ data.cliente?.cliente?.nombre }}</h3>
               <div class="client-id-pill">
                 <i class="fa-regular fa-id-card"></i>
@@ -353,19 +335,47 @@
             </div>
             <div class="service-content">
               <div class="service-label">Estado de Cuenta</div>
-              <div class="service-value">{{ data.cliente?.pagos?.length || 0 }} registros</div>
-              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} {{ (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="service-value">{{ calcularTotalMensual(data.cliente.servicios) |
+                  currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} Pendiente: {{ (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
             </div>
           </div>
 
-          <!-- Router -->
-          <div class="service-item">
-            <div class="service-icon service-icon-green">
-              <i class="fa-solid fa-server"></i>
+          <!-- Telefonía -->
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+            <div class="service-icon service-icon-purple">
+              <i class="fa-solid fa-tty"></i>
             </div>
             <div class="service-content">
-              <div class="service-label">Router</div>
-              <div class="service-value">{{ data.cliente?.cliente?.infoRed?.nombreNodo || '—' }} {{ data.cliente?.cliente?.infoRed?.ip || '' }}</div>
+              <div class="service-label">Telefonía</div>
+              <div class="service-value">{{ data.cliente?.servicios?.telefono?.canServicios
+                  || 0
+                  }}
+                  línea(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+            </div>
+          </div>
+            <!-- Camaras -->
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+            <div class="service-icon service-icon-green">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Camaras</div>
+              <div class="service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+            </div>
+          </div>
+               <!-- Televisión -->
+          <div class="service-item" >
+            <div class="service-icon service-icon-orange">
+              <i class="fa-solid fa-tv"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">TV</div>
+              <div class="service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
+                  currency:'MXN':'symbol':'1.0-0' }}/mes</div>
             </div>
           </div>
 
