@@ -138,5 +138,18 @@ export class Client implements OnInit {
     return list.slice(0, 5);
   }
 
+  getMesPagoReciente(): string {
+    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    if (!estadoCuenta || estadoCuenta.length === 0) {
+      return 'Sin pagos registrados';
+    }
+    return estadoCuenta[estadoCuenta.length - 1].mensualidad;
+  }
+
+  contactSupport() {
+    const phone = '7133475658';
+    const text = encodeURIComponent('Hola, necesito ayuda.');
+    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+  }
 
 }
