@@ -130,7 +130,6 @@
             <h4 class="acciones-header__title">Acciones rápidas</h4>
             <p class="acciones-header__subtitle">Atajos y soporte</p>
           </div>
-
           <div class="acciones-body">
             <div class="acciones-grid">
 
@@ -183,8 +182,6 @@
                 </span>
                 <span class="accion-card__label">emenet.mx</span>
               </a>
-
-
             </div>
           </div>
 
@@ -216,35 +213,50 @@
           </div>
 
           <div class="client-actions">
-            <a class="action-item" routerLink="/formas-de-pago">
+            <button class="action-item" routerLink="/formas-de-pago">
               <div class="action-icon action-icon-blue">
-                <i class="fa-solid fa-dollar-sign"></i>
+                <i class="fa-solid fa-credit-card"></i>
               </div>
-              <span class="action-label">Pagos<br>realizados</span>
-            </a>
-            <button class="action-item" type="button" disabled>
-              <div class="action-icon action-icon-green">
-                <i class="fa-solid fa-user-pen"></i>
-              </div>
-              <span class="action-label">Personalizar<br>nombre</span>
+              <span class="action-label">Formas de<br>pago</span>
             </button>
-            <button class="action-item" type="button" disabled>
+            <button class="action-item" [routerLink]="['/notificaciones', data?.numero_cliente]">
+              <div class=" action-icon action-icon-red">
+                <i class="fa-regular fa-bell"></i>
+              </div>
+              <span class="action-label">Notificaciones</span>
+            </button>
+            <a class="action-item" href="https://emenet.mx/test-velocidad" target="_blank">
               <div class="action-icon action-icon-purple">
-                <i class="fa-solid fa-location-dot"></i>
+                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="speedtest-icon"
+                  fill="currentColor">
+                  <title>Speedtest</title>
+                  <path
+                    d="M11.628 16.186l-2.047-2.14 6.791-5.953 1.21 1.302zm8.837 6.047c2.14-2.14 3.535-5.117 3.535-8.466 0-6.604-5.395-12-12-12s-12 5.396-12 12c0 3.35 1.302 6.326 3.535 8.466l1.674-1.675c-1.767-1.767-2.79-4.093-2.79-6.79A9.568 9.568 0 0 1 12 4.185a9.568 9.568 0 0 1 9.581 9.581c0 2.605-1.116 5.024-2.79 6.791Z" />
+                </svg>
               </div>
-              <span class="action-label">Dirección</span>
-            </button>
-            <button class="action-item" type="button" disabled>
-              <div class="action-icon action-icon-red">
-                <i class="fa-solid fa-xmark"></i>
+              <span class="action-label">Probar<br>velocidad</span>
+            </a>
+            <button class="action-item" type="button" (click)="contactSupport()">
+              <div class="action-icon action-icon-green">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
+                  <g>
+                    <path d="M12 6V2H8" />
+                    <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z" />
+                    <path d="M2 12h2" />
+                    <path d="M9 11v2" class="eye-l" />
+                    <path d="M15 11v2" class="eye-r" />
+                    <path d="M20 12h2" />
+                  </g>
+                </svg>
               </div>
-              <span class="action-label">Eliminar chat</span>
+              <span class="action-label">Hablar con<br>Embot</span>
             </button>
-            <a class="action-item" [href]="'mailto:' + (data.cliente?.cliente?.correo || '')">
+            <a class="action-item" href="https://emenet.mx" target="_blank">
               <div class="action-icon action-icon-orange">
-                <i class="fa-regular fa-envelope"></i>
+                <i class="fa-solid fa-globe"></i>
               </div>
-              <span class="action-label">Correo</span>
+              <span class="action-label">emenet.mx</span>
             </a>
           </div>
         </div>
@@ -367,30 +379,16 @@
             </div>
           </div>
                <!-- Televisión -->
-          <div class="service-item" >
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
             <div class="service-icon service-icon-orange">
               <i class="fa-solid fa-tv"></i>
             </div>
-            <div class="service-content">
+            <div class="service-content" >
               <div class="service-label">TV</div>
               <div class="service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio(s)</div>
               <div class="service-sub">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
                   currency:'MXN':'symbol':'1.0-0' }}/mes</div>
             </div>
-          </div>
-
-          <!-- Dirección IP -->
-          <div class="service-item">
-            <div class="service-icon service-icon-purple">
-              <i class="fa-solid fa-link"></i>
-            </div>
-            <div class="service-content">
-              <div class="service-label">Dirección IP</div>
-              <div class="service-value service-value-mono">{{ data.cliente?.cliente?.infoRed?.ip || '—' }}</div>
-            </div>
-            <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.cliente?.cliente?.infoRed?.ip)" *ngIf="data.cliente?.cliente?.infoRed?.ip">
-              <i class="fa-regular fa-copy"></i>
-            </button>
           </div>
 
           <!-- Estado de la Conexión -->
@@ -399,7 +397,7 @@
               <i class="fa-solid fa-signal"></i>
             </div>
             <div class="service-content">
-              <div class="service-label">Estado de la Conexión</div>
+              <div class="service-label">Servicio</div>
               <div class="service-value">
                 <span class="status-badge" [ngClass]="{
                   'status-active': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',

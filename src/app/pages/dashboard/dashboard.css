@@ -920,6 +920,16 @@
   cursor: not-allowed;
 }
 
+.action-item:hover .eye-l,
+.action-item:hover .eye-r {
+  animation: embot-blink 0.8s ease-in-out infinite;
+}
+
+.action-item:hover .embot-icon {
+  animation: embot-wiggle 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform-origin: bottom left;
+}
+
 .action-icon {
   width: 48px;
   height: 48px;
