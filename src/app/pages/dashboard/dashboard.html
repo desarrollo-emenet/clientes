@@ -169,7 +169,7 @@
                   || 0
                   }}
                   línea(s)</div>
-              <div class="service-sub">{{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes por línea</div>
             </div>
           </div>
             <!-- Camaras -->
@@ -178,9 +178,9 @@
               <i class="fa-solid fa-camera"></i>
             </div>
             <div class="service-content">
-              <div class="service-label">Camaras</div>
+              <div class="service-label">Cámaras</div>
               <div class="service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</div>
-              <div class="service-sub">{{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes por cámara</div>
             </div>
           </div>
                <!-- Televisión -->
@@ -192,7 +192,7 @@
               <div class="service-label">TV</div>
               <div class="service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio(s)</div>
               <div class="service-sub">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
-                  currency:'MXN':'symbol':'1.0-0' }}/mes</div>
+                  currency:'MXN':'symbol':'1.0-0' }}/mes por cuenta</div>
             </div>
           </div>
         </div>
