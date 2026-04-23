@@ -15,12 +15,16 @@
               <div class="client-id-pill">
                 <i class="fa-regular fa-id-card"></i>
                 <span>Cliente #{{ data.numero_cliente }}</span>
+                <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.numero_cliente)" *ngIf="data.numero_cliente">
+              <i class="fa-regular fa-copy"></i>
+            </button>
               </div>
               <div class="client-badges">
-                <span class="badge badge-success" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'">Activo</span>
-                <span class="badge badge-danger" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'">Suspendido</span>
-                <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado">Cancelado</span>
-                <span class="badge badge-purple">{{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>  
+                
+                <span class="badge badge-success" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'"><i class="fa-solid fa-signal"></i> Activo</span>
+                <span class="badge badge-danger" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'"><i class="fa-solid fa-signal"></i> Suspendido</span>
+                <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado"><i class="fa-solid fa-signal"></i> Cancelado</span>
+                <span class="badge badge-purple"><i class="fa-solid fa-house-signal"></i> {{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>  
               </div>
             </div>
           </div>
@@ -100,7 +104,6 @@
                 <div class="contact-label">Correo Electrónico</div>
                 <div class="contact-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
               </div>
-             
             </div>
 
             <div class="contact-item">
@@ -191,40 +194,6 @@
               <div class="service-sub">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
                   currency:'MXN':'symbol':'1.0-0' }}/mes</div>
             </div>
-          </div>
-
-          <!-- Estado de la Conexión -->
-          <div class="service-item">
-            <div class="service-icon service-icon-orange">
-              <i class="fa-solid fa-signal"></i>
-            </div>
-            <div class="service-content">
-              <div class="service-label">Servicio</div>
-              <div class="service-value">
-                <span class="status-badge" [ngClass]="{
-                  'status-active': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                  'status-inactive': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                  'status-cancelled': !data.cliente?.cliente?.infoRed?.estado
-                }">
-                  <span class="status-dot"></span>
-                  {{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Número de Cliente -->
-          <div class="service-item">
-            <div class="service-icon service-icon-gray">
-              <i class="fa-regular fa-user"></i>
-            </div>
-            <div class="service-content">
-              <div class="service-label">Número de Cliente</div>
-              <div class="service-value service-value-mono">{{ data.numero_cliente || '—' }}</div>
-            </div>
-            <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.numero_cliente)" *ngIf="data.numero_cliente">
-              <i class="fa-regular fa-copy"></i>
-            </button>
           </div>
         </div>
       </div>
