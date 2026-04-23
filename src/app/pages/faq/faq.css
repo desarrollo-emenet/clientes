@@ -41,7 +41,7 @@
 }
 
 .nav-btn.active {
-  background: #4f7cff;
+  background: #2179B5;
   color: #fff;
   box-shadow: 0 4px 12px rgba(79, 124, 255, 0.3);
 }
@@ -98,7 +98,7 @@
 .chevron,
 .section-chevron {
   font-size: 14px;
-  color: #888;
+  color: #2179B5;
   transition: transform .3s;
 }
 
@@ -133,7 +133,7 @@ details[open] .section-chevron {
   border: 1px solid #ffd6d6;
   padding: 14px;
   border-radius: 12px;
-  color: #c0392b;
+  color: #1f0502;
 }
 
 .alert-dot {
@@ -161,7 +161,7 @@ details[open] .section-chevron {
 }
 
 .view-btn.active {
-  background: #6c63ff;
+  background: #2179B5;
   color: #fff;
 }
 
@@ -216,7 +216,7 @@ details[open] .section-chevron {
 
 .num {
   font-weight: bold;
-  color: #4f7cff;
+  color: #2179B5;
 }
 
 /* BADGES */
@@ -229,7 +229,7 @@ details[open] .section-chevron {
 
 .badge-green {
   background: #e6f9f0;
-  color: #27ae60;
+  color: #1aa353;
 }
 
 .badge-red {
@@ -242,10 +242,6 @@ details[open] .section-chevron {
   color: #777;
 }
 
-.badge-blink {
-  background: #fff4e6;
-  color: #f39c12;
-}
 
 /* FAQ */
 .questions-list {
@@ -282,7 +278,7 @@ details[open] .q-icon {
 
 /* LINKS */
 a {
-  color: #4f7cff;
+  color: #2179B5;
   text-decoration: none;
 }
 

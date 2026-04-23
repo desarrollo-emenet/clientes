@@ -16,6 +16,181 @@
             <h1 class="page-heading">Falla del servicio de internet</h1>
             <p class="page-sub">Sigue estos pasos para identificar y resolver problemas con tu conexión.</p>
 
+            <!-- ONT -->
+            <details class="help-block" style="margin-top: 24px;">
+                <summary class="help-summary">
+                    <span class="help-label"> diagrama equipo ONT — puertos y botones</span>
+                    <span class="chevron">▼</span>
+                </summary>
+                <div class="help-body">
+
+                    <div class="ont-views">
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'puertos' }"
+                            (click)="showView('puertos')">Puertos y botones</button>
+
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'leds' }"
+                            (click)="showView('leds')">Indicadores LED</button>
+                    </div>
+
+                    <!--  -->
+                    <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }">
+
+                        <div class="ont-img-placeholder">
+                            <img src="../../../assets/img/ont/puertos.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
+                        </div>
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Ítem</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="num">1</td>
+                                    <td>On/Off</td>
+                                    <td>Botón de encendido y apagado de la ONT</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">2</td>
+                                    <td>Power</td>
+                                    <td>Entrada de fuente de alimentación</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">3</td>
+                                    <td>LAN1 / LAN2</td>
+                                    <td>Puertos LAN para cables de red RJ45</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">4</td>
+                                    <td>WPS</td>
+                                    <td>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin
+                                        requerir contraseña</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">5</td>
+                                    <td>WLAN</td>
+                                    <td>Activa o desactiva las redes inalámbricas WLAN</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">6</td>
+                                    <td>Reset</td>
+                                    <td>Presionar más de 10 segundos para reiniciar de fábrica el equipo</td>
+                                </tr>
+                                <tr>
+                                    <td class="num">7</td>
+                                    <td>Puerto óptico</td>
+                                    <td>Puerto para conector de fibra óptica SC/APC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="view-panel" [ngClass]="{ active: activeView === 'leds' }">
+
+                        <div class="ont-img-placeholder">
+                            <img src="../../../assets/img/ont/leds.png" alt="" height="450px" width="450px">
+                        </div>
+
+                        <table class="ont-table">
+                            <thead>
+                                <tr>
+                                    <th>Indicador</th>
+                                    <th>Estado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <!-- POWER -->
+                                <tr class="group">
+                                    <td rowspan="2">Power</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>La ONT está encendida</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>No tiene corriente eléctrica</td>
+                                </tr>
+
+                                <!-- PON / LOS -->
+                                <tr class="group">
+                                    <td rowspan="4">PON / LOS</td>
+                                    <td><span class="badge badge-off">Apagados</span></td>
+                                    <td>ONT bloqueada. Contactar soporte</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span> / <span
+                                            class="badge badge-red">Rojo</span></td>
+                                    <td>ONT bloqueada. Contactar soporte</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span> / <span
+                                            class="badge badge-off">Apagados</span></td>
+                                    <td>Conexión establecida</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-red">Rojo</span> / <span
+                                            class="badge badge-off">Apagados</span></td>
+                                    <td>Sin conexión de fibra</td>
+                                </tr>
+
+                                <!-- LAN -->
+                                <tr class="group">
+                                    <td rowspan="3">LAN1 / LAN2</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>Conexión normal</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Transmitiendo datos</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>Sin conexión</td>
+                                </tr>
+
+                                <!-- WLAN -->
+                                <tr class="group">
+                                    <td rowspan="3">WLAN</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>WiFi activo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Transmitiendo datos</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>WiFi desactivado</td>
+                                </tr>
+
+                                <!-- WPS -->
+                                <tr class="group">
+                                    <td rowspan="3">WPS</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>WPS activo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Conectando dispositivo nuevo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>WPS desactivado</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </details>
+
             <!-- 1 -->
             <details class="help-block">
                 <summary class="help-summary">
@@ -95,178 +270,6 @@
                 </div>
             </details>
 
-            <!-- ONT -->
-            <details class="help-block" style="margin-top: 24px;">
-                <summary class="help-summary">
-                    <span class="help-label"> diagrama equipo ONT — puertos y botones</span>
-                    <span class="chevron">▼</span>
-                </summary>
-                <div class="help-body">
-
-                    <div class="ont-views">
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'puertos' }"
-                            (click)="showView('puertos')">Puertos y botones</button>
-
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'leds' }"
-                            (click)="showView('leds')">Indicadores LED</button>
-                    </div>
-
-                    <!--  -->
-                    <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }">
-
-                        <div class="ont-img-placeholder">
-                            <img src="../../../assets/img/ont/puertos.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
-                        </div>
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Ítem</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="num">1</td>
-                                    <td>On/Off</td>
-                                    <td>Botón de encendido y apagado de la ONT</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">2</td>
-                                    <td>Power</td>
-                                    <td>Entrada de fuente de alimentación</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">3</td>
-                                    <td>LAN1 / LAN2</td>
-                                    <td>Puertos LAN para cables de red RJ45</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">4</td>
-                                    <td>WPS</td>
-                                    <td>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin
-                                        requerir contraseña</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">5</td>
-                                    <td>WLAN</td>
-                                    <td>Activa o desactiva las redes inalámbricas WLAN</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">6</td>
-                                    <td>Reset</td>
-                                    <td>Presionar más de 10s para reiniciar de fábrica el equipo</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">7</td>
-                                    <td>Puerto óptico</td>
-                                    <td>Puerto para conector de fibra óptica SC/APC</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="view-panel" [ngClass]="{ active: activeView === 'leds' }">
-
-                        <div class="ont-img-placeholder">
-                            <img src="../../../assets/img/ont/leds.png" alt="" height="450px" width="450px">
-                        </div>
-
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>Indicador</th>
-                                    <th>Estado</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <!-- POWER -->
-                                <tr class="group">
-                                    <td rowspan="2">Power</td>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>La ONT está encendida</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>No tiene corriente eléctrica</td>
-                                </tr>
-
-                                <!-- PON / LOS -->
-                                <tr class="group">
-                                    <td rowspan="4">PON / LOS</td>
-                                    <td><span class="badge badge-off">Apagados</span></td>
-                                    <td>ONT bloqueada. Contactar soporte</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span> / <span
-                                            class="badge badge-red">Rojo</span></td>
-                                    <td>ONT bloqueada. Contactar soporte</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span> / <span class="badge badge-off">Apagados</span></td>
-                                    <td>Conexión establecida</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-red">Rojo</span> / <span class="badge badge-off">Apagados</span></td>
-                                    <td>Sin conexión de fibra</td>
-                                </tr>
-
-                                <!-- LAN -->
-                                <tr class="group">
-                                    <td rowspan="3">LAN1 / LAN2</td>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>Conexión normal</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Parpadeando</span></td>
-                                    <td>Transmitiendo datos</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>Sin conexión</td>
-                                </tr>
-
-                                <!-- WLAN -->
-                                <tr class="group">
-                                    <td rowspan="3">WLAN</td>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>WiFi activo</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Parpadeando</span></td>
-                                    <td>Transmitiendo datos</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>WiFi desactivado</td>
-                                </tr>
-
-                                <!-- WPS -->
-                                <tr class="group">
-                                    <td rowspan="3">WPS</td>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>WPS activo</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Parpadeando</span></td>
-                                    <td>Conectando dispositivo</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>WPS desactivado</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </details>
         </div><!-- /ayuda -->
 
 
@@ -326,7 +329,8 @@
                                 <li>Cierra aplicaciones que usen internet</li>
                                 <li>Desconecta otros dispositivos</li>
                                 <li>Usa cable Ethernet o red 5 GHz cerca del módem</li>
-                                <li>Realiza la prueba en: <a href="https://emenet.mx/test-velocidad"></a></li>
+                                <li>Realiza la prueba de velocidad: <a href="https://emenet.mx/test-velocidad"
+                                        target="_blank">aqui</a></li>
                             </ul>
                         </div>
                         <div class="faq-content">
@@ -375,7 +379,8 @@
                         <div class="faq-content">
                             Tel: <a href="tel:7131334557">713 133 4557</a><br>
                             WhatsApp: <a href="https://wa.me/527291792524" target="_blank">729 179 2524</a><br>
-                            Zona Ixtlahuaca/Jiquipilco/Temoaya: <a href="https://wa.me/7133473674">713 347 3674</a><br>
+                            Zona Ixtlahuaca/Jiquipilco/Temoaya: <a href="https://wa.me/7133473674" target="_blank">713
+                                347 3674</a><br>
                             Correo: <a href="mailto:clientes@emenet.mx">clientes@emenet.mx</a>
                         </div>
                     </details>
@@ -460,8 +465,7 @@
                         </summary>
                         <div class="faq-content">
                             La fecha de pago es del 1 al 5. Después de eso, el servicio se suspende, pero puedes pagar y
-                            se
-                            reconecta sin costo.
+                            se reconecta sin costo.
                         </div>
                     </details>
 
@@ -505,7 +509,7 @@
                         <div class="faq-content">
                             Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV<br>
                             Cuenta: 4062409131<br>
-                            Envía tu comprobante después de pagar.
+                            Comparte tu comprobante con cobranza.
                         </div>
                     </details>
 
@@ -517,8 +521,9 @@
                         <div class="faq-content">
                             Banco: HSBC<br>
                             CLABE: 021453040624091311<br>
+                            Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV<br>
                             Incluye el nombre del titular como referencia.<br>
-                            Comparte tu comprobante.
+                            Comparte tu comprobante con cobranza.
                         </div>
                     </details>
 
@@ -530,7 +535,7 @@
                         <div class="faq-content">
                             OXXO, Farmacia del Ahorro y Financiera del Bienestar<br>
                             Cuenta: 4741764001982278<br>
-                            Envía tu comprobante después de pagar.
+                            Comparte tu comprobante con cobranza.
                         </div>
                     </details>
 
