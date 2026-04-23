@@ -41,7 +41,7 @@ export const routes: Routes = [
   { path: 'visitas', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'notificaciones/:numero_cliente', component: Notification, canActivate: [requireAuthGuard] },
-  { path: 'faq', component: FAQ },
+  { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
 
   
   { path: '**', redirectTo: '/iniciar-sesion' }
