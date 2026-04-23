@@ -1,29 +1,35 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, signal, HostListener, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Footer } from './shared/footer/footer';
 import { Header } from './shared/header/header';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavComponent } from './shared/nav/nav';
 import { filter } from 'rxjs/operators';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, NavComponent, Footer, Header, ReactiveFormsModule],
+  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Footer, Header, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnDestroy {
   protected readonly title = signal('Marcos');
 
-  sidebarOpen = false;
   showSidebar = true;
+  showheader   = true;
+  showFooter   = true;
 
-  headerOpen = false;
-  showheader = true;
+  /** Controla si el bottom nav está oculto */
+  bottomNavOculto = false;
 
-  hiddenSidebarRoutes = [
+  private posicionScrollAnterior = 0;
+  private readonly UMBRAL_SCROLL  = 8;  // px mínimos para reaccionar
+  private rutaSub!: Subscription;
+
+  rutasSinNav = [
     '/iniciar-sesion',
     '/crear-cuenta',
     '/recuperar-password',
@@ -33,94 +39,56 @@ export class App {
     '/email-verificado',
     '/servicios',
     '/formulario',
-    '/404', 
+    '/404',
     '/'
   ];
 
-  constructor(private router: Router) {
-    //pagina de iniciar sesion sin sidebar
-    this.checkSidebar(window.location.pathname);
-    this.checkheader(window.location.pathname);
+  rutasSinFooter = [
+    '/dashboard',
+    '/notificaciones',
+    '/perfil',
+    '/formas-de-pago',
+    '/estadoCuenta',
+    '/edit-perfil',
+    '/visitas'
+  ];
 
-    // Detectar cambios de ruta 
-    this.router.events
+  constructor(private router: Router) {
+    this.actualizarVistas(window.location.pathname);
+
+    this.rutaSub = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        const rawUrl = (event as NavigationEnd).urlAfterRedirects ?? (event as NavigationEnd).url;
-        this.checkSidebar(rawUrl);
-        this.checkheader(rawUrl);
-        // Cerrar menu y restaurar scroll al cambiar de ruta
-        this.closeSidebar();
+        const url = event.urlAfterRedirects ?? event.url;
+        this.actualizarVistas(url);
+        // Mostrar el nav al cambiar de ruta
+        this.bottomNavOculto = false;
+        this.posicionScrollAnterior = 0;
       });
   }
 
-  checkSidebar(url: string) {
-    // proteger contra valores nulos/indefinidos
-    if (!url) {
-      this.showSidebar = true;
-      return;
-    }
-    // cortar todo lo que venga despues de '?'
-    const cleanUrl = url.split('?')[0];
+  @HostListener('window:scroll')
+  onScroll(): void {
+    if (!this.showSidebar) return;
 
-    // validar exactamente contra la lista
-    this.showSidebar = !this.hiddenSidebarRoutes.includes(cleanUrl);
+    const posicionActual = window.scrollY;
+    const diferencia     = posicionActual - this.posicionScrollAnterior;
+
+    if (Math.abs(diferencia) < this.UMBRAL_SCROLL) return;
+
+    this.bottomNavOculto        = diferencia > 0;
+    this.posicionScrollAnterior = posicionActual;
   }
 
-  toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
-    this.updateBodyScrollLock();
+  ngOnDestroy(): void {
+    this.rutaSub?.unsubscribe();
   }
 
-  closeSidebar() {
-    this.sidebarOpen = false;
-    this.updateBodyScrollLock();
-  }
-
-  private updateBodyScrollLock(): void {
-    if (typeof document !== 'undefined') {
-      if (this.sidebarOpen) {
-        document.body.classList.add('menu-open');
-      } else {
-        document.body.classList.remove('menu-open');
-      }
-    }
-  }
-
-  checkheader(url: string) {
-    // proteger contra valores nulos/indefinidos
-    if (!url) {
-      this.showheader = true;
-      return;
-    }
-    // cortar todo lo que venga despues de '?'
-    const cleanUrl = url.split('?')[0];
-
-    // validar exactamente contra la lista
-    this.showheader = !this.hiddenSidebarRoutes.includes(cleanUrl);
-  }
-
-  closeheader() {
-    this.headerOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    // Solo en modo móvil y cuando el sidebar está abierto
-    if (!this.sidebarOpen || !this.showSidebar) {
-      return;
-    }
-
-    const sidebarEl = document.querySelector('.sidebar-container');
-    const hamburgerBtn = document.querySelector('.hamburger-btn');
-    const target = event.target as HTMLElement;
-
-    // Si el clic fue dentro del sidebar o en el botón hamburguesa, no cerrar
-    if (sidebarEl?.contains(target) || hamburgerBtn?.contains(target)) {
-      return;
-    }
-
-    // Cerrar el sidebar
-    this.closeSidebar();
+  private actualizarVistas(url: string): void {
+    if (!url) return;
+    const urlLimpia  = url.split('?')[0];
+    this.showSidebar = !this.rutasSinNav.includes(urlLimpia);
+    this.showheader  = !this.rutasSinNav.includes(urlLimpia);
+    this.showFooter  = !this.rutasSinFooter.some(r => urlLimpia.startsWith(r));
   }
 }

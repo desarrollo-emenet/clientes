@@ -1,72 +1,57 @@
-/* Prevent scroll when mobile menu is open */
-body.menu-open {
-  overflow: hidden;
-  touch-action: none;
-  height: 100vh;
+/* Prevent horizontal scroll on entire page */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
-/* ----- SIDEBAR GENERAL ----- */
-.sidebar-container {
-  width: 60px;
-  flex-shrink: 0;
-  padding: 8px 4px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  height: calc(100vh - 56px);
-  overflow-y: auto;
-  transition: transform .3s ease-in-out;
-  display: flex;
-  justify-content: center;
-}
-
-/* Layout Windows  */
+/* Layout principal */
 .app-wrapper {
-  display: flex; 
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* MODO PC (>=768px) */
-@media (min-width: 768px) {
-  .sidebar-container {
-    transform: translateX(0);
-    position: sticky;
-    top: 56px;
-  }
-
-  .backdrop {
-    display: none !important;
-  }
+/* El main ocupa todo el ancho disponible en el flex */
+.app-wrapper main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
 
-/* MODO MÓVIL (<768px) */
-@media (max-width: 767px) {
-  .sidebar-container {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    height: calc(100vh - 56px);
-    background: #fff;
-    transform: translateX(-110%);
-    z-index: 2000;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    overscroll-behavior: contain;
-    touch-action: pan-y;
-  }
+/* ============================================================
+   BOTTOM NAV — fijo en la parte inferior, solo móvil
+   ============================================================ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.07);
+  z-index: 1000;
 
-  .sidebar-container.open {
-    transform: translateX(0);
-  }
+  /* Centrar el contenido interno */
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
 
-  .backdrop {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 1990;
-    touch-action: none;
-  }
+  /* Animación de entrada/salida por scroll */
+  transform: translateY(0);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Estado oculto — añadido desde app.ts al hacer scroll hacia abajo */
+.bottom-nav.hidden {
+  transform: translateY(100%);
+}
 
-
+/* Espacio inferior para que el contenido no quede
+   tapado por el bottom nav en móvil */
+@media (max-width: 767.98px) {
+  .app-wrapper main {
+    padding-bottom: 72px;
+  }
+}

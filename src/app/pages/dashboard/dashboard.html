@@ -1,95 +1,199 @@
-<div class="container-fluid">
-  <div class="row g-0 min-vh-100">
-
-
-    <main class="col-12 col-md-9 col-lg-12 px-3 px-lg-4 py-4 bg-light">
-      <!--  *ngIf="data else cargando"-->
-      <div *ngIf="data" class="mb-4">
-
-        <!-- Tarjeta principal -->
-        <div class="card shadow-sm">
-          <div class="card-header bg-white d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-
-              <div>
-                <p>Buenos días</p>
-                <h5 class="mb-0">{{ data.cliente?.cliente?.nombre }}</h5>
-                <small class="text-muted">Cliente: <strong>{{ data.numero_cliente }}</strong></small>
-                <br> <small class="text-muted">Servicio: </small> <small
-                  class="badge rounded-pill d-inline-flex align-items-center gap-1 px-3 py-1" [ngClass]="{'bg-success': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                    'bg-danger': data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                    'bg-secondary': !data.cliente?.cliente?.infoRed?.estado
-                    }">{{ data.cliente?.cliente?.infoRed?.estado || 'Cancelado' }} </small>
-              </div>
+<div class="container-fluid mt-4">
+  <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
+    <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
+      <section class="client-details-section" *ngIf="data">
+        <h2 class="client-details-title">Detalles del Cliente</h2>
+        
+        <div class="client-card">
+          <div class="client-card-header">
+            <div class="client-avatar">
+              <i class="fa-regular fa-user"></i>
             </div>
-
-            <div class="text-end">
-              <img src="../../../assets/img/emenetLogo.png" alt="emenet" width="110" height="70">
+            <div class="client-info">
+              <h4 class="hero-title">{{ getSaludo() }}</h4>
+              <h3 class="client-name">{{ data.cliente?.cliente?.nombre }}</h3>
+              <div class="client-id-pill">
+                <i class="fa-regular fa-id-card"></i>
+                <span>Cliente #{{ data.numero_cliente }}</span>
+                <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.numero_cliente)" *ngIf="data.numero_cliente">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+              </div>
+              <div class="client-badges">
+                
+                <span class="badge badge-success" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'"><i class="fa-solid fa-signal"></i> Activo</span>
+                <span class="badge badge-danger" *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'"><i class="fa-solid fa-signal"></i> Suspendido</span>
+                <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado"><i class="fa-solid fa-signal"></i> Cancelado</span>
+                <span class="badge badge-purple"><i class="fa-solid fa-house-signal"></i> {{ data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>  
+              </div>
             </div>
           </div>
 
-          <div class="card-body d-flex flex-column gap-3">
-
-            <!-- Dirección & Contacto -->
-            <div class="card subcard shadow-sm">
-              <div class="card-header bg-white">
-                <strong>Dirección & contacto</strong>
+          <div class="client-actions">
+            <button class="action-item" routerLink="/formas-de-pago">
+              <div class="action-icon action-icon-blue">
+                <i class="fa-solid fa-credit-card"></i>
               </div>
-              <div class="card-body">
-                <div class="mb-3">
-                  <div class="fw-semibold">Dirección</div>
-                  <div class="text-muted">
-                    {{ data?.cliente?.cliente?.direccion }}<br>
-                    {{ data?.cliente?.cliente?.colonia }}, {{ data?.cliente?.cliente?.municipio }}, {{
-                    data.cliente?.cliente?.estado }}<br>
-                    {{ data?.cliente?.cliente?.pais }}
-                  </div>
-                </div>
+              <span class="action-label">Formas de<br>pago</span>
+            </button>
+            <button class="action-item" [routerLink]="['/notificaciones', data?.numero_cliente]">
+              <div class=" action-icon action-icon-red">
+                <i class="fa-regular fa-bell"></i>
+              </div>
+              <span class="action-label">Notificaciones</span>
+            </button>
+            
+            <a class="action-item" href="https://emenet.mx/test-velocidad" target="_blank">
+              <div class="action-icon action-icon-kingblue">
+                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="speedtest-icon"
+                  fill="currentColor">
+                  <title>Speedtest</title>
+                  <path
+                    d="M11.628 16.186l-2.047-2.14 6.791-5.953 1.21 1.302zm8.837 6.047c2.14-2.14 3.535-5.117 3.535-8.466 0-6.604-5.395-12-12-12s-12 5.396-12 12c0 3.35 1.302 6.326 3.535 8.466l1.674-1.675c-1.767-1.767-2.79-4.093-2.79-6.79A9.568 9.568 0 0 1 12 4.185a9.568 9.568 0 0 1 9.581 9.581c0 2.605-1.116 5.024-2.79 6.791Z" />
+                </svg>
+              </div>
+              <span class="action-label">Probar<br>velocidad</span>
+            </a>
+            <button class="action-item" type="button" (click)="contactSupport()">
+              <div class="action-icon action-icon-green">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
+                  <g>
+                    <path d="M12 6V2H8" />
+                    <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z" />
+                    <path d="M2 12h2" />
+                    <path d="M9 11v2" class="eye-l" />
+                    <path d="M15 11v2" class="eye-r" />
+                    <path d="M20 12h2" />
+                  </g>
+                </svg>
+              </div>
+              <span class="action-label">Hablar con<br>Embot</span>
+            </button>
+            <a class="action-item" href="https://emenet.mx" target="_blank">
+              <div class="action-icon action-icon-orange">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <span class="action-label">emenet.mx</span>
+            </a>
+          </div>
+        </div>
+        <!--Info Cliente-->
+        <div class="contact-section">
+          <div class="section-header-accent">
+            <div class="accent-bar"></div>
+            <h4>Información de Contacto</h4>
+          </div>
 
-                <div class="row gy-2">
-                  <div class="col-12 col-md-6">
-                    <div class="fw-semibold">Correo</div>
-                    <div class="text-muted">{{ data.cliente?.cliente?.correo || '—' }}</div>
-                  </div>
-
-                  <div class="col-12 col-md-6">
-                    <div class="fw-semibold">Teléfono</div>
-                    <div class="text-muted">{{ data.cliente?.cliente?.telefono || '—' }}</div>
-                  </div>
-                </div>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-blue">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Teléfono</div>
+                <div class="contact-value">{{ data.cliente?.cliente?.telefono || '—' }}</div>
               </div>
             </div>
 
-
-            <!-- Acciones rápidas -->
-            <div class="card subcard shadow-sm">
-              <div class="card-header bg-white">
-                <strong>Acciones rápidas</strong>
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-orange">
+                <i class="fa-regular fa-envelope"></i>
               </div>
-              <div class="card-body d-flex flex-column gap-2">
-                <div class="d-flex gap-2 flex-wrap">
-                  <!--<button routerLink="/estado-cuenta" class="btn btn-outline-primary btn-sm">Ver estado de cuenta</button>-->
-                  <button class="btn btn-outline-primary btn-sm" (click)="goEstadoCuenta()">Ver vestado de
-                    cuenta</button>
-                  <button routerLink="/visitas" class="btn btn-outline-primary btn-sm">Ver visitas</button>
-                  <a href="https://emenet.mx/test-velocidad" target="_blank" class="btn btn-outline-dark btn-sm">Probar
-                    velocidad</a>
-                </div>
-
-                <div class="pt-2 border-top mt-2">
-                  <div class="fw-semibold mb-1">Soporte emenet</div>
-                  <div class="text-muted small">
-                    <a class="btn btn-light" (click)="contactSupport()">
-                      <i class="bi bi-whatsapp"></i>
-                      <img src="assets/img/llamar.png" alt="Web" width="20px" height="20px"> 7121748293
-                    </a>
-                    <a class="btn btn-light" href="https://emenet.mx">
-                      <img src="assets/img/www.png" alt="Web" width="20px" height="20px"> emenet</a>
-                  </div>
-                </div>
+              <div class="contact-content">
+                <div class="contact-label">Correo Electrónico</div>
+                <div class="contact-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
               </div>
             </div>
 
+            <div class="contact-item">
+              <div class="contact-icon contact-icon-purple">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="contact-content">
+                <div class="contact-label">Dirección</div>
+                <div class="contact-value">
+                  {{ data?.cliente?.cliente?.direccion }}
+                  <span *ngIf="data?.cliente?.cliente?.colonia">, {{ data?.cliente?.cliente?.colonia }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.municipio">, {{ data?.cliente?.cliente?.municipio }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.estado">, {{ data?.cliente?.cliente?.estado }}</span>
+                  <span *ngIf="data?.cliente?.cliente?.pais">, {{ data?.cliente?.cliente?.pais }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detalles del Servicio -->
+      <div class="service-details-section" *ngIf="data">
+        <div class="section-header-accent">
+          <div class="accent-bar"></div>
+          <h4>Detalles del Servicio</h4>
+        </div>
+
+        <div class="service-list">
+          <!-- Internet -->
+          <div class="service-item">
+            <div class="service-icon service-icon-blue">
+              <i class="fa-solid fa-wifi"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Internet</div>
+              <div class="service-value">{{ data.cliente?.cliente?.planInternet || 0 }} Megas Fibra</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes</div>
+            </div>
+          </div>
+
+          <!-- Estado de Cuenta -->
+          <div class="service-item">
+            <div class="service-icon service-icon-blue-light">
+              <i class="fa-regular fa-file-lines"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Estado de Cuenta</div>
+              <div class="service-value">{{ calcularTotalMensual(data.cliente.servicios) |
+                  currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} Pendiente: {{ (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
+            </div>
+          </div>
+
+          <!-- Telefonía -->
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+            <div class="service-icon service-icon-purple">
+              <i class="fa-solid fa-tty"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Telefonía</div>
+              <div class="service-value">{{ data.cliente?.servicios?.telefono?.canServicios
+                  || 0
+                  }}
+                  línea(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes por línea</div>
+            </div>
+          </div>
+            <!-- Camaras -->
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+            <div class="service-icon service-icon-green">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <div class="service-content">
+              <div class="service-label">Cámaras</div>
+              <div class="service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }} / mes por cámara</div>
+            </div>
+          </div>
+               <!-- Televisión -->
+          <div class="service-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+            <div class="service-icon service-icon-orange">
+              <i class="fa-solid fa-tv"></i>
+            </div>
+            <div class="service-content" >
+              <div class="service-label">TV</div>
+              <div class="service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio(s)</div>
+              <div class="service-sub">{{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
+                  currency:'MXN':'symbol':'1.0-0' }}/mes por cuenta</div>
+            </div>
           </div>
         </div>
       </div>
@@ -129,6 +233,5 @@
       </button>
       <button class="btn btn-secondary mt-3" (click)="contactSupport()">Soporte whatsapp</button>
     </div>
-
   </div>
 </div>

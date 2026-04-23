@@ -1,23 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
-import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './nav.html',
   styleUrl: './nav.css'
 })
 export class NavComponent {
-  servicios: any[] = [];
-  clienteNumero: string = '';
-  constructor(private auth: LoginS, private router: Router) {
-    this.clienteNumero = localStorage.getItem('servicio_activo') || '';
-  }
-
-  @Output() linkClick = new EventEmitter<void>();
+  constructor(private auth: LoginS, private router: Router) {}
 
 
   logout() {

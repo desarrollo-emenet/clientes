@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserMenuComponent } from '../user-menu/user-menu.component';
 import { NavComponent } from '../nav/nav';
 import { Router, NavigationEnd } from '@angular/router';
@@ -14,41 +14,27 @@ import { Subscription } from 'rxjs';
 })
 export class Header implements OnInit, OnDestroy {
 
-  @Output() toggleSidebar = new EventEmitter<void>();
-  @Output() toggleheader = new EventEmitter<void>();
-
   showNavButtons = true;
-  private routerSub!: Subscription;
+  private rutaSub!: Subscription;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.checkRoute(window.location.pathname);
+    this.verificarRuta(window.location.pathname);
 
-    this.routerSub = this.router.events
+    this.rutaSub = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        this.checkRoute(event.urlAfterRedirects || event.url);
+        this.verificarRuta(event.urlAfterRedirects || event.url);
       });
   }
 
   ngOnDestroy(): void {
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
+    this.rutaSub?.unsubscribe();
   }
 
-  private checkRoute(url: string): void {
-    const cleanUrl = url.split('?')[0];
-    this.showNavButtons = cleanUrl !== '/servicios';
+  private verificarRuta(url: string): void {
+    const urlLimpia = url.split('?')[0];
+    this.showNavButtons = urlLimpia !== '/servicios';
   }
-
-  onHamburgerClick() {
-    this.toggleSidebar.emit();
-  }
-
-  onHamburger1Click() {
-    this.toggleheader.emit();
-  }
-
 }

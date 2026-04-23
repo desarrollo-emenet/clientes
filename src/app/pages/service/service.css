@@ -17,9 +17,9 @@
 }
 
 .services-container {
-  max-width: 1080px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 /* ============================================================
@@ -61,9 +61,12 @@
    ============================================================ */
 .service-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
   align-items: start;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .service-column-left,
@@ -224,6 +227,7 @@
 
 /* ============================================================
    SERVICE CARD — tarjeta de servicio individual
+
    ============================================================ */
 .service-card {
   height: 157px;
@@ -258,6 +262,7 @@
 .service-card:hover .service-card__side-accent {
   opacity: 1;
   transform: scaleX(1);
+  /**/
 }
 
 .service-card__header {
@@ -606,19 +611,29 @@
    ============================================================ */
 @media (max-width: 767.98px) {
   .service-page {
-    padding: 2rem 0 3rem;
+    padding: 1.5rem 0 1rem;
+    min-height: auto;
+  }
+
+  .service-hero {
+    margin-bottom: 1.5rem;
   }
 
   .service-hero__title {
-    font-size: 2rem;
+    font-size: 1.6rem;
+  }
+
+  .service-hero__subtitle {
+    font-size: 0.9rem;
   }
 
   .services-container {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
   }
 
   .service-layout {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   /* El panel apila input + botón → necesita altura automática */
@@ -627,7 +642,12 @@
   }
 
   .service-panel .apple-card__body {
-    padding: 1.2rem 1.25rem 1.3rem;
+    padding: 1rem;
+  }
+
+  .apple-card__label {
+    margin-bottom: 0.8rem;
+    font-size: 0.65rem;
   }
 
   .service-form-grid {
@@ -639,11 +659,22 @@
   .service-form-grid .btn-water-inline {
     width: 100%;
     min-width: unset;
+    height: 40px;
   }
 
   /* Las service-cards también necesitan altura libre en móvil */
   .service-card {
     height: auto;
+  }
+
+  .service-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .service-card__info {
+    width: 100%;
   }
 
   .service-card__actions {
@@ -653,5 +684,27 @@
 
   .btn-water-inline-sm {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-page {
+    padding: 1rem 0 0.5rem;
+  }
+
+  .service-hero__title {
+    font-size: 1.4rem;
+  }
+
+  .service-card {
+    border-radius: 16px;
+  }
+
+  .apple-card__body {
+    padding: 1rem;
+  }
+
+  .verification-card .apple-card__body {
+    padding: 1rem;
   }
 }

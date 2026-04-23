@@ -36,7 +36,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('click', this.closeDropdownOnClickOutside);
+    // HostListeners are automatically cleaned up by Angular
   }
 
   checkCurrentRoute(): void {
@@ -53,6 +53,47 @@ export class UserMenuComponent implements OnInit, OnDestroy {
       if (!dropdownElement.contains(target) && !triggerElement.contains(target)) {
         this.isDropdownOpen = false;
       }
+    }
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  closeDropdownOnScroll(_event: Event): void {
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  @HostListener('window:wheel', ['$event'])
+  closeDropdownOnWheel(_event: WheelEvent): void {
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  @HostListener('window:touchmove', ['$event'])
+  closeDropdownOnTouchMove(_event: TouchEvent): void {
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  @HostListener('document:touchstart', ['$event'])
+  closeDropdownOnTouchStartOutside(event: TouchEvent): void {
+    if (!this.isDropdownOpen) {
+      return;
+    }
+
+    const target = event.target as HTMLElement | null;
+    const dropdownElement = document.querySelector('.user-dropdown');
+    const triggerElement = document.querySelector('.user-dropdown-trigger');
+
+    if (!target || !dropdownElement || !triggerElement) {
+      this.isDropdownOpen = false;
+      return;
+    }
+
+    if (!dropdownElement.contains(target) && !triggerElement.contains(target)) {
+      this.isDropdownOpen = false;
     }
   }
 

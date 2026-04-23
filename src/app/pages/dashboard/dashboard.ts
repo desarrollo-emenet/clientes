@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NgIf, NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass, NgFor, NgIf, DOCUMENT } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { Subscription } from 'rxjs';
@@ -8,26 +8,117 @@ import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgIf, NgxSonnerToaster, NgClass],
+  imports: [RouterLink, NgIf, NgxSonnerToaster, NgClass, NgFor, CurrencyPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
+export class Dashboard implements OnInit, OnDestroy {
+
   isLogin = false;
   username = 'Marcos'
   error = '';
-  mostrarMensaje = false 
+  mostrarMensaje = false
+  private viewportListeners: (() => void)[] = [];
 
   data: any = null;
   loading = false;
   private subs: Subscription[] = [];
 
-  constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router, private auth: LoginS) { }
+  constructor(
+    private clientS: ClientService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: LoginS,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) { }
+
+  getSaludo(): string {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      return 'Buenos días';
+
+    }
+    if (hour >= 12 && hour < 19) {
+      return 'Buenas tardes';
+    }
+    return 'Buenas noches';
+  }
+
+  calcularTotalMensual(servicios: any): number {
+    if (!servicios) return 0;
+    let total = 0;
+
+    if (servicios.internet && servicios.internet.precio) {
+      total += Number(servicios.internet.precio);
+    }
+
+    if (servicios.camaras && servicios.camaras.precio) {
+      const precio = Number(servicios.camaras.precio) || 0;
+      const noCamaras = Number(servicios.camaras.canServicios) || 0;
+      total += precio * noCamaras;
+    }
+
+    if (servicios.telefono) {
+      const precio = Number(servicios.telefono.precio) || 0;
+      const lineas = Number(servicios.telefono.canServicios) || 0;
+      total += precio * lineas;
+    }
+    if (servicios.cuentasTv) {
+      const precio = Number(servicios.cuentasTv.precio) || 0;
+      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
+      total += precio * canServicios;
+
+    }
+
+    return total;
+  }
+
+  getMesPagoReciente(): string {
+    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    return estadoCuenta[estadoCuenta.length - 1].mensualidad;
+
+  }
+
+  private setAppVh(): void {
+    try {
+      const visualViewport = (window as any).visualViewport;
+      const viewportHeight = visualViewport?.height || window.innerHeight;
+      const vh = Number(viewportHeight) * 0.01;
+      this.renderer.setStyle(this.document.documentElement, '--app-vh', `${vh}px`);
+    } catch (_) {
+      // Silently fail
+    }
+  }
+
+  private initViewportListeners(): void {
+    this.setAppVh();
+
+    // VisualViewport listeners (móviles modernos)
+    try {
+      const visualViewport = (window as any).visualViewport;
+      if (visualViewport) {
+        const resizeListener = this.renderer.listen(visualViewport, 'resize', () => this.setAppVh());
+        const scrollListener = this.renderer.listen(visualViewport, 'scroll', () => this.setAppVh());
+        this.viewportListeners.push(resizeListener, scrollListener);
+      }
+    } catch (_) {
+      // Silently fail
+    }
+
+    // Window listeners (fallback y desktop)
+    const windowResizeListener = this.renderer.listen(window, 'resize', () => this.setAppVh());
+    const orientationListener = this.renderer.listen(window, 'orientationchange', () => this.setAppVh());
+    this.viewportListeners.push(windowResizeListener, orientationListener);
+  }
 
   ngOnInit(): void {
+    this.initViewportListeners();
+
     const sub = this.route.paramMap.subscribe(params => {
       const numero = params.get('numero_cliente');
       if (numero) {
+
         this.loadClientData(numero);
       } else {
         const userSub = this.clientS.getAuthenticatedUser().subscribe({
@@ -50,8 +141,6 @@ export class Dashboard {
     this.subs.push(sub);
   }
 
-
-
   loadClientData(numeroCliente: string) {
     this.loading = true;
     this.data = null;
@@ -67,7 +156,7 @@ export class Dashboard {
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
         } //else if ( estado === 'Suspendido') {
-          //this.mostrarMensaje = true;
+        //this.mostrarMensaje = true;
         //}
 
       },
@@ -92,14 +181,17 @@ export class Dashboard {
   }
 
   contactSupport() {
-    const phone = '7121748293';
+    const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 
-
   goEstadoCuenta() {
-    this.auth.goNavigate('/estadoCuenta')
+    this.auth.goNavigate('/estadoCuenta');
+  }
+
+  navigateTo(ruta: string) {
+    this.router.navigateByUrl(ruta);
   }
 
   cerrarModal() {
@@ -110,5 +202,18 @@ export class Dashboard {
     window.open('https://emenet.mx/planes', '_blank');
   }
 
+  copiarAlPortapapeles(texto: string): void {
+    if (!texto) return;
+    navigator.clipboard.writeText(texto).then(() => {
+      toast.success('Copiado al portapapeles');
+    }).catch(() => {
+      toast.error('No se pudo copiar');
+    });
+  }
 
-} 
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.viewportListeners.forEach(removeListener => removeListener());
+  }
+
+}
