@@ -98,7 +98,7 @@
             <!-- ONT -->
             <details class="help-block" style="margin-top: 24px;">
                 <summary class="help-summary">
-                    <span class="help-label">Referencia del equipo ONT — puertos y botones</span>
+                    <span class="help-label"> diagrama equipo ONT — puertos y botones</span>
                     <span class="chevron">▼</span>
                 </summary>
                 <div class="help-body">
@@ -106,27 +106,19 @@
                     <div class="ont-views">
                         <button class="view-btn" [ngClass]="{ active: activeView === 'puertos' }"
                             (click)="showView('puertos')">Puertos y botones</button>
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'power' }"
-                            (click)="showView('power')">LED Power</button>
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'ponlos' }"
-                            (click)="showView('ponlos')">LED PON/LOS</button>
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'lan' }"
-                            (click)="showView('lan')">LED LAN1/LAN2</button>
-                        <button class="view-btn" [ngClass]="{ active: activeView === 'wlanwps' }"
-                            (click)="showView('wlanwps')">LED WLAN y WPS</button>
+
+                        <button class="view-btn" [ngClass]="{ active: activeView === 'leds' }"
+                            (click)="showView('leds')">Indicadores LED</button>
                     </div>
 
                     <!--  -->
-                    <div id="v-puertos" class="view-panel active">
-                        <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }"> ... </div>
-                        <div class="view-panel" [ngClass]="{ active: activeView === 'power' }"> ... </div>
-                        <div class="view-panel" [ngClass]="{ active: activeView === 'ponlos' }"> ... </div>
-                        <div class="view-panel" [ngClass]="{ active: activeView === 'lan' }"> ... </div>
-                        <div class="view-panel" [ngClass]="{ active: activeView === 'wlanwps' }"> ... </div>
-
+                    <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }">
 
                         <div class="ont-img-placeholder">
-                            <img src="" alt="">
+                            <img src="../../../assets/img/ont/puertos.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
+                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
                         </div>
                         <table class="ont-table">
                             <thead>
@@ -177,89 +169,12 @@
                         </table>
                     </div>
 
-                    <div id="v-power" class="view-panel">
-                        <img src="" alt="">
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>Estado</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>La ONT está encendida</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>No tiene corriente eléctrica</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="view-panel" [ngClass]="{ active: activeView === 'leds' }">
 
-                    <div id="v-ponlos" class="view-panel">
-                        <img src="" alt="">
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>Estado</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagados</span></td>
-                                    <td>La ONT está bloqueada. Contactar a soporte técnico</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span> / <span
-                                            class="badge badge-red">Rojo</span></td>
-                                    <td>La ONT está bloqueada. Contactar a soporte técnico</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span> / <span
-                                            class="badge badge-off">Apagado</span></td>
-                                    <td>Conexión establecida con el proveedor</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-red">Rojo</span> / <span
-                                            class="badge badge-off">Apagado</span></td>
-                                    <td>No hay conexión con la fibra óptica</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        <div class="ont-img-placeholder">
+                            <img src="../../../assets/img/ont/leds.png" alt="" height="450px" width="450px">
+                        </div>
 
-                    <div id="v-lan" class="view-panel">
-                        <img src="" alt="">
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>Estado</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge badge-green">Verde</span></td>
-                                    <td>La conexión Ethernet está en estado normal</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
-                                    <td>Se está transmitiendo información por los puertos Ethernet</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>No está configurada la conexión Ethernet</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="v-wlanwps" class="view-panel">
-                        <img src="" alt="">
                         <table class="ont-table">
                             <thead>
                                 <tr>
@@ -269,36 +184,83 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>WLAN</td>
+
+                                <!-- POWER -->
+                                <tr class="group">
+                                    <td rowspan="2">Power</td>
                                     <td><span class="badge badge-green">Verde</span></td>
-                                    <td>La función WLAN está activada</td>
+                                    <td>La ONT está encendida</td>
                                 </tr>
                                 <tr>
-                                    <td>WLAN</td>
-                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
-                                    <td>Se está transmitiendo información por las WLAN</td>
-                                </tr>
-                                <tr>
-                                    <td>WLAN</td>
                                     <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>La función WLAN está desactivada</td>
+                                    <td>No tiene corriente eléctrica</td>
+                                </tr>
+
+                                <!-- PON / LOS -->
+                                <tr class="group">
+                                    <td rowspan="4">PON / LOS</td>
+                                    <td><span class="badge badge-off">Apagados</span></td>
+                                    <td>ONT bloqueada. Contactar soporte</td>
                                 </tr>
                                 <tr>
-                                    <td>WPS</td>
+                                    <td><span class="badge badge-green">Verde</span> / <span
+                                            class="badge badge-red">Rojo</span></td>
+                                    <td>ONT bloqueada. Contactar soporte</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Verde</span> / <span class="badge badge-off">Apagados</span></td>
+                                    <td>Conexión establecida</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-red">Rojo</span> / <span class="badge badge-off">Apagados</span></td>
+                                    <td>Sin conexión de fibra</td>
+                                </tr>
+
+                                <!-- LAN -->
+                                <tr class="group">
+                                    <td rowspan="3">LAN1 / LAN2</td>
                                     <td><span class="badge badge-green">Verde</span></td>
-                                    <td>La función WPS está activada</td>
+                                    <td>Conexión normal</td>
                                 </tr>
                                 <tr>
-                                    <td>WPS</td>
-                                    <td><span class="badge badge-blink">Verde parpadeando</span></td>
-                                    <td>Un equipo WiFi está accediendo al sistema</td>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Transmitiendo datos</td>
                                 </tr>
                                 <tr>
-                                    <td>WPS</td>
                                     <td><span class="badge badge-off">Apagado</span></td>
-                                    <td>La función WPS está desactivada</td>
+                                    <td>Sin conexión</td>
                                 </tr>
+
+                                <!-- WLAN -->
+                                <tr class="group">
+                                    <td rowspan="3">WLAN</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>WiFi activo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Transmitiendo datos</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>WiFi desactivado</td>
+                                </tr>
+
+                                <!-- WPS -->
+                                <tr class="group">
+                                    <td rowspan="3">WPS</td>
+                                    <td><span class="badge badge-green">Verde</span></td>
+                                    <td>WPS activo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-green">Parpadeando</span></td>
+                                    <td>Conectando dispositivo</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-off">Apagado</span></td>
+                                    <td>WPS desactivado</td>
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>

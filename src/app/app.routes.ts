@@ -18,6 +18,8 @@ import { emailVerificadoGuard } from './guards/email-verificado-guard';
 import { Service } from './pages/service/service';
 import { serviceAccessGuard } from './guards/service-access-guard';
 import { Notification } from './pages/notification/notification';
+import { Component } from '@angular/core';
+import { FAQ } from './pages/faq/faq';
 
 
 export const routes: Routes = [
@@ -39,6 +41,7 @@ export const routes: Routes = [
   { path: 'visitas', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'notificaciones/:numero_cliente', component: Notification, canActivate: [requireAuthGuard] },
+  { path: 'faq', component: FAQ },
 
   
   { path: '**', redirectTo: '/iniciar-sesion' }
