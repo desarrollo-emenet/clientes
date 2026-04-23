@@ -4,9 +4,13 @@
         <!-- NAVEGACIÓN -->
         <nav class="page-nav">
             <button class="nav-btn" [ngClass]="{ active: activeSection === 'ayuda' }" (click)="showSection('ayuda')">
+                <i class="fi fi-rr-info"></i>
                 Ayuda
             </button>
+            <p></p>
             <button class="nav-btn" [ngClass]="{ active: activeSection === 'faq' }" (click)="showSection('faq')">
+                <i class="fa-solid fa-question"></i>
+                
                 Preguntas frecuentes
             </button>
         </nav>
