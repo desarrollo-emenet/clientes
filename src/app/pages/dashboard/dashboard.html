@@ -38,8 +38,9 @@
               </div>
               <span class="action-label">Notificaciones</span>
             </button>
+            
             <a class="action-item" href="https://emenet.mx/test-velocidad" target="_blank">
-              <div class="action-icon action-icon-purple">
+              <div class="action-icon action-icon-kingblue">
                 <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="speedtest-icon"
                   fill="currentColor">
                   <title>Speedtest</title>
@@ -99,11 +100,7 @@
                 <div class="contact-label">Correo Electrónico</div>
                 <div class="contact-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
               </div>
-              <div class="contact-actions" *ngIf="data.cliente?.cliente?.correo">
-                <a class="contact-btn contact-btn-orange" [href]="'mailto:' + data.cliente?.cliente?.correo">
-                  <i class="fa-regular fa-envelope"></i>
-                </a>
-              </div>
+             
             </div>
 
             <div class="contact-item">

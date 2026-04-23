@@ -235,6 +235,10 @@
   background: #f3e5f5;
   color: #7b1fa2;
 }
+.badge-kingblue {
+  background: #fff3e0;
+  color: #ffffff;
+}
 
 /* Grid de Acciones */
 .client-actions {
@@ -312,6 +316,10 @@
   color: #666;
   text-align: center;
   line-height: 1.3;
+}
+.action-icon-kingblue {
+  background: #0a0c1c;
+  color: #ffffff;
 }
 
 /* Sección de Contacto */
