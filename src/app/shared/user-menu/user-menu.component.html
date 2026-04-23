@@ -55,11 +55,13 @@
         <span>Visitas</span>
       </button>
       <div class="section-divider"></div>
-      <a class="dropdown-item" href="https://emenet.mx/contactanos" target="_blank" rel="noopener noreferrer">
-        <i class="fa-solid fa-headset"></i>
-        <span>Soporte</span>
-      </a>
+      <button routerLink="/servicios" (click)="navigateTo('/servicios')" class="dropdown-item" title="Servicios">
+        <i class="fa-solid fa-wifi"></i>
+        <span>Servicios</span>
+      </button>
+     
     </div>
+    
 
     <div class="dropdown-footer">
       <button class="dropdown-item logout-item" (click)="handleLogout()">
