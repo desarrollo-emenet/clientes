@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CurrencyPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgClass, NgFor, NgIf, DOCUMENT } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { Subscription } from 'rxjs';
@@ -12,18 +12,26 @@ import { LoginS } from '../../services/auth/login';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
+export class Dashboard implements OnInit, OnDestroy {
 
   isLogin = false;
   username = 'Marcos'
   error = '';
   mostrarMensaje = false
+  private viewportListeners: (() => void)[] = [];
 
   data: any = null;
   loading = false;
   private subs: Subscription[] = [];
 
-  constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router, private auth: LoginS) { }
+  constructor(
+    private clientS: ClientService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: LoginS,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) { }
 
   getSaludo(): string {
     const hour = new Date().getHours();
@@ -72,7 +80,41 @@ export class Dashboard {
 
   }
 
+  private setAppVh(): void {
+    try {
+      const visualViewport = (window as any).visualViewport;
+      const viewportHeight = visualViewport?.height || window.innerHeight;
+      const vh = Number(viewportHeight) * 0.01;
+      this.renderer.setStyle(this.document.documentElement, '--app-vh', `${vh}px`);
+    } catch (_) {
+      // Silently fail
+    }
+  }
+
+  private initViewportListeners(): void {
+    this.setAppVh();
+
+    // VisualViewport listeners (móviles modernos)
+    try {
+      const visualViewport = (window as any).visualViewport;
+      if (visualViewport) {
+        const resizeListener = this.renderer.listen(visualViewport, 'resize', () => this.setAppVh());
+        const scrollListener = this.renderer.listen(visualViewport, 'scroll', () => this.setAppVh());
+        this.viewportListeners.push(resizeListener, scrollListener);
+      }
+    } catch (_) {
+      // Silently fail
+    }
+
+    // Window listeners (fallback y desktop)
+    const windowResizeListener = this.renderer.listen(window, 'resize', () => this.setAppVh());
+    const orientationListener = this.renderer.listen(window, 'orientationchange', () => this.setAppVh());
+    this.viewportListeners.push(windowResizeListener, orientationListener);
+  }
+
   ngOnInit(): void {
+    this.initViewportListeners();
+
     const sub = this.route.paramMap.subscribe(params => {
       const numero = params.get('numero_cliente');
       if (numero) {
@@ -98,8 +140,6 @@ export class Dashboard {
     });
     this.subs.push(sub);
   }
-
-
 
   loadClientData(numeroCliente: string) {
     this.loading = true;
@@ -146,7 +186,6 @@ export class Dashboard {
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 
-
   goEstadoCuenta() {
     this.auth.goNavigate('/estadoCuenta');
   }
@@ -172,5 +211,9 @@ export class Dashboard {
     });
   }
 
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.viewportListeners.forEach(removeListener => removeListener());
+  }
 
 }
