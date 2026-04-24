@@ -50,7 +50,8 @@ export class App implements OnDestroy {
     '/formas-de-pago',
     '/estadoCuenta',
     '/edit-perfil',
-    '/visitas'
+    '/visitas',
+    '/faq'
   ];
 
   constructor(private router: Router) {
