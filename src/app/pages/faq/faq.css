@@ -210,6 +210,85 @@ details[open] .section-chevron {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
+.ont-img {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ont-img img {
+  max-width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* GRID */
+.ont-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ont-grid:has(.ont-card:nth-child(2):last-child),
+.ont-grid:has(.ont-card:nth-child(1):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ont-grid:has(.ont-card:nth-child(1):last-child) {
+  grid-template-columns: 1fr;
+  max-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .ont-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ont-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ont-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: .3s;
+  position: relative;
+}
+
+.ont-card:hover {
+  transform: translateY(-4px);
+}
+
+/* NUMBER */
+.ont-num {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #4f7cff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* TEXT */
+.ont-card h4 {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.ont-card p {
+  font-size: 13px;
+  color: #666;
+}
+
 /* TABLE */
 .ont-table {
   width: 100%;

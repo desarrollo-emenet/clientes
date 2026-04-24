@@ -40,58 +40,59 @@
                     <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }">
 
                         <div class="ont-img-placeholder">
+                    <!-- Imagen 1 puertos-->
                             <img src="../../../assets/img/ont/puertos.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
-                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
+                        <div class="ont-grid">
+                            <div class="ont-card">
+                                <div class="ont-num">1</div>
+                                <h4>On / Off</h4>
+                                <p>Botón de encendido y apagado del equipo</p>
+                            </div>
+                             <div class="ont-card">
+                                <div class="ont-num">2</div>
+                                <h4>Power</h4>
+                                <p>Fuente de energía</p>
+                            </div>
+                            <div class="ont-card">
+                                <div class="ont-num">3</div>
+                                <h4>LAN</h4>
+                                <p>Puertos LAN para cables de red RJ45</p>
+                            </div>
                         </div>
-                        <table class="ont-table">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Ítem</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="num">1</td>
-                                    <td>On/Off</td>
-                                    <td>Botón de encendido y apagado de la ONT</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">2</td>
-                                    <td>Power</td>
-                                    <td>Entrada de fuente de alimentación</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">3</td>
-                                    <td>LAN1 / LAN2</td>
-                                    <td>Puertos LAN para cables de red RJ45</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">4</td>
-                                    <td>WPS</td>
-                                    <td>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin
-                                        requerir contraseña</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">5</td>
-                                    <td>WLAN</td>
-                                    <td>Activa o desactiva las redes inalámbricas WLAN</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">6</td>
-                                    <td>Reset</td>
-                                    <td>Presionar más de 10 segundos para reiniciar de fábrica el equipo</td>
-                                </tr>
-                                <tr>
-                                    <td class="num">7</td>
-                                    <td>Puerto óptico</td>
-                                    <td>Puerto para conector de fibra óptica SC/APC</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <!-- Imagen 2 wlan-->
+                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
+                            <div class="ont-grid">
+                            <div class="ont-card">
+                                <div class="ont-num">4</div>
+                                <h4>WPS</h4>
+                                <p>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin requerir contraseña</p>
+                            </div>
+
+                            <div class="ont-card">
+                                <div class="ont-num">5</div>
+                                <h4>WLAN</h4>
+                                <p>Activa o desactiva las redes inalámbricas WLAN</p>
+                            </div>
+                            </div>
+                        <!-- Imagen 3 reset-->
+                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
+                                       <div class="ont-grid">
+                            <div class="ont-card">
+                                <div class="ont-num">6</div>
+                                <h4>Reset</h4>
+                                <p>Presionar más de 10 segundos para reiniciar de fábrica el equipo</p>
+                            </div>
+                        </div>
+                        <!-- Imagen 4 puertoOptico-->
+                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
+                        <div class="ont-grid">
+                            <div class="ont-card">
+                                <div class="ont-num">7</div>
+                                <h4>Fibra</h4>
+                                <p>Puerto para conector de fibra óptica SC/APC</p>
+                            </div>
+                        </div>
+                        </div>
                     </div>
 
                     <div class="view-panel" [ngClass]="{ active: activeView === 'leds' }">
