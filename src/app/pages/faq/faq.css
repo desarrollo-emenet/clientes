@@ -9,13 +9,16 @@
   font-size: 1.25rem;
   transition: transform 0.2s ease;
 }
+
 .action-item:hover .action-icon {
   transform: scale(1.1);
 }
+
 .action-icon-blue {
   background: #e3f2fd;
   color: #2179B5;
 }
+
 /* RESET */
 * {
   margin: 0;
@@ -91,7 +94,7 @@
 .faq-section {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   margin-bottom: 16px;
   overflow: hidden;
 }
@@ -207,7 +210,7 @@ details[open] .section-chevron {
 
 .ont-img-placeholder img {
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .ont-img {
@@ -528,9 +531,20 @@ a:hover {
 
 /* ANIMACIÓN */
 @keyframes pulse {
-  0% { transform: scale(1); opacity: .7; }
-  50% { transform: scale(1.4); opacity: 1; }
-  100% { transform: scale(1); opacity: .7; }
+  0% {
+    transform: scale(1);
+    opacity: .7;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: .7;
+  }
 }
 
 /* RESPONSIVE */
@@ -550,4 +564,158 @@ a:hover {
   .support-actions {
     flex-direction: column;
   }
+}
+
+/* ─── MODAL IMAGEN ─────────────────────────────── */
+.img-clickable {
+  cursor: zoom-in;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.img-clickable:hover {
+  opacity: 0.88;
+  transform: scale(1.02);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  animation: modal-fade-in 0.25s ease;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-contenedor {
+  position: relative;
+  max-width: 88vw;
+  max-height: 80vh;
+  overflow: auto;
+  border-radius: 16px;
+  animation: modal-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.modal-contenedor::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-contenedor::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+}
+
+.modal-contenedor::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+}
+
+.modal-contenedor::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@keyframes modal-scale-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-img {
+  display: block;
+  max-width: 88vw;
+  max-height: 80vh;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+/* ─── CONTROLES FLOTANTES ──────────────────────── */
+.modal-controles {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  z-index: 9100;
+  animation: modal-fade-in 0.35s ease;
+}
+
+.modal-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.15s ease;
+  line-height: 1;
+}
+
+.modal-btn:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: scale(1.12);
+}
+
+.modal-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-btn-cerrar {
+  background: rgba(231, 76, 60, 0.6);
+}
+
+.modal-btn-cerrar:hover {
+  background: rgba(231, 76, 60, 0.9);
+}
+
+.modal-zoom-nivel {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 38px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.modal-divisor {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 0 4px;
 }

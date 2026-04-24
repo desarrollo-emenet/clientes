@@ -10,7 +10,7 @@
             <p></p>
             <button class="nav-btn" [ngClass]="{ active: activeSection === 'faq' }" (click)="showSection('faq')">
                 <i class="fa-solid fa-question"></i>
-                
+
                 Preguntas frecuentes
             </button>
         </nav>
@@ -40,65 +40,76 @@
                     <div class="view-panel" [ngClass]="{ active: activeView === 'puertos' }">
 
                         <div class="ont-img-placeholder">
-                    <!-- Imagen 1 puertos-->
-                            <img src="../../../assets/img/ont/puertos.png" alt="" height="450px" width="450px">
-                        <div class="ont-grid">
-                            <div class="ont-card">
-                                <div class="ont-num">1</div>
-                                <h4>On / Off</h4>
-                                <p>Botón de encendido y apagado del equipo</p>
-                            </div>
-                             <div class="ont-card">
-                                <div class="ont-num">2</div>
-                                <h4>Power</h4>
-                                <p>Fuente de energía</p>
-                            </div>
-                            <div class="ont-card">
-                                <div class="ont-num">3</div>
-                                <h4>LAN</h4>
-                                <p>Puertos LAN para cables de red RJ45</p>
-                            </div>
-                        </div>
-                        <!-- Imagen 2 wlan-->
-                            <img src="../../../assets/img/ont/wlan.png" alt="" height="450px" width="450px">
+                            <!-- Imagen 1 puertos-->
+                            <img class="img-clickable" src="../../../assets/img/ont/puertos.png"
+                                alt="Puertos y botones del ONT" height="450px" width="450px"
+                                (click)="abrirModal('../../../assets/img/ont/puertos.png')">
                             <div class="ont-grid">
-                            <div class="ont-card">
-                                <div class="ont-num">4</div>
-                                <h4>WPS</h4>
-                                <p>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin requerir contraseña</p>
-                            </div>
+                                <div class="ont-card">
+                                    <div class="ont-num">1</div>
+                                    <h4>On / Off</h4>
+                                    <p>Botón de encendido y apagado del equipo</p>
 
-                            <div class="ont-card">
-                                <div class="ont-num">5</div>
-                                <h4>WLAN</h4>
-                                <p>Activa o desactiva las redes inalámbricas WLAN</p>
+                                </div>
+                                <div class="ont-card">
+                                    <div class="ont-num">2</div>
+                                    <h4>Power</h4>
+                                    <p>Fuente de energía</p>
+                                </div>
+                                <div class="ont-card">
+                                    <div class="ont-num">3</div>
+                                    <h4>LAN</h4>
+                                    <p>Puertos LAN para cables de red RJ45</p>
+                                </div>
                             </div>
+                            <!-- Imagen 2 wlan-->
+                            <img class="img-clickable" src="../../../assets/img/ont/wlan.png"
+                                alt="Botones WLAN y WPS del ONT" height="450px" width="450px"
+                                (click)="abrirModal('../../../assets/img/ont/wlan.png')">
+                            <div class="ont-grid">
+                                <div class="ont-card">
+                                    <div class="ont-num">4</div>
+                                    <h4>WPS</h4>
+                                    <p>Inicia una negociación con otro dispositivo para conectarse a las WLAN sin
+                                        requerir contraseña</p>
+                                </div>
+
+                                <div class="ont-card">
+                                    <div class="ont-num">5</div>
+                                    <h4>WLAN</h4>
+                                    <p>Activa o desactiva las redes inalámbricas WLAN</p>
+                                </div>
                             </div>
-                        <!-- Imagen 3 reset-->
-                            <img src="../../../assets/img/ont/reset.png" alt="" height="450px" width="450px">
-                                       <div class="ont-grid">
-                            <div class="ont-card">
-                                <div class="ont-num">6</div>
-                                <h4>Reset</h4>
-                                <p>Presionar más de 10 segundos para reiniciar de fábrica el equipo</p>
+                            <!-- Imagen 3 reset-->
+                            <img class="img-clickable" src="../../../assets/img/ont/reset.png" alt="Botón Reset del ONT"
+                                height="450px" width="450px" (click)="abrirModal('../../../assets/img/ont/reset.png')">
+                            <div class="ont-grid">
+                                <div class="ont-card">
+                                    <div class="ont-num">6</div>
+                                    <h4>Reset</h4>
+                                    <p>Presionar más de 10 segundos para reiniciar de fábrica el equipo</p>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Imagen 4 puertoOptico-->
-                            <img src="../../../assets/img/ont/puertoOptico.png" alt="" height="450px" width="450px">
-                        <div class="ont-grid">
-                            <div class="ont-card">
-                                <div class="ont-num">7</div>
-                                <h4>Fibra</h4>
-                                <p>Puerto para conector de fibra óptica SC/APC</p>
+                            <!-- Imagen 4 puertoOptico-->
+                            <img class="img-clickable" src="../../../assets/img/ont/puertoOptico.png"
+                                alt="Puerto óptico SC/APC del ONT" height="450px" width="450px"
+                                (click)="abrirModal('../../../assets/img/ont/puertoOptico.png')">
+                            <div class="ont-grid">
+                                <div class="ont-card">
+                                    <div class="ont-num">7</div>
+                                    <h4>Fibra</h4>
+                                    <p>Puerto para conector de fibra óptica SC/APC</p>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
 
                     <div class="view-panel" [ngClass]="{ active: activeView === 'leds' }">
 
                         <div class="ont-img-placeholder">
-                            <img src="../../../assets/img/ont/leds.png" alt="" height="450px" width="450px">
+                            <img class="img-clickable" src="../../../assets/img/ont/leds.png"
+                                alt="Indicadores LED del ONT" height="450px" width="450px"
+                                (click)="abrirModal('../../../assets/img/ont/leds.png')">
                         </div>
 
                         <table class="ont-table">
@@ -546,37 +557,70 @@
 
                 </div>
             </details>
-          
+
 
         </div>
-<div class="support-cta">
-      <div class="support-card">
-        <div class="support-left">
-          <h2>¿Necesitas ayuda?</h2>
-          <h3>Estamos aquí para ti</h3>
-          <p>Si no encontraste la respuesta que buscabas, nuestro equipo está listo para ayudarte en cualquier momento.</p>
-          <div class="support-actions">
-            <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola%20buen%20d%C3%ADa%2C%20necesito%20ayuda" class="btn whatsapp" target="_blank">
-              WhatsApp
-            </a>
-            <a href="tel:7131334557" class="btn website">
-              Llamar a Soporte
-            </a>
-          </div>
-        </div>
-        <div class="support-right">
-          <div class="status-card">
-            <div class="status-icon">🎧</div>
-            <h4>Soporte 24/7</h4>
-            <p>Siempre disponibles para ayudarte</p>
-            <div class="status-live">
-              <span class="dot"></span>
-              <a href="https://api.whatsapp.com/send/?phone=7133475658&text=Hola%2C+necesito+ayuda.&type=phone_number&app_absent=0" target="_blank">Embot en línea</a>
+        <div class="support-cta">
+            <div class="support-card">
+                <div class="support-left">
+                    <h2>¿Necesitas ayuda?</h2>
+                    <h3>Estamos aquí para ti</h3>
+                    <p>Si no encontraste la respuesta que buscabas, nuestro equipo está listo para ayudarte en cualquier
+                        momento.</p>
+                    <div class="support-actions">
+                        <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola%20buen%20d%C3%ADa%2C%20necesito%20ayuda"
+                            class="btn whatsapp" target="_blank">
+                            WhatsApp
+                        </a>
+                        <a href="tel:7131334557" class="btn website">
+                            Llamar a Soporte
+                        </a>
+                    </div>
+                </div>
+                <div class="support-right">
+                    <div class="status-card">
+                        <div class="status-icon">🎧</div>
+                        <h4>Soporte 24/7</h4>
+                        <p>Siempre disponibles para ayudarte</p>
+                        <div class="status-live">
+                            <span class="dot"></span>
+                            <a href="https://api.whatsapp.com/send/?phone=7133475658&text=Hola%2C+necesito+ayuda.&type=phone_number&app_absent=0"
+                                target="_blank">Embot en línea</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    </div>
-    
+
 </main>
+
+<!-- MODAL IMAGEN -->
+@if (modalAbierto) {
+<div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-controles" (click)="$event.stopPropagation()">
+        <button class="modal-btn" title="Alejar" (click)="alejar()">
+            &minus;
+        </button>
+
+        <span class="modal-zoom-nivel">{{ nivelZoomPorcentaje }}%</span>
+
+        <button class="modal-btn" title="Acercar" (click)="acercar()">
+            +
+        </button>
+
+        <div class="modal-divisor"></div>
+
+        <button class="modal-btn modal-btn-cerrar" title="Cerrar (Esc)" (click)="cerrarModal()">
+            &times;
+        </button>
+    </div>
+
+    <div class="modal-contenedor" (click)="$event.stopPropagation()">
+        <img class="modal-img" [src]="imagenModal" alt="Imagen ampliada" (load)="capturarDimensiones($event)"
+            [style.width.px]="anchoNatural > 0 ? anchoNatural * nivelZoom : null"
+            [style.height.px]="altoNatural > 0 ? altoNatural * nivelZoom : null"
+            [style.maxWidth]="anchoNatural > 0 ? 'none' : null" [style.maxHeight]="altoNatural > 0 ? 'none' : null">
+    </div>
+</div>
+}
