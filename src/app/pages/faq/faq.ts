@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 
-const ZOOM_MIN  = 1;
-const ZOOM_MAX  = 3;
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 3;
 const ZOOM_PASO = 0.05;
 
 @Component({
