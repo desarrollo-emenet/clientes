@@ -21,8 +21,10 @@
             <p class="page-sub">Sigue estos pasos para identificar y resolver problemas con tu conexión.</p>
 
             <!-- ONT -->
-            <details class="help-block" style="margin-top: 24px;">
-                <summary class="help-summary">
+            <details class="help-block" style="margin-top: 24px;"
+                [attr.open]="helpAbierto === 'ont' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('ont'); $event.preventDefault()">
                     <span class="help-label"> diagrama equipo ONT — puertos y botones</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -208,8 +210,10 @@
             </details>
 
             <!-- 1 -->
-            <details class="help-block">
-                <summary class="help-summary">
+            <details class="help-block"
+                [attr.open]="helpAbierto === 'paso1' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('paso1'); $event.preventDefault()">
                     <span class="help-label">1. Inspección visual</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -226,8 +230,10 @@
             </details>
 
             <!-- 2 -->
-            <details class="help-block">
-                <summary class="help-summary">
+            <details class="help-block"
+                [attr.open]="helpAbierto === 'paso2' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('paso2'); $event.preventDefault()">
                     <span class="help-label">2. Luz roja en el equipo</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -240,8 +246,10 @@
             </details>
 
             <!-- 3 -->
-            <details class="help-block">
-                <summary class="help-summary">
+            <details class="help-block"
+                [attr.open]="helpAbierto === 'paso3' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('paso3'); $event.preventDefault()">
                     <span class="help-label">3. Tengo WiFi pero no hay internet</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -256,8 +264,10 @@
             </details>
 
             <!-- 4 -->
-            <details class="help-block">
-                <summary class="help-summary">
+            <details class="help-block"
+                [attr.open]="helpAbierto === 'paso4' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('paso4'); $event.preventDefault()">
                     <span class="help-label">4. Internet lento</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -272,8 +282,10 @@
             </details>
 
             <!-- 5 -->
-            <details class="help-block">
-                <summary class="help-summary">
+            <details class="help-block"
+                [attr.open]="helpAbierto === 'paso5' ? '' : null">
+                <summary class="help-summary"
+                    (click)="toggleHelp('paso5'); $event.preventDefault()">
                     <span class="help-label">5. No aparecen las redes WiFi</span>
                     <span class="chevron">▼</span>
                 </summary>
@@ -296,8 +308,10 @@
             <p class="page-sub">Encuentra respuestas a las dudas más comunes sobre nuestros servicios.</p>
 
 
-            <details class="faq-section">
-                <summary class="section-summary">
+            <details class="faq-section"
+                [attr.open]="faqAbierto === 'internet' ? '' : null">
+                <summary class="section-summary"
+                    (click)="toggleFaq('internet'); $event.preventDefault()">
                     <span class="section-label">Servicio de Internet</span>
                     <span class="section-chevron">▼</span>
                 </summary>
@@ -380,8 +394,10 @@
             </details>
 
 
-            <details class="faq-section">
-                <summary class="section-summary">
+            <details class="faq-section"
+                [attr.open]="faqAbierto === 'soporte' ? '' : null">
+                <summary class="section-summary"
+                    (click)="toggleFaq('soporte'); $event.preventDefault()">
                     <span class="section-label">Soporte Técnico</span>
                     <span class="section-chevron">▼</span>
                 </summary>
@@ -427,8 +443,10 @@
                 </div>
             </details>
 
-            <details class="faq-section">
-                <summary class="section-summary">
+            <details class="faq-section"
+                [attr.open]="faqAbierto === 'cancelacion' ? '' : null">
+                <summary class="section-summary"
+                    (click)="toggleFaq('cancelacion'); $event.preventDefault()">
                     <span class="section-label">Cancelación y Cambios</span>
                     <span class="section-chevron">▼</span>
                 </summary>
@@ -457,8 +475,10 @@
                 </div>
             </details>
 
-            <details class="faq-section">
-                <summary class="section-summary">
+            <details class="faq-section"
+                [attr.open]="faqAbierto === 'pagos' ? '' : null">
+                <summary class="section-summary"
+                    (click)="toggleFaq('pagos'); $event.preventDefault()">
                     <span class="section-label">Pagos</span>
                     <span class="section-chevron">▼</span>
                 </summary>
@@ -498,8 +518,10 @@
                 </div>
             </details>
 
-            <details class="faq-section">
-                <summary class="section-summary">
+            <details class="faq-section"
+                [attr.open]="faqAbierto === 'como-pagar' ? '' : null">
+                <summary class="section-summary"
+                    (click)="toggleFaq('como-pagar'); $event.preventDefault()">
                     <span class="section-label">Como pagar</span>
                     <span class="section-chevron">▼</span>
                 </summary>

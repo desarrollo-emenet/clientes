@@ -20,13 +20,25 @@ export class FAQ {
   nivelZoom: number = 1;
   anchoNatural: number = 0;
   altoNatural: number = 0;
+  helpAbierto: string | null = null;
+  faqAbierto: string | null = null;
 
   showSection(id: string): void {
     this.activeSection = id;
+    this.helpAbierto = null;
+    this.faqAbierto = null;
   }
 
   showView(id: string): void {
     this.activeView = id;
+  }
+
+  toggleHelp(id: string): void {
+    this.helpAbierto = this.helpAbierto === id ? null : id;
+  }
+
+  toggleFaq(id: string): void {
+    this.faqAbierto = this.faqAbierto === id ? null : id;
   }
 
   abrirModal(src: string): void {
