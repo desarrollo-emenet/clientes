@@ -562,7 +562,13 @@ a:hover {
   }
 
   .support-actions {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .btn {
+    justify-content: center;
   }
 }
 
