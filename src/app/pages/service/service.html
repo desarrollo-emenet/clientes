@@ -111,8 +111,12 @@
             <div class="apple-card__body">
               <div class="service-card__header">
                 <div class="service-card__info">
-                  <span class="service-card__number"># {{ s.cliente?.cliente }}</span>
-                  <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+                    <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+                 <div class="client-id-pill">
+                  <i class="fa-regular fa-id-card"></i>
+                  <span class="service-card__number">#{{ s.cliente?.cliente }}</span>
+                 </div>
+                  
 
                 </div>
                 <span class="apple-badge" [ngClass]="{
