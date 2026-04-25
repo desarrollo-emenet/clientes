@@ -1,18 +1,457 @@
-form{
-    margin: 20px;
+/* ==========================================================================
+   Fondo de Pantalla Completa y Alineación
+   ========================================================================== */
+.login-layout {
+  /*background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)),
+    url('/assets/img/recuperar/f8.jpeg');*/
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 3rem 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+
 }
-.card{
-  width: min(560px, 92vw);
-  background: #fff;
-  border-radius: 28px;
-  border: 1px solid #e9e9f3;
+
+
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 35px;
+  /* Radio menos agresivo en móviles para no comerse el padding en las esquinas*/
+  border: 4px solid transparent;
+  /* Interior blanco + borde degradado solo en la parte superior */
+  background: linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(to bottom,
+      #3472de 0%,
+      #3b82fb 20%,
+      rgba(181, 227, 253, 0.35) 50%,
+      transparent 80%) border-box;
   position: relative;
-  
+  margin: 0 auto;
+  overflow: visible;
+
 }
 
-.card-body { padding: 20px; }
-.label { font-size: .75rem; color: #6b7280; }
-.value { font-weight: 700; font-size: 1rem; }
-.mono { font-family: SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; }
+@media (min-width: 768px) {
+  .auth-card {
+    border-radius: 50px;
+    border-width: 5px;
+  }
+}
+
+/* ==========================================================================
+   Botón con Efecto de Agua
+   ========================================================================== */
+
+.btn-water-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn-water {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  padding: 13px 28px;
+  border: 1.5px solid #2d3748;
+  border-radius: 50px;
+  background: transparent;
+  color: #2d3748;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    color 0.45s ease,
+    border-color 0.4s ease,
+    box-shadow 0.3s ease,
+    transform 0.15s ease;
+  outline: none;
+  user-select: none;
+  font-family: inherit;
+}
+
+.btn-water .water-fill {
+  position: absolute;
+  bottom: -110%;
+  left: -5%;
+  width: 110%;
+  height: 120%;
+  background: linear-gradient(160deg, #0f172a 0%, #0f172a 100%);
+  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+  transition: bottom 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  z-index: 0;
+}
+
+.btn-water:hover:not(:disabled) .water-fill,
+.btn-water:focus-visible:not(:disabled) .water-fill,
+.btn-water.loading .water-fill {
+  bottom: -5%;
+  border-radius: 0;
+}
+
+.btn-water.loading .water-fill {
+  background: linear-gradient(160deg, #4a5568 0%, #2d3748 100%);
+}
+
+.btn-water-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.45s ease;
+}
+
+.btn-water:hover:not(:disabled) .btn-water-content,
+.btn-water:focus-visible:not(:disabled) .btn-water-content,
+.btn-water.loading .btn-water-content {
+  color: #ffffff;
+}
+
+.btn-water:hover:not(:disabled) {
+  border-color: #2d3748;
+  box-shadow: 0 8px 28px rgba(45, 55, 72, 0.22);
+}
+
+.btn-water:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-color: #cbd5e0;
+  color: #a0aec0;
+}
+
+.btn-water:active:not(:disabled) {
+  transform: scale(0.97);
+}
 
 
+/* ==========================================================================
+   Inputs con Borde Brillante (Glow)
+   ========================================================================== */
+
+.input-glow-wrapper {
+  position: relative;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.input-glow-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  background: conic-gradient(from var(--angle, 0deg),
+      transparent 0%,
+      transparent 30%,
+      #3472de 45%,
+      #0055ff 50%,
+      transparent 70%,
+      transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  animation: spin-border 2s linear infinite;
+}
+
+.input-glow-wrapper:focus-within::before {
+  opacity: 1;
+}
+
+.input-glow-wrapper .form-control,
+.input-glow-wrapper .input-group {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+}
+
+.input-glow-wrapper .form-control:focus {
+  outline: none;
+  border-color: #e2e8f0;
+  box-shadow: none;
+}
+
+.form-label {
+  text-align: left;
+  display: block;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Botón Ojo (Mostrar/Ocultar Contraseña)
+   ========================================================================== */
+
+.btn-eye-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  padding: 0;
+  border: 1px solid #dee2e6;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  background: #fafafa;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.btn-eye-toggle:hover,
+.btn-eye-toggle.revealed {
+  background: linear-gradient(135deg, #ede9fe 0%, #ffffff 100%);
+  box-shadow: inset 0 0 14px rgb(242, 247, 255);
+}
+
+.btn-eye-toggle:active {
+  transform: scale(0.88);
+}
+
+.eye-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+}
+
+.eye-icon-wrap img {
+  display: block;
+  filter: grayscale(50%) opacity(0.65);
+  transition: all 0.3s ease;
+}
+
+.btn-eye-toggle:hover .eye-icon-wrap img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.2);
+}
+
+.btn-eye-toggle.revealed .eye-icon-wrap img {
+  filter: grayscale(0%) opacity(1) drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 2px #ffffff);
+  transform: scale(1.1);
+}
+
+@keyframes eye-pop {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(0.75) rotate(-8deg);
+  }
+
+  70% {
+    transform: scale(1.25) rotate(4deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.btn-eye-toggle:active .eye-icon-wrap {
+  animation: eye-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ==========================================================================
+   Enlaces: Regresar a iniciar sesion
+   ========================================================================== */
+
+.link-subtle {
+  color: #0f172a !important;
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-subtle:hover {
+  color: #3472df !important;
+}
+
+/* El contenido de .login-layout ahora está al inicio para consistencia */
+
+.flip-in {
+  -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.flip-out {
+  -webkit-animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* 
+  Optimizamos inyectando perspective en la propiedad transform.
+  Esto asegura un renderizado plano sin bugs en WebKit. 
+*/
+@-webkit-keyframes flipScreenIn {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flipScreenIn {
+  0% {
+    transform: perspective(2500px) rotateY(-90deg) scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flipScreenOut {
+  0% {
+    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes flipScreenOut {
+  0% {
+    transform: perspective(2500px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(2500px) rotateY(90deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Password Strength Meter
+   ========================================================================== */
+
+.strength-meter {
+  padding: 4px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.strength-bar-container {
+  height: 6px;
+  background: #edf2f7;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color 0.3s ease;
+}
+
+.strength-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+  background-color: transparent !important;
+}
+
+.strength-feedback {
+  font-size: 0.7rem;
+  color: #718096;
+  font-style: italic;
+}
+
+/* Strength Colors */
+.strength-bar.strength-none {
+  background-color: #cbd5e0 !important;
+}
+
+.strength-bar.strength-weak {
+  background-color: #f56565 !important;
+}
+
+.strength-bar.strength-medium {
+  background-color: #ed8936 !important;
+}
+
+.strength-bar.strength-good {
+  background-color: #4299e1 !important;
+}
+
+.strength-bar.strength-strong {
+  background-color: #48bb78 !important;
+}
+
+.strength-text.strength-none {
+  color: #a0aec0 !important;
+}
+
+.strength-text.strength-weak {
+  color: #e53e3e !important;
+}
+
+.strength-text.strength-medium {
+  color: #dd6b20 !important;
+}
+
+.strength-text.strength-good {
+  color: #3573df !important;
+}
+
+.strength-text.strength-strong {
+  color: #42a948 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
