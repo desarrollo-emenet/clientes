@@ -5,11 +5,13 @@
   gap: 0.5rem;
   background: #e3f2fd;
   color: #2179B5;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 10px;
   font-weight: 600;
   font-size: 0.9rem;
   margin-bottom: 0.75rem;
+  width: fit-content;
+  min-width: 100px;
 }
 /* ============================================================
    BASE — sistema de fuentes y reset Apple
