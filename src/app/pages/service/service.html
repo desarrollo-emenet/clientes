@@ -80,7 +80,8 @@
             <div *ngIf="!mostrarConfirmacion" class="apple-card service-panel" style="box-shadow: none; border-radius: 16px;">
               <div class="apple-card__accent"></div>
               <div class="apple-card__body">
-                <p class="apple-card__label">Agregar servicio</p>
+                <p class="apple-card__label"><i class="fa-solid fa-house-signal"></i> Agregar servicio</p>
+                <p class="apple-text-secondary mb-3">Ingresa tu número de cliente</p>
                 <form (ngSubmit)="service()" [formGroup]="serviceForm">
                   <div class="service-form-grid">
                     <div class="input-glow-wrapper">
@@ -112,7 +113,7 @@
             <!-- Verificación -->
             <div *ngIf="mostrarConfirmacion" class="apple-card verification-card mt-3" style="box-shadow: none; border-radius: 16px;">
               <div class="apple-card__body">
-                <p class="apple-card__label">Verificación de servicio</p>
+                <p class="apple-card__label"><i class="fa-solid fa-user-check"></i> Verificación de servicio</p>
                 <p class="apple-text-secondary mb-3">Ingresa el código enviado a tu correo</p>
                 <div class="service-form-grid">
                   <input type="text" class="apple-input text-center" placeholder="——————" maxlength="6" [(ngModel)]="codigo"

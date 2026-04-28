@@ -122,7 +122,7 @@
 
 /* Etiqueta superior */
 .apple-card__label {
-  font-size: 0.72rem;
+  font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -533,7 +533,8 @@
 }
 
 .modal-header-accent {
-  background: linear-gradient(135deg, #2179B5 0%, #209ff3 100%);
+  background: linear-gradient(135deg, #2179B5 0%, #209ff3
+   100%);
   padding: 2.5rem 2rem 2rem;
   text-align: center;
   color: white;
