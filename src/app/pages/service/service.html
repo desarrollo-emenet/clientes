@@ -26,7 +26,8 @@
         <div class="apple-card__body">
           <div class="service-card__header">
             <div class="service-card__info">
-                <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+              
+                <span class="service-card__client-name"><i class="fa-regular fa-user"></i> {{ s.cliente?.nombre }}</span>
              <div class="client-id-pill">
               <i class="fa-regular fa-id-card"></i>
               <span class="service-card__number">#{{ s.cliente?.cliente }}</span>
@@ -39,8 +40,8 @@
                 'apple-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
                 'apple-badge--neutral': !s.cliente?.infoRed?.estado
               }">
-              {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
-            </span>
+             <i class="fa-solid fa-signal"></i> {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+            </span> 
           </div>
 
           <div class="service-card__divider"></div>
@@ -49,7 +50,7 @@
             <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
               <span class="water-fill"></span>
               <span class="btn-water-content">
-                Ver detalles
+                <i class="fa-solid fa-arrow-up-from-bracket"></i> Ver detalles
               </span>
             </button>
             <button class="btn-water btn-water-inline-sm btn-water-danger" type="button"
@@ -73,10 +74,10 @@
         <div class="banner-card-modal">
           <button type="button" class="btn-close-customs" (click)="cerrarAddServiceModal()" aria-label="Cerrar">&times;</button>
           <div class="modal-headers-accents">
-            <h2 class="modal-title">Nuevo servicio</h2>
+            <h2 class="modal-title"></h2>
           </div>
           <div class="banner-modal-content">
-            <div class="apple-card service-panel" style="box-shadow: none; border-radius: 16px;">
+            <div *ngIf="!mostrarConfirmacion" class="apple-card service-panel" style="box-shadow: none; border-radius: 16px;">
               <div class="apple-card__accent"></div>
               <div class="apple-card__body">
                 <p class="apple-card__label">Agregar servicio</p>
@@ -195,8 +196,7 @@
   <button type="button" class="btn-service btn-water-inline fab-add-service" (click)="showAddServiceModal = true">
     <span class="water-fill"></span>
     <span class="btn-service-content">
-      <i class="fa-solid fa-plus me-2"></i>
-      Servicio
+      <i class="fa-solid fa-user-plus"></i>
     </span>
   </button>
   </div>
