@@ -11,72 +11,68 @@
         Administra y consulta tus servicios en un solo lugar
       </p>
     </div>
-    <div class="service-layout">
+    <div class="service-layout"
+      [class.service-layout--centered]="servicios.length < 3 && !loading">
 
-      <!-- Columna derecha: lista de servicios   -->
-      <div class="service-column-right">
+      <!-- Loading state -->
+      <div *ngIf="loading" class="service-loading" style="grid-column: 1 / -1;">
+        <div class="service-loading__spinner"></div>
+        <p class="apple-text-secondary mt-3">Cargando servicios…</p>
+      </div>
 
-        <div *ngIf="loading" class="service-loading">
-          <div class="service-loading__spinner"></div>
-          <p class="apple-text-secondary mt-3">Cargando servicios…</p>
-        </div>
+      <!-- Service cards -->
+      <div *ngFor="let s of servicios" class="apple-card service-card">
+        <div class="service-card__side-accent"></div>
+        <div class="apple-card__body">
+          <div class="service-card__header">
+            <div class="service-card__info">
+                <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
+             <div class="client-id-pill">
+              <i class="fa-regular fa-id-card"></i>
+              <span class="service-card__number">#{{ s.cliente?.cliente }}</span>
+             </div>
+              
 
-        <div *ngIf="!loading" class="service-list">
-          <div *ngFor="let s of servicios" class="apple-card service-card">
-            <div class="service-card__side-accent"></div>
-            <div class="apple-card__body">
-              <div class="service-card__header">
-                <div class="service-card__info">
-                    <span class="service-card__client-name">{{ s.cliente?.nombre }}</span>
-                 <div class="client-id-pill">
-                  <i class="fa-regular fa-id-card"></i>
-                  <span class="service-card__number">#{{ s.cliente?.cliente }}</span>
-                 </div>
-                  
-
-                </div>
-                <span class="apple-badge" [ngClass]="{
-                    'apple-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                    'apple-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                    'apple-badge--neutral': !s.cliente?.infoRed?.estado
-                  }">
-                  {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
-                </span>
-              </div>
-
-              <div class="service-card__divider"></div>
-
-              <div class="service-card__actions">
-                <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
-                  <span class="water-fill"></span>
-                  <span class="btn-water-content">
-                    Ver detalles
-                  </span>
-                </button>
-                <button class="btn-water btn-water-inline-sm btn-water-danger" type="button"
-                  (click)="eliminarServicio(s.idServicio)">
-                  <span class="water-fill"></span>
-                  <span class="btn-water-content">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-
-                  </span>
-                </button>
-              </div>
             </div>
+            <span class="apple-badge" [ngClass]="{
+                'apple-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+                'apple-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+                'apple-badge--neutral': !s.cliente?.infoRed?.estado
+              }">
+              {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+            </span>
+          </div>
+
+          <div class="service-card__divider"></div>
+
+          <div class="service-card__actions">
+            <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
+              <span class="water-fill"></span>
+              <span class="btn-water-content">
+                Ver detalles
+              </span>
+            </button>
+            <button class="btn-water btn-water-inline-sm btn-water-danger" type="button"
+              (click)="eliminarServicio(s.idServicio)">
+              <span class="water-fill"></span>
+              <span class="btn-water-content">
+                <i class="fa-regular fa-trash-can"></i>
+                Eliminar
+
+              </span>
+            </button>
           </div>
         </div>
-
       </div>
+
     </div>
 
     <!-- Modal de agregar servicio  -->
     <div class="modal-overlay" *ngIf="showAddServiceModal" (click)="cerrarAddServiceModal()">
       <div class="modal-container" (click)="$event.stopPropagation()">
         <div class="banner-card-modal">
-          <button type="button" class="btn-close-custom" (click)="cerrarAddServiceModal()" aria-label="Cerrar">&times;</button>
-          <div class="modal-header-accent">
-            <span class="modal-eyebrow-badge">AGREGAR SERVICIO</span>
+          <button type="button" class="btn-close-customs" (click)="cerrarAddServiceModal()" aria-label="Cerrar">&times;</button>
+          <div class="modal-headers-accents">
             <h2 class="modal-title">Nuevo servicio</h2>
           </div>
           <div class="banner-modal-content">
