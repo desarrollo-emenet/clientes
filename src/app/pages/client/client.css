@@ -489,4 +489,440 @@
   .card:hover { transform: none; box-shadow: 0 6px 18px rgba(13,110,253,0.04); }
   .avatar { width:56px; height:56px; font-size:.95rem; }
 }
+/*Nuevo diseño*/
+
+.client-wrap {
+  width: 100%;
+  background: #f6f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* =============================================
+   TOP BANNER (Saldo + Pagar + Último pago)
+   ============================================= */
+.top-banner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(13, 24, 45, 0.07);
+  margin: 0 0 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.banner-section {
+  flex: 1;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.banner-debt {
+  border-right: 1px solid #f0f1f5;
+}
+
+.banner-pay {
+  flex: 1.2;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-right: 1px solid #f0f1f5;
+}
+
+.banner-lastpay {
+  flex: 1;
+}
+
+.banner-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #fff0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #e53935;
+  flex-shrink: 0;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.banner-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.banner-amount {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.banner-amount.debt {
+  color: #e53935;
+}
+
+.banner-amount.success {
+  color: #2e7d32;
+}
+
+.banner-sub {
+  font-size: 0.82rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.banner-sub.muted {
+  color: #9ca3af;
+  font-size: 0.78rem;
+}
+
+.lastpay-check {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+/* Botón Pagar ahora */
+.btn-pay {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(229, 57, 53, 0.35);
+  white-space: nowrap;
+}
+
+.btn-pay:hover {
+  background: #c62828;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.45);
+}
+
+.btn-pay:active {
+  transform: translateY(0);
+}
+
+.ver-formas {
+  font-size: 0.85rem;
+  color: #2179B5;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s;
+}
+
+.ver-formas:hover {
+  color: #1558a0;
+  text-decoration: underline;
+}
+
+/* =============================================
+   RESUMEN DE CUENTA
+   ============================================= */
+.resumen-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.resumen-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.resumen-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 2px 12px rgba(13, 24, 45, 0.05);
+  border: 1px solid rgba(13, 24, 45, 0.04);
+}
+
+.resumen-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.resumen-icon--blue  { background: #eff6ff; color: #2179B5; }
+.resumen-icon--green { background: #f0fdf4; color: #16a34a; }
+.resumen-icon--purple{ background: #faf5ff; color: #7c3aed; }
+
+.resumen-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.resumen-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.resumen-sub {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+/* =============================================
+   DETAILS (servicios contratados)
+   ============================================= */
+.details {
+  margin-bottom: 20px;
+}
+
+.details-inner {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(13, 24, 45, 0.05);
+  border: 1px solid rgba(13, 24, 45, 0.04);
+}
+
+/* =============================================
+   SERVICE CARDS NEW
+   ============================================= */
+.service-card-new {
+  background: #fff;
+  border: 1px solid #f0f1f5;
+  border-radius: 14px;
+  padding: 16px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.service-card-new:hover {
+  box-shadow: 0 6px 20px rgba(13, 24, 45, 0.09);
+  transform: translateY(-2px);
+}
+
+.service-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.svc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.svc-icon--blue   { background: #eff6ff; color: #2179B5; }
+.svc-icon--green  { background: #f0fdf4; color: #16a34a; }
+.svc-icon--violet { background: #faf5ff; color: #7c3aed; }
+.svc-icon--orange { background: #fff7ed; color: #ea580c; }
+
+.svc-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.svc-name-plan {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Badge de cantidad/velocidad */
+.svc-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.badge-blue   { background: #eff6ff; color: #2179B5; }
+.badge-green  { background: #f0fdf4; color: #16a34a; }
+.badge-violet { background: #faf5ff; color: #7c3aed; }
+.badge-orange { background: #fff7ed; color: #ea580c; }
+
+.svc-meta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.svc-price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.svc-price-label {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.svc-price {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.svc-price--blue   { color: #2179B5; }
+.svc-price--green  { color: #16a34a; }
+.svc-price--violet { color: #7c3aed; }
+.svc-price--orange { color: #ea580c; }
+
+/* =============================================
+   HISTORIAL DE PAGOS
+   ============================================= */
+.history {
+  margin-bottom: 36px;
+}
+
+.card {
+  border: 1px solid rgba(13, 24, 45, 0.04);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 14px 18px;
+  font-weight: 700;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 991px) {
+  .resumen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .banner-section {
+    border-right: none !important;
+    border-bottom: 1px solid #f0f1f5;
+  }
+
+  .banner-section:last-child {
+    border-bottom: none;
+  }
+
+  .banner-pay {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .top-banner {
+    border-radius: 12px;
+  }
+
+  .banner-amount {
+    font-size: 1.3rem;
+  }
+
+  .table thead { display: none; }
+  .table tbody td {
+    display: block;
+    padding: 10px 12px;
+  }
+  .table tbody tr {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(13, 24, 45, 0.05);
+  }
+}
+
+/* Este contenedor ocupa TODO el ancho de la pantalla */
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Color bg-light */
+  display: block;
+}
+
+/* Este es el que limita el ancho y centra el contenido */
+.content-wrapper {
+  width: 100%;             /* En móviles ocupa todo */
+  max-width: 960px;        /* Equivale aproximadamente a un col-8 en desktop */
+  margin-left: auto;       /* Centra horizontalmente */
+  margin-right: auto;      /* Centra horizontalmente */
+  box-sizing: border-box;
+}
+
+/* Opcional: Si quieres que en pantallas muy grandes sea aún más pequeño */
+@media (min-width: 1400px) {
+  .content-wrapper {
+    max-width: 850px; 
+  }
+}
 

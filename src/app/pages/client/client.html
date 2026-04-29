@@ -362,3 +362,251 @@
         </main>
     </div>
 </div>
+<!--Diseño nuevo-->
+<div class="container-fluid">
+  <div class="row g-0 min-vh-100">
+   <main class="main-container bg-light px-3 px-lg-4 py-4">
+
+      <div *ngIf="data" class="content-wrapper">
+
+        <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
+        <div class="top-banner">
+          <div class="banner-section banner-debt" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+            <div class="banner-icon">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="banner-text">
+              <div class="banner-label">Saldo pendiente</div>
+              <div class="banner-amount debt">
+                {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.2-2' }}
+              </div>
+              <div class="banner-sub">Tienes un saldo pendiente</div>
+              <div class="banner-sub muted">
+                <i class="fa-regular fa-calendar-xmark me-1"></i>
+                Próximo corte: 15 de junio de 2025
+              </div>
+            </div>
+          </div>
+
+          <div class="banner-section banner-pay" *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+            <button class="btn-pay" routerLink="/formas-de-pago">
+              <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora
+            </button>
+            <a routerLink="/formas-de-pago" class="ver-formas">
+              Ver formas de pago <i class="fa-solid fa-chevron-right ms-1"></i>
+            </a>
+          </div>
+
+          <div class="banner-section banner-lastpay">
+            <div class="lastpay-check">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="banner-text">
+              <div class="banner-label">Último pago</div>
+              <div class="banner-amount success">$530.00</div>
+              <div class="banner-sub muted">10 de mayo de 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESUMEN DE CUENTA -->
+        <div class="resumen-section">
+          <h5 class="section-title">Resumen de tu cuenta</h5>
+          <div class="resumen-grid">
+            <div class="resumen-card">
+              <div class="resumen-icon resumen-icon--blue">
+                <i class="fa-solid fa-gauge-high"></i>
+              </div>
+              <div>
+                <div class="resumen-label">Total mensual</div>
+                <div class="resumen-value">
+                  {{ calcularTotalMensual(data.cliente.servicios) | currency:'MXN':'symbol':'1.0-0' }}
+                </div>
+                <div class="resumen-sub">Incluye todos los servicios activos</div>
+              </div>
+            </div>
+
+            <div class="resumen-card">
+              <div class="resumen-icon resumen-icon--green">
+                <i class="fa-solid fa-wifi"></i>
+              </div>
+              <div>
+                <div class="resumen-label">Velocidad contratada</div>
+                <div class="resumen-value">{{ data.cliente?.cliente?.planInternet || 0 }} Mbps</div>
+                <div class="resumen-sub">Plan de Internet</div>
+              </div>
+            </div>
+
+            <div class="resumen-card">
+              <div class="resumen-icon resumen-icon--purple">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <div>
+                <div class="resumen-label">Servicios activos</div>
+                <div class="resumen-value">{{ data.cliente.servicios.length }}</div>
+                <div class="resumen-sub">Internet, Cámaras, Telefonía, TV</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVICIOS CONTRATADOS -->
+        <div class="details">
+          <div class="details-inner">
+            <h5 class="section-title">1. Servicios contratados</h5>
+            <div class="row g-3">
+
+              <!-- Internet -->
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="service-card-new">
+                  <div class="service-card-top">
+                    <div class="svc-icon svc-icon--blue">
+                      <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div>
+                      <div class="svc-name">Internet</div>
+                      <div class="svc-name-plan">{{ data?.cliente?.cliente?.nombrePlan || '' }}</div>
+                    </div>
+                  </div>
+                  <div class="svc-badge badge-blue">
+                    {{ data.cliente?.cliente?.planInternet || 0 }} Mbps
+                  </div>
+                  <div class="svc-price-row">
+                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price svc-price--blue">
+                      {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cámaras -->
+              <div class="col-12 col-md-6 col-lg-3"
+                *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+                <div class="service-card-new">
+                  <div class="service-card-top">
+                    <div class="svc-icon svc-icon--green">
+                      <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <div>
+                      <div class="svc-name">Cámaras</div>
+                      <div class="svc-name-plan">Plan contratado</div>
+                    </div>
+                  </div>
+                  <div class="svc-badge badge-green">
+                    {{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicios
+                  </div>
+                  <div class="svc-meta">Precio por cámara</div>
+                  <div class="svc-price-row">
+                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price svc-price--green">
+                      {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Telefonía -->
+              <div class="col-12 col-md-6 col-lg-3"
+                *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+                <div class="service-card-new">
+                  <div class="service-card-top">
+                    <div class="svc-icon svc-icon--violet">
+                      <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                      <div class="svc-name">Telefonía</div>
+                      <div class="svc-name-plan">Plan contratado</div>
+                    </div>
+                  </div>
+                  <div class="svc-badge badge-violet">
+                    {{ data.cliente?.servicios?.telefono?.canServicios || 0 }} servicio
+                  </div>
+                  <div class="svc-meta">Precio por servicio</div>
+                  <div class="svc-price-row">
+                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price svc-price--violet">
+                      {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TV -->
+              <div class="col-12 col-md-6 col-lg-3"
+                *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+                <div class="service-card-new">
+                  <div class="service-card-top">
+                    <div class="svc-icon svc-icon--orange">
+                      <i class="fa-solid fa-tv"></i>
+                    </div>
+                    <div>
+                      <div class="svc-name">TV</div>
+                      <div class="svc-name-plan">Plan contratado</div>
+                    </div>
+                  </div>
+                  <div class="svc-badge badge-orange">
+                    {{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio
+                  </div>
+                  <div class="svc-meta">Precio por cuenta</div>
+                  <div class="svc-price-row">
+                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price svc-price--orange">
+                      {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- HISTORIAL DE PAGOS -->
+        <section class="history">
+          <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center bg-white">
+              <strong>Historial de pagos</strong>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th style="width: 120px;">Venta</th>
+                      <th style="width: 140px;">Emisión</th>
+                      <th>Mensualidad</th>
+                      <th class="text-end" style="width: 160px;">Importe</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of data?.cliente?.servicios?.estadoCuenta">
+                      <td><code>{{ item?.VENTA }}</code></td>
+                      <td>{{ item?.fechaEmision }}</td>
+                      <td>{{ item?.mensualidad }}</td>
+                      <td class="text-end fw-semibold">
+                        {{ (item?.importe || 0) | currency:'MXN':'symbol':'1.0-0' }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="!data?.cliente?.servicios?.estadoCuenta?.length">
+                      <td colspan="4" class="text-center text-muted py-4">Sin movimientos</td>
+                    </tr>
+                  </tbody>
+                  <tfoot class="table-light" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+                    <tr>
+                      <th colspan="3" class="text-end">Total pendiente</th>
+                      <th class="text-end">
+                        {{ (data?.cliente?.cliente?.deuda || 0) | currency:'MXN':'symbol':'1.0-0' }}
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>

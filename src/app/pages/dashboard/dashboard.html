@@ -154,7 +154,7 @@
               <div class="service-label">Estado de Cuenta</div>
               <div class="service-value">{{ calcularTotalMensual(data.cliente.servicios) |
                   currency:'MXN':'symbol':'1.0-0' }}</div>
-              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} Pendiente: {{ (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="service-sub">Ultimo pago: {{ getMesPagoReciente() }} Pendiente: {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol':'1.2-2' }}</div>
             </div>
           </div>
 
