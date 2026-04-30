@@ -103,31 +103,39 @@ export class Client implements OnInit {
 
     if (!servicios) return 0;
     let total = 0;
+    let cantidadServicios = 0;
 
     if (servicios.internet && servicios.internet.precio) {
       total += Number(servicios.internet.precio);
+      cantidadServicios++;
     }
 
     if (servicios.camaras && servicios.camaras.precio) {
       const precio = Number(servicios.camaras.precio) || 0;
       const noCamaras = Number(servicios.camaras.canServicios) || 0;
       total += precio * noCamaras;
+      cantidadServicios++;
     }
 
     if (servicios.telefono) {
       const precio = Number(servicios.telefono.precio) || 0;
       const lineas = Number(servicios.telefono.canServicios) || 0;
       total += precio * lineas;
+      cantidadServicios++;
   
     }
     if (servicios.cuentasTv) {
       const precio = Number(servicios.cuentasTv.precio) || 0;
       const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
       total += precio * canServicios;
+      cantidadServicios++;
 
     }
+ 
 
     return total;
+
+    //console.log("Total de servicios: ", cantidadServicios)
     //console.log('Total servicio:', servicios.cuentasTv.precio);
     //console.log('Total mesualidad:', total);
     //return 0;
@@ -151,5 +159,19 @@ export class Client implements OnInit {
     const text = encodeURIComponent('Hola, necesito ayuda.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
+  // Esta función solo cuenta cuántos servicios activos hay
+contarServicios(servicios: any): number {
+  if (!servicios) return 0;
+  
+  let conteo = 0;
+
+  if (servicios.internet) conteo++;
+  if (servicios.camaras) conteo++;
+  if (servicios.telefono) conteo++;
+  if (servicios.cuentasTv) conteo++;
+
+  return conteo;
+}
+
 
 }
