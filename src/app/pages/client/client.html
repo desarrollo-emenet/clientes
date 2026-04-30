@@ -403,8 +403,8 @@
             </div>
             <div class="banner-text">
               <div class="banner-label">Último pago</div>
-              <div class="banner-amount success">$00.00</div>
-              <div class="banner-sub muted">Fecha:</div>
+              <div class="banner-amount success">{{ calcularTotalMensual(data.cliente.servicios) | currency:'MXN':'symbol':'1.0-0' }}</div>
+              <div class="banner-sub muted">Fecha: {{ getMesPagoReciente() }}</div>
             </div>
           </div>
         </div>
@@ -444,7 +444,8 @@
               <div>
                 <div class="resumen-label">Servicios activos</div>
                 <div class="resumen-value">{{ contarServicios(data.cliente.servicios) }} servicio(s)</div>
-                <div class="resumen-sub">Internet, Cámaras, Telefonía, TV</div>
+                <div class="resumen-sub">Contratados</div>
+
               </div>
             </div>
           </div>
