@@ -1,6 +1,8 @@
-
 /*Nuevo diseño*/
-
+.ventanum {
+  background: #217ab565;
+  color: #3a3a3a;
+}
 .client-wrap {
   width: 100%;
   background: #f6f7fb;
@@ -161,6 +163,26 @@
 /* =============================================
    RESUMEN DE CUENTA
    ============================================= */
+.accent-bar  {
+  width: 4px;
+  height: 24px;
+  background: #2179B5;
+  border-radius: 2px;
+}
+
+.section-header-accent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.section-header-accent h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
 .resumen-section {
   margin-bottom: 20px;
 }
@@ -230,6 +252,7 @@
    ============================================= */
 .details {
   margin-bottom: 20px;
+  
 }
 
 .details-inner {
@@ -239,6 +262,7 @@
   border-radius: 14px;
   box-shadow: 0 2px 12px rgba(13, 24, 45, 0.05);
   border: 1px solid rgba(13, 24, 45, 0.04);
+  
 }
 
 /* =============================================

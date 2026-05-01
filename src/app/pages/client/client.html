@@ -368,6 +368,7 @@
    <main class="main-container bg-light px-3 px-lg-4 py-4">
 
       <div *ngIf="data" class="content-wrapper">
+        
 
         <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
         <div class="top-banner">
@@ -411,7 +412,10 @@
 
         <!-- RESUMEN DE CUENTA -->
         <div class="resumen-section">
-          <h5 class="section-title">Resumen de tu cuenta</h5>
+          <div class="section-header-accent">
+              <div class="accent-bar"></div>
+          <h4 class="section-title">Resumen de tu cuenta</h4>
+          </div>
           <div class="resumen-grid">
             <div class="resumen-card">
               <div class="resumen-icon resumen-icon--blue">
@@ -454,7 +458,10 @@
         <!-- SERVICIOS CONTRATADOS -->
         <div class="details">
           <div class="  -inner">
-            <h5 class="section-title">1. Servicios contratados</h5>
+            <div class="section-header-accent">
+              <div class="accent-bar"></div>
+              <h4>Servicios contratados</h4>
+            </div>
             <div class="row g-3 justify-content-center">
 
               <!-- Internet -->
@@ -574,10 +581,10 @@
                 <table class="table table-hover align-middle mb-0">
                   <thead class="table-light">
                     <tr>
-                      <th style="width: 120px;">Venta</th>
-                      <th style="width: 140px;">Emisión</th>
-                      <th>Mensualidad</th>
-                      <th class="text-end" style="width: 160px;">Importe</th>
+                      <th style="width: 120px;" class="ventanum">Venta</th>
+                      <th style="width: 140px;" class="ventanum">Emisión</th>
+                      <th class="ventanum">Mensualidad</th>
+                      <th class="text-end" style="width: 160px;" class="ventanum">Importe</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -585,7 +592,7 @@
                       <td><code><i class="fa-regular fa-file-lines"></i> {{ item?.VENTA }}</code></td>
                       <td><i class="fa-regular fa-calendar"></i> {{ item?.fechaEmision }}</td>
                       <td><i class="fa-solid fa-coins"></i> {{ item?.mensualidad }}</td>
-                      <td class="text-end fw-semibold"><i class="fa-regular fa-credit-card"></i>
+                      <td class="text-end fw-semibold">
                         {{ (item?.importe || 0) | currency:'MXN':'symbol':'1.0-0' }}
                       </td>
                     </tr>
@@ -596,7 +603,7 @@
                   <tfoot class="table-light" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
                     <tr>
                       <th colspan="3" class="text-end">Total pendiente</th>
-                      <th class="text-end">
+                      <th class="text-end text-danger"><i class="fa-regular fa-credit-card"></i>
                         {{ (data?.cliente?.cliente?.deuda || 0) | currency:'MXN':'symbol':'1.0-0' }}
                       </th>
                     </tr>
