@@ -582,10 +582,10 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of data?.cliente?.servicios?.estadoCuenta">
-                      <td><code>{{ item?.VENTA }}</code></td>
-                      <td>{{ item?.fechaEmision }}</td>
-                      <td>{{ item?.mensualidad }}</td>
-                      <td class="text-end fw-semibold">
+                      <td><code><i class="fa-regular fa-file-lines"></i> {{ item?.VENTA }}</code></td>
+                      <td><i class="fa-regular fa-calendar"></i> {{ item?.fechaEmision }}</td>
+                      <td><i class="fa-solid fa-coins"></i> {{ item?.mensualidad }}</td>
+                      <td class="text-end fw-semibold"><i class="fa-regular fa-credit-card"></i>
                         {{ (item?.importe || 0) | currency:'MXN':'symbol':'1.0-0' }}
                       </td>
                     </tr>
