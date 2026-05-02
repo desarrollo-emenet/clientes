@@ -600,7 +600,7 @@
                   </tbody>
                   <tfoot class="table-light" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
                     <tr>
-                      <th class="text-start" ><button class="btn btn-primary btn-sm" (click)="abrirEstadoCuentaModal()">PDF</button></th>
+                      <th class="text-start" ><button class="btn btn-primary btn-sm" (click)="abrirEstadoCuentaModal()"><i class="fa-solid fa-print"></i></button></th>
                       <th></th>
                       <th class="text-end">Total pendiente</th>
                       <th class="text-end text-danger"><i class="fa-regular fa-credit-card"></i>
@@ -631,7 +631,7 @@
                   <i class="fa-solid fa-coins"></i>
                   <span>{{ item?.mensualidad }}</span>
                 </div>
-                <button class="btn btn-primary btn-sm">Descargar</button>
+                <button class="btn btn-primary btn-sm"><i class="fa-regular fa-file-pdf"></i></button>
               </div>
             </div>
           </div>
