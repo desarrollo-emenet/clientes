@@ -18,6 +18,7 @@ export class Client implements OnInit {
   data: any;
   showDetails = false;
   loading = false;
+  showEstadoCuentaModal = false;
    private subs: Subscription[] = [];
 
   
@@ -158,6 +159,14 @@ export class Client implements OnInit {
     const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+  }
+
+  abrirEstadoCuentaModal() {
+    this.showEstadoCuentaModal = true;
+  }
+
+  cerrarEstadoCuentaModal() {
+    this.showEstadoCuentaModal = false;
   }
   // Esta función solo cuenta cuántos servicios activos hay
 contarServicios(servicios: any): number {

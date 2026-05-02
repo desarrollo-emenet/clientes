@@ -368,8 +368,6 @@
    <main class="main-container bg-light px-3 px-lg-4 py-4">
 
       <div *ngIf="data" class="content-wrapper">
-        
-
         <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
         <div class="top-banner">
           <div class="banner-section banner-debt" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
@@ -602,7 +600,9 @@
                   </tbody>
                   <tfoot class="table-light" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
                     <tr>
-                      <th colspan="3" class="text-end">Total pendiente</th>
+                      <th class="text-start" ><button class="btn btn-primary btn-sm" (click)="abrirEstadoCuentaModal()">PDF</button></th>
+                      <th></th>
+                      <th class="text-end">Total pendiente</th>
                       <th class="text-end text-danger"><i class="fa-regular fa-credit-card"></i>
                         {{ (data?.cliente?.cliente?.deuda || 0) | currency:'MXN':'symbol':'1.0-0' }}
                       </th>
@@ -611,8 +611,33 @@
                 </table>
               </div>
             </div>
+           
           </div>
         </section>
+
+    <!-- Modal de estado de cuenta -->
+    <div class="modal-overlay" *ngIf="showEstadoCuentaModal" (click)="cerrarEstadoCuentaModal()">
+      <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="banner-card-modal">
+          <button type="button" class="btn-close-customs" (click)="cerrarEstadoCuentaModal()" aria-label="Cerrar">&times;</button>
+          <div class="modal-headers-accents">
+            <h2 class="modal-title">Estado de cuenta</h2>
+          </div>
+          <div class="banner-modal-content">
+            <div class="modal-estado-cuenta">
+              <p class="modal-estado-cuenta-p">Seleccione el estado de cuenta que desea descargar</p>
+              <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="estado-cuenta-item">
+                <div class="estado-cuenta-info">
+                  <i class="fa-solid fa-coins"></i>
+                  <span>{{ item?.mensualidad }}</span>
+                </div>
+                <button class="btn btn-primary btn-sm">Descargar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
       </div>
     </main>

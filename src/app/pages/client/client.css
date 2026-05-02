@@ -1,3 +1,39 @@
+/*Modal estado de cuenta*/
+.modal-estado-cuenta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-estado-cuenta-p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.estado-cuenta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  gap: 12px;
+}
+
+.estado-cuenta-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.estado-cuenta-info i {
+  color: #2179B5;
+}
+
 /*Nuevo diseño*/
 .ventanum {
   background: #217ab565;
