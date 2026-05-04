@@ -463,11 +463,11 @@
             <div class="row g-3 justify-content-center">
 
               <!-- Internet -->
-              <div [ngClass]="{
-                'col-12': contarServiciosActivos() === 1,
-                'col-6': contarServiciosActivos() === 2,
-                'col-4': contarServiciosActivos() === 3,
-                'col-3': contarServiciosActivos() === 4
+              <div class="col-12" [ngClass]="{
+                'col-md-12': contarServiciosActivos() === 1,
+                'col-md-6': contarServiciosActivos() === 2,
+                'col-md-4': contarServiciosActivos() === 3,
+                'col-md-3': contarServiciosActivos() === 4
               }">
                 <div class="service-card-new">
                   <div class="service-card-top">
@@ -493,11 +493,11 @@
               </div>
 
               <!-- Cámaras -->
-              <div [ngClass]="{
-                'col-12': contarServiciosActivos() === 1,
-                'col-6': contarServiciosActivos() === 2,
-                'col-4': contarServiciosActivos() === 3,
-                'col-3': contarServiciosActivos() === 4
+              <div class="col-12" [ngClass]="{
+                'col-md-12': contarServiciosActivos() === 1,
+                'col-md-6': contarServiciosActivos() === 2,
+                'col-md-4': contarServiciosActivos() === 3,
+                'col-md-3': contarServiciosActivos() === 4
               }"
                 *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
@@ -524,11 +524,11 @@
               </div>
 
               <!-- Telefonía -->
-              <div [ngClass]="{
-                'col-12': contarServiciosActivos() === 1,
-                'col-6': contarServiciosActivos() === 2,
-                'col-4': contarServiciosActivos() === 3,
-                'col-3': contarServiciosActivos() === 4
+              <div class="col-12" [ngClass]="{
+                'col-md-12': contarServiciosActivos() === 1,
+                'col-md-6': contarServiciosActivos() === 2,
+                'col-md-4': contarServiciosActivos() === 3,
+                'col-md-3': contarServiciosActivos() === 4
               }"
                 *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
@@ -555,11 +555,11 @@
               </div>
 
               <!-- TV -->
-              <div [ngClass]="{
-                'col-12': contarServiciosActivos() === 1,
-                'col-6': contarServiciosActivos() === 2,
-                'col-4': contarServiciosActivos() === 3,
-                'col-3': contarServiciosActivos() === 4
+              <div class="col-12" [ngClass]="{
+                'col-md-12': contarServiciosActivos() === 1,
+                'col-md-6': contarServiciosActivos() === 2,
+                'col-md-4': contarServiciosActivos() === 3,
+                'col-md-3': contarServiciosActivos() === 4
               }"
                 *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
