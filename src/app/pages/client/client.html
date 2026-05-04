@@ -478,6 +478,7 @@
                     {{ data.cliente?.cliente?.planInternet || 0 }} Mbps
                   </div>
                   <div class="svc-price-row">
+                    
                     <span class="svc-price-label">Precio mensual</span>
                     <span class="svc-price svc-price--blue">
                       {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
@@ -502,9 +503,9 @@
                   <div class="svc-badge badge-green">
                     {{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicios
                   </div>
-                  <div class="svc-meta">Precio por cámara</div>
+                  <div class="svc-meta"></div>
                   <div class="svc-price-row">
-                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price-label">Precio por cámara</span>
                     <span class="svc-price svc-price--green">
                       {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
                     </span>
@@ -528,9 +529,9 @@
                   <div class="svc-badge badge-violet">
                     {{ data.cliente?.servicios?.telefono?.canServicios || 0 }} servicio
                   </div>
-                  <div class="svc-meta">Precio por servicio</div>
+                  <div class="svc-meta"></div>
                   <div class="svc-price-row">
-                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price-label">Precio por linea telefónica</span>
                     <span class="svc-price svc-price--violet">
                       {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
                     </span>
@@ -554,9 +555,9 @@
                   <div class="svc-badge badge-orange">
                     {{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio
                   </div>
-                  <div class="svc-meta">Precio por cuenta</div>
+                  <div class="svc-meta"></div>
                   <div class="svc-price-row">
-                    <span class="svc-price-label">Precio mensual</span>
+                    <span class="svc-price-label">Precio por cuenta</span>
                     <span class="svc-price svc-price--orange">
                       {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol':'1.0-0' }}/mes
                     </span>
