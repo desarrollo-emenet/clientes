@@ -1,26 +1,32 @@
-<div class="container-fluid layout">
-  <div class="row g-0">
-
-    <main class="content col-12 bg-light">
+<div class="container-fluid mt-4">
+  <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
+    <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
 
       <div class="payments-wrap">
         <div class="payments-container">
 
           <div class="heading mb-4">
-            <h2 class="title">Formas de pago</h2>
+            <h2 class="title">Conoce tus formas de pago</h2>
+            <div class="line"> </div>
+            
+
+
           </div>
 
           <div class="payments-layout">
 
             <div class="methods-top">
 
-              <div class="method-item" [class.active]="selectedMethod === 'Online'" (click)="selectMethod('Online')">
+              <div class="method-item" [class.active]="selectedMethod === 'Online'"
+                [class.show-badge]="selectedMethod === 'Online'" (click)="selectMethod('Online')">
                 <img src="assets/img/pagoralia.png">
+                <span class="badge-top">Recomendado</span>
+
                 <div>
-                  <div class="title">Pago en línea <span class="badge-recommended">Recomendado</span></div>
+                  <div class="title">Pago en línea <br> </div>
                   <div class="sub">Pago inmediato</div>
                 </div>
-                <span class="tag">ONLINE</span>
+                <!--<span class="tag">ONLINE</span>-->
               </div>
 
               <div class="method-item" [class.active]="selectedMethod === 'banco'" (click)="selectMethod('banco')">
@@ -29,17 +35,17 @@
                   <div class="title">Sucursal bancaria</div>
                   <div class="sub">Depósito en ventanilla</div>
                 </div>
-                <span class="tag">BANCO</span>
+                <!--<span class="tag">BANCO</span>-->
               </div>
 
               <div class="method-item" [class.active]="selectedMethod === 'transferencia'"
                 (click)="selectMethod('transferencia')">
-                <img src="assets/img/spei.png">
+                <img src="assets/img/spei.png" class="img-spei">
                 <div>
                   <div class="title">Transferencia electrónica</div>
                   <div class="sub">Banca en línea o app móvil</div>
                 </div>
-                <span class="tag">CLABE</span>
+                <!--<span class="tag">CLABE</span>-->
               </div>
 
               <div class="method-item" [class.active]="selectedMethod === 'tiendas'" (click)="selectMethod('tiendas')">
@@ -48,28 +54,33 @@
                   <div class="title">Otros métodos</div>
                   <div class="sub">Tiendas de conveniencia</div>
                 </div>
-                <span class="tag">TIENDAS</span>
+                <!--<span class="tag">TIENDAS</span>-->
               </div>
 
             </div>
-
             <div class="details-bottom">
 
+              <!-- EMPTY -->
               <div *ngIf="!selectedMethod" class="empty-state">
                 <i class="fa-solid fa-credit-card"></i>
                 <h3>Selecciona un método de pago</h3>
-                <p>Elige una opción arriba para ver los detalles.</p>
+                <p>Elige una opción para ver los detalles.</p>
               </div>
 
-              <!-- PAGORALIA -->
+              <!-- ONLINE -->
               <div *ngIf="selectedMethod === 'Online'" class="detail-card">
                 <img src="assets/img/pagoralia.png" class="logo">
 
-                <div class="info">
-                  <p><strong>1.</strong> Ingresa tu número de cliente</p>
-                  <p><strong>2.</strong> Selecciona los meses</p>
-                  <p><strong>3.</strong> Elige método de pago</p>
-                  <p><strong>4.</strong> Activación en máximo 1 hora</p>
+                <div class="steps">
+                  <div class="step"><span>1</span> Elige método de pago</div>
+                  <div class="step"><span>2</span> Paga seguro y a tu manera</div>
+                  <div class="step"><span>3</span> Activación en máximo 1 hora</div>
+                </div>
+
+                <div class="notes">
+                  <div class="note"><strong>Notas:</strong></div>
+                  <div class="note"> Comisión por procesamiento incluida</div>
+                  <div class="note"> Confirmación automática al pagar</div>
                 </div>
 
                 <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago || loading">
@@ -81,15 +92,25 @@
               <div *ngIf="selectedMethod === 'banco'" class="detail-card">
                 <img src="assets/img/hsbc.png" class="logo">
 
-                <div class="info">
-                  <p><strong>No. cuenta:</strong> 4062409131</p>
-                  <p><strong>Referencia:</strong> Nombre del titular</p>
-                  <p><strong>Beneficiario:</strong> IPTVTEL COMUNICACIONES</p>
+                <div class="data-list">
+                  <div class="data-item">
+                    <span>No. cuenta</span>
+                    <strong>4062409131</strong>
+                  </div>
+
+                  <div class="data-item">
+                    <span>Referencia</span>
+                    <strong>Nombre del titular</strong>
+                  </div>
+
+                  <div class="data-item">
+                    <span>Beneficiario</span>
+                    <strong>IPTVTEL COMUNICACIONES</strong>
+                  </div>
                 </div>
 
                 <div class="actions">
-                  <button class="btn-outline" (click)="copy('4062409131')">Copiar</button>
-                  <button class="btn-primary">Realizar pago</button>
+                  <button class="btn-primary" (click)="copy('4062409131')">Copiar cuenta</button>
                 </div>
               </div>
 
@@ -97,29 +118,41 @@
               <div *ngIf="selectedMethod === 'transferencia'" class="detail-card">
                 <img src="assets/img/hsbc.png" class="logo">
 
-                <div class="info">
-                  <p><strong>CLABE:</strong> 021453040624091311</p>
-                  <p><strong>Referencia:</strong> Nombre del titular</p>
+                <div class="data-list">
+                  <div class="data-item">
+                    <span>CLABE</span>
+                    <strong>021453040624091311</strong>
+                  </div>
+
+                  <div class="data-item">
+                    <span>Referencia</span>
+                    <strong>Nombre del titular</strong>
+                  </div>
                 </div>
 
                 <div class="actions">
-                  <button class="btn-outline" (click)="copy('021453040624091311')">Copiar</button>
-                  <button class="btn-primary">Realizar pago</button>
+                  <button class="btn-primary" (click)="copy('021453040624091311')">Copiar CLABE</button>
                 </div>
               </div>
 
               <!-- TIENDAS -->
               <div *ngIf="selectedMethod === 'tiendas'" class="detail-card">
-                <img src="assets/img/oxxo.png" class="logo">
+                <img src="assets/img/oxxo.png" class="logo1">
 
-                <div class="info">
-                  <p>OXXO · Farmacia del Ahorro · Financiera del Bienestar</p>
-                  <p><strong>No. cuenta:</strong> 4741764001982278</p>
+                <div class="data-list">
+                  <div class="data-item full">
+                    <span>Disponible en</span>
+                    <strong>OXXO · Farmacia del Ahorro · Financiera del Bienestar</strong>
+                  </div>
+
+                  <div class="data-item">
+                    <span>No. cuenta</span>
+                    <strong>4741764001982278</strong>
+                  </div>
                 </div>
 
                 <div class="actions">
-                  <button class="btn-outline" (click)="copy('4741764001982278')">Copiar</button>
-                  <button class="btn-primary">Realizar pago</button>
+                  <button class="btn-primary" (click)="copy('4741764001982278')">Copiar cuenta</button>
                 </div>
               </div>
 
