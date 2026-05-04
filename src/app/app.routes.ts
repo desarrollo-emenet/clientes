@@ -36,7 +36,7 @@ export const routes: Routes = [
   { path: 'dashboard/:numero_cliente', component: Dashboard, canActivate: [requireAuthGuard, serviceAccessGuard] },
   { path: 'servicios', component: Service, canActivate: [requireAuthGuard] },
   { path: 'estadoCuenta/:numero_cliente', component: Client, canActivate: [requireAuthGuard] },
-  { path: 'formas-de-pago', component: Payment, canActivate: [requireAuthGuard] },
+  { path: 'formas-de-pago/:numero_cliente', component: Payment, canActivate: [requireAuthGuard] },
   { path: 'perfil/:numero_cliente', component: Profile, canActivate: [requireAuthGuard] },
   { path: 'visitas', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },

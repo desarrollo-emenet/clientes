@@ -157,7 +157,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   navigateTo(route: string): void {
     this.isDropdownOpen = false;
-    if ((route === '/perfil' || route === '/notificaciones') && this.user?.numeroCliente) {
+    if ((route === '/perfil' || route === '/notificaciones' || route === '/formas-de-pago') && this.user?.numeroCliente) {
       this.router.navigate([route, this.user.numeroCliente]);
     } else {
       this.router.navigate([route]);

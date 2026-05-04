@@ -72,7 +72,9 @@
                   <p><strong>4.</strong> Activación en máximo 1 hora</p>
                 </div>
 
-                <button class="btn-primary">Realizar pago</button>
+                <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago || loading">
+                  {{ loadingPago ? 'Procesando...' : 'Pagar ahora' }}
+                </button>
               </div>
 
               <!-- BANCO -->

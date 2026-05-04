@@ -70,4 +70,10 @@ export class ClientService {
     return this.http.get<{has_access: boolean, servicio?: any}>(`${this.apiLocalUrl}/verify-access-service/${cliente}`, { headers });
   }
 
+  //pagoralia
+  crearOrdenPagoralia(data: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${this.apiLocalUrl}/pagoralia/orden-pago`, data, { headers });
+  }
+
 }

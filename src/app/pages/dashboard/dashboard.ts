@@ -8,7 +8,7 @@ import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgIf, NgxSonnerToaster, NgClass, NgFor, CurrencyPipe],
+  imports: [RouterLink, NgIf, NgxSonnerToaster, CurrencyPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
