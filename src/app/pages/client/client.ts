@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe, NgFor, NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-client',
-  imports: [CurrencyPipe, NgIf, NgFor, RouterLink, ],
+  imports: [CurrencyPipe, NgIf, NgFor, RouterLink, NgClass],
   templateUrl: './client.html',
   styleUrl: './client.css'
 })
@@ -173,6 +173,20 @@ contarServicios(servicios: any): number {
   if (!servicios) return 0;
   
   let conteo = 0;
+
+  if (servicios.internet) conteo++;
+  if (servicios.camaras) conteo++;
+  if (servicios.telefono) conteo++;
+  if (servicios.cuentasTv) conteo++;
+
+  return conteo;
+}
+
+contarServiciosActivos(): number {
+  if (!this.data?.cliente?.servicios) return 0;
+  
+  let conteo = 0;
+  const servicios = this.data.cliente.servicios;
 
   if (servicios.internet) conteo++;
   if (servicios.camaras) conteo++;
