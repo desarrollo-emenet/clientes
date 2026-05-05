@@ -5,6 +5,7 @@ import { ClientService } from '../../services/user/clientService';
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { Subscription } from 'rxjs';
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -167,6 +168,265 @@ export class Client implements OnInit {
 
   cerrarEstadoCuentaModal() {
     this.showEstadoCuentaModal = false;
+  }
+
+  descargarEstadoCuentaPDF(item: any): void {
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const cliente = this.data?.cliente?.cliente;
+    const servicios = this.data?.cliente?.servicios;
+    const numeroCliente = this.data?.numero_cliente;
+    const pageW = doc.internal.pageSize.getWidth();
+    const margen = 15;
+    const anchoUtil = pageW - margen * 2;
+
+    this.dibujarEncabezadoPDF(doc, pageW, margen);
+    let y = this.dibujarInfoClientePDF(
+      doc, cliente, numeroCliente, item, margen, anchoUtil
+    );
+    y = this.dibujarTablaServiciosPDF(doc, servicios, cliente, y, margen, anchoUtil);
+    this.dibujarTotalPendientePDF(doc, cliente, y, margen, anchoUtil);
+    this.dibujarPiePDF(doc, pageW);
+
+    const nombreArchivo =
+      `estado-cuenta-${numeroCliente}-${item?.mensualidad ?? 'periodo'}.pdf`;
+    doc.save(nombreArchivo);
+  }
+
+  private dibujarEncabezadoPDF(
+    doc: jsPDF, pageW: number, margen: number
+  ): void {
+    doc.setFillColor(10, 36, 99);
+    doc.rect(0, 0, pageW, 32, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text('EMENET', margen, 13);
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Estado de Cuenta', margen, 20);
+
+    const hoy = new Date().toLocaleDateString('es-MX', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    doc.setFontSize(8);
+    doc.text(`Emitido: ${hoy}`, pageW - margen, 20, { align: 'right' });
+    doc.setTextColor(0, 0, 0);
+  }
+
+  private dibujarInfoClientePDF(
+    doc: jsPDF,
+    cliente: any,
+    numeroCliente: string,
+    item: any,
+    margen: number,
+    anchoUtil: number
+  ): number {
+    let y = 42;
+
+    doc.setFillColor(245, 247, 255);
+    doc.roundedRect(margen, y, anchoUtil, 38, 3, 3, 'F');
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(10, 36, 99);
+    doc.text('DATOS DEL CLIENTE', margen + 4, y + 7);
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(60, 60, 60);
+
+    const nombre = cliente?.nombre ?? 'N/A';
+    const numCliente = `Cliente #${numeroCliente ?? 'N/A'}`;
+    const numVenta = `Venta #${item?.VENTA ?? 'N/A'}`;
+    const direccionParts = [
+      cliente?.direccion,
+      cliente?.colonia,
+      cliente?.municipio,
+      cliente?.estado,
+      cliente?.pais
+    ].filter(Boolean);
+    const direccion = direccionParts.join(', ') || 'Sin dirección registrada';
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(20, 20, 20);
+    doc.text(nombre, margen + 4, y + 16);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`${numCliente}   |   ${numVenta}`, margen + 4, y + 23);
+
+    const dirLines = doc.splitTextToSize(direccion, anchoUtil - 8);
+    doc.text(dirLines, margen + 4, y + 30);
+
+    y += 46;
+
+    doc.setFillColor(10, 36, 99);
+    doc.roundedRect(margen, y, anchoUtil, 22, 3, 3, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('PERÍODO DE PAGO', margen + 4, y + 7);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text(item?.mensualidad ?? 'N/A', margen + 4, y + 15);
+
+    const importe = this.formatearPesos(item?.importe ?? 0);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text(`MXN ${importe}`, margen + anchoUtil - 4, y + 15, { align: 'right' });
+
+    return y + 30;
+  }
+
+  private dibujarTablaServiciosPDF(
+    doc: jsPDF,
+    servicios: any,
+    cliente: any,
+    yInicio: number,
+    margen: number,
+    anchoUtil: number
+  ): number {
+    let y = yInicio;
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.setTextColor(10, 36, 99);
+    doc.text('SERVICIOS CONTRATADOS', margen, y);
+    y += 6;
+
+    const colServicio = anchoUtil * 0.45;
+    const colDetalle = anchoUtil * 0.30;
+    const colPrecio = anchoUtil * 0.25;
+
+    doc.setFillColor(10, 36, 99);
+    doc.rect(margen, y, anchoUtil, 7, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Servicio', margen + 3, y + 5);
+    doc.text('Detalle', margen + colServicio + 3, y + 5);
+    doc.text('Precio/mes', margen + colServicio + colDetalle + 3, y + 5);
+    y += 7;
+
+    const filas = this.construirFilasServicios(servicios, cliente);
+
+    filas.forEach((fila, idx) => {
+      const bgColor = idx % 2 === 0 ? [255, 255, 255] : [245, 247, 255];
+      doc.setFillColor(bgColor[0], bgColor[1], bgColor[2]);
+      doc.rect(margen, y, anchoUtil, 8, 'F');
+
+      doc.setTextColor(30, 30, 30);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text(fila.servicio, margen + 3, y + 5.5);
+      doc.text(fila.detalle, margen + colServicio + 3, y + 5.5);
+      doc.text(`MXN ${fila.precio}`, margen + colServicio + colDetalle + 3, y + 5.5);
+      y += 8;
+    });
+
+    doc.setDrawColor(200, 210, 240);
+    doc.line(margen, y, margen + anchoUtil, y);
+
+    return y + 8;
+  }
+
+  private construirFilasServicios(
+    servicios: any, cliente: any
+  ): { servicio: string; detalle: string; precio: string }[] {
+    const filas: { servicio: string; detalle: string; precio: string }[] = [];
+
+    if (servicios?.internet) {
+      filas.push({
+        servicio: 'Internet',
+        detalle: `${cliente?.nombrePlan ?? ''} · ${cliente?.planInternet ?? 0} Mbps`,
+        precio: this.formatearPesos(servicios.internet.precio ?? 0)
+      });
+    }
+
+    if ((servicios?.camaras?.canServicios ?? 0) > 0) {
+      filas.push({
+        servicio: 'Cámaras',
+        detalle: `${servicios.camaras.canServicios} servicio(s)`,
+        precio: this.formatearPesos(servicios.camaras.precio ?? 0)
+      });
+    }
+
+    if ((servicios?.telefono?.canServicios ?? 0) > 0) {
+      filas.push({
+        servicio: 'Telefonía',
+        detalle: `${servicios.telefono.canServicios} línea(s)`,
+        precio: this.formatearPesos(servicios.telefono.precio ?? 0)
+      });
+    }
+
+    if ((servicios?.cuentasTv?.canServicios ?? 0) > 0) {
+      filas.push({
+        servicio: 'TV',
+        detalle: `${servicios.cuentasTv.canServicios} servicio(s)`,
+        precio: this.formatearPesos(servicios.cuentasTv.precio ?? 0)
+      });
+    }
+
+    return filas;
+  }
+
+  private dibujarTotalPendientePDF(
+    doc: jsPDF,
+    cliente: any,
+    y: number,
+    margen: number,
+    anchoUtil: number
+  ): void {
+    const deuda = cliente?.deuda ?? 0;
+    const colorFondo = deuda > 0 ? [220, 53, 69] : [40, 167, 69];
+
+    doc.setFillColor(colorFondo[0], colorFondo[1], colorFondo[2]);
+    doc.roundedRect(margen, y, anchoUtil, 18, 3, 3, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('TOTAL PENDIENTE', margen + 4, y + 7);
+
+    doc.setFontSize(13);
+    doc.text(
+      `MXN ${this.formatearPesos(deuda)}`,
+      margen + anchoUtil - 4,
+      y + 12,
+      { align: 'right' }
+    );
+
+    if (deuda > 0) {
+      doc.setFontSize(7.5);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Realiza tu pago del 1 al 5 de cada mes.', margen + 4, y + 14);
+    }
+  }
+
+  private dibujarPiePDF(doc: jsPDF, pageW: number): void {
+    const pageH = doc.internal.pageSize.getHeight();
+    doc.setFillColor(10, 36, 99);
+    doc.rect(0, pageH - 12, pageW, 12, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.text(
+      'EMENET · Documento generado automáticamente · emenet.mx',
+      pageW / 2,
+      pageH - 4.5,
+      { align: 'center' }
+    );
+  }
+
+  private formatearPesos(valor: number): string {
+    return new Intl.NumberFormat('es-MX', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(Number(valor));
   }
   // Esta función solo cuenta cuántos servicios activos hay
 contarServicios(servicios: any): number {
