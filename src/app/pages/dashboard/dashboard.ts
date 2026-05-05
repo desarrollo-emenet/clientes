@@ -5,6 +5,7 @@ import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { Subscription } from 'rxjs';
 import { LoginS } from '../../services/auth/login';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class Dashboard implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private auth: LoginS,
+    private user: UserService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
   ) { }
@@ -115,29 +117,17 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initViewportListeners();
 
-    const sub = this.route.paramMap.subscribe(params => {
-      const numero = params.get('numero_cliente');
-      if (numero) {
-
-        this.loadClientData(numero);
-      } else {
-        const userSub = this.clientS.getAuthenticatedUser().subscribe({
-          next: user => {
-            const cliente = user?.cliente;
-            if (!cliente) {
-              toast.error('No se encontro numero de cliente');
-              return;
-            }
-            this.loadClientData(cliente);
-          },
-          error: err => {
-            console.error('Error obteniendo usuario autenticado', err);
-            toast.error('Error al obtener los datos del usuario');
-          }
-        });
-        this.subs.push(userSub);
-      }
-    });
+    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+      .subscribe({
+        next: (numeroCliente) => {
+          if (!numeroCliente) return;
+          this.loadClientData(numeroCliente);
+        },
+        error: (e) => {
+          console.error('Error al obtener usuario autenticado', e);
+          toast.error('Error al obtener información del usuario');
+        }
+      });
     this.subs.push(sub);
   }
 
