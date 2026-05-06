@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-payment',
-  imports: [ClipboardModule, NgxSonnerToaster, NgIf],
+  imports: [ClipboardModule, NgxSonnerToaster, NgIf, FormsModule],
   templateUrl: './payment.html',
   styleUrl: './payment.css'
 })
@@ -84,6 +84,8 @@ export class Payment {
     this.paymentService.pagar(this.data?.numero_cliente);
   }
 
+
+
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());
   }
@@ -114,4 +116,48 @@ export class Payment {
     this.selectedMethod = method;
   }
 
+
+// Modal para buscar invoice solo pruebas quitar posteriormetente
+  showInvoiceModal = false;
+  invoiceInput = '';
+  invoiceResult: any = null;
+  invoiceError: string | null = null;
+
+  openInvoiceModal(): void {
+    this.showInvoiceModal = true;
+  }
+
+  closeInvoiceModal(): void {
+    this.showInvoiceModal = false;
+    this.invoiceInput = '';
+    this.invoiceResult = null;
+    this.invoiceError = null;
+  }
+
+  buscarInvoice(): void {
+    const invoice = this.invoiceInput.trim();
+
+    if (!invoice) {
+      this.invoiceError = 'Ingresa un invoice válido';
+      return;
+    }
+
+    this.invoiceResult = null;
+    this.invoiceError = null;
+
+    this.paymentService.invoice(invoice).subscribe({
+      next: (res: any) => {
+
+        if (res.success && res.data) {
+          this.invoiceResult = res.data;
+        } else {
+          this.invoiceError = 'No se pudo obtener información';
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.invoiceError = 'Error al consultar el invoice';
+      }
+    });
+  }
 }

@@ -1040,3 +1040,141 @@
     margin-left: auto;
   }
 }
+
+
+/*modal baja*/
+
+/* BACKDROP */
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.55); /* oscuro elegante */
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+/* CARD */
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 22px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeInModal 0.25s ease;
+}
+
+/* BOTÓN CERRAR */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: #f1f5f9;
+  color: #475569;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: #2179B5;
+  color: white;
+}
+
+/* TITULO */
+.modal-card h4 {
+  font-size: 18px;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+/* TEXTO */
+.modal-card p {
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* DESTACADO */
+.modal-card strong.text-danger {
+  color: #ef4444;
+}
+
+/* CONTENEDOR BOTONES */
+.center-content {
+  justify-content: center;
+}
+
+/* BOTONES */
+.modal-card .btn {
+  flex: 1;
+  max-width: 160px;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* BOTÓN PRINCIPAL (puedes cambiar a primary si quieres) */
+.modal-card .btn-secondary {
+  background: #2179B5;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(33, 121, 181, 0.25);
+}
+
+.modal-card .btn-secondary:hover {
+  background: #1a5f8f;
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .modal-card {
+    padding: 22px 16px;
+  }
+
+  .modal-card h4 {
+    font-size: 16px;
+  }
+
+  .modal-card p {
+    font-size: 13px;
+  }
+
+  .modal-card .btn {
+    max-width: 100%;
+  }
+
+  .center-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ANIMACIÓN */
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

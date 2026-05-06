@@ -76,4 +76,9 @@ export class ClientService {
     return this.http.post<any>(`${this.apiLocalUrl}/pagoralia/orden-pago`, data, { headers });
   }
 
+  desencriptarInvoice(data: { invoice: string }): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${this.apiLocalUrl}/pagoralia/invoice`, data, { headers });
+  }
+
 }
