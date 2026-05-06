@@ -170,7 +170,7 @@ export class Client implements OnInit {
     this.showEstadoCuentaModal = false;
   }
 
-  descargarEstadoCuentaPDF(item: any): void {
+  async descargarEstadoCuentaPDF(item: any): Promise<void> {
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     const cliente = this.data?.cliente?.cliente;
     const servicios = this.data?.cliente?.servicios;
@@ -179,33 +179,43 @@ export class Client implements OnInit {
     const margen = 15;
     const anchoUtil = pageW - margen * 2;
 
-    this.dibujarEncabezadoPDF(doc, pageW, margen);
+    await this.dibujarEncabezadoPDF(doc, pageW, margen);
     let y = this.dibujarInfoClientePDF(
       doc, cliente, numeroCliente, item, margen, anchoUtil
     );
     y = this.dibujarTablaServiciosPDF(doc, servicios, cliente, y, margen, anchoUtil);
     this.dibujarTotalPendientePDF(doc, cliente, y, margen, anchoUtil);
-    this.dibujarPiePDF(doc, pageW);
+    await this.dibujarPiePDF(doc, pageW);
 
     const nombreArchivo =
       `estado-cuenta-${numeroCliente}-${item?.mensualidad ?? 'periodo'}.pdf`;
     doc.save(nombreArchivo);
   }
 
-  private dibujarEncabezadoPDF(
+  private async dibujarEncabezadoPDF(
     doc: jsPDF, pageW: number, margen: number
-  ): void {
+  ): Promise<void> {
     doc.setFillColor(10, 36, 99);
     doc.rect(0, 0, pageW, 32, 'F');
+
+    // Add larger logo to the header
+    try {
+      const logoResponse = await fetch('assets/img/logo.png');
+      const logoBlob = await logoResponse.blob();
+      const logoDataUrl = await this.blobToDataUrl(logoBlob);
+      doc.addImage(logoDataUrl, 'PNG', margen, 4, 24, 24);
+    } catch (error) {
+      console.error('Error loading logo:', error);
+    }
 
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('EMENET', margen, 13);
+    doc.text('emenet comunicaciones', margen + 30, 13);
 
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
-    doc.text('Estado de Cuenta', margen, 20);
+    doc.text('', margen + 30, 20);
 
     const hoy = new Date().toLocaleDateString('es-MX', {
       year: 'numeric', month: 'long', day: 'numeric'
@@ -407,10 +417,21 @@ export class Client implements OnInit {
     }
   }
 
-  private dibujarPiePDF(doc: jsPDF, pageW: number): void {
+  private async dibujarPiePDF(doc: jsPDF, pageW: number): Promise<void> {
     const pageH = doc.internal.pageSize.getHeight();
     doc.setFillColor(10, 36, 99);
     doc.rect(0, pageH - 12, pageW, 12, 'F');
+
+    // Add logo to the left corner
+    try {
+      const logoResponse = await fetch('assets/img/emenetLogo.png');
+      const logoBlob = await logoResponse.blob();
+      const logoDataUrl = await this.blobToDataUrl(logoBlob);
+      doc.addImage(logoDataUrl, 'PNG', 3, pageH - 10, 8, 8);
+    } catch (error) {
+      console.error('Error loading logo:', error);
+    }
+
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
@@ -420,6 +441,15 @@ export class Client implements OnInit {
       pageH - 4.5,
       { align: 'center' }
     );
+  }
+
+  private blobToDataUrl(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   private formatearPesos(valor: number): string {
