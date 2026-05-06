@@ -24,6 +24,7 @@ export class Service implements OnInit, OnDestroy {
   intervalo: any = null;
   numeroClienteTemp: string = '';
   showBannerModal: boolean = false;
+  showAddServiceModal: boolean = false;
 
   //servicios es un array de cualquier tipo
   servicios: any[] = [];
@@ -45,6 +46,17 @@ export class Service implements OnInit, OnDestroy {
 
   cerrarModal() {
     this.showBannerModal = false;
+  }
+
+  cerrarAddServiceModal() {
+    this.showAddServiceModal = false;
+    this.mostrarConfirmacion = false;
+    this.codigo = '';
+    this.numeroClienteTemp = '';
+    this.serviceForm.controls['numero_cliente'].reset();
+    if (this.intervalo) {
+      clearInterval(this.intervalo);
+    }
   }
 
   ngOnDestroy(): void {
@@ -144,6 +156,7 @@ export class Service implements OnInit, OnDestroy {
         this.codigo = '';
         this.numeroClienteTemp = '';
         this.serviceForm.controls['numero_cliente'].reset();
+        this.cerrarAddServiceModal();
         this.load();
       },
       error: (e) => {

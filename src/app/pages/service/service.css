@@ -1,3 +1,19 @@
+/*iconos cliente*/
+.client-id-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e3f2fd;
+  color: #2179B5;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+  min-width: 100px;
+}
+
 /* ============================================================
    BASE — sistema de fuentes y reset Apple
    ============================================================ */
@@ -61,7 +77,7 @@
    ============================================================ */
 .service-layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   align-items: start;
   width: 100%;
@@ -69,18 +85,19 @@
   margin: 0 auto;
 }
 
-.service-column-left,
-.service-column-right {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
+.service-layout--centered {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  justify-content: center;
+  place-items: center;
 }
 
-.service-column-left .apple-card,
-.service-column-right .apple-card {
+/*Ajuste del cards cuando hay un solo servicio*/
+.service-layout--centered .service-card {
   width: 100%;
+  max-width: 420px;
 }
+
+
 
 /* ============================================================
    APPLE CARD — componente base
@@ -105,7 +122,7 @@
 
 /* Etiqueta superior */
 .apple-card__label {
-  font-size: 0.72rem;
+  font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -115,22 +132,11 @@
 
 /* ============================================================
    SERVICE PANEL — borde superior con vuelta lateral
+    
    ============================================================ */
 .service-panel {
   border-top-color: transparent;
-  height: 157px;
-}
-
-.service-panel .apple-card__accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #2179B5, #34aadc);
-  border-radius: 20px 20px 0 0;
-  pointer-events: none;
-  z-index: 2;
+  height: 200px;
 }
 
 /* ============================================================
@@ -230,7 +236,7 @@
 
    ============================================================ */
 .service-card {
-  height: 157px;
+  height: 180px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -306,11 +312,21 @@
 
 .service-card__actions {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.6rem;
+  grid-template-columns:  8fr 1fr auto;
+  gap: 4.2rem;
   align-items: center;
 }
-
+/* Este controla el tamaño del botón 'Ver detalles' y el de 'Eliminar' */
+.service-card__actions button {
+  height: 38px;          /* Ajusta el alto aquí */
+  font-size: 0.85rem;     /* Ajusta el tamaño de la letra */
+  font-weight: 600;
+  border-radius: 20px;    /* Bordes redondeados estilo Apple */
+  padding: 0 12px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
 /* ============================================================
    LISTA de servicios
    ============================================================ */
@@ -356,6 +372,16 @@
 /* ============================================================
    BOTONES — Minimalistas estilo Apple
    ============================================================ */
+.btn-service {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2179B5;
+  color: #ffffff;
+  border-color: #0071e3;
+}
+
 .btn-water {
   position: relative;
   display: inline-flex;
@@ -383,11 +409,11 @@
 }
 
 /* La water-fill queda invisible — solo se preserva la estructura */
-.btn-water .water-fill {
+.btn-service .water-fill {
   display: none;
 }
 
-.btn-water-content {
+.btn-service-content {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -460,6 +486,25 @@
 /* ============================================================
    MODAL
    ============================================================ */
+.modal-services {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-containers {
+  width: 90%;
+  max-width: 500px;
+  animation: slideUp 0.22s ease-out;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -488,10 +533,18 @@
 }
 
 .modal-header-accent {
-  background: linear-gradient(135deg, #2179B5 0%, #2760b2 100%);
+  background: linear-gradient(135deg, #2179B5 0%, #209ff3
+   100%);
   padding: 2.5rem 2rem 2rem;
   text-align: center;
   color: white;
+}
+
+.modal-headers-accents {
+  background: linear-gradient(135deg, #2179B5 0%, #209ff3  100%);
+  padding: 1.9rem 0.5rem 1.9rem;
+  text-align: center;
+  color: rgb(0, 0, 0);
 }
 
 .modal-eyebrow-badge {
@@ -567,17 +620,44 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: background 0.25s, transform 0.25s;
   z-index: 10;
+  padding-bottom: 3px;
+}
+
+.btn-close-customs {
+  position: absolute;
+  top: 0.6rem;
+  right: 1.1rem;
+  background: #2179B5;
+  border: none;
+  color: rgb(255, 255, 255);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  z-index: 10;
+  padding-bottom: 3px;
 }
 
 .btn-close-custom:hover {
   background: rgba(255, 255, 255, 0.38);
+  transform: rotate(90deg);
+}
+.btn-close-customs:hover {
+  background: rgba(1, 0, 20, 0.38);
   transform: rotate(90deg);
 }
 
@@ -635,6 +715,15 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .service-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
 
   /* El panel apila input + botón → necesita altura automática */
   .service-panel {
@@ -706,5 +795,36 @@
 
   .verification-card .apple-card__body {
     padding: 1rem;
+  }
+}
+
+/* ============================================================
+   FAB - Floating Action Button
+   ============================================================ */
+.fab-add-service {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(33, 121, 181, 0.4);
+  border-radius: 999px;
+  min-width: auto;
+  padding: 0 1.5rem;
+  height: 56px;
+  font-size: 0.95rem;
+}
+
+.fab-add-service:hover {
+  box-shadow: 0 6px 28px rgba(33, 121, 181, 0.5);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767.98px) {
+  .fab-add-service {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    height: 52px;
+    padding: 0 1.25rem;
+    font-size: 0.9rem;
   }
 }
