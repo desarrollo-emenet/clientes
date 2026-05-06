@@ -1,34 +1,56 @@
-<body>
-    <main class="col-12 col-md-9 col-lg-12 px-3 px-lg-4 py-4 bg-light">
+<div class="notifications-section">
 
-        <div class="container">
+  <div class="notifications-header">
+    <div class="accent-bar"></div>
+    <h2>Notificaciones</h2>
+  </div>
 
-            <h2 class="title">Notificaciones</h2>
+  <!-- VACÍO -->
+  <div *ngIf="notifications.length === 0" class="empty-state">
+    <i class="bi bi-bell"></i>
+    <h4>No hay notificaciones</h4>
+    <p>No tienes notificaciones nuevas por el momento.</p>
+  </div>
 
-            <!-- Estado vacío -->
-            <div *ngIf="notifications.length === 0" class="empty-state">
-                <p>No hay notificaciones nuevas.</p>
-            </div>
+  <!-- LISTA -->
+  <div class="notifications-list">
 
-            <!-- Lista de notificaciones -->
-            <div *ngFor="let n of notifications" class="notification" [ngClass]="{ 'unread': n.unread }">
-                
-                <div class="notification-icon">
-                    <span *ngIf="n.title === 'Recordatorio de Pago'">💳</span>
-                    <span *ngIf="n.title === 'Adeudo Pendiente'">⚠️</span>
-                </div>
+    <div
+      *ngFor="let n of notifications"
+      class="notification-card"
+      [ngClass]="{
+        'unread': n.unread,
+        'warning': n.title === 'Adeudo Pendiente'
+      }">
 
-                <div class="notification-content">
-                    <p class="notification-title">{{ n.title }}</p>
-                    <p class="notification-text">{{ n.text }}</p>
-                </div>
+      <div class="notification-icon">
 
-                <div class="notification-time">
-                    {{ n.time }}
-                </div>
-            </div>
+        <span *ngIf="n.title === 'Recordatorio de Pago'">💳</span>
 
+        <span *ngIf="n.title === 'Adeudo Pendiente'">⚠️</span>
+
+      </div>
+
+      <div class="notification-content">
+        <div class="notification-title">
+          {{ n.title }}
         </div>
 
-    </main>
-</body>
+        <p class="notification-text">
+          {{ n.text }}
+        </p>
+      </div>
+
+      <div class="notification-time">
+        {{ n.time }}
+      </div>
+
+      <div *ngIf="n.unread" class="notification-badge">
+        Nuevo
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
