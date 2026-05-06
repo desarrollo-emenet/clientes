@@ -6,6 +6,8 @@ import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { Subscription } from 'rxjs';
 import jsPDF from 'jspdf';
+import { PaymentService } from '../../services/pagoralia/paymentService';
+import { UserService } from '../../services/user/user-service';
 
 
 @Component({
@@ -19,85 +21,68 @@ export class Client implements OnInit {
   data: any;
   showDetails = false;
   loading = false;
+  loadingPago = false;
   showEstadoCuentaModal = false;
-   private subs: Subscription[] = [];
+  private subs: Subscription[] = [];
 
-  
-  constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router) { }
 
-  /*ngOnInit(): void {
-    //this.clientS.getclient('1').subscribe({
-    this, this.clientS.getAuthenticatedUser().subscribe({
-      next: user => {
-        const cliente = user.cliente;
-          this.clientS.getclientApi(cliente).subscribe({
-          next: res => this.data = res,
-          error: err => console.log("Error cliente", err)
-        });
+  constructor(
+    private clientS: ClientService,
+    private route: ActivatedRoute,
+    private user: UserService,
+    private paymentService: PaymentService,
+    private router: Router) { }
+
+  ngOnInit(): void {
+    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+      .subscribe({
+        next: (numeroCliente) => {
+          if (!numeroCliente) return;
+          this.loadClientData(numeroCliente);
+        },
+        error: (e) => {
+          console.error('Error al obtener usuario autenticado', e);
+          toast.error('Error al obtener información del usuario');
+        }
+      });
+    this.subs.push(sub);
+  }
+
+  loadClientData(numeroCliente: string) {
+    this.loading = true;
+    this.data = null;
+
+    const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
+      next: res => {
+        this.data = res,
+          this.loading = false;
       },
-      error: err => {
-        console.log("Error al obtener los datos", err);
+      error: (e) => {
+        this.loading = false;
+        console.error('Error en servicio', e);
+        if (e?.status === 0) {
+          toast.error('No se pudo conectar al servidor');
+        } else if (e?.status === 404) {
+          toast.error('Servicio no encontrado');
+        } else if (e?.status === 401) {
+          toast.error('No autorizado');
+          this.router.navigateByUrl('/iniciar-sesion');
+        } else if (e?.status === 403) {
+          toast.error('No autorizado para eliminar este servicio');
+        } else {
+          toast.error('Error inesperado');
+        }
       }
-    });
-  }*/
 
-    ngOnInit(): void {
-        const sub = this.route.paramMap.subscribe(params => {
-          const numero = params.get('numero_cliente');
-          if (numero) {
-            this.loadClientData(numero);
-          } else {
-            const userSub = this.clientS.getAuthenticatedUser().subscribe({
-              next: user => {
-                const cliente = user?.cliente;
-                if (!cliente) {
-                  toast.error('No se encontro infomarcion')
-                  return;
-                }
-                this.loadClientData(cliente);
-              },
-              error: err => {
-            console.error('Error obteniendo usuario autenticado', err);
-            toast.error('Error al obtener los datos del usuario');
-          }
-            });
-            this.subs.push(userSub);
-          }
-        });
-        this.subs.push(sub);
-        
-    }
+    })
 
-    loadClientData(numeroCliente: string) {
-        this.loading = true;
-        this.data = null;
-    
-        const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
-          next: res => {
-            console.log(res);
-            this.data = res,
-              this.loading = false;
-          },
-          error: (e) => {
-            this.loading = false;
-            console.error('Error en servicio', e);
-            if (e?.status === 0) {
-              toast.error('No se pudo conectar al servidor');
-            } else if (e?.status === 404) {
-              toast.error('Servicio no encontrado');
-            } else if (e?.status === 401) {
-              toast.error('No autorizado');
-              this.router.navigateByUrl('/iniciar-sesion');
-            } else if (e?.status === 403) {
-              toast.error('No autorizado para eliminar este servicio');
-            } else {
-              toast.error('Error inesperado');
-            }
-          }
-    
-        })
-    
-      }
+  }
+
+  pagar(): void {
+    const numeroCliente = this.data?.cliente?.cliente?.cliente ?? '';
+    this.loadingPago = true;
+    this.paymentService.pagar(numeroCliente);
+  }
 
   toggleDetails() { this.showDetails = !this.showDetails; }
 
@@ -124,7 +109,7 @@ export class Client implements OnInit {
       const lineas = Number(servicios.telefono.canServicios) || 0;
       total += precio * lineas;
       cantidadServicios++;
-  
+
     }
     if (servicios.cuentasTv) {
       const precio = Number(servicios.cuentasTv.precio) || 0;
@@ -133,7 +118,7 @@ export class Client implements OnInit {
       cantidadServicios++;
 
     }
- 
+
 
     return total;
 
@@ -143,7 +128,7 @@ export class Client implements OnInit {
     //return 0;
   }
 
-    get latestPayments() {
+  get latestPayments() {
     const list = this.data?.servicios?.estadoCuenta || [];
     return list.slice(0, 5);
   }
@@ -593,32 +578,32 @@ export class Client implements OnInit {
     }).format(Number(valor));
   }
   // Esta función solo cuenta cuántos servicios activos hay
-contarServicios(servicios: any): number {
-  if (!servicios) return 0;
-  
-  let conteo = 0;
+  contarServicios(servicios: any): number {
+    if (!servicios) return 0;
 
-  if (servicios.internet) conteo++;
-  if (servicios.camaras) conteo++;
-  if (servicios.telefono) conteo++;
-  if (servicios.cuentasTv) conteo++;
+    let conteo = 0;
 
-  return conteo;
-}
+    if (servicios.internet) conteo++;
+    if (servicios.camaras) conteo++;
+    if (servicios.telefono) conteo++;
+    if (servicios.cuentasTv) conteo++;
 
-contarServiciosActivos(): number {
-  if (!this.data?.cliente?.servicios) return 0;
-  
-  let conteo = 0;
-  const servicios = this.data.cliente.servicios;
+    return conteo;
+  }
 
-  if (servicios.internet) conteo++;
-  if (servicios.camaras) conteo++;
-  if (servicios.telefono) conteo++;
-  if (servicios.cuentasTv) conteo++;
+  contarServiciosActivos(): number {
+    if (!this.data?.cliente?.servicios) return 0;
 
-  return conteo;
-}
+    let conteo = 0;
+    const servicios = this.data.cliente.servicios;
+
+    if (servicios.internet) conteo++;
+    if (servicios.camaras) conteo++;
+    if (servicios.telefono) conteo++;
+    if (servicios.cuentasTv) conteo++;
+
+    return conteo;
+  }
 
 
 }

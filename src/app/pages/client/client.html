@@ -211,8 +211,8 @@
                     </div>
                 </section>-->
 
-                <!-- Panel de Servicios -->
-                <!--<section class="analysis-panel mb-4">
+<!-- Panel de Servicios -->
+<!--<section class="analysis-panel mb-4">
                   <div class="analysis-panel__header">
                     <div class="analysis-panel__header-text">
                       <h4 class="analysis-panel__title">Panel de Servicios</h4>
@@ -295,8 +295,8 @@
                   </div>
                 </section>-->
 
-                <!-- Acciones rápidas -->
-                <!--<section class="analysis-panel mb-4">
+<!-- Acciones rápidas -->
+<!--<section class="analysis-panel mb-4">
 
                   <div class="acciones-header">
                     <h4 class="acciones-header__title">Acciones rápidas</h4>
@@ -365,7 +365,7 @@
 <!--Diseño nuevo-->
 <div class="container-fluid">
   <div class="row g-0 min-vh-100">
-   <main class="main-container bg-light px-3 px-lg-4 py-4">
+    <main class="main-container bg-light px-3 px-lg-4 py-4">
 
       <div *ngIf="data" class="content-wrapper">
         <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
@@ -377,7 +377,7 @@
             <div class="banner-text">
               <div class="banner-label">Saldo pendiente</div>
               <div class="banner-amount debt">
-                 MXN {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol-narrow':'1.2-2' }}
+                MXN {{ (data.cliente?.cliente?.deuda ?? 0) | currency:'MXN':'symbol-narrow':'1.2-2' }}
               </div>
               <div class="banner-sub">Tienes un saldo pendiente</div>
               <div class="banner-sub muted">
@@ -387,11 +387,18 @@
             </div>
           </div>
 
-          <div class="banner-section banner-pay" *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-            <button class="btn-pay" routerLink="/formas-de-pago">
-              <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora
+          <div class="banner-section banner-pay"
+            *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+            <button class="btn-pay" (click)="pagar()" [disabled]="loadingPago || loading">
+
+              <ng-container *ngIf="!loadingPago; else loadingTpl"><i class="fa-solid fa-credit-card me-2"></i>
+                Pagar ahora</ng-container>
+
+              <ng-template #loadingTpl><i class="fa-solid fa-spinner fa-spin me-2"></i>Procesando...</ng-template>
+
             </button>
-            <a routerLink="/formas-de-pago" class="ver-formas">
+
+            <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">
               Ver formas de pago <i class="fa-solid fa-chevron-right ms-1"></i>
             </a>
           </div>
@@ -402,7 +409,8 @@
             </div>
             <div class="banner-text">
               <div class="banner-label">Último pago</div>
-              <div class="banner-amount success">MXN {{ calcularTotalMensual(data.cliente.servicios) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
+              <div class="banner-amount success">MXN {{ calcularTotalMensual(data.cliente.servicios) |
+                currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
               <div class="banner-sub muted">Fecha: {{ getMesPagoReciente() }}</div>
             </div>
           </div>
@@ -411,8 +419,8 @@
         <!-- RESUMEN DE CUENTA -->
         <div class="resumen-section">
           <div class="section-header-accent">
-              <div class="accent-bar"></div>
-          <h4 class="section-title">Resumen de tu cuenta</h4>
+            <div class="accent-bar"></div>
+            <h4 class="section-title">Resumen de tu cuenta</h4>
           </div>
           <div class="resumen-grid">
             <div class="resumen-card">
@@ -483,10 +491,11 @@
                     {{ data.cliente?.cliente?.planInternet || 0 }} Mbps
                   </div>
                   <div class="svc-price-row">
-                    
+
                     <span class="svc-price-label">Precio mensual</span>
                     <span class="svc-price svc-price--blue">
-                      MXN {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}/mes
+                      MXN {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                      }}/mes
                     </span>
                   </div>
                 </div>
@@ -498,8 +507,7 @@
                 'col-md-6': contarServiciosActivos() === 2,
                 'col-md-4': contarServiciosActivos() === 3,
                 'col-md-3': contarServiciosActivos() === 4
-              }"
-                *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+              }" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
                   <div class="service-card-top">
                     <div class="svc-icon svc-icon--green">
@@ -517,7 +525,8 @@
                   <div class="svc-price-row">
                     <span class="svc-price-label">Precio por cámara</span>
                     <span class="svc-price svc-price--green">
-                      MXN {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}/mes
+                      MXN {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                      }}/mes
                     </span>
                   </div>
                 </div>
@@ -529,8 +538,7 @@
                 'col-md-6': contarServiciosActivos() === 2,
                 'col-md-4': contarServiciosActivos() === 3,
                 'col-md-3': contarServiciosActivos() === 4
-              }"
-                *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+              }" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
                   <div class="service-card-top">
                     <div class="svc-icon svc-icon--violet">
@@ -548,7 +556,8 @@
                   <div class="svc-price-row">
                     <span class="svc-price-label">Precio por linea telefónica</span>
                     <span class="svc-price svc-price--violet">
-                      MXN {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}/mes
+                      MXN {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                      }}/mes
                     </span>
                   </div>
                 </div>
@@ -560,8 +569,7 @@
                 'col-md-6': contarServiciosActivos() === 2,
                 'col-md-4': contarServiciosActivos() === 3,
                 'col-md-3': contarServiciosActivos() === 4
-              }"
-                *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+              }" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
                 <div class="service-card-new">
                   <div class="service-card-top">
                     <div class="svc-icon svc-icon--orange">
@@ -579,7 +587,8 @@
                   <div class="svc-price-row">
                     <span class="svc-price-label">Precio por cuenta</span>
                     <span class="svc-price svc-price--orange">
-                      MXN {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}/mes
+                      MXN {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                      }}/mes
                     </span>
                   </div>
                 </div>
@@ -595,7 +604,7 @@
             <div class="accent-bar"></div>
             <h4>Historial de pagos</h4>
           </div>
-          
+
           <div class="payment-list">
             <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="payment-card">
               <div class="payment-card-left">
@@ -617,7 +626,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div *ngIf="!data?.cliente?.servicios?.estadoCuenta?.length" class="empty-state">
               <i class="fa-regular fa-folder-open"></i>
               <p>Sin movimientos registrados</p>
@@ -640,31 +649,32 @@
           </div>
         </section>
 
-    <!-- Modal de estado de cuenta -->
-    <div class="modal-overlay" *ngIf="showEstadoCuentaModal" (click)="cerrarEstadoCuentaModal()">
-      <div class="modal-container" (click)="$event.stopPropagation()">
-        <div class="banner-card-modal">
-          <button type="button" class="btn-close-custom" (click)="cerrarEstadoCuentaModal()" aria-label="Cerrar">&times;</button>
-          <div class="modal-header-accent">
-            <h2 class="modal-title">Estado de cuenta</h2>
-          </div>
-          <div class="banner-modal-content">
-            <div class="modal-estado-cuenta">
-              <p class="modal-estado-cuenta-p">Seleccione el estado de cuenta que desea descargar</p>
-              <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="estado-cuenta-item">
-                <div class="estado-cuenta-info">
-                  <i class="fa-solid fa-coins"></i>
-                  <span>{{ item?.mensualidad }}</span>
+        <!-- Modal de estado de cuenta -->
+        <div class="modal-overlay" *ngIf="showEstadoCuentaModal" (click)="cerrarEstadoCuentaModal()">
+          <div class="modal-container" (click)="$event.stopPropagation()">
+            <div class="banner-card-modal">
+              <button type="button" class="btn-close-custom" (click)="cerrarEstadoCuentaModal()"
+                aria-label="Cerrar">&times;</button>
+              <div class="modal-header-accent">
+                <h2 class="modal-title">Estado de cuenta</h2>
+              </div>
+              <div class="banner-modal-content">
+                <div class="modal-estado-cuenta">
+                  <p class="modal-estado-cuenta-p">Seleccione el estado de cuenta que desea descargar</p>
+                  <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="estado-cuenta-item">
+                    <div class="estado-cuenta-info">
+                      <i class="fa-solid fa-coins"></i>
+                      <span>{{ item?.mensualidad }}</span>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm" (click)="descargarEstadoCuentaPDF(item)">
+                      <i class="fa-solid fa-download"></i> PDF
+                    </button>
+                  </div>
                 </div>
-                <button class="btn btn-outline-primary btn-sm" (click)="descargarEstadoCuentaPDF(item)">
-                  <i class="fa-solid fa-download"></i> PDF
-                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
       </div>
     </main>

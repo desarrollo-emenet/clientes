@@ -34,17 +34,12 @@ export class PaymentService {
           window.open(res.redirectUrl, '_blank');
         } else {
           toast.error('No se pudo generar la orden');
-          console.error('Respuesta inesperada:', res);
+          //console.error('Respuesta inesperada:', res);
         }
       },
       error: (err) => {
         this.loading = false;
-        console.error('Error:', err);
-        console.error('Error detalles:', {
-          status: err?.status,
-          message: err?.message,
-          error: err?.error
-        });
+        //console.error('Error:', err);
         toast.error('Error al procesar el pago');
       }
     });
