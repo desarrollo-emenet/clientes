@@ -40,6 +40,7 @@ export class PaymentService {
       error: (err) => {
         this.loading = false;
         console.error('Error:', err);
+        console.error('descripción del error:', err.error);
         toast.error('Error al procesar el pago');
       }
     });
