@@ -82,6 +82,9 @@ export class Client implements OnInit {
     const numeroCliente = this.data?.cliente?.cliente?.cliente ?? '';
     this.loadingPago = true;
     this.paymentService.pagar(numeroCliente);
+    setTimeout(() => {
+      this.loadingPago = false;
+    }, 3600);
   }
 
   toggleDetails() { this.showDetails = !this.showDetails; }
