@@ -28,7 +28,6 @@ export class EditProfile {
 
   ngOnInit(): void {
     this.updateForm = this.fb.group({
-      //email: ['', [Validators.required, Validators.email]],
       old_password: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.minLength(8)]],
       password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
@@ -54,7 +53,6 @@ export class EditProfile {
     return null;
   }
 
-  //get email() { return this.updateForm.controls['email']!; }
   get old_password() { return this.updateForm.controls['old_password']!; }
   get password() { return this.updateForm.controls['password']!; }
   get passwordConfirmation() { return this.updateForm.controls['password_confirmation']; }

@@ -6,6 +6,7 @@ import { NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-profile',
@@ -20,49 +21,28 @@ export class Profile {
   loading = false;
   private subs: Subscription[] = [];
 
-  constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private clientS: ClientService,
+    private route: ActivatedRoute,
+    private user: UserService,
+    private router: Router) { }
 
-  /*ngOnInit(): void {
-    this, this.clientS.getAuthenticatedUser().subscribe({
-      next: user => {
-        const cliente = user.cliente;
-        this.clientS.getclientApi(cliente).subscribe({
-          next: res => this.data = res,
-          error: err => console.log("Error cliente", err)
-        });
-      },
-      error: err => {
-        console.log("Error al obtener los datos", err);
-      }
-    });
-  }*/
 
   ngOnInit(): void {
-    const sub = this.route.paramMap.subscribe(params => {
-      const numero = params.get('numero_cliente');
-      if (numero) {
-        this.loadClientData(numero);
-      } else {
-        const userSub = this.clientS.getAuthenticatedUser().subscribe({
-          next: user => {
-            const cliente = user?.cliente;
-            if (!cliente) {
-              toast.error('No se encontro infomarcion')
-              return;
-            }
-            this.loadClientData(cliente);
-          },
-          error: err => {
-            console.error('Error obteniendo usuario autenticado', err);
-            toast.error('Error al obtener los datos del usuario');
-          }
-        });
-        this.subs.push(userSub);
-      }
-    });
+    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+      .subscribe({
+        next: (numeroCliente) => {
+          if (!numeroCliente) return;
+          this.loadClientData(numeroCliente);
+        },
+        error: (e) => {
+          console.error('Error al obtener usuario autenticado', e);
+          toast.error('Error al obtener información del usuario');
+        }
+      });
     this.subs.push(sub);
-
   }
+
 
   loadClientData(numeroCliente: string) {
     this.loading = true;
@@ -70,7 +50,6 @@ export class Profile {
 
     const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
-        //console.log(res);
         this.data = {
           servicio: res.servicio,
           cliente: res.cliente?.cliente,

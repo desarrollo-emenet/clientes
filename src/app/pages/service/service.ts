@@ -10,7 +10,7 @@ import { Footer } from '../../shared/footer/footer';
 
 @Component({
   selector: 'app-service',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header, Footer],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header],
   templateUrl: './service.html',
   styleUrl: './service.css'
 })

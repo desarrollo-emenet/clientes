@@ -137,17 +137,13 @@ export class Dashboard implements OnInit, OnDestroy {
 
     const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
-        //console.log(res);
         this.data = res;
         this.loading = false;
 
         const clasificacion = res?.cliente?.cliente?.clasificacion;
-        //const estado = res?.cliente?.cliente?.infoRed?.estado;
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
-        } //else if ( estado === 'Suspendido') {
-        //this.mostrarMensaje = true;
-        //}
+        } 
 
       },
       error: (e) => {

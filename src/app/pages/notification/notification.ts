@@ -4,6 +4,7 @@ import { toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user/user-service';
 
 interface Noti {
   title: string;
@@ -19,46 +20,37 @@ interface Noti {
   styleUrl: './notification.css'
 })
 
-export class Notification implements OnInit, OnDestroy{
+export class Notification implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
   notifications: Noti[] = [];
 
 
-  constructor(private clientS: ClientService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private clientS: ClientService,
+    private route: ActivatedRoute,
+    private user: UserService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
-    const sub = this.route.paramMap.subscribe(params => {
-      const numero = params.get('numero_cliente');
-
-      if (numero) {
-        this.loadNotificationData(numero);
-      } else {
-        const userSub = this.clientS.getAuthenticatedUser().subscribe({
-          next: user => {
-            const cliente = user?.cliente;
-            if (!cliente) {
-              toast.error('No se encontro infomarcion')
-              return;
-            }
-            this.loadNotificationData(cliente);
-          },
-          error: err => {
-            console.error('Error obteniendo usuario autenticado', err);
-            toast.error('Error al obtener los datos del usuario');
-          }
-        });
-        this.subs.push(userSub);
-      }
-    });
+    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+      .subscribe({
+        next: (numeroCliente) => {
+          if (!numeroCliente) return;
+          this.loadNotificationData(numeroCliente);
+        },
+        error: (e) => {
+          console.error('Error al obtener usuario autenticado', e);
+          toast.error('Error al obtener información del usuario');
+        }
+      });
     this.subs.push(sub);
-
   }
 
   ngOnDestroy(): void {
-  this.subs.forEach(s => s.unsubscribe());
-}
+    this.subs.forEach(s => s.unsubscribe());
+  }
 
 
   async loadNotificationData(numeroCliente: string) {
@@ -71,7 +63,7 @@ export class Notification implements OnInit, OnDestroy{
       //console.log(data);
       if (!data) return;
 
-      if(data.cliente?.cliente?.clasificacion === 'BAJA'){
+      if (data.cliente?.cliente?.clasificacion === 'BAJA') {
         return;
       }
 
@@ -90,7 +82,7 @@ export class Notification implements OnInit, OnDestroy{
       }
 
       //notificacion adeudo pendiente
-      if(Number(data.cliente?.cliente?.deuda) > 0){
+      if (Number(data.cliente?.cliente?.deuda) > 0) {
         this.notifications.push({
           title: 'Adeudo pendiente',
           text: `Tienes un adeudo pendiente de $${data.cliente?.cliente?.deuda}. Por favor realiza tu pago para evitar cortes en tu servicio.`,
