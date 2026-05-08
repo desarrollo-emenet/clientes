@@ -26,10 +26,12 @@
 
           <div class="banner-section banner-pay"
             *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-            <button class="btn-pay" (click)="pagar()" >
-                <i class="fa-solid fa-credit-card me-2"></i>
-                Pagar ahora
+            <button class="btn-pay" (click)="pagar()" [disabled]="loadingPago || loading">
+              <ng-container *ngIf="!loadingPago">
+                <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 
+              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+                Procesando...</ng-container>
             </button>
 
             <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">

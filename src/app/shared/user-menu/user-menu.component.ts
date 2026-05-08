@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { LoginS } from '../../services/auth/login';
 import { ClientService } from '../../services/user/clientService';
@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-menu',
-  imports: [NgIf],
+  imports: [NgIf, RouterLink],
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.css'
 })
@@ -157,7 +157,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   navigateTo(route: string): void {
     this.isDropdownOpen = false;
-    if ((route === '/perfil' || route === '/notificaciones' || route === '/formas-de-pago') && this.user?.numeroCliente) {
+    if (( route === '/notificaciones' || route === '/formas-de-pago') && this.user?.numeroCliente) {
       this.router.navigate([route, this.user.numeroCliente]);
     } else {
       this.router.navigate([route]);

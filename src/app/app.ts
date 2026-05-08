@@ -34,8 +34,6 @@ export class App implements OnDestroy {
     '/crear-cuenta',
     '/recuperar-password',
     '/response-password',
-    '/edit-perfil',
-    '/edit-password',
     '/email-verificado',
     '/servicios',
     '/formulario',

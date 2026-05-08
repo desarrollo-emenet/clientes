@@ -2,236 +2,233 @@
   <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
     <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
 
-      <div class="payments-wrap">
-        <div class="payments-container">
+      <div class="payments-wrapper">
 
-          <div class="heading mb-4">
-            <h2 class="title">Conoce tus formas de pago</h2>
-          </div>
+        <!-- HEADER -->
+        <div class="payments-header">
+          <h1 class="page-title">Métodos de pago</h1>
+          <p class="page-subtitle">
+            Elige una opción para ver los detalles y realizar tu pago.
+          </p>
+        </div>
 
-          <div class="payments-layout">
-
-            <div class="methods-top">
-
-              <div class="method-item" [class.active]="selectedMethod === 'Online'"
-                [class.show-badge]="selectedMethod === 'Online'" (click)="selectMethod('Online')">
-                <img src="assets/img/pagoralia.png">
-                <span class="badge-top">Recomendado</span>
-
-                <div>
-                  <div class="title">Pago en línea <br> </div>
-                  <div class="sub">Pago inmediato</div>
-                </div>
-                <!--<span class="tag">ONLINE</span>-->
-              </div>
-
-              <div class="method-item" [class.active]="selectedMethod === 'banco'" (click)="selectMethod('banco')">
-                <img src="assets/img/banco.png">
-                <div>
-                  <div class="title">Sucursal bancaria</div>
-                  <div class="sub">Depósito en ventanilla</div>
-                </div>
-                <!--<span class="tag">BANCO</span>-->
-              </div>
-
-              <div class="method-item" [class.active]="selectedMethod === 'transferencia'"
-                (click)="selectMethod('transferencia')">
-                <img src="assets/img/spei.png" class="img-spei">
-                <div>
-                  <div class="title">Transferencia electrónica</div>
-                  <div class="sub">Banca en línea o app móvil</div>
-                </div>
-                <!--<span class="tag">CLABE</span>-->
-              </div>
-
-              <div class="method-item" [class.active]="selectedMethod === 'tiendas'" (click)="selectMethod('tiendas')">
-                <img src="assets/img/tienda.png">
-                <div>
-                  <div class="title">Otros métodos</div>
-                  <div class="sub">Tiendas de conveniencia</div>
-                </div>
-                <!--<span class="tag">TIENDAS</span>-->
-              </div>
-
-            </div>
-            <div class="details-bottom">
-
-              <!-- EMPTY -->
-              <div *ngIf="!selectedMethod" class="empty-state">
+        <!-- ONLINE -->
+        <details class="payment-card" name="grupo-acordeon">
+          <summary class="payment-summary">
+            <div class="payment-left">
+              <div class="icon-circle online">
                 <i class="fa-solid fa-credit-card"></i>
-                <h3>Selecciona un método de pago</h3>
-                <p>Elige una opción para ver los detalles.</p>
               </div>
-
-              <!-- ONLINE -->
-              <div *ngIf="selectedMethod === 'Online'" class="detail-card">
-                <img src="assets/img/pagoralia.png" class="logo">
-
-                <div class="steps">
-                  <div class="step"><span>1</span> Elige método de pago</div>
-                  <div class="step"><span>2</span> Paga seguro y a tu manera</div>
-                  <div class="step"><span>3</span> Activación en máximo 1 hora</div>
-                </div>
-
-                <div class="notes">
-                  <div class="note"><strong>Notas:</strong></div>
-                  <div class="note"> Comisión por procesamiento incluida</div>
-                  <div class="note"> Confirmación automática al pagar</div>
-                </div>
-
-                <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago || loading">
-                  {{ loadingPago ? 'Procesando...' : 'Pagar ahora' }}
-                </button>
+              <div>
+                <h3>Pago en línea</h3>
+                <p>Activación automática</p>
               </div>
+            </div>
+ 
+            <div class="payment-right">
+              <span class="badge-recommended">
+                Recomendado
+              </span>
+              <i class="fa-solid fa-chevron-down chevron"></i>
+            </div>
+          </summary>
 
-              <!-- BANCO -->
-              <div *ngIf="selectedMethod === 'banco'" class="detail-card">
-                <img src="assets/img/hsbc.png" class="logo">
-
-                <div class="data-list">
-                  <div class="data-item">
-                    <span>No. cuenta</span>
-                    <strong>4062409131</strong>
-                  </div>
-
-                  <div class="data-item">
-                    <span>Concepto</span>
-                    <strong>Nombre del titular del servicio</strong>
-                  </div>
-
-                  <div class="data-item">
-                    <span>Beneficiario</span>
-                    <strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
-                  </div>
-                </div>
-
-                <div class="actions">
-                  <button class="btn-primary" (click)="copy('4062409131')">Copiar cuenta</button>
-                </div>
+          <div class="payment-body">
+            <img src="assets/img/FormasPago/pagoralia.webp" class="payment-logo">
+            <div class="steps">
+              <div class="step-item">
+                <span>1</span>Elige tu método de pago
               </div>
-
-              <!-- TRANSFERENCIA -->
-              <div *ngIf="selectedMethod === 'transferencia'" class="detail-card">
-                <img src="assets/img/hsbc.png" class="logo">
-
-                <div class="data-list">
-                  <div class="data-item">
-                    <span>CLABE</span>
-                    <strong>021453040624091311</strong>
-                  </div>
-
-                  <div class="data-item">
-                    <span>Concepto</span>
-                    <strong>Nombre del titular del servicio</strong>
-                  </div>
-
-                  <div class="data-item">
-                    <span>Beneficiario</span>
-                    <strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
-                  </div>
-                </div>
-
-                <div class="actions">
-                  <button class="btn-primary" (click)="copy('021453040624091311')">Copiar CLABE</button>
-                </div>
+              <div class="step-item">
+                <span>2</span>Realiza el pago seguro
               </div>
-
-              <!-- TIENDAS -->
-              <div *ngIf="selectedMethod === 'tiendas'" class="detail-card">
-                <img src="assets/img/oxxo.png" class="logo1">
-
-                <div class="data-list">
-                  <div class="data-item full">
-                    <span>Disponible en</span>
-                    <strong>OXXO · Farmacia del Ahorro · Financiera del Bienestar</strong>
-                  </div>
-
-                  <div class="data-item">
-                    <span>No. cuenta</span>
-                    <strong>4741764001982278</strong>
-                  </div>
-
-                  <div class="notes">
-                    <div class="note"><strong>Nota:</strong></div>
-                    <div class="note"> Dichos establecimeintos generan comision por deposito realizado</div>
-                  </div>
-
-                </div>
-
-                <div class="actions">
-                  <button class="btn-primary" (click)="copy('4741764001982278')">Copiar cuenta</button>
-                </div>
+              <div class="step-item">
+                <span>3</span>Activación en máximo 1 hora
               </div>
-
             </div>
 
+            <div class="notes-box">
+              <div class="note">Comisión por procesamiento incluida</div>
+              <div class="note">Confirmación automática del pago</div>
+            </div>
+
+            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago || loading">
+              <ng-container *ngIf="!loadingPago">
+                <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
+
+              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+                Procesando...</ng-container>
+            </button>
+          </div>
+        </details>
+
+        <!-- HSBC -->
+        <details class="payment-card" name="grupo-acordeon">
+
+          <summary class="payment-summary" >
+            <div class="payment-left">
+              <div class="icon-circle bank">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+              <div>
+                <h3>Depósito bancario</h3>
+                <p>Sucursal HSBC</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </summary>
+
+          <div class="payment-body">
+            <img src="assets/img/FormasPago/hsbc.webp" class="payment-logo">
+            <div class="data-list">
+              <div class="data-item">
+                <span>Cuenta</span><strong>4062409131</strong>
+              </div>
+
+              <div class="data-item">
+                <span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
+              </div>
+
+              <div class="data-item">
+                <span>Concepto</span><strong>Nombre del titular</strong>
+              </div>
+            </div>
+
+            <button class="btn-primary" (click)="copy('4062409131')">Copiar cuenta</button>
           </div>
 
-          <!-- FOOTER -->
-          <div class="footer-cta mt-4 text-center">
-            <p>¿Tienes dudas sobre tu pago?</p>
-            <button class="whatsapp" (click)="contactSupport()">
-              <i class="bi bi-whatsapp me-2"></i>
-              Contactar soporte por WhatsApp
-            </button>            
+        </details>
+
+        <!-- SPEI -->
+        <details class="payment-card" name="grupo-acordeon">
+          <summary class="payment-summary" >
+            <div class="payment-left">
+              <div class="icon-circle transfer">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+              </div>
+              <div>
+                <h3>Transferencia SPEI</h3>
+                <p>Banca móvil o app</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </summary>
+
+          <div class="payment-body">
+            <img src="assets/img/FormasPago/spei.webp" class="payment-logo">
+            <div class="data-list">
+              <div class="data-item"><span>CLABE</span><strong>021453040624091311</strong></div>
+              <div class="data-item"><span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
+              </div>
+              <div class="data-item"><span>Concepto</span><strong>Nombre del titular</strong></div>
+            </div>
+            <button class="btn-primary" (click)="copy('021453040624091311')">Copiar CLABE</button>
           </div>
 
-          <!-- Descifrar invoice quitar boton y modal solo es para pruebas-->
-<br>
-          <div>
-            <!-- Descifrar invoice-->
-            <button class="btn-invoice" (click)="openInvoiceModal()">
-               invoice
+        </details>
+
+        <!-- OXXO -->
+        <details class="payment-card" name="grupo-acordeon">
+          <summary class="payment-summary" >
+            <div class="payment-left">
+              <div class="icon-circle store">
+                <i class="fa-solid fa-store"></i>
+              </div>
+              <div>
+                <h3>Pago en tiendas</h3>
+                <p>OXXO y establecimientos</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </summary>
+
+          <div class="payment-body">
+            <img src="assets/img/FormasPago/oxxo.webp" class="payment-logo oxxo">
+            <div class="data-list">
+              <div class="data-item"><span>Disponible en</span>
+                <strong>OXXO · Farmacia del Ahorro · Financiera del Bienestar</strong>
+              </div>
+              <div class="data-item"><span>Cuenta</span><strong>4741764001982278</strong></div>
+            </div>
+
+            <div class="notes-box">
+              <div class="note">Estos establecimientos pueden generar comisión adicional</div>
+            </div>
+            <button class="btn-primary" (click)="copy('4741764001982278')">
+              Copiar cuenta
             </button>
           </div>
 
-          <!-- MODAL -->
-          <div class="modal-overlay" *ngIf="showInvoiceModal">
-            <div class="modal-box">
+        </details>
 
-              <div class="modal-header">
-                <h3>Invoice</h3>
-                <button class="close-btn" (click)="closeInvoiceModal()">✕</button>
-              </div>
+        <!-- SOPORTE -->
+        <div class="support-box">
+          <div class="support-left">
+            <h2>¿Necesitas ayuda?</h2>
+            <p>Si tienes dudas sobre tu pago o activación,
+              nuestro equipo puede ayudarte.</p>
+          </div>
 
-              <div class="modal-body">
-                <label>Ingresa tu invoice</label>
-                <input type="text" [(ngModel)]="invoiceInput" placeholder="Ej: 01804-KHhggO" />
-              </div>
+          <button class="btn-whatsapp" (click)="contactSupport()">
+            <i class="bi bi-whatsapp me-2"></i>Contactar soporte
+          </button>
+        </div>
 
-              <div class="modal-footer">
-                <button class="btn-outline" (click)="closeInvoiceModal()">Cancelar</button>
-                <button class="btn-primary" (click)="buscarInvoice()">
-                  descifrar
-                </button>
-              </div>
-              <!-- RESULTADO -->
-              <div *ngIf="invoiceResult" class="invoice-result">
-                <h4>Resultado</h4>
 
-                <div class="result-item">
-                  <span>Cliente</span>
-                  <strong>{{ invoiceResult.cliente }}</strong>
-                </div>
+        <!-- Descifrar invoice quitar boton y modal solo es para pruebas-->
+        <br>
+        <div>
+          <!-- Descifrar invoice-->
+          <button class="btn-invoice" (click)="openInvoiceModal()">
+            invoice
+          </button>
+        </div>
 
-                <div class="result-item">
-                  <span>Fecha</span>
-                  <strong>{{ invoiceResult.fecha }}</strong>
-                </div>
-              </div>
+        <!-- MODAL -->
+        <div class="modal-overlay" *ngIf="showInvoiceModal">
+          <div class="modal-box">
 
-              <!-- ERROR -->
-              <div *ngIf="invoiceError" class="invoice-error">
-                {{ invoiceError }}
-              </div>
-
+            <div class="modal-header">
+              <h3>Invoice</h3>
+              <button class="close-btn" (click)="closeInvoiceModal()">✕</button>
             </div>
+
+            <div class="modal-body">
+              <label>Ingresa tu invoice</label>
+              <input type="text" [(ngModel)]="invoiceInput" placeholder="Ej: 01804-KHhggO" />
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn-outline" (click)="closeInvoiceModal()">Cancelar</button>
+              <button class="btn-primary" (click)="buscarInvoice()">
+                descifrar
+              </button>
+            </div>
+            <!-- RESULTADO -->
+            <div *ngIf="invoiceResult" class="invoice-result">
+              <h4>Resultado</h4>
+
+              <div class="result-item">
+                <span>Cliente</span>
+                <strong>{{ invoiceResult.cliente }}</strong>
+              </div>
+
+              <div class="result-item">
+                <span>Fecha</span>
+                <strong>{{ invoiceResult.fecha }}</strong>
+              </div>
+            </div>
+
+            <!-- ERROR -->
+            <div *ngIf="invoiceError" class="invoice-error">
+              {{ invoiceError }}
+            </div>
+
           </div>
         </div>
       </div>
-
     </main>
-
     <ngx-sonner-toaster richColors position="top-center" />
   </div>
 </div>
+

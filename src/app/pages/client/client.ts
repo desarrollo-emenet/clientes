@@ -79,13 +79,13 @@ export class Client implements OnInit {
   }
 
   pagar(): void {
-    window.open('https://emenet.mx/pagar-servicio', '_blank');
-    /*const numeroCliente = this.data?.cliente?.cliente?.cliente ?? '';
+    //window.open('https://emenet.mx/pagar-servicio', '_blank');
+    const numeroCliente = this.data?.cliente?.cliente?.cliente ?? '';
     this.loadingPago = true;
     this.paymentService.pagar(numeroCliente);
     setTimeout(() => {
       this.loadingPago = false;
-    }, 3600);*/
+    }, 3600);
   }
 
   toggleDetails() { this.showDetails = !this.showDetails; }

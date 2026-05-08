@@ -109,7 +109,7 @@ export class EditProfile {
   }
 
   cancel() {
-    this.auth.goNavigate('/perfil')
+    this.auth.goNavigate('/dashboard');
   }
 
 

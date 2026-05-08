@@ -16,7 +16,7 @@
 
 .action-icon-blue {
   background: #e3f2fd;
-  color: #2179B5;
+  color: #0b4e94;
 }
 
 /* RESET */
@@ -62,7 +62,7 @@
 }
 
 .nav-btn.active {
-  background: #2179B5;
+  background: #0b4e94;
   color: #fff;
   box-shadow: 0 4px 12px rgba(79, 124, 255, 0.3);
 }
@@ -119,7 +119,7 @@
 .chevron,
 .section-chevron {
   font-size: 14px;
-  color: #2179B5;
+  color: #0b4e94;
   transition: transform .3s;
 }
 
@@ -182,7 +182,7 @@ details[open] .section-chevron {
 }
 
 .view-btn.active {
-  background: #2179B5;
+  background: #0b4e94;
   color: #fff;
 }
 
@@ -273,7 +273,7 @@ details[open] .section-chevron {
   position: absolute;
   top: -10px;
   left: -10px;
-  background: #4f7cff;
+  background: #0b4e94;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -316,7 +316,7 @@ details[open] .section-chevron {
 
 .num {
   font-weight: bold;
-  color: #2179B5;
+  color: #0b4e94;
 }
 
 /* BADGES */
@@ -378,7 +378,7 @@ details[open] .q-icon {
 
 /* LINKS */
 a {
-  color: #2179B5;
+  color: #0b4e94;
   text-decoration: none;
 }
 
@@ -406,7 +406,7 @@ a:hover {
 .support-cta {
   margin-top: 50px;
   padding: 30px 20px;
-  background: linear-gradient(135deg, #2179B5, #2f8bc9);
+  background: linear-gradient(135deg, #0b4e94, #207ee2);
   border-radius: 22px;
   box-shadow: 0 10px 30px rgba(79, 124, 255, 0.25);
 }
@@ -433,7 +433,7 @@ a:hover {
 
 .support-left h3 {
   font-size: 26px;
-  color: #2179B5;
+  color: #0b4e94;
   margin-bottom: 10px;
 }
 
@@ -475,7 +475,7 @@ a:hover {
 /* WEB */
 .btn.website {
   background: #eef1fb;
-  color: #2179B5;
+  color: #0b4e94;
 }
 
 .btn.website:hover {
@@ -514,7 +514,7 @@ a:hover {
 /* ONLINE STATUS */
 .status-live {
   font-size: 13px;
-  color: #4f7cff;
+  color: #0b4e94;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -81,7 +81,11 @@ export class Payment {
 
   // 
   pagar(): void {
+    this.loadingPago = true;
     this.paymentService.pagar(this.data?.numero_cliente);
+    setTimeout(() => {
+      this.loadingPago = false;
+    }, 3600);
   }
 
 
@@ -110,14 +114,9 @@ export class Payment {
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 
-  selectedMethod: string | null = null;
-
-  selectMethod(method: string) {
-    this.selectedMethod = method;
-  }
 
 
-// Modal para buscar invoice solo pruebas quitar posteriormetente
+  // Modal para buscar invoice solo pruebas quitar posteriormetente
   showInvoiceModal = false;
   invoiceInput = '';
   invoiceResult: any = null;
