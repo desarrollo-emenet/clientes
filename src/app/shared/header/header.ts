@@ -37,4 +37,14 @@ export class Header implements OnInit, OnDestroy {
     const urlLimpia = url.split('?')[0];
     this.showNavButtons = urlLimpia !== '/servicios';
   }
+
+  goNotificaciones(): void {
+    const numeroCliente = localStorage.getItem('servicio_activo');
+    if (numeroCliente) {
+      this.router.navigate(['/notificaciones', numeroCliente]);
+      return;
+    }
+
+    this.router.navigate(['/notificaciones']);
+  }
 }

@@ -7,7 +7,7 @@
 
   <!-- VACÍO -->
   <div *ngIf="notifications.length === 0" class="empty-state">
-    <i class="bi bi-bell"></i>
+    <i class="fa-regular fa-bell" style="color: rgb(0, 51, 143);"></i>
     <h4>No hay notificaciones</h4>
     <p>No tienes notificaciones nuevas por el momento.</p>
   </div>
@@ -24,10 +24,10 @@
       }">
 
       <div class="notification-icon">
+      <i class="fa-solid fa-bell" style="color: rgb(0, 51, 143);"></i>
+        <span *ngIf="n.title === 'Recordatorio de Pago'"><i class="fa-regular fa-credit-card" style="color: rgb(0, 51, 143);"></i></span>
 
-        <span *ngIf="n.title === 'Recordatorio de Pago'">💳</span>
-
-        <span *ngIf="n.title === 'Adeudo Pendiente'">⚠️</span>
+        <span *ngIf="n.title === 'Adeudo Pendiente'"><i class="fa-solid fa-triangle-exclamation" style="color: rgb(0, 51, 143);"></i></span>
 
       </div>
 

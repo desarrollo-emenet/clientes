@@ -3,6 +3,32 @@
   align-items: center;
 }
 
+.header-actions {
+  gap: 10px;
+}
+
+.notif-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e8eef5;
+  background: #ffffff;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b4e94;
+  transition: 0.2s ease;
+}
+
+.notif-btn:hover {
+  background: #f5f7fb;
+  border-color: #d8e4f5;
+}
+
+.notif-btn i {
+  font-size: 18px;
+}
+
 :host ::ng-deep .header-nav app-nav .sidebar {
   box-shadow: none;
   border-radius: 0;

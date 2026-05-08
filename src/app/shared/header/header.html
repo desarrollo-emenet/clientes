@@ -12,7 +12,12 @@
       <app-nav></app-nav>
     </div>
 
-    <app-user-menu></app-user-menu>
+    <div class="header-actions d-flex align-items-center">
+      <button class="notif-btn" type="button" (click)="goNotificaciones()" aria-label="Notificaciones">
+        <i class="fa-regular fa-bell"></i>
+      </button>
+      <app-user-menu></app-user-menu>
+    </div>
 
   </div>
 </header>
