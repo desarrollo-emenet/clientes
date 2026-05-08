@@ -109,7 +109,7 @@ export class Payment {
 
 
   contactSupport() {
-    const phone = '7291792524';
+    const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda con mi pago.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
