@@ -1,4 +1,3 @@
-
 <!--Diseño nuevo-->
 <div class="container-fluid">
   <div class="row g-0 min-vh-100">
@@ -7,7 +6,8 @@
       <div *ngIf="data" class="content-wrapper">
         <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
         <div class="top-banner">
-          <div class="banner-section banner-debt" *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+          <div class="banner-section banner-debt"
+            *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
             <div class="banner-icon">
               <i class="fa-solid fa-wallet"></i>
             </div>
@@ -24,14 +24,45 @@
             </div>
           </div>
 
+          <div class="banner-section banner-debt"
+            *ngIf="(data.cliente?.cliente?.deuda ?? 0) === 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+            <div class="banner-icon-ad">
+              <i class="fa-solid fa-calendar"></i>
+            </div>
+            <div class="banner-text-ad">
+              <div class="banner-label">Adelantar pago</div>
+              <div class="banner-amount-ad debt">
+                Sin adeudos
+              </div>
+              <div class="banner-sub">Adelanta tu proximo mes y manten tu servicio activo</div>
+            </div>
+          </div>
+
           <div class="banner-section banner-pay"
             *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
-            <button class="btn-pay" (click)="pagar()" [disabled]="loadingPago || loading">
-              <ng-container *ngIf="!loadingPago">
+            <button class="btn-pay" (click)="abrirPagoModal()" [disabled]="loadingPago || loading">
+              <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora
+              <!--<ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 
               <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
-                Procesando...</ng-container>
+                Procesando...</ng-container>-->
+            </button>
+
+            <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">
+              Ver formas de pago <i class="fa-solid fa-chevron-right ms-1"></i>
+            </a>
+          </div>
+
+          <div class="banner-section banner-pay"
+            *ngIf="(data.cliente?.cliente?.deuda ?? 0) === 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
+            <button class="btn-adelantar-pay" (click)="abrirPagoModal()" [disabled]="loadingPago || loading">
+              <i class="fa-solid fa-credit-card me-2"></i>Adelantar Pago
+              <!--<ng-container *ngIf="!loadingPago">
+                <i class="fa-solid fa-credit-card me-2"></i>Adelantar Pago</ng-container>
+
+              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+                Procesando...</ng-container>-->
             </button>
 
             <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">
@@ -136,7 +167,7 @@
                   </div>
                 </div>
               </div>
-     
+
               <!-- Cámaras -->
               <div class="col-12" [ngClass]="{
                 'col-md-12': contarServiciosActivos() === 1,
@@ -307,6 +338,38 @@
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--modal Pagos-->
+        <div class="modal-backdrop-custom" *ngIf="showPagoModal" (click)="cerrarPagoModal()">
+          <div class="modal-container" (click)="$event.stopPropagation()">
+            <div class="modal-card">
+
+              <button class="close-btn" (click)="cerrarPagoModal()">✕</button>
+
+              <h4 class="text fw-bold">Pago de servicio</h4>
+              <div class="alert-warning-soft">
+                <i class="fa-solid fa-circle-info"></i>
+                Al generar la orden de pago, serás redirigido a nuestra pasarela segura para completar tu pago.
+              </div>
+              <div class="text-muted">
+                <ul>
+                  <li>Los pagos incluyen una comisión por procesamiento.</li>
+                  <li>Una vez realizado el pago recibirás una confirmación automática.</li>
+                </ul>
+              </div>
+              <div class="modal-buttons">
+                <button class="btn btn-secondary mt-3" (click)="cerrarPagoModal()">Cancelar</button>
+                <button class="btn btn-secondary mt-3" (click)="pagar()" [disabled]="loadingPago || loading">
+                  <ng-container *ngIf="!loadingPago">
+                    <i class="fa-solid fa-credit-card me-2"></i>Pagar</ng-container>
+
+                  <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+                    Procesando...</ng-container>
+                </button>
               </div>
             </div>
           </div>

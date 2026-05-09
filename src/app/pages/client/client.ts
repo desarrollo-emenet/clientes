@@ -23,6 +23,7 @@ export class Client implements OnInit {
   loading = false;
   loadingPago = false;
   showEstadoCuentaModal = false;
+  showPagoModal = false;
   private subs: Subscription[] = [];
 
 
@@ -157,6 +158,14 @@ export class Client implements OnInit {
 
   cerrarEstadoCuentaModal() {
     this.showEstadoCuentaModal = false;
+  }
+
+  abrirPagoModal() {
+    this.showPagoModal = true;
+  }
+
+  cerrarPagoModal(){
+    this.showPagoModal = false;
   }
 
   async descargarEstadoCuentaPDF(item: any): Promise<void> {
