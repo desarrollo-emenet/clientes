@@ -181,7 +181,7 @@
 @media (max-width: 576px) {
   .notif-panel {
     position: fixed;
-    top: 56px;
+    top: 60px;
     right: 0;
     left: 0;
     width: auto;
