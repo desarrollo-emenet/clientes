@@ -32,7 +32,7 @@
 
 .notif-panel {
   position: absolute;
-  top: 46px;
+  top: calc(100% + 12px);
   right: 0;
   width: 360px;
   max-height: 420px;
@@ -149,6 +149,55 @@
   font-size: 11px;
   color: #94a3b8;
   margin-top: 3px;
+}
+
+/* Responsive del panel de notificaciones */
+@media (max-width: 992px) {
+  .notif-panel {
+    width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .notif-panel {
+    width: 300px;
+    max-height: 380px;
+  }
+}
+
+@media (max-width: 576px) {
+  .notif-panel {
+    position: fixed;
+    top: 56px;
+    right: 0;
+    left: 0;
+    width: auto;
+    max-width: none;
+    margin: 0 12px;
+    border-radius: 12px;
+    max-height: 60vh;
+  }
+
+  .notif-panel-header {
+    margin-bottom: 8px;
+  }
+
+  .notif-item {
+    padding: 8px;
+  }
+
+  .notif-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .notif-title {
+    font-size: 12px;
+  }
+
+  .notif-text {
+    font-size: 11px;
+  }
 }
 
 :host ::ng-deep .header-nav app-nav .sidebar {
