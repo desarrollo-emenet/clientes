@@ -35,8 +35,8 @@ export class ClientService {
     const headers = this.getHeaders();
     return this.http.patch(`${this.apiLocalUrl}/usuarios/${id}`, data, { headers });
   }
- 
- //envia correo de verificacion para agregar servicio
+
+  //envia correo de verificacion para agregar servicio
   addService(data: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.apiLocalUrl}/servicios`, data, { headers });
@@ -65,9 +65,9 @@ export class ClientService {
     return this.http.delete<any>(`${this.apiLocalUrl}/servicios/${id}`, { headers });
   }
 
-  verifyAccessService(cliente: string): Observable<{has_access: boolean, servicio?: any}>{
+  verifyAccessService(cliente: string): Observable<{ has_access: boolean, servicio?: any }> {
     const headers = this.getHeaders();
-    return this.http.get<{has_access: boolean, servicio?: any}>(`${this.apiLocalUrl}/verify-access-service/${cliente}`, { headers });
+    return this.http.get<{ has_access: boolean, servicio?: any }>(`${this.apiLocalUrl}/verify-access-service/${cliente}`, { headers });
   }
 
   //pagoralia
@@ -83,8 +83,8 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const header = this.getHeaders();
-    return this.http.post<any>(`${this.apiLocalUrl}/pagos`, data, { headers: header });
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${this.apiLocalUrl}/pagos`, data, { headers: headers });
   }
 
 }

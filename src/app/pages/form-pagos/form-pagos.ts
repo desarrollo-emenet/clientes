@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgxSonnerToaster } from "ngx-sonner";
+import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { ClientService } from '../../services/user/clientService';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-form-pagos',
@@ -28,10 +27,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 export class FormPagos {
 
   loading = false;
-  showPassword = false;
   pagosForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private api: ClientService) {
+  constructor(private fb: FormBuilder, private router: Router, private clientS: ClientService) {
     this.pagosForm = this.fb.group({
       cliente: ['', [Validators.required, Validators.maxLength(6)]],
       usuario: ['', [Validators.required, Validators.maxLength(100)]],
@@ -77,6 +75,40 @@ export class FormPagos {
 
 
   enviarPago() {
+    //enviar datos recolectados por formulario a backend
+    if (this.pagosForm.invalid) {
+      this.pagosForm.markAllAsTouched();
+      toast.error("Completar los campos requeridos");
+      return
+    }
+    this.loading = true;
+
+    const raw = this.pagosForm.value;
+
+
+    const formData = new FormData();
+
+    formData.append('cliente', raw.cliente);
+    formData.append('usuario', raw.usuario);
+    formData.append('fechaPago', raw.fechaPago? raw.fechaPago.toISOString() : '');
+    formData.append('numOperacion', raw.numOperacion);
+    formData.append('telefono', raw.telefono);
+    formData.append('clave', raw.clave);
+    formData.append('mensualidad', raw.mensualidad);
+    formData.append('monto', raw.monto);
+
+    formData.append('comprobante', raw.comprobante as File);
+
+    this.clientS.pagosBanco(formData as any).subscribe({
+      next: (res) => {
+        this.loading = false;
+        toast.success('datos enviados')
+      },
+      error: (e) => {
+        this.loading = false;
+        toast.error('No se pudo enviar')
+      }
+    });
   }
 
 }
