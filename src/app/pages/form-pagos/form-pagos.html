@@ -111,7 +111,7 @@
         <div class="mb-4">
           <label for="inputComprobante" class="form-label fw-semibold">Comprobante de pago</label>
           <div class="input-glow-wrapper">
-            <input id="inputComprobante" type="file" formControlName="comprobante" class="form-control input-glow"
+            <input id="inputComprobante" type="file" (change)="onFileChange($event)" formControlName="comprobante" class="form-control input-glow"
               placeholder="Subir comprobante">
           </div>
           <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)" class="mt-2 text-danger small">

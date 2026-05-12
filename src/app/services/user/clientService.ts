@@ -25,6 +25,12 @@ export class ClientService {
     return headers;
   }
 
+  getHead(): HttpHeaders{
+    const token = this.getToken();
+    let headers = new HttpHeaders();
+    if (token) headers = headers.set('Authorization', `Bearer ${token}`);
+    return headers;
+  }
   //peticiones para usuarios
   getAuthenticatedUser(): Observable<any> {
     const headers = this.getHeaders();
@@ -83,7 +89,7 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const headers = this.getHeaders();
+    const headers = this.getHead();
     return this.http.post<any>(`${this.apiLocalUrl}/pagos`, data, { headers: headers });
   }
 

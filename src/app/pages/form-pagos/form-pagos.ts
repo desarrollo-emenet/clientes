@@ -27,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class FormPagos {
 
   loading = false;
+  archivoSeleccionado!: File;
   pagosForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router, private clientS: ClientService) {
@@ -72,6 +73,9 @@ export class FormPagos {
     return this.pagosForm.controls['monto'];
   }
 
+  onFileChange(event: any) {
+  this.archivoSeleccionado = event.target.files[0];
+}
 
 
   enviarPago() {
@@ -82,30 +86,32 @@ export class FormPagos {
       return
     }
     this.loading = true;
-
     const raw = this.pagosForm.value;
+    const fecha = new Date(raw.fechaPago);
 
 
     const formData = new FormData();
-
     formData.append('cliente', raw.cliente);
-    formData.append('usuario', raw.usuario);
-    formData.append('fechaPago', raw.fechaPago? raw.fechaPago.toISOString() : '');
+    formData.append('nombre', raw.usuario);
+    formData.append('fechaPago', fecha.toISOString().split('T')[0]);
     formData.append('numOperacion', raw.numOperacion);
     formData.append('telefono', raw.telefono);
     formData.append('clave', raw.clave);
     formData.append('mensualidad', raw.mensualidad);
     formData.append('monto', raw.monto);
 
-    formData.append('comprobante', raw.comprobante as File);
+formData.append('comprobante', this.archivoSeleccionado);
+    
 
     this.clientS.pagosBanco(formData as any).subscribe({
-      next: (res) => {
+      next: () => {
+        console.log(formData);
         this.loading = false;
         toast.success('datos enviados')
       },
       error: (e) => {
         this.loading = false;
+        console.log(e);
         toast.error('No se pudo enviar')
       }
     });
