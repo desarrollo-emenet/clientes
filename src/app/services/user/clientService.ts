@@ -81,4 +81,10 @@ export class ClientService {
     return this.http.post<any>(`${this.apiLocalUrl}/pagoralia/invoice`, data, { headers });
   }
 
+  //formulario para pagos
+  pagosBanco(data: any): Observable<any> {
+    const header = this.getHeaders();
+    return this.http.post<any>(`${this.apiLocalUrl}/pagos`, data, { headers: header });
+  }
+
 }

@@ -20,6 +20,7 @@ import { serviceAccessGuard } from './guards/service-access-guard';
 import { Notification } from './pages/notification/notification';
 import { Component } from '@angular/core';
 import { FAQ } from './pages/faq/faq';
+import { FormPagos } from './pages/form-pagos/form-pagos';
 
 
 export const routes: Routes = [
@@ -42,6 +43,7 @@ export const routes: Routes = [
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'notificaciones/:numero_cliente', component: Notification, canActivate: [requireAuthGuard] },
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
+  { path: 'formulario-pagos', component: FormPagos },
 
   
   { path: '**', redirectTo: '/iniciar-sesion' }
