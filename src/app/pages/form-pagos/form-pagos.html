@@ -33,19 +33,34 @@
           <div class="input-glow-wrapper">
             <input id="inputUsuario" type="text" formControlName="usuario" class="form-control input-glow"
               placeholder="Nombre completo">
-            </div>
-            <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="mt-2 text-danger small">
-              <span *ngIf="usuario.errors?.['required']">El campo es requerido.</span>
-              <span *ngIf="usuario.errors?.['maxLength']">El nombre es demasiado largo.</span>
-            </div>
+          </div>
+          <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="mt-2 text-danger small">
+            <span *ngIf="usuario.errors?.['required']">El campo es requerido.</span>
+            <span *ngIf="usuario.errors?.['maxLength']">El nombre es demasiado largo.</span>
+          </div>
         </div>
 
         <!-- fecha pago -->
-        <div class="mb-4">
+        <!--<div class="mb-4">
           <label for="inputFechaPago" class="form-label fw-semibold">Fecha de pago</label>
           <div class="input-glow-wrapper">
-            <input id="inputFechaPago" type="date" formControlName="fechaPago" class="form-control input-glow">
+            <input id="inputFechaPago" type="date" formControlName="fechaPago" class="form-control custom-date">
           </div>
+          <div *ngIf="fechaPago.invalid && (fechaPago.dirty || fechaPago.touched)" class="mt-2 text-danger small">
+            <span *ngIf="fechaPago.errors?.['required']">El campo es requerido.</span>
+          </div>
+        </div>-->
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Fecha de pago</label>
+          <mat-form-field appearance="outline" class="custom-date-field w-100">
+            <input matInput [matDatepicker]="picker" formControlName="fechaPago" class="custom-input"
+              placeholder="Selecciona una fecha">
+
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
           <div *ngIf="fechaPago.invalid && (fechaPago.dirty || fechaPago.touched)" class="mt-2 text-danger small">
             <span *ngIf="fechaPago.errors?.['required']">El campo es requerido.</span>
           </div>
@@ -53,13 +68,14 @@
 
 
         <!-- numero de operacion-->
-         <div class="mb-4">
+        <div class="mb-4">
           <label for="inputNumOperacion" class="form-label fw-semibold">Número de operación</label>
           <div class="input-glow-wrapper">
             <input id="inputNumOperacion" type="text" formControlName="numOperacion" class="form-control input-glow"
               placeholder="Número de operación">
           </div>
-          <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)" class="mt-2 text-danger small">
+          <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
+            class="mt-2 text-danger small">
             <span *ngIf="numOperacion.errors?.['required']">El campo es requerido.</span>
             <span *ngIf="numOperacion.errors?.['maxLength']">El número de operación es demasiado largo.</span>
           </div>
@@ -83,12 +99,12 @@
           <label for="inputPassword" class="form-label fw-semibold">Clave de pago</label>
           <div class="input-glow-wreapper">
             <input id="inputClave" type="text" formControlName="clave" class="form-control inpu-glow"
-            placeholder="clave de pago">
-            </div>
-            <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-2 text-danger small">
-              <span *ngIf="clave.errors?.['required']">El campo es requerido.</span>
-              <span *ngIf="clave.errors?.['maxLength']">La clave de pago es demasiado larga.</span>
-            </div>
+              placeholder="clave de pago">
+          </div>
+          <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-2 text-danger small">
+            <span *ngIf="clave.errors?.['required']">El campo es requerido.</span>
+            <span *ngIf="clave.errors?.['maxLength']">La clave de pago es demasiado larga.</span>
+          </div>
         </div>
 
         <!-- comprobante imagen-->
@@ -104,16 +120,16 @@
         </div>
 
         <!-- mensualidad -->
-         <div class="mb-4">
+        <div class="mb-4">
           <label for="inputMensualidad" class="form-label fw-semibold">Mensualidad a pagar</label>
           <div class="input-glow-wrapper">
             <input id="inputMensualidad" type="text" formControlName="mensualidad" class="form-control input-glow"
               placeholder="Mensualidad a pagar">
-            </div>
-            <div *ngIf="mensualidad.invalid && (mensualidad.dirty || mensualidad.touched)" class="mt-2 text-danger small">
-              <span *ngIf="mensualidad.errors?.['required']">El campo es requerido.</span>
-              <span *ngIf="mensualidad.errors?.['maxLength']">La mensualidad es demasiado larga.</span>
-            </div>
+          </div>
+          <div *ngIf="mensualidad.invalid && (mensualidad.dirty || mensualidad.touched)" class="mt-2 text-danger small">
+            <span *ngIf="mensualidad.errors?.['required']">El campo es requerido.</span>
+            <span *ngIf="mensualidad.errors?.['maxLength']">La mensualidad es demasiado larga.</span>
+          </div>
         </div>
 
         <!-- monto -->
@@ -122,11 +138,11 @@
           <div class="input-glow-wrapper">
             <input id="inputMonto" type="text" formControlName="monto" class="form-control input-glow"
               placeholder="Monto a pagar">
-            </div>
-            <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-2 text-danger small">
-              <span *ngIf="monto.errors?.['required']">El campo es requerido.</span>
-              <span *ngIf="monto.errors?.['maxLength']">El monto es demasiado largo.</span>
-            </div>
+          </div>
+          <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-2 text-danger small">
+            <span *ngIf="monto.errors?.['required']">El campo es requerido.</span>
+            <span *ngIf="monto.errors?.['maxLength']">El monto es demasiado largo.</span>
+          </div>
         </div>
 
 

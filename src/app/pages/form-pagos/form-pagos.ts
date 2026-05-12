@@ -5,16 +5,28 @@ import { Router } from '@angular/router';
 import { NgxSonnerToaster } from "ngx-sonner";
 import { ClientService } from '../../services/user/clientService';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-form-pagos',
-  imports: [NgxSonnerToaster, NgIf, ReactiveFormsModule, ],
+  imports: [NgxSonnerToaster,
+    NgIf,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatIconModule],
   templateUrl: './form-pagos.html',
   styleUrl: './form-pagos.css'
 })
 export class FormPagos {
 
-  date: Date | undefined;
   loading = false;
   showPassword = false;
   pagosForm!: FormGroup;
@@ -61,6 +73,7 @@ export class FormPagos {
   get monto() {
     return this.pagosForm.controls['monto'];
   }
+
 
 
   enviarPago() {

@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-.ng-valid:not(form).ng-touched {
-    border-left: 5px solid #42A948;
+/* VALIDACIÓN GLOBAL EXCLUYENDO ANGULAR MATERIAL */
+.form-control.ng-valid.ng-touched {
+  border-left: 5px solid #42A948;
 }
 
-.ng-invalid:not(form).ng-touched {
-    border-left: 5px solid #a94442;
+.form-control.ng-invalid.ng-touched {
+  border-left: 5px solid #a94442;
 }
 
 .pulse-animation {
@@ -25,3 +26,6 @@
     opacity: 0.4;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

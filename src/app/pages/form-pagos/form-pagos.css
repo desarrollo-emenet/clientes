@@ -124,6 +124,48 @@
 }
 
 /* =========================
+  Date
+========================= */
+
+.custom-date-field {
+  width: 100%;
+}
+
+/* contenedor principal del mat-form-field */
+.custom-date-field .mat-mdc-text-field-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+/* borde normal */
+.custom-date-field .mdc-notched-outline__leading,
+.custom-date-field .mdc-notched-outline__notch,
+.custom-date-field .mdc-notched-outline__trailing {
+  border-color: #e2e8f0 !important;
+}
+
+/* focus (azul consistente con tu tema) */
+.custom-date-field.mat-focused .mdc-notched-outline__leading,
+.custom-date-field.mat-focused .mdc-notched-outline__notch,
+.custom-date-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #2179B5 !important;
+  border-width: 2px !important;
+}
+
+/* input interno */
+.custom-date-field input {
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+/* icono calendario */
+.custom-date-field .mat-datepicker-toggle {
+  color: #2179B5;
+}
+
+
+/* =========================
    FILE INPUT
 ========================= */
 
