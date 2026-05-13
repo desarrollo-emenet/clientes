@@ -108,6 +108,7 @@ formData.append('comprobante', this.archivoSeleccionado);
         console.log(formData);
         this.loading = false;
         toast.success('datos enviados')
+        this.pagosForm.reset()
       },
       error: (e) => {
         this.loading = false;

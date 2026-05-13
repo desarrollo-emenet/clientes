@@ -1,165 +1,135 @@
 <div class="container-fluid">
-
-  <!-- Panel  formulario -->
   <main class="page">
+    <div class="payment-container">
+      <!-- HEADER -->
+      <div class="payment-header">
+        <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
+        <div class="header-content">
+          <h2>¡Registre su pago!</h2>
+          <p>Por favor llene los siguientes campos para continuar</p>
+        </div>
+      </div>
 
-    <!-- Logo -->
-    <!--<div class="text-center mb-4 mt-n4">
-      <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
-    </div>-->
-
-    <div class="auth-card shadow-lg p-4 p-sm-5">
-      <h3 class="text-center fw-bold mb-1">¡Registre su pago!</h3>
-      <p class="text-center text-muted mb-4">Por favor llene los siguientes campos para continuar</p>
-
+      <!-- FORM -->
       <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
+        <div class="form-layout">
+          <div class="form-card">
+            <div class="card-title">
+              <div class="card-icon blue"><i class="fa-solid fa-person"></i></div>
+              <h5>Datos del cliente</h5>
+            </div>
+            <div class="card-grid">
 
-        <!--cliente -->
-        <div class="mb-4">
-          <label for="inputCliente" class="form-label fw-semibold">Numero de cliente</label>
-          <div class="input-glow-wrapper">
-            <input id="inputCliente" type="text" formControlName="cliente" class="form-control input-glow"
-              placeholder="#####">
+              <!-- cliente -->
+              <div class="field">
+                <label>Número de cliente</label>
+                <input type="text" formControlName="cliente" class="form-control custom-input" placeholder="#####">
+              </div>
+
+              <!-- nombre -->
+              <div class="field">
+                <label>Nombre del titular</label>
+                <input type="text" formControlName="usuario" class="form-control custom-input"
+                  placeholder="Nombre completo">
+              </div>
+
+              <!-- telefono -->
+              <div class="field">
+                <label>Teléfono</label>
+                <input type="text" formControlName="telefono" class="form-control custom-input"
+                  placeholder="Número de teléfono">
+              </div>
+
+              <!-- clave -->
+              <div class="field">
+                <label>Clave de pago</label>
+                <input type="text" formControlName="clave" class="form-control custom-input"
+                  placeholder="Clave de pago">
+              </div>
+
+            </div>
+
           </div>
-          <div *ngIf="cliente.invalid && (cliente.dirty || cliente.touched)" class="mt-2 text-danger small">
-            <span *ngIf="cliente.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="cliente.errors?.['maxLength']">El número de cliente es demasaido largo.</span>
+
+
+          <div class="form-card">
+            <div class="card-title">
+              <div class="card-icon green"><i class="fa-solid fa-credit-card"></i></div>
+              <h5>Información del pago</h5>
+            </div>
+
+            <div class="card-grid">
+              <!-- fecha -->
+              <div class="field">
+                <label>Fecha de pago</label>
+                <mat-form-field appearance="outline" class="custom-date-field">
+                  <input matInput [matDatepicker]="picker" formControlName="fechaPago"
+                    placeholder="Selecciona una fecha">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!-- operacion -->
+              <div class="field">
+                <label>Número de operación</label>
+                <input type="text" formControlName="numOperacion" class="form-control custom-input"
+                  placeholder="Número de operación">
+              </div>
+
+              <!-- mensualidad -->
+              <div class="field">
+                <label>Mensualidad</label>
+                <input type="text" formControlName="mensualidad" class="form-control custom-input"
+                  placeholder="Mensualidad">
+              </div>
+
+              <!-- monto -->
+              <div class="field">
+                <label>Monto a pagar</label>
+                <input type="text" formControlName="monto" class="form-control custom-input"
+                  placeholder="Monto a pagar">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="upload-card">
+          <div class="card-title">
+            <div class="card-icon purple"><i class="fa-solid fa-file-import"></i></div>
+            <h5>Comprobante de pago</h5>
+          </div>
+          <div class="upload-zone">
+            <div class="upload-center">
+              <div class="upload-big-icon">
+                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              </div>
+              <h6>Sube tu comprobante aquí</h6>
+              <input type="file" (change)="onFileChange($event)" formControlName="comprobante"
+                class="form-control upload-input">
+              <small>
+                Formatos permitidos: JPG, PNG, PDF · Máx. 5MB
+              </small>
+            </div>
           </div>
         </div>
 
-        <!-- Campo: nombre -->
-        <div class="mb-4">
-          <label for="inputUsuario" class="form-label fw-semibold">Nombre del titular de la cuenta</label>
-          <div class="input-glow-wrapper">
-            <input id="inputUsuario" type="text" formControlName="usuario" class="form-control input-glow"
-              placeholder="Nombre completo">
-          </div>
-          <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="mt-2 text-danger small">
-            <span *ngIf="usuario.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="usuario.errors?.['maxLength']">El nombre es demasiado largo.</span>
-          </div>
-        </div>
-
-        <!-- fecha pago -->
-        <!--<div class="mb-4">
-          <label for="inputFechaPago" class="form-label fw-semibold">Fecha de pago</label>
-          <div class="input-glow-wrapper">
-            <input id="inputFechaPago" type="date" formControlName="fechaPago" class="form-control custom-date">
-          </div>
-          <div *ngIf="fechaPago.invalid && (fechaPago.dirty || fechaPago.touched)" class="mt-2 text-danger small">
-            <span *ngIf="fechaPago.errors?.['required']">El campo es requerido.</span>
-          </div>
-        </div>-->
-
-        <div class="mb-4">
-          <label class="form-label fw-semibold">Fecha de pago</label>
-          <mat-form-field appearance="outline" class="custom-date-field w-100">
-            <input matInput [matDatepicker]="picker" formControlName="fechaPago" class="custom-input"
-              placeholder="Selecciona una fecha">
-
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <div *ngIf="fechaPago.invalid && (fechaPago.dirty || fechaPago.touched)" class="mt-2 text-danger small">
-            <span *ngIf="fechaPago.errors?.['required']">El campo es requerido.</span>
-          </div>
-        </div>
-
-
-        <!-- numero de operacion-->
-        <div class="mb-4">
-          <label for="inputNumOperacion" class="form-label fw-semibold">Número de operación</label>
-          <div class="input-glow-wrapper">
-            <input id="inputNumOperacion" type="text" formControlName="numOperacion" class="form-control input-glow"
-              placeholder="Número de operación">
-          </div>
-          <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
-            class="mt-2 text-danger small">
-            <span *ngIf="numOperacion.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="numOperacion.errors?.['maxLength']">El número de operación es demasiado largo.</span>
-          </div>
-        </div>
-
-        <!--telefono-->
-        <div class="mb-4">
-          <label for="inputTelefono" class="form-label fw-semibold">Teléfono</label>
-          <div class="input-glow-wrapper">
-            <input id="inputTelefono" type="text" formControlName="telefono" class="form-control input-glow"
-              placeholder="Número de teléfono">
-          </div>
-          <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-2 text-danger small">
-            <span *ngIf="telefono.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="telefono.errors?.['maxLength']">El número de teléfono es demasiado largo.</span>
-          </div>
-        </div>
-
-        <!-- clave -->
-        <div class="mb-4">
-          <label for="inputPassword" class="form-label fw-semibold">Clave de pago</label>
-          <div class="input-glow-wreapper">
-            <input id="inputClave" type="text" formControlName="clave" class="form-control inpu-glow"
-              placeholder="clave de pago">
-          </div>
-          <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-2 text-danger small">
-            <span *ngIf="clave.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="clave.errors?.['maxLength']">La clave de pago es demasiado larga.</span>
-          </div>
-        </div>
-
-        <!-- comprobante imagen-->
-        <div class="mb-4">
-          <label for="inputComprobante" class="form-label fw-semibold">Comprobante de pago</label>
-          <div class="input-glow-wrapper">
-            <input id="inputComprobante" type="file" (change)="onFileChange($event)" formControlName="comprobante" class="form-control input-glow"
-              placeholder="Subir comprobante">
-          </div>
-          <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)" class="mt-2 text-danger small">
-            <span *ngIf="comprobante.errors?.['required']">El campo es requerido.</span>
-          </div>
-        </div>
-
-        <!-- mensualidad -->
-        <div class="mb-4">
-          <label for="inputMensualidad" class="form-label fw-semibold">Mensualidad a pagar</label>
-          <div class="input-glow-wrapper">
-            <input id="inputMensualidad" type="text" formControlName="mensualidad" class="form-control input-glow"
-              placeholder="Mensualidad a pagar">
-          </div>
-          <div *ngIf="mensualidad.invalid && (mensualidad.dirty || mensualidad.touched)" class="mt-2 text-danger small">
-            <span *ngIf="mensualidad.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="mensualidad.errors?.['maxLength']">La mensualidad es demasiado larga.</span>
-          </div>
-        </div>
-
-        <!-- monto -->
-        <div class="mb-4">
-          <label for="inputMonto" class="form-label fw-semibold">Monto a pagar</label>
-          <div class="input-glow-wrapper">
-            <input id="inputMonto" type="text" formControlName="monto" class="form-control input-glow"
-              placeholder="Monto a pagar">
-          </div>
-          <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-2 text-danger small">
-            <span *ngIf="monto.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="monto.errors?.['maxLength']">El monto es demasiado largo.</span>
-          </div>
-        </div>
-
-
-        <!-- Botón enviar datos -->
-        <div class="btn-water-wrapper">
-          <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
-            <span class="water-fill"></span>
-            <span class="btn-water-content">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-              <span>{{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}</span>
+        <!-- BOTON -->
+        <div class="submit-wrapper">
+          <button type="submit" class="submit-btn" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2">
             </span>
+            {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
           </button>
         </div>
 
       </form>
 
-      <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
     </div>
+    <ngx-sonner-toaster richColors position="top-center" />
   </main>
+
 </div>
