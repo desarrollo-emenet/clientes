@@ -131,38 +131,58 @@
   width: 100%;
 }
 
-/* contenedor principal del mat-form-field */
-.custom-date-field .mat-mdc-text-field-wrapper {
-  background: #fff;
-  border-radius: 8px;
-  transition: all 0.25s ease;
+/* quitar estilos pesados de material */
+.custom-date-field .mdc-notched-outline {
+  display: none;
 }
 
-/* borde normal */
-.custom-date-field .mdc-notched-outline__leading,
-.custom-date-field .mdc-notched-outline__notch,
-.custom-date-field .mdc-notched-outline__trailing {
-  border-color: #e2e8f0 !important;
+/* contenedor */
+.custom-date-field .mat-mdc-form-field-flex {
+  height: 52px;
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+
+  padding: 0 14px;
+
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    transform .2s ease;
 }
 
-/* focus (azul consistente con tu tema) */
-.custom-date-field.mat-focused .mdc-notched-outline__leading,
-.custom-date-field.mat-focused .mdc-notched-outline__notch,
-.custom-date-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #2179B5 !important;
-  border-width: 2px !important;
+/* hover */
+.custom-date-field:hover .mat-mdc-form-field-flex {
+  border-color: #3472de;
 }
 
-/* input interno */
-.custom-date-field input {
-  font-size: 0.95rem;
-  color: #1f2937;
+
+/* input */
+.custom-date-field input.custom-input {
+  color: #000000a4;
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 14px;
+
 }
 
-/* icono calendario */
+/* placeholder */
+.custom-date-field input::placeholder {
+  color: #94a3b8;
+    padding-left: 10px;
+
+}
+
+/* icono */
 .custom-date-field .mat-datepicker-toggle {
-  color: #2179B5;
+  color: #3472de;
 }
+
+
+
 
 
 /* =========================
@@ -170,7 +190,7 @@
 ========================= */
 
 input[type="file"].input-glow {
-  padding-top: 10px;
+  padding-top: 12px;
   padding-bottom: 10px;
 }
 
@@ -201,7 +221,7 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* =========================
-   BOTON PRINCIPAL
+   BOTON 
 ========================= */
 
 

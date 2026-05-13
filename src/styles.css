@@ -12,6 +12,18 @@
   animation: pulse 1.8s ease-in-out infinite;
 }
 
+/* calendario */
+.mat-datepicker-content {
+    background-color: rgb(231, 242, 255) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+/* día seleccionado */
+.mat-calendar-body-selected {
+  background: #3472de !important;
+  color: #fff !important;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
