@@ -32,15 +32,15 @@ export class FormPagos {
 
   constructor(private fb: FormBuilder, private router: Router, private clientS: ClientService) {
     this.pagosForm = this.fb.group({
-      cliente: ['', [Validators.required, Validators.maxLength(6)]],
-      usuario: ['', [Validators.required, Validators.maxLength(100)]],
+      cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
+      usuario: ['', [Validators.required, Validators.maxLength(100), Validators.pattern('[A-Za-z ]+')]],
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
-      telefono: ['', [Validators.required, Validators.maxLength(20)]],
+      telefono: ['', [Validators.required, Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required, Validators.maxLength(100)]],
       comprobante: [null, [Validators.required]],
-      mensualidad: ['', [Validators.required, Validators.maxLength(20)]],
-      monto: ['', [Validators.required, Validators.maxLength(20)]],
+      mensualidad: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('[A-Za-z ]+')]],
+      monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
 
     })
   }
@@ -74,8 +74,8 @@ export class FormPagos {
   }
 
   onFileChange(event: any) {
-  this.archivoSeleccionado = event.target.files[0];
-}
+    this.archivoSeleccionado = event.target.files[0];
+  }
 
 
   enviarPago() {
@@ -100,12 +100,11 @@ export class FormPagos {
     formData.append('mensualidad', raw.mensualidad);
     formData.append('monto', raw.monto);
 
-formData.append('comprobante', this.archivoSeleccionado);
-    
+    formData.append('comprobante', this.archivoSeleccionado);
+
 
     this.clientS.pagosBanco(formData as any).subscribe({
       next: () => {
-        console.log(formData);
         this.loading = false;
         toast.success('datos enviados')
         this.pagosForm.reset()
