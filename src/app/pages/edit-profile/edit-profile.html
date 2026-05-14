@@ -1,22 +1,22 @@
 <div class="edit-layout">
 
-    <!-- Logo -->
+    <!-- Logo 
     <div class="text-center mb-4 mt-n4">
         <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
-    </div>
+    </div>-->
 
     <div class="auth-card shadow-lg p-4 p-sm-5">
 
         <h3 class="text-center fw-bold mb-1">Actualiza tu contraseña</h3>
         <p class="text-center text-muted mb-4">
-            Por seguridad, confirma tu contraseña actual
+             Por seguridad, confirma tu contraseña actual
         </p>
 
         <form [formGroup]="updateForm" (ngSubmit)="update()">
 
             <!-- Contraseña actual -->
             <div class="mb-4">
-                <label class="form-label fw-semibold">Contraseña actual</label>
+                <label class="form-label fw-semibold"><i class="fa-solid fa-unlock" style="color: rgb(11, 78, 148);"></i> Contraseña actual</label>
 
                 <div class="input-glow-wrapper">
                     <div class="input-group">
@@ -42,7 +42,7 @@
 
             <!-- Nueva contraseña -->
             <div class="mb-4">
-                <label class="form-label fw-semibold">Nueva contraseña</label>
+                <label class="form-label fw-semibold"><i class="fa-solid fa-lock" style="color: rgb(11, 78, 148);"></i> Nueva contraseña</label>
 
                 <div class="input-glow-wrapper">
                     <div class="input-group">
@@ -85,7 +85,7 @@
 
             <!-- Confirmar -->
             <div class="mb-4">
-                <label class="form-label fw-semibold">Confirmar contraseña</label>
+                <label class="form-label fw-semibold"><i class="fa-solid fa-check" style="color: rgb(11, 78, 148);"></i> Confirmar contraseña</label>
 
                 <div class="input-glow-wrapper">
                     <input type="password" formControlName="password_confirmation" class="form-control"
@@ -101,7 +101,7 @@
             <!-- Tips -->
             <div class="form-text mb-4">
                 <small class="text-muted">
-                    <strong>Recomendaciones:</strong><br>
+                    <strong><i class="fa-solid fa-thumbs-up" style="color: rgb(11, 78, 148);"></i> Recomendaciones:</strong><br>
                     • Evita palabras comunes<br>
                     • Usa números y símbolos
                 </small>

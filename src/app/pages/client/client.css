@@ -57,6 +57,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -67,6 +68,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -348,6 +350,7 @@
   background: #217ab565;
   color: #3a3a3a;
 }
+
 .client-wrap {
   width: 100%;
   background: #f6f7fb;
@@ -395,6 +398,8 @@
   flex: 1;
 }
 
+
+/*con adeudo*/
 .banner-icon {
   width: 48px;
   height: 48px;
@@ -489,6 +494,67 @@
   transform: translateY(0);
 }
 
+
+/* sin adeudo*/
+.banner-icon-ad {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f0f5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #0b4e94;
+  flex-shrink: 0;
+}
+
+.banner-text-ad {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.banner-amount-ad {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.banner-amount-ad.debt {
+  color: #0b4e94;
+}
+
+
+/* Botón adelnatar pago ahora */
+.btn-adelantar-pay {
+  background: #0b4e94;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(53, 94, 229, 0.35);
+  white-space: nowrap;
+}
+
+.btn-adelantar-pay:hover {
+  background: #0b4e94;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(53, 94, 229, 0.45);
+}
+
+.btn-adelantar-pay:active {
+  transform: translateY(0);
+}
+
 .ver-formas {
   font-size: 0.85rem;
   color: #2179B5;
@@ -508,7 +574,7 @@
 /* =============================================
    RESUMEN DE CUENTA
    ============================================= */
-.accent-bar  {
+.accent-bar {
   width: 4px;
   height: 24px;
   background: #2179B5;
@@ -528,6 +594,7 @@
   color: #1a1a2e;
   margin: 0;
 }
+
 .resumen-section {
   margin-bottom: 20px;
 }
@@ -567,9 +634,20 @@
   flex-shrink: 0;
 }
 
-.resumen-icon--blue  { background: #eff6ff; color: #2179B5; }
-.resumen-icon--green { background: #f0fdf4; color: #16a34a; }
-.resumen-icon--purple{ background: #faf5ff; color: #7c3aed; }
+.resumen-icon--blue {
+  background: #eff6ff;
+  color: #2179B5;
+}
+
+.resumen-icon--green {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.resumen-icon--purple {
+  background: #faf5ff;
+  color: #7c3aed;
+}
 
 .resumen-label {
   font-size: 0.78rem;
@@ -597,7 +675,7 @@
    ============================================= */
 .details {
   margin-bottom: 20px;
-  
+
 }
 
 .details-inner {
@@ -607,7 +685,7 @@
   border-radius: 14px;
   box-shadow: 0 2px 12px rgba(13, 24, 45, 0.05);
   border: 1px solid rgba(13, 24, 45, 0.04);
-  
+
 }
 
 /* =============================================
@@ -648,10 +726,25 @@
   flex-shrink: 0;
 }
 
-.svc-icon--blue   { background: #eff6ff; color: #2179B5; }
-.svc-icon--green  { background: #f0fdf4; color: #16a34a; }
-.svc-icon--violet { background: #faf5ff; color: #7c3aed; }
-.svc-icon--orange { background: #fff7ed; color: #ea580c; }
+.svc-icon--blue {
+  background: #eff6ff;
+  color: #2179B5;
+}
+
+.svc-icon--green {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.svc-icon--violet {
+  background: #faf5ff;
+  color: #7c3aed;
+}
+
+.svc-icon--orange {
+  background: #fff7ed;
+  color: #ea580c;
+}
 
 .svc-name {
   font-size: 0.98rem;
@@ -676,10 +769,25 @@
   width: fit-content;
 }
 
-.badge-blue   { background: #eff6ff; color: #2179B5; }
-.badge-green  { background: #f0fdf4; color: #16a34a; }
-.badge-violet { background: #faf5ff; color: #7c3aed; }
-.badge-orange { background: #fff7ed; color: #ea580c; }
+.badge-blue {
+  background: #eff6ff;
+  color: #2179B5;
+}
+
+.badge-green {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.badge-violet {
+  background: #faf5ff;
+  color: #7c3aed;
+}
+
+.badge-orange {
+  background: #fff7ed;
+  color: #ea580c;
+}
 
 .svc-meta {
   font-size: 0.75rem;
@@ -710,10 +818,21 @@
   font-weight: 800;
 }
 
-.svc-price--blue   { color: #2179B5; }
-.svc-price--green  { color: #16a34a; }
-.svc-price--violet { color: #7c3aed; }
-.svc-price--orange { color: #ea580c; }
+.svc-price--blue {
+  color: #2179B5;
+}
+
+.svc-price--green {
+  color: #16a34a;
+}
+
+.svc-price--violet {
+  color: #7c3aed;
+}
+
+.svc-price--orange {
+  color: #ea580c;
+}
 
 /* =============================================
    HISTORIAL DE PAGOS
@@ -773,40 +892,222 @@
     font-size: 1.3rem;
   }
 
-  .table thead { display: none; }
+  .table thead {
+    display: none;
+  }
+
   .table tbody td {
     display: block;
     padding: 10px 12px;
   }
+
   .table tbody tr {
     margin-bottom: 8px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 4px 12px rgba(13, 24, 45, 0.05);
   }
+
+  .modal-buttons {
+    flex-direction: column;   
+    justify-content: center;  
+  }
+
+  .modal-buttons button {
+    width: 100%;              
+  }
+  
 }
 
 /* Este contenedor ocupa TODO el ancho de la pantalla */
 .main-container {
   width: 100%;
   min-height: 100vh;
-  background-color: #f8f9fa; /* Color bg-light */
+  background-color: #f8f9fa;
+  /* Color bg-light */
   display: block;
 }
 
 /* Este es el que limita el ancho y centra el contenido */
 .content-wrapper {
-  width: 100%;            
-  max-width: 940px;       
-  margin-left: auto;       
-  margin-right: auto;     
+  width: 100%;
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
   box-sizing: border-box;
 }
 
 /* Opcional: Si quieres que en pantallas muy grandes sea aún más pequeño */
 @media (min-width: 1400px) {
   .content-wrapper {
-    max-width: 850px; 
+    max-width: 850px;
   }
 }
 
+
+
+
+/*modal pagos*/
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.55);
+  /* oscuro elegante */
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+/* CARD */
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 22px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeInModal 0.25s ease;
+}
+
+/* BOTÓN CERRAR */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: #f1f5f9;
+  color: #0b4e94;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: #0b4e94;
+  color: white;
+}
+
+/* TITULO */
+.modal-card h4 {
+  font-size: 18px;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+/* TEXTO */
+.modal-card {
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.alert-warning-soft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff8e1; 
+  color: #b45309; 
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.alert-warning-soft i {
+  font-size: 16px; 
+}
+
+.text-muted {
+  padding-top: 10px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* CONTENEDOR BOTONES */
+.modal-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+
+/* BOTONES */
+.modal-card .btn {
+  flex: 1;
+  max-width: 160px;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.modal-card .btn-secondary {
+  background: #0b4e94;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(11, 78, 148, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-card .btn-secondary:hover {
+  background: #083d73;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(11, 78, 148, 0.4);
+}
+
+.modal-card .btn-secondary:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(11, 78, 148, 0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .modal-card {
+    padding: 22px 16px;
+  }
+
+  .modal-card h4 {
+    font-size: 16px;
+  }
+
+  .modal-card p {
+    font-size: 13px;
+  }
+
+  .modal-card .btn {
+    max-width: 100%;
+  }
+
+  .center-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+/* ANIMACIÓN */
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
