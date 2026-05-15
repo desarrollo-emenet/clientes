@@ -1,37 +1,121 @@
-<div class="container-fluid">
-    <div class="row g-0 min-vh-100">
+<div class="visitas-page">
 
-        <main class="col-12 col-md-9 col-lg-12 px-3 px-lg-4 py-4 bg-light">
-            <div class="container py-5">
-                <h2 class="mb-3"> Visitas tecnicas</h2>
+  <!-- HEADER -->
+  <div class="visitas-header">
+    <h2>Historial de Visitas</h2>
+    <p>Consulta el estado y detalle de tus visitas técnicas.</p>
+  </div>
 
+  <!-- LISTA -->
+  <div class="visitas-list">
 
-                <ul class="nav nav-tabs mb-4 bg-light navbar-light">
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Proximas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">En curso</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Historial</a>
-                    </li>
-                </ul>
+    <div class="visita-card" *ngFor="let visita of visitas" (click)="abrirDetalle(visita)" data-bs-toggle="modal"
+      data-bs-target="#detalleVisitaModal">
 
-                <div class="mb-3">
-                    <h4 class="h5">Historial de visitas</h4>
-                    <!--<p class="text-muted small mb-0">Mostrar visitas</p>-->
-                </div>
+      <div class="visita-left">
+        <div class="visita-icon" [ngClass]="visita.estatus">
+          <i class="fa-solid"
+            [ngClass]="{'fa-check': visita.estatus === 'atendido','fa-x': visita.estatus === 'cancelado','fa-screwdriver-wrench': visita.estatus === 'pendiente'}"></i>
+        </div>
 
-                <div class="py-4 empty text-center">
+        <div class="visita-info">
+          <h4>{{ visita.asunto }}</h4>
+          <div class="visita-meta">
+            <span><i class="fa-solid fa-calendar"></i>{{ visita.fecha }}</span>
+          </div>
+          <p>Atendido por {{ visita.tecnico }}</p>
+        </div>
 
-                    <div class="title">No hay visitas</div>
-                    <div class="desc">Aún no se han programado visitas técnicas para este cliente.</div>
-                    <!--<button class="btn btn-primary">Programar visita</button>-->
-                </div>
+      </div>
 
+      <div class="visita-right">
+        <span class="status-badge" [ngClass]="visita.estatus">
+          <span class="dot"></span>
+          {{visita.estatus === 'atendido'? 'Atendido': visita.estatus === 'cancelado'? 'Cancelado': 'Pendiente'}}
+        </span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="modal fade modal-tecnologico" id="detalleVisitaModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- HEADER -->
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">{{ visitaSeleccionada?.asunto || 'Detalle de visita' }}</h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body" *ngIf="visitaSeleccionada">
+          <div class="modal-columns">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="modal-left">
+
+              <div class="detalle-group">
+                <label>Asunto</label>
+                <p>{{ visitaSeleccionada.asunto }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Fecha</label>
+                <p>{{ visitaSeleccionada.fecha }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Estatus</label>
+                <p [ngClass]="{
+                  'text-success': visitaSeleccionada.estatus === 'atendido',
+                  'text-danger': visitaSeleccionada.estatus === 'cancelado',
+                  'text-warning': visitaSeleccionada.estatus === 'pendiente'
+                }">
+                  {{ visitaSeleccionada.estatus === 'atendido'? 'Atendido' : visitaSeleccionada.estatus === 'cancelado'?
+                  'Cancelado' : 'Pendiente'}}
+                </p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Técnico</label>
+                <p>{{ visitaSeleccionada.tecnico }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Detalles</label>
+                <p>{{ visitaSeleccionada.detalles }}</p>
+              </div>
 
             </div>
-        </main>
+
+            <!-- COLUMNA DERECHA -->
+            <div class="modal-right">
+
+              <div class="detalle-group">
+                <label>Diagnóstico</label>
+                <p>{{ visitaSeleccionada.diagnostico }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Observaciones</label>
+                <p>{{ visitaSeleccionada.observaciones }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Solución</label>
+                <p>{{ visitaSeleccionada.solucion }}</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
+
 </div>
