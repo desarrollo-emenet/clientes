@@ -1,5 +1,9 @@
 import { NgClass, NgIf, NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user/user-service';
+import { toast } from 'ngx-sonner';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-visits',
@@ -8,6 +12,27 @@ import { Component } from '@angular/core';
   styleUrl: './visits.css'
 })
 export class Visits {
+
+    private subs: Subscription[] = [];
+  
+    constructor(
+      private user: UserService,
+      private route: ActivatedRoute,) { }
+  
+    ngOnInit(): void {
+      const sub = this.user.obtenerUsuarioAutenticado(this.route)
+        .subscribe({
+          next: (numeroCliente) => {
+            if (!numeroCliente) return;
+            //this.loadClientData(numeroCliente);
+          },
+          error: (e) => {
+            console.error('Error al obtener usuario autenticado', e);
+            toast.error('Error al obtener información del usuario');
+          }
+        });
+      this.subs.push(sub);
+    }
 
   visitas = [
     {

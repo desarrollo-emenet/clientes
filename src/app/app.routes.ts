@@ -10,7 +10,6 @@ import { ResponseRecover } from './auth/responseRecover/response-recover';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Client } from './pages/client/client';
 import { Payment } from './pages/payment/payment';
-import { Profile } from './pages/profile/profile';
 import { Visits } from './pages/visits/visits';
 import { EditProfile } from './pages/edit-profile/edit-profile';
 import { EmailVerificado } from './auth/email-verificado/email-verificado';
@@ -37,8 +36,7 @@ export const routes: Routes = [
   { path: 'servicios', component: Service, canActivate: [requireAuthGuard] },
   { path: 'estadoCuenta/:numero_cliente', component: Client, canActivate: [requireAuthGuard] },
   { path: 'formas-de-pago/:numero_cliente', component: Payment, canActivate: [requireAuthGuard] },
-  //{ path: 'perfil/:numero_cliente', component: Profile, canActivate: [requireAuthGuard] },
-  { path: 'visitas', component: Visits, canActivate: [requireAuthGuard] },
+  { path: 'visitas/:numero_cliente', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
   { path: 'formulario-pagos', component: FormPagos },
