@@ -1,377 +1,270 @@
 /* ==========================================================================
-   Fondo de Pantalla Completa y Alineación
+   PAGE
    ========================================================================== */
-.edit-layout {
 
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+.ep-page {
   min-height: 85vh;
-  width: 100%;
-
+  padding: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  padding: 3rem 1rem;
-  margin: 0 auto;
-  box-sizing: border-box;
-
+  align-items: flex-start;
 
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  will-change: transform, opacity;
-
-}
-
-
-.auth-card {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 35px;
-  /* Radio menos agresivo en móviles para no comerse el padding en las esquinas*/
-  border: 4px solid transparent;
-  /* Interior blanco + borde degradado solo en la parte superior */
-  background: linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(to bottom,
-      #3472de 0%,
-      #3b82fb 20%,
-      rgba(181, 227, 253, 0.35) 50%,
-      transparent 80%) border-box;
-  position: relative;
-  margin: 0 auto;
-  overflow: visible;
-
-}
-
-@media (min-width: 768px) {
-  .auth-card {
-    border-radius: 50px;
-    border-width: 5px;
-  }
 }
 
 /* ==========================================================================
-   Botón con Efecto de Agua
+   CONTAINER
    ========================================================================== */
 
-.btn-water-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+.ep-container {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 30px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
 }
 
-.btn-water {
-  position: relative;
-  display: inline-flex;
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.ep-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.ep-header-icon {
+  width: 74px;
+  height: 74px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 220px;
-  padding: 13px 28px;
-  border: 1.5px solid #2d3748;
-  border-radius: 50px;
-  background: transparent;
-  color: #2d3748;
-  font-size: 0.78rem;
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+}
+
+.ep-header-content h2 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.ep-header-content p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+/* ==========================================================================
+   CARD
+   ========================================================================== */
+
+.ep-card {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 24px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 4px 14px rgba(15, 23, 42, 0.04);
+  margin-bottom: 20px;
+}
+
+.ep-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.ep-card-title h5 {
+  margin: 0;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  overflow: hidden;
-  transition:
-    color 0.45s ease,
-    border-color 0.4s ease,
-    box-shadow 0.3s ease,
-    transform 0.15s ease;
-  outline: none;
-  user-select: none;
-  font-family: inherit;
+  color: #0f172a;
 }
 
-.btn-water .water-fill {
-  position: absolute;
-  bottom: -110%;
-  left: -5%;
-  width: 110%;
-  height: 120%;
-  background: linear-gradient(160deg, #0f172a 0%, #0f172a 100%);
-  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
-  transition: bottom 0.6s cubic-bezier(0.33, 1, 0.68, 1);
-  z-index: 0;
-}
-
-.btn-water:hover:not(:disabled) .water-fill,
-.btn-water:focus-visible:not(:disabled) .water-fill,
-.btn-water.loading .water-fill {
-  bottom: -5%;
-  border-radius: 0;
-}
-
-.btn-water.loading .water-fill {
-  background: linear-gradient(160deg, #4a5568 0%, #2d3748 100%);
-}
-
-.btn-water-content {
-  position: relative;
-  z-index: 1;
+.ep-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: color 0.45s ease;
+  justify-content: center;
+  font-size: 1rem;
 }
 
-.btn-water:hover:not(:disabled) .btn-water-content,
-.btn-water:focus-visible:not(:disabled) .btn-water-content,
-.btn-water.loading .btn-water-content {
-  color: #ffffff;
+.ep-card-icon.blue {
+  background: rgba(37, 99, 235, 0.12);
+  color: #0b4e94;
 }
-
-.btn-water:hover:not(:disabled) {
-  border-color: #2d3748;
-  box-shadow: 0 8px 28px rgba(45, 55, 72, 0.22);
-}
-
-.btn-water:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-  border-color: #cbd5e0;
-  color: #a0aec0;
-}
-
-.btn-water:active:not(:disabled) {
-  transform: scale(0.97);
-}
-
 
 /* ==========================================================================
-   Inputs con Borde Brillante (Glow)
+   GRID
    ========================================================================== */
 
-.input-glow-wrapper {
-  position: relative;
-  border-radius: 8px;
-  background: #fff;
+.ep-card-grid {
+  display: grid;
+  gap: 18px;
 }
 
-.input-glow-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 10px;
-  background: conic-gradient(from var(--angle, 0deg),
-      transparent 0%,
-      transparent 30%,
-      #3472de 45%,
-      #0055ff 50%,
-      transparent 70%,
-      transparent 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-  animation: spin-border 2s linear infinite;
-}
+/* ==========================================================================
+   FIELD
+   ========================================================================== */
 
-.input-glow-wrapper:focus-within::before {
-  opacity: 1;
-}
-
-.input-glow-wrapper .form-control,
-.input-glow-wrapper .input-group {
-  position: relative;
-  z-index: 1;
-  background: #fff;
-}
-
-.input-glow-wrapper .form-control:focus {
-  outline: none;
-  border-color: #e2e8f0;
-  box-shadow: none;
-}
-
-.form-label {
-  text-align: left;
+.ep-field label {
   display: block;
-  width: 100%;
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
 }
 
 /* ==========================================================================
-   Botón Ojo (Mostrar/Ocultar Contraseña)
+   INPUTS
    ========================================================================== */
 
-.btn-eye-toggle {
+.ep-input {
+  width: 100%;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px solid #dbe4f0;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0 16px;
+  color: #0f172a;
+  font-size: 0.95rem;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.ep-input:focus {
+  border-color: #0b4e94;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.10);
+}
+
+/* ==========================================================================
+   INPUT CON BOTÓN OJO
+   ========================================================================== */
+
+.ep-input-group {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  border: 1px solid #dbe4f0;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.ep-input-group:focus-within {
+  border-color: #0b4e94;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.10);
+}
+
+.ep-input-group .ep-input {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  height: 52px;
+}
+
+.ep-input-group .ep-input:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.ep-eye-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
-  padding: 0;
-  border: 1px solid #dee2e6;
-  border-left: none;
-  border-radius: 0 8px 8px 0;
+  height: 52px;
+  flex-shrink: 0;
+  border: none;
+  border-left: 1px solid #e2e8f0;
   background: #fafafa;
   cursor: pointer;
   outline: none;
-  transition: all 0.25s ease;
+  transition: background 0.25s ease, transform 0.15s ease;
 }
 
-.btn-eye-toggle:hover,
-.btn-eye-toggle.revealed {
+.ep-eye-btn:hover,
+.ep-eye-btn.revealed {
   background: linear-gradient(135deg, #ede9fe 0%, #ffffff 100%);
-  box-shadow: inset 0 0 14px rgb(242, 247, 255);
 }
 
-.btn-eye-toggle:active {
+.ep-eye-btn img {
+  filter: grayscale(50%) opacity(0.65);
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.ep-eye-btn:hover img,
+.ep-eye-btn.revealed img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.15);
+}
+
+.ep-eye-btn:active {
   transform: scale(0.88);
 }
 
-.eye-icon-wrap {
+/* ==========================================================================
+   ERRORES
+   ========================================================================== */
+
+.ep-error {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: #e53e3e;
+}
+
+/* ==========================================================================
+   TIPS
+   ========================================================================== */
+
+.ep-tips {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #64748b;
+  background: rgba(37, 99, 235, 0.04);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(37, 99, 235, 0.08);
 }
 
-.eye-icon-wrap img {
-  display: block;
-  filter: grayscale(50%) opacity(0.65);
-  transition: all 0.3s ease;
-}
-
-.btn-eye-toggle:hover .eye-icon-wrap img {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.2);
-}
-
-.btn-eye-toggle.revealed .eye-icon-wrap img {
-  filter: grayscale(0%) opacity(1) drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 2px #ffffff);
-  transform: scale(1.1);
-}
-
-@keyframes eye-pop {
-  0% {
-    transform: scale(1);
-  }
-
-  40% {
-    transform: scale(0.75) rotate(-8deg);
-  }
-
-  70% {
-    transform: scale(1.25) rotate(4deg);
-  }
-
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-.btn-eye-toggle:active .eye-icon-wrap {
-  animation: eye-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes spin-border {
-  to {
-    --angle: 360deg;
-  }
+.ep-tips i {
+  margin-top: 2px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
-   Enlaces: Regresar a iniciar sesion
+   STRENGTH METER
    ========================================================================== */
 
-.link-subtle {
-  color: #0f172a !important;
-  text-decoration: none !important;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
+.ep-strength {
+  margin-top: 10px;
+  animation: ep-fade-in 0.3s ease;
 }
 
-.link-subtle:hover {
-  color: #3472df !important;
-}
-
-/* El contenido de .login-layout ahora está al inicio para consistencia */
-
-.flip-in {
-  -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.flip-out {
-  -webkit-animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation: flipScreenOut 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  pointer-events: none;
-}
-
-/* 
-  Optimizamos inyectando perspective en la propiedad transform.
-  Esto asegura un renderizado plano sin bugs en WebKit. 
-*/
-@-webkit-keyframes flipScreenIn {
-  0% {
-    -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
-    opacity: 0;
-  }
-
-  100% {
-    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes flipScreenIn {
-  0% {
-    transform: perspective(2500px) rotateY(-90deg) scale(0.92);
-    opacity: 0;
-  }
-
-  100% {
-    transform: perspective(2500px) rotateY(0deg) scale(1);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes flipScreenOut {
-  0% {
-    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
-    opacity: 0;
-  }
-}
-
-@keyframes flipScreenOut {
-  0% {
-    transform: perspective(2500px) rotateY(0deg) scale(1);
-    opacity: 1;
-  }
-
-  100% {
-    transform: perspective(2500px) rotateY(90deg) scale(0.92);
-    opacity: 0;
-  }
-}
-
-/* ==========================================================================
-   Password Strength Meter
-   ========================================================================== */
-
-.strength-meter {
-  padding: 4px 0;
-  animation: fadeIn 0.3s ease;
-}
-
-.strength-bar-container {
+.ep-strength-track {
   height: 6px;
   background: #edf2f7;
   border-radius: 10px;
@@ -379,77 +272,145 @@
   margin-bottom: 6px;
 }
 
-.strength-bar {
+.ep-strength-bar {
   height: 100%;
   width: 0;
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+  border-radius: 10px;
+  transition:
+    width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     background-color 0.3s ease;
 }
 
-.strength-text {
+.ep-strength-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ep-strength-text {
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   transition: color 0.3s ease;
-  background-color: transparent !important;
 }
 
-.strength-feedback {
-  font-size: 0.7rem;
+.ep-strength-hint {
+  font-size: 0.70rem;
   color: #718096;
   font-style: italic;
 }
 
-/* Strength Colors */
-.strength-bar.strength-none {
-  background-color: #cbd5e0 !important;
+/* Colores de fortaleza */
+.ep-strength-bar.strength-none    { background-color: #cbd5e0; }
+.ep-strength-bar.strength-weak    { background-color: #f56565; }
+.ep-strength-bar.strength-medium  { background-color: #ed8936; }
+.ep-strength-bar.strength-good    { background-color: #4299e1; }
+.ep-strength-bar.strength-strong  { background-color: #48bb78; }
+
+.ep-strength-text.strength-none   { color: #a0aec0; }
+.ep-strength-text.strength-weak   { color: #e53e3e; }
+.ep-strength-text.strength-medium { color: #dd6b20; }
+.ep-strength-text.strength-good   { color: #3573df; }
+.ep-strength-text.strength-strong { color: #42a948; }
+
+/* ==========================================================================
+   ACCIONES
+   ========================================================================== */
+
+.ep-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
 }
 
-.strength-bar.strength-weak {
-  background-color: #f56565 !important;
+.ep-submit-btn {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0b4e94, #1a6ace);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.25s ease;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.22);
 }
 
-.strength-bar.strength-medium {
-  background-color: #ed8936 !important;
+.ep-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 35px rgba(37, 99, 235, 0.28);
 }
 
-.strength-bar.strength-good {
-  background-color: #4299e1 !important;
+.ep-submit-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
 }
 
-.strength-bar.strength-strong {
-  background-color: #48bb78 !important;
+.ep-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-.strength-text.strength-none {
-  color: #a0aec0 !important;
+.ep-cancel-link {
+  color: #0f172a;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
 
-.strength-text.strength-weak {
-  color: #e53e3e !important;
+.ep-cancel-link:hover {
+  color: #3472df;
 }
 
-.strength-text.strength-medium {
-  color: #dd6b20 !important;
+/* ==========================================================================
+   ANIMACIONES
+   ========================================================================== */
+
+@keyframes ep-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.strength-text.strength-good {
-  color: #3573df !important;
-}
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
 
-.strength-text.strength-strong {
-  color: #42a948 !important;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
+@media (max-width: 576px) {
+  .ep-page {
+    padding: 14px;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .ep-container {
+    border-radius: 24px;
+    padding: 18px;
+  }
+
+  .ep-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ep-header-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.7rem;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .ep-card {
+    padding: 18px;
   }
 }
