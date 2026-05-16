@@ -72,6 +72,13 @@ export class Header implements OnInit, OnDestroy {
     this.isNotifOpen = false;
   }
 
+  @HostListener('window:scroll', [])
+  closeNotifOnScroll(): void {
+    if (this.isNotifOpen) {
+      this.isNotifOpen = false;
+    }
+  }
+
   private async loadNotificationData(): Promise<void> {
     // Implementación para cargar datos de notificaciones
     this.notifications = [];
