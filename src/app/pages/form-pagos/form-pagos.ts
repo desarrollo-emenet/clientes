@@ -82,6 +82,7 @@ export class FormPagos {
 
 
     const formData = new FormData();
+    formData.append('formaPago', raw.formaPago);
     formData.append('fechaPago', fecha.toISOString().split('T')[0]);
     formData.append('numOperacion', raw.numOperacion);
     formData.append('telefono', raw.telefono);

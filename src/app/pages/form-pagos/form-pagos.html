@@ -11,23 +11,37 @@
         </div>
       </div>
 
-      
+
 
       <!-- FORMULARIO -->
       <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
 
         <!-- FORMA DE PAGO -->
-      <div class="form-group mb-4">
-        <label for="formaPago" class="fw-semibold">Elige una forma de pago</label>
-        <select id="formaPago" class="form-select" formControlName="formaPago">
-          <option value="TRH">TRH - Transferencia</option>
-          <option value="DBH">DBH - Deposito</option>
-        </select>
+        <div class="payment-options">
+          <label class="payment-card">
+            <input type="radio" value="TRH" formControlName="formaPago" required>
+            <div class="card-content">
+              <i class="fa-solid fa-building-columns"></i>
+              <div>
+                <h6>Transferencia</h6>
+                <p>TRH</p>
+              </div>
+            </div>
+          </label>
 
-        <div *ngIf="formaPago.invalid && (formaPago.dirty || formaPago.touched)" class="mt-1 text-danger small">
-                  <span *ngIf="formaPago.errors?.['required']">Forma de pago requerido.</span>
-                </div>
-      </div>
+          <label class="payment-card">
+            <input type="radio" value="DBH" formControlName="formaPago">
+            <div class="card-content">
+              <i class="fa-solid fa-money-bill-transfer"></i>
+              <div>
+                <h6>Depósito</h6>
+                <p>DBH</p>
+              </div>
+            </div>
+          </label>
+        </div>
+
+
 
         <div class="form-cards">
 
@@ -42,7 +56,8 @@
               <!-- TELEFONO -->
               <div class="field">
                 <label>Teléfono</label>
-                <input type="text" formControlName="telefono" class="form-control custom-input" placeholder="Número de teléfono">
+                <input type="text" formControlName="telefono" class="form-control custom-input"
+                  placeholder="Número de teléfono">
                 <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
                   <span *ngIf="telefono.errors?.['required']">Número requerido.</span>
                   <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
@@ -65,7 +80,8 @@
               <div class="field">
                 <label>Fecha de pago</label>
                 <mat-form-field appearance="outline" class="custom-date-field">
-                  <input matInput [matDatepicker]="picker" formControlName="fechaPago" placeholder="Selecciona una fecha">
+                  <input matInput [matDatepicker]="picker" formControlName="fechaPago"
+                    placeholder="Selecciona una fecha">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -74,8 +90,10 @@
               <!-- NUMERO DE OPERACION -->
               <div class="field">
                 <label>Número de operación</label>
-                <input type="text" formControlName="numOperacion" class="form-control custom-input" placeholder="Número de operación">
-                <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)" class="mt-1 text-danger small">
+                <input type="text" formControlName="numOperacion" class="form-control custom-input"
+                  placeholder="Número de operación">
+                <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
+                  class="mt-1 text-danger small">
                   <span *ngIf="numOperacion.errors?.['required']">Requerido.</span>
                   <span *ngIf="numOperacion.errors?.['maxlength']">Máx 100 caracteres.</span>
                 </div>
@@ -84,7 +102,8 @@
               <!-- CLAVE DE PAGO -->
               <div class="field">
                 <label>Clave de pago</label>
-                <input type="text" formControlName="clave" class="form-control custom-input" placeholder="Clave de pago">
+                <input type="text" formControlName="clave" class="form-control custom-input"
+                  placeholder="Clave de pago">
                 <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-1 text-danger small">
                   <span *ngIf="clave.errors?.['required']">Requerido.</span>
                   <span *ngIf="clave.errors?.['maxlength']">Máx 100 caracteres.</span>
@@ -94,7 +113,8 @@
               <!-- MONTO -->
               <div class="field">
                 <label>Monto a pagar</label>
-                <input type="text" formControlName="monto" class="form-control custom-input" placeholder="Monto a pagar">
+                <input type="text" formControlName="monto" class="form-control custom-input"
+                  placeholder="Monto a pagar">
                 <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-1 text-danger small">
                   <span *ngIf="monto.errors?.['required']">Requerido.</span>
                   <span *ngIf="monto.errors?.['maxlength']">Máx 5 caracteres.</span>
@@ -117,9 +137,11 @@
             <div class="upload-center">
               <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <h6>Sube tu comprobante aquí</h6>
-              <input type="file" (change)="onFileChange($event)" formControlName="comprobante" class="form-control upload-input">
+              <input type="file" (change)="onFileChange($event)" formControlName="comprobante"
+                class="form-control upload-input">
               <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
-              <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)" class="mt-1 text-danger small">
+              <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"
+                class="mt-1 text-danger small">
                 <span *ngIf="comprobante.errors?.['required']">Requerido.</span>
               </div>
             </div>
