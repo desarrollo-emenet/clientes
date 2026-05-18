@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <main class="page">
     <div class="payment-container">
+
       <!-- HEADER -->
       <div class="payment-header">
         <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
@@ -10,162 +11,117 @@
         </div>
       </div>
 
-      <!-- FORM -->
+      
+
+      <!-- FORMULARIO -->
       <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
-        <div class="form-layout">
+
+        <!-- FORMA DE PAGO -->
+      <div class="form-group mb-4">
+        <label for="formaPago" class="fw-semibold">Elige una forma de pago</label>
+        <select id="formaPago" class="form-select" formControlName="formaPago">
+          <option value="TRH">TRH - Transferencia</option>
+          <option value="DBH">DBH - Deposito</option>
+        </select>
+
+        <div *ngIf="formaPago.invalid && (formaPago.dirty || formaPago.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="formaPago.errors?.['required']">Forma de pago requerido.</span>
+                </div>
+      </div>
+
+        <div class="form-cards">
+
+          <!-- DATOS DEL CLIENTE -->
           <div class="form-card">
             <div class="card-title">
               <div class="card-icon blue"><i class="fa-solid fa-person"></i></div>
               <h5>Datos del cliente</h5>
             </div>
-            <div class="card-grid">
+            <div class="card-body">
 
-              <!-- cliente -->
-              <div>
-                <div class="field">
-                  <label>Número de cliente</label>
-                  <input type="text" formControlName="cliente" class="form-control custom-input" placeholder="#####">
-                </div>
-                <div *ngIf="cliente.invalid && (cliente.dirty || cliente.touched)" class="mt-2 text-danger small">
-                  <span *ngIf="cliente.errors?.['required']">Numero de cliente requerido.</span>
-                  <span *ngIf="cliente.errors?.['maxlength']">Numero de cliente no debe exceder 6 caracteres.</span>
-                  <span *ngIf="cliente.errors?.['pattern']">Formato invalido.</span>
-                </div>
-              </div>
-
-              <!-- nombre -->
-              <div>
-                <div class="field">
-                  <label>Nombre del titular</label>
-                  <input type="text" formControlName="usuario" class="form-control custom-input"
-                    placeholder="Nombre completo">
-                </div>
-                <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="mt-2 text-danger small">
-                  <span *ngIf="usuario.errors?.['required']">Nombre del usuario es requerido.</span>
-                  <span *ngIf="usuario.errors?.['maxlength']">Numero de cliente no debe exceder 100 caracteres.</span>
-                  <span *ngIf="usuario.errors?.['pattern']">Formato invalido.</span>
-                </div>
-              </div>
-
-              <!-- telefono -->
-              <div>
-                <div class="field">
-                  <label>Teléfono</label>
-                  <input type="text" formControlName="telefono" class="form-control custom-input"
-                    placeholder="Número de teléfono">
-                </div>
-                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-2 text-danger small">
-                  <span *ngIf="telefono.errors?.['required']">Numero telefonico es requerido.</span>
-                  <span *ngIf="telefono.errors?.['maxlength']">Numero no debe exceder 10 caracteres.</span>
-                  <span *ngIf="telefono.errors?.['pattern']">Formato invalido.</span>
-                </div>
-              </div>
-
-              <!-- clave -->
-              <div>
-                <div class="field">
-                  <label>Clave de pago</label>
-                  <input type="text" formControlName="clave" class="form-control custom-input"
-                    placeholder="Clave de pago">
-                </div>
-                <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-2 text-danger small">
-                  <span *ngIf="clave.errors?.['required']">La clave es requerida.</span>
-                  <span *ngIf="clave.errors?.['maxlength']">No debe exceder 100 caracteres.</span>
+              <!-- TELEFONO -->
+              <div class="field">
+                <label>Teléfono</label>
+                <input type="text" formControlName="telefono" class="form-control custom-input" placeholder="Número de teléfono">
+                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="telefono.errors?.['required']">Número requerido.</span>
+                  <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
+                  <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
                 </div>
               </div>
 
             </div>
-
           </div>
 
-
+          <!-- INFORMACION DE PAGO -->
           <div class="form-card">
             <div class="card-title">
               <div class="card-icon green"><i class="fa-solid fa-credit-card"></i></div>
               <h5>Información del pago</h5>
             </div>
+            <div class="card-body grid-2">
 
-            <div class="card-grid">
-              <!-- fecha -->
+              <!-- FECHA DE PAGO -->
               <div class="field">
                 <label>Fecha de pago</label>
                 <mat-form-field appearance="outline" class="custom-date-field">
-                  <input matInput [matDatepicker]="picker" formControlName="fechaPago"
-                    placeholder="Selecciona una fecha">
+                  <input matInput [matDatepicker]="picker" formControlName="fechaPago" placeholder="Selecciona una fecha">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </div>
 
-              <!-- operacion -->
-              <div>
-                <div class="field">
-                  <label>Número de operación</label>
-                  <input type="text" formControlName="numOperacion" class="form-control custom-input"
-                    placeholder="Número de operación">
-                </div>
-                <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
-                  class="mt-2 text-danger small">
-                  <span *ngIf="numOperacion.errors?.['required']">Numero de operacion es requerido.</span>
-                  <span *ngIf="numOperacion.errors?.['maxlength']">Numero no debe exceder 100 caracteres.</span>
+              <!-- NUMERO DE OPERACION -->
+              <div class="field">
+                <label>Número de operación</label>
+                <input type="text" formControlName="numOperacion" class="form-control custom-input" placeholder="Número de operación">
+                <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="numOperacion.errors?.['required']">Requerido.</span>
+                  <span *ngIf="numOperacion.errors?.['maxlength']">Máx 100 caracteres.</span>
                 </div>
               </div>
 
-              <!-- mensualidad -->
-              <div>
-                <div class="field">
-                  <label>Mensualidad</label>
-                  <input type="text" formControlName="mensualidad" class="form-control custom-input"
-                    placeholder="Mensualidad">
-                </div>
-                <div *ngIf="mensualidad.invalid && (mensualidad.dirty || mensualidad.touched)"
-                  class="mt-2 text-danger small">
-                  <span *ngIf="mensualidad.errors?.['required']">La mensualidad es requerido.</span>
-                  <span *ngIf="mensualidad.errors?.['maxlength']">No debe exceder 20 caracteres.</span>
-                  <span *ngIf="mensualidad.errors?.['pattern']">Formato invalido.</span>
+              <!-- CLAVE DE PAGO -->
+              <div class="field">
+                <label>Clave de pago</label>
+                <input type="text" formControlName="clave" class="form-control custom-input" placeholder="Clave de pago">
+                <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="clave.errors?.['required']">Requerido.</span>
+                  <span *ngIf="clave.errors?.['maxlength']">Máx 100 caracteres.</span>
                 </div>
               </div>
 
-              <!-- monto -->
-              <div>
-                <div class="field">
-                  <label>Monto a pagar</label>
-                  <input type="text" formControlName="monto" class="form-control custom-input"
-                    placeholder="Monto a pagar">
-                </div>
-                <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-2 text-danger small">
-                  <span *ngIf="monto.errors?.['required']">El monto es requerido.</span>
-                  <span *ngIf="monto.errors?.['maxlength']">No debe exceder 5 caracteres.</span>
-                  <span *ngIf="monto.errors?.['pattern']">Formato invalido.</span>
+              <!-- MONTO -->
+              <div class="field">
+                <label>Monto a pagar</label>
+                <input type="text" formControlName="monto" class="form-control custom-input" placeholder="Monto a pagar">
+                <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="monto.errors?.['required']">Requerido.</span>
+                  <span *ngIf="monto.errors?.['maxlength']">Máx 5 caracteres.</span>
+                  <span *ngIf="monto.errors?.['pattern']">Formato inválido.</span>
                 </div>
               </div>
 
             </div>
-
           </div>
 
         </div>
 
-        <div class="upload-card">
+        <!-- SUBIR COMPROBANTE -->
+        <div class="form-card upload-card">
           <div class="card-title">
             <div class="card-icon purple"><i class="fa-solid fa-file-import"></i></div>
             <h5>Comprobante de pago</h5>
           </div>
-          <div class="upload-zone">
+          <div class="card-body upload-body">
             <div class="upload-center">
-              <div class="upload-big-icon">
-                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-              </div>
+              <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <h6>Sube tu comprobante aquí</h6>
-              <input type="file" (change)="onFileChange($event)" formControlName="comprobante"
-                class="form-control upload-input">
-              <small>
-                Formatos permitidos: JPEG, JPG, PNG, PDF · Máx. 5MB
-              </small>
-              <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)" class="mt-2 text-danger small">
-                <span *ngIf="comprobante.errors?.['required']">El comprobante es requerido.</span>
+              <input type="file" (change)="onFileChange($event)" formControlName="comprobante" class="form-control upload-input">
+              <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
+              <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)" class="mt-1 text-danger small">
+                <span *ngIf="comprobante.errors?.['required']">Requerido.</span>
               </div>
-
             </div>
           </div>
         </div>
@@ -173,8 +129,7 @@
         <!-- BOTON -->
         <div class="submit-wrapper">
           <button type="submit" class="submit-btn" [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2">
-            </span>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
             {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
           </button>
         </div>
@@ -182,7 +137,6 @@
       </form>
 
     </div>
-    <ngx-sonner-toaster richColors position="top-center" />
+    <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
   </main>
-
 </div>

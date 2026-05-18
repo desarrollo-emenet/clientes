@@ -32,24 +32,18 @@ export class FormPagos {
 
   constructor(private fb: FormBuilder, private router: Router, private clientS: ClientService) {
     this.pagosForm = this.fb.group({
-      cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
-      usuario: ['', [Validators.required, Validators.maxLength(100), Validators.pattern('[A-Za-z ]+')]],
+      formaPago: ['', [Validators.required]],
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
       telefono: ['', [Validators.required, Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required, Validators.maxLength(100)]],
       comprobante: [null, [Validators.required]],
-      mensualidad: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('[A-Za-z ]+')]],
       monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
 
     })
   }
-
-  get cliente() {
-    return this.pagosForm.controls['cliente'];
-  }
-  get usuario() {
-    return this.pagosForm.controls['usuario'];
+  get formaPago() {
+    return this.pagosForm.controls['formaPago'];
   }
   get fechaPago() {
     return this.pagosForm.controls['fechaPago'];
@@ -65,9 +59,6 @@ export class FormPagos {
   }
   get comprobante() {
     return this.pagosForm.controls['comprobante'];
-  }
-  get mensualidad() {
-    return this.pagosForm.controls['mensualidad'];
   }
   get monto() {
     return this.pagosForm.controls['monto'];
@@ -91,13 +82,10 @@ export class FormPagos {
 
 
     const formData = new FormData();
-    formData.append('cliente', raw.cliente);
-    formData.append('nombre', raw.usuario);
     formData.append('fechaPago', fecha.toISOString().split('T')[0]);
     formData.append('numOperacion', raw.numOperacion);
     formData.append('telefono', raw.telefono);
     formData.append('clave', raw.clave);
-    formData.append('mensualidad', raw.mensualidad);
     formData.append('monto', raw.monto);
 
     formData.append('comprobante', this.archivoSeleccionado);
