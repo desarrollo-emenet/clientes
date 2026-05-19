@@ -236,7 +236,7 @@
    UPLOAD
 ========================= */
 
-.upload-zone {
+.card-body {
   border: 2px dashed #cbd5e1;
   border-radius: 22px;
   padding: 32px 20px;
@@ -250,7 +250,7 @@
   transition: .25s ease;
 }
 
-.upload-zone:hover {
+.card-body:hover {
   border-color: #0b4e94;
   background:
     rgba(59,130,246,.03);
@@ -266,11 +266,6 @@
   font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
-}
-
-.upload-center p {
-  color: #64748b;
-  margin-bottom: 18px;
 }
 
 .upload-input {
