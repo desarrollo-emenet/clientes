@@ -1,5 +1,5 @@
 import { NgFor, NgIf, NgClass } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
@@ -56,6 +56,17 @@ export class Service implements OnInit, OnDestroy {
     this.serviceForm.controls['numero_cliente'].reset();
     if (this.intervalo) {
       clearInterval(this.intervalo);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  manejarTeclaEscape(): void {
+    if (this.showBannerModal) {
+      this.cerrarModal();
+      return;
+    }
+    if (this.showAddServiceModal) {
+      this.cerrarAddServiceModal();
     }
   }
 

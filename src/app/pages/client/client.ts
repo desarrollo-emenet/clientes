@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CurrencyPipe, NgFor, NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
@@ -166,6 +166,17 @@ export class Client implements OnInit {
 
   cerrarPagoModal(){
     this.showPagoModal = false;
+  }
+
+  @HostListener('document:keydown.escape')
+  manejarTeclaEscape(): void {
+    if (this.showEstadoCuentaModal) {
+      this.cerrarEstadoCuentaModal();
+      return;
+    }
+    if (this.showPagoModal) {
+      this.cerrarPagoModal();
+    }
   }
 
   async descargarEstadoCuentaPDF(item: any): Promise<void> {
