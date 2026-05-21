@@ -4,41 +4,71 @@
     <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
   </div>
 
-  <div class="auth-card shadow-lg p-4 p-sm-5">
-    <h3 class="text-center fw-bold mb-1">Recuperar contraseña</h3>
-    <p class="text-center text-muted mb-4">Ingresa tu correo para buscar tu cuenta</p>
+  <!-- Contenedor con estilo ep-container -->
+  <div class="ep-container">
 
+    <!-- ENCABEZADO -->
+    <div class="ep-header">
+      <div class="ep-header-icon">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <div class="ep-header-content">
+        <h2>Recuperar contraseña</h2>
+        <p>Ingresa tu correo para buscar tu cuenta</p>
+      </div>
+    </div>
 
+    <!-- FORMULARIO -->
     <form [formGroup]="recoverForm" (ngSubmit)="recover()">
-      <div class="mb-4">
-        <label for="exampleInputEmail1" class="form-label fw-semibold">Correo electrónico</label>
-        <div class="input-glow-wrapper">
-          <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1"
-            placeholder="correo@dominio.com" aria-describedby="emailHelp" />
+
+      <div class="ep-card">
+        <div class="ep-card-title">
+          <div class="ep-card-icon blue">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <h5>Correo electrónico</h5>
         </div>
 
-        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-2 small text-danger">
-          <div *ngIf="email.errors?.['required']">Email requerido</div>
-          <div *ngIf="email.errors?.['email']">Email debe tener formato valido</div>
+        <div class="ep-card-grid">
 
-          <div *ngIf="error" class="text-danger mb-4">{{ error }}</div>
+          <!-- Campo: Correo electrónico -->
+          <div class="ep-field">
+            <label for="exampleInputEmail1">Correo electrónico</label>
+            <input formControlName="email" type="email" class="ep-input"
+              id="exampleInputEmail1" placeholder="correo@dominio.com"
+              aria-describedby="emailHelp" />
+            
+            <div *ngIf="email.invalid && (email.dirty || email.touched)"
+              class="ep-error">
+              <span *ngIf="email.errors?.['required']">Email requerido</span>
+              <span *ngIf="email.errors?.['email']">
+                Email debe tener formato válido
+              </span>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="mb-3">
-        <div class="d-flex justify-content-between mb-5">
-          <a (click)="goToUrl('/iniciar-sesion')" class="link-subtle" style="cursor: pointer;">Regresar a inicio de sesion</a>
-        </div>
+      <!-- Enlaces: Regresar -->
+      <div class="ep-links-row">
+        <a (click)="goToUrl('/iniciar-sesion')" class="ep-link"
+          style="cursor: pointer;">
+          Regresar a inicio de sesión
+        </a>
+      </div>
+
+      <!-- Mensaje de error global -->
+      <div *ngIf="error" class="alert alert-danger text-center error-global">
+        {{ error }}
       </div>
 
       <!-- Botón Recuperar -->
-      <div class="btn-water-wrapper">
-        <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
-          <span class="water-fill"></span>
-          <span class="btn-water-content">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            <span>{{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}</span>
-          </span>
+      <div class="ep-actions">
+        <button type="submit" class="ep-submit-btn" [disabled]="loading">
+          <span *ngIf="loading"
+            class="spinner-border spinner-border-sm me-2"></span>
+          {{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}
         </button>
       </div>
 
