@@ -3,6 +3,13 @@
   <div class="row g-0 min-vh-100">
     <main class="main-container bg-light px-3 px-lg-4 py-4">
 
+      <!-- Loading con logo -->
+      <div *ngIf="!data || loading" class="loading-container">
+        <img src="assets/img/logo.png" alt="Cargando..." class="loading-logo">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Cargando...</p>
+      </div>
+
       <div *ngIf="data" class="content-wrapper">
         <!-- BANNER: Saldo pendiente + Pagar + Último pago -->
         <div class="top-banner">

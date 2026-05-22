@@ -5,7 +5,6 @@ import { toast } from 'ngx-sonner';
 import { catchError, map, of } from 'rxjs';
 
 export const serviceAccessGuard: CanActivateFn = (route, state) => {
-  //return true;
   const clientService = inject(ClientService);
   const router = inject(Router);
 
@@ -17,11 +16,14 @@ export const serviceAccessGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  //verificar si se tiene acceso al usuario
+  const servicioActivo = localStorage.getItem('servicio_activo');
+  if (servicioActivo === numeroCliente) {
+    return true;
+  }
+
   return clientService.verifyAccessService(numeroCliente).pipe(
     map(response => {
       if (response.has_access) {
-        //guardar en localStogare solo si se tiene acceso
         localStorage.setItem('servicio_activo', numeroCliente);
         return true;
       } else {
@@ -31,22 +33,18 @@ export const serviceAccessGuard: CanActivateFn = (route, state) => {
       }
     }),
     catchError((error) => {
-      //console.error('Error verificando acceso', error);
-
       setTimeout(() => {
-      if (error?.status === 404) {
-        toast.error('Servicio no encontrado');
-      } else if (error?.status === 403) {
-        toast.error('No tienes permiso para acceder');
-      } else {
-        toast.error('Error al verificar acceso');
-      }
-    }, 0);
+        if (error?.status === 404) {
+          toast.error('Servicio no encontrado');
+        } else if (error?.status === 403) {
+          toast.error('No tienes permiso para acceder');
+        } else {
+          toast.error('Error al verificar acceso');
+        }
+      }, 0);
 
       router.navigate(['/servicios']);
       return of(false);
     })
   );
-
-
 }
