@@ -10,67 +10,77 @@
       </div>
 
       <div class="auth-card shadow-lg p-4 p-sm-5 w-100">
-        <h3 class="text-center fw-bold mb-1">¡Bienvenido!</h3>
-        <p class="text-center text-muted mb-4">Crear Cuenta</p>
+        <!--<h3 class="text-center fw-bold mb-1">¡Bienvenido!</h3>
+        <p class="text-center text-muted mb-4">Crear Cuenta</p>-->
+        <!-- HEADER -->
+        <div class="payment-header">
+          <div class="header-icon"><i class="fa-solid fa-user-plus"></i></div>
+          <div class="header-content">
+            <h2>¡Crear cuenta!</h2>
+          </div>
+        </div>
 
         <form [formGroup]="createForm" (ngSubmit)="register()">
 
-          <!-- Campo: Numero de cliente -->
-          <div class="mb-4">
-            <label for="InputCliente1" class="form-label fw-semibold">Numero de cliente</label>
-            <div class="input-glow-wrapper">
-              <input id="InputCliente1" type="text" formControlName="numero_cliente" class="form-control input-glow"
-                placeholder="######">
+          <!-- Número de cliente -->
+          <div class="form-card">
+            <div class="card-title">
+
+              <div class="icono-contenedor card-icon blue">
+                <i class="fa-regular fa-circle-question"></i>
+                <div class="mensaje">¿No conoces tu número de cliente? <br> Lo puedes encontrar en tu ultimo ticket
+                  recibido o <br> solicitalo por whatsapp</div>
+              </div>
+
+              <h5>Datos de acceso</h5>
             </div>
-            <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
-              class="mt-2 text-danger small">
-              <span *ngIf="numero_cliente.errors?.['required']">Numero de cliente requerido.</span>
-              <span *ngIf="numero_cliente.errors?.['maxlength']">Numero de cliente no debe exceder 6 caracteres.</span>
-              <span *ngIf="numero_cliente.errors?.['pattern']">Formato invalido.</span>
+            <div class="card-grid">
+              <div class="field">
+                <label>Número de cliente</label>
+                <input type="text" formControlName="numero_cliente" class="form-control custom-input"
+                  placeholder="######">
+                <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
+                  class="mt-2 text-danger small">
+                  <span *ngIf="numero_cliente.errors?.['required']">Número de cliente requerido.</span>
+                  <span *ngIf="numero_cliente.errors?.['maxlength']">No debe exceder 6 caracteres.</span>
+                  <span *ngIf="numero_cliente.errors?.['pattern']">Formato inválido.</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <p class="info-title">
-            Accede y gestiona tu cuenta en segundos
-          </p>
-
-          <ul class="info-list">
-            <li>Consulta tu saldo</li>
-            <li>Realiza pagos en línea</li>
-            <li>Administra tus servicios</li>
-          </ul>
-
-          <p class="">
-            Regístrate con tu número de cliente
-          </p>
-
-          <p class="">
-            Recibe tu contraseña temporal por correo
-          </p>
-
-          <p class="">
-            Cámbiala después desde tu perfil
-          </p>
-
-
-          <!-- Enlaces: Ya tienes cuenta -->
-          <div class="d-flex justify-content-center align-items-center mb-4">
-            <a href="javascript:void(0)" (click)="goToUrl('/iniciar-sesion')" class="link-subtle">¿Ya tienes cuenta?</a>
+          <!-- Información adicional -->
+          <div class="form-card">
+            <div class="card-title">
+              <div class="card-icon green"><i class="fa-solid fa-info"></i></div>
+              <h5>Información adicional</h5>
+            </div>
+            <div class="card-grid">
+              <div>Accede y gestiona tu cuenta en segundos.</div>
+              <ul class="lista">
+                <li>Consulta tu saldo</li>
+                <li>Realiza pagos en línea</li>
+                <li>Administra tus servicios</li>
+              </ul>
+              <div class="">
+                1. Recibe tu contraseña temporal por correo <br>
+                2. Cámbiala después desde tu perfil
+              </div>
+            </div>
           </div>
 
-          <!-- Mensaje de error global -->
-          <div *ngIf="error" class="alert alert-danger mb-4 py-2 small text-center">
-            {{ error }}
-          </div>
-          <!-- Botón Registrarse -->
-          <div class="btn-water-wrapper">
-            <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
-              <span class="water-fill"></span>
-              <span class="btn-water-content">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                <span>{{ loading ? 'CARGANDO...' : 'REGISTRARSE' }}</span>
-              </span>
+          <!-- Botón -->
+          <div class="submit-wrapper">
+            <button type="submit" class="submit-btn" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading ? 'CARGANDO...' : 'REGISTRARSE' }}
             </button>
+          </div>
+
+          <div class="d-flex justify-content-center mt-3">
+            <a href="javascript:void(0)" (click)="goToUrl('/iniciar-sesion')" class="link-subtle">
+              ¿Ya tienes cuenta?
+            </a>
           </div>
 
         </form>
