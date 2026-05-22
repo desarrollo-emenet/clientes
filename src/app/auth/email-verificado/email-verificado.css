@@ -27,12 +27,6 @@
   border-radius: 35px;
   border: 4px solid transparent;
   box-sizing: border-box;
-  background: linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(to bottom,
-      #3472de 0%,
-      #3b82fb 20%,
-      rgba(181, 227, 253, 0.35) 50%,
-      transparent 80%) border-box;
   position: relative;
 }
 
@@ -68,78 +62,101 @@
     height: 55px;
   }
 
-  .btn-water {
-    width: 100%;
-    max-width: 260px;
-    font-size: 0.75rem;
-    padding: 11px 18px;
-  }
-
-  .auth-card h3 {
-    font-size: 1.2rem;
-  }
 }
 
-/* ==========================================================================
-   Botón con Efecto de Agua
-   ========================================================================== */
 
-.btn-water-wrapper {
+/* =========================
+   HEADER
+========================= */
+
+.payment-header {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   justify-content: center;
-  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
-.btn-water {
-  position: relative;
-  display: inline-flex;
+.header-icon {
+  width: 100px;
+  height: 60px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #0b4e94, rgba(24,106,206,0.75));
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 220px;
-  padding: 13px 28px;
-  border: 1.5px solid #2d3748;
-  border-radius: 60px;
-  background: transparent;
-  color: #2d3748;
-  font-size: 0.78rem;
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 10px 25px rgba(37,99,235,.25);
+}
+
+.header-content h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.header-content p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+/* =========================
+   BOTON
+========================= */
+
+.submit-wrapper {
+  margin-top: 24px;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 60px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0b4e94, #0b4e94, #0b4e94);
+  color: white;
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  overflow: hidden;
-  transition: 0.4s;
+  transition: .25s ease;
+  box-shadow: 0 12px 30px rgba(37,99,235,.22);
 }
 
-.btn-water .water-fill {
-  position: absolute;
-  bottom: -110%;
-  left: -5%;
-  width: 110%;
-  height: 120%;
-  background: #0f172a;
-  border-radius: 90% 90% 1 0;
-  transition: 0.6s;
-  z-index: 0;
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 35px rgba(37,99,235,.28);
 }
 
-.btn-water:hover .water-fill {
-  bottom: -5%;
+/* =========================
+   TEXTO PEQUEÑO
+========================= */
+
+.small-text {
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
-.btn-water-content {
-  position: relative;
-  z-index: 1;
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
-.btn-water:hover {
-  color: #fff;
-  box-shadow: 0 8px 28px rgba(45, 55, 72, 0.22);
-}
+@media (max-width: 576px) {
+  .payment-container {
+    border-radius: 24px;
+    padding: 18px;
+  }
 
-.btn-water:active {
-  transform: scale(0.97);
-}
+  .header-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
 
+  .header-content h2 {
+    font-size: 1.5rem;
+  }
+}
 
 @property --angle {
   syntax: '<angle>';
@@ -212,8 +229,3 @@
   }
 }
 
-.small-text {
-  font-size: 13px;
-  color: gray;
-  margin-top: 15px;
-}
