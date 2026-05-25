@@ -12,71 +12,103 @@
       <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
     </div>
 
-    <div class="auth-card shadow-lg p-4 p-sm-5">
-      <h3 class="text-center fw-bold mb-1">¡Bienvenido!</h3>
-      <p class="text-center text-muted mb-4">Inicia sesión para continuar</p>
+    <!-- Contenedor con estilo ep-container -->
+    <div class="ep-container">
 
+      <!-- ENCABEZADO -->
+      <div class="ep-header">
+        <div class="ep-header-icon">
+          <i class="fa-solid fa-right-to-bracket"></i>
+        </div>
+        <div class="ep-header-content">
+          <h2>¡Bienvenido!</h2>
+          <p>Inicia sesión para continuar</p>
+        </div>
+      </div>
+
+      <!-- FORMULARIO -->
       <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-        <!-- Campo: Email o número de cliente -->
-        <div class="mb-4">
-          <label for="inputUsuario" class="form-label fw-semibold">Numero de cliente</label>
-          <div class="input-glow-wrapper">
-            <input id="inputUsuario" type="text" formControlName="usuario" class="form-control input-glow"
-              placeholder="#####">
-          </div>
-          <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="mt-2 text-danger small">
-            <span *ngIf="usuario.errors?.['required']">El campo es requerido.</span>
-            <span *ngIf="usuario.errors?.['maxLength']">El número de cliente es demasaido largo.</span>
-          </div>
-        </div>
-
-        <!-- Campo: Password -->
-        <div class="mb-4">
-          <label for="inputPassword" class="form-label fw-semibold">Contraseña</label>
-          <div class="input-glow-wrapper">
-            <div class="input-group">
-              <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                class="form-control input-glow border-end-0" autocomplete="current-password" placeholder="••••••••" />
-              <button type="button" class="btn-eye-toggle" [class.revealed]="showPassword" (click)="viewPassword()"
-                title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
-                <div class="eye-icon-wrap">
-                  <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" alt="toggle" width="20"
-                    height="20">
-                </div>
-              </button>
+        <div class="ep-card">
+          <div class="ep-card-title">
+            <div class="ep-card-icon blue">
+              <i class="fa-solid fa-key"></i>
             </div>
+            <h5>Datos de acceso</h5>
           </div>
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 text-danger small">
-            <span *ngIf="password.errors?.['required']">El password es requerido.</span>
+
+          <div class="ep-card-grid">
+
+            <!-- Campo: Número de cliente -->
+            <div class="ep-field">
+              <label for="inputUsuario">Número de cliente</label>
+              <input id="inputUsuario" type="text" formControlName="usuario"
+                class="ep-input" placeholder="#####" />
+              <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)"
+                class="ep-error">
+                <span *ngIf="usuario.errors?.['required']">
+                  El campo es requerido.
+                </span>
+                <span *ngIf="usuario.errors?.['maxLength']">
+                  El número de cliente es demasiado largo.
+                </span>
+              </div>
+            </div>
+
+            <!-- Campo: Contraseña -->
+            <div class="ep-field">
+              <label for="inputPassword">Contraseña</label>
+              <div class="ep-input-group">
+                <input id="inputPassword"
+                  [type]="showPassword ? 'text' : 'password'"
+                  formControlName="password" class="ep-input"
+                  autocomplete="current-password" placeholder="••••••••" />
+                <button type="button" class="ep-eye-btn"
+                  [class.revealed]="showPassword" (click)="viewPassword()"
+                  title="Mostrar/ocultar contraseña"
+                  aria-label="Alternar visibilidad de contraseña">
+                  <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'"
+                    width="20" />
+                </button>
+              </div>
+              <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                class="ep-error">
+                <span *ngIf="password.errors?.['required']">
+                  La contraseña es requerida.
+                </span>
+              </div><br>
+                 <!-- Enlaces: Crear cuenta y Recuperar password -->
+        <div class="ep-links-row">
+          <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')"
+            class="ep-link">Crear cuenta</a>
+          <a routerLink="/recuperar-password"
+            class="ep-link">¿Olvidaste tu contraseña?</a>
+        </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- Enlaces: Crear cuenta y Recuperar password -->
-        <div class="d-flex justify-content-between align-items-center mb-5">
-          <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')" class="link-subtle">Crear cuenta</a>
-          <a routerLink="/recuperar-password" class="link-subtle">¿Olvidaste tu contraseña?</a>
-        </div>
+     
 
         <!-- Mensaje de error global -->
-        <div *ngIf="error" class="alert alert-danger mb-4 py-2 small text-center">
+        <div *ngIf="error"
+          class="alert alert-danger text-center error-global">
           {{ error }}
         </div>
 
         <!-- Botón Iniciar Sesión -->
-        <div class="btn-water-wrapper">
-          <button type="submit" class="btn-water" [disabled]="loading" [class.loading]="loading">
-            <span class="water-fill"></span>
-            <span class="btn-water-content">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-              <span>{{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}</span>
-            </span>
+        <div class="ep-actions">
+          <button type="submit" class="ep-submit-btn" [disabled]="loading">
+            <span *ngIf="loading"
+              class="spinner-border spinner-border-sm me-2"></span>
+            {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
           </button>
         </div>
 
       </form>
 
-      <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
+      <ngx-sonner-toaster richColors position="top-center" />
     </div>
   </main>
 </div>

@@ -3,13 +3,17 @@
 <section class="service-page">
   <div class="services-container">
 
-    <!-- Hero intro -->
+    <!-- Hero intro (Premium) -->
     <div class="service-hero">
-
-      <h2 class="service-hero__title">Mis servicios</h2>
-      <p class="service-hero__subtitle">
-        Administra y consulta tus servicios en un solo lugar
-      </p>
+      <div class="service-hero-icon-wrapper">
+        <i class="fa-solid fa-server"></i>
+      </div>
+      <div class="service-hero-content">
+        <h2 class="service-hero-title">Mis servicios</h2>
+        <p class="service-hero-subtitle">
+          Administra y consulta tus servicios en un solo lugar
+        </p>
+      </div>
     </div>
     <div class="service-layout"
       [class.service-layout--centered]="servicios.length < 3 && !loading">
@@ -20,49 +24,53 @@
         <p class="apple-text-secondary mt-3">Cargando servicios…</p>
       </div>
 
-      <!-- Service cards -->
-      <div *ngFor="let s of servicios" class="apple-card service-card">
-        <div class="service-card__side-accent"></div>
-        <div class="apple-card__body">
-          <div class="service-card__header">
-            <div class="service-card__info">
-              
-                <span class="service-card__client-name"><i class="fa-regular fa-user"></i> {{ s.cliente?.nombre }}</span>
-             <div class="client-id-pill">
-              <i class="fa-regular fa-id-card"></i>
-              <span class="service-card__number">#{{ s.cliente?.cliente }}</span>
-             </div>
-              
+      <!-- Tarjetas de Servicio Premium -->
+      <div *ngFor="let s of servicios" class="service-card">
+        <!-- Acento de gradiente superior -->
+        <div class="service-card-accent"></div>
 
+        <!-- Cabecera de la Tarjeta -->
+        <div class="service-card-header">
+          <div class="service-card-user-info">
+            <div class="service-card-icon-wrapper">
+              <i class="fa-solid fa-house-signal"></i>
             </div>
-            <span class="apple-badge" [ngClass]="{
-                'apple-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-                'apple-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-                'apple-badge--neutral': !s.cliente?.infoRed?.estado
-              }">
-             <i class="fa-solid fa-signal"></i> {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
-            </span> 
+            <div class="service-card-meta">
+              <span class="service-card-client-name" [title]="s.cliente?.nombre">
+                {{ s.cliente?.nombre || 'Sin nombre' }}
+              </span>
+              <div class="service-card-id-badge">
+                <i class="fa-solid fa-hashtag"></i>
+                <span>{{ s.cliente?.cliente || '—' }}</span>
+              </div>
+            </div>
           </div>
 
-          <div class="service-card__divider"></div>
+          <span class="status-badge" [ngClass]="{
+              'status-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
+              'status-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
+              'status-badge--neutral': !s.cliente?.infoRed?.estado
+            }">
+            <i class="fa-solid fa-circle"></i>
+            {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+          </span>
+        </div>
 
-          <div class="service-card__actions">
-            <button class="btn-water btn-water-inline-sm" type="button" (click)="verDetalles(s.cliente?.cliente)">
-              <span class="water-fill"></span>
-              <span class="btn-water-content">
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> Ver detalles
-              </span>
-            </button>
-            <button class="btn-water btn-water-inline-sm btn-water-danger" type="button"
-              (click)="eliminarServicio(s.idServicio)">
-              <span class="water-fill"></span>
-              <span class="btn-water-content">
-                <i class="fa-regular fa-trash-can"></i>
-                Eliminar
+        <!-- Divisor elegante -->
+        <div class="service-card-divider"></div>
 
-              </span>
-            </button>
-          </div>
+        <!-- Acciones de la Tarjeta -->
+        <div class="service-card-actions">
+          <button class="action-btn action-btn-primary" type="button"
+            (click)="verDetalles(s.cliente?.cliente)">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Ver detalles</span>
+          </button>
+          <button class="action-btn action-btn-danger" type="button"
+            (click)="eliminarServicio(s.idServicio)">
+            <i class="fa-solid fa-trash-can"></i>
+            <span>Eliminar</span>
+          </button>
         </div>
       </div>
 
