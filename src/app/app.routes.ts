@@ -19,6 +19,7 @@ import { serviceAccessGuard } from './guards/service-access-guard';
 import { Component } from '@angular/core';
 import { FAQ } from './pages/faq/faq';
 import { FormPagos } from './pages/form-pagos/form-pagos';
+import { Adicionales } from './pages/adicionales/adicionales';
 
 
 export const routes: Routes = [
@@ -39,7 +40,8 @@ export const routes: Routes = [
   { path: 'visitas/:numero_cliente', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
-  { path: 'formulario-pagos', component: FormPagos },
+  { path: 'formulario-pagos', component: FormPagos, canActivate: [requireAuthGuard] },
+  { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
 
   
   { path: '**', redirectTo: '/iniciar-sesion' }

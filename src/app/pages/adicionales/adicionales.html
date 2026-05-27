@@ -1,0 +1,351 @@
+<main class="page">
+    <div class="holder">
+
+        <!-- NAVEGACIÓN -->
+        <nav class="page-nav">
+            <button class="nav-btn" [ngClass]="{ active: activeSection === 'servicios' }"
+                (click)="showSection('servicios')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" weight="20px" height="20px">
+                    <path d="M288 96c-90.9 0-173.2 36-233.7 94.6-12.7 12.3-33 12-45.2-.7s-12-33 
+                    .7-45.2C81.7 74.9 179.9 32 288 32S494.3 74.9 566.3 144.7c12.7 12.3 13 32.6 .7
+                     45.2s-32.6 13-45.2 .7C461.2 132 378.9 96 288 96zM240 432a48 48 0 1 1 96 0 48
+                      48 0 1 1 -96 0zM168 326.2c-11.7 13.3-31.9 14.5-45.2 2.8s-14.5-31.9-2.8-45.2C161
+                       237.4 221.1 208 288 208s127 29.4 168 75.8c11.7 13.3 10.4 33.5-2.8 45.2s-33.5 
+                       10.4-45.2-2.8C378.6 292.9 335.8 272 288 272s-90.6 20.9-120 54.2z" />
+                </svg>
+                Servicios
+            </button>
+            <p></p>
+            <button class="nav-btn" [ngClass]="{ active: activeSection === 'productos' }"
+                (click)="showSection('productos')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" weight="20px" height="20px">
+                    <path d="M380.8 96C372.7 110.1 368 126.5 368 144L368 160L96 160L96 384L368 384L368 448L96 
+                    448C60.7 448 32 419.3 32 384L32 160C32 124.7 60.7 96 96 96L380.8 96zM368 496C368 513.5 372.7 
+                    529.9 380.8 544L152 544C138.7 544 128 533.3 128 520C128 506.7 138.7 496 152 496L368 496zM464 
+                    96L560 96C586.5 96 608 117.5 608 144L608 496C608 522.5 586.5 544 560 544L464 544C437.5 544 416 
+                    522.5 416 496L416 144C416 117.5 437.5 96 464 96zM488 160C474.7 160 464 170.7 464 184C464 197.3 
+                    474.7 208 488 208L536 208C549.3 208 560 197.3 560 184C560 170.7 549.3 160 536 160L488 160zM488 
+                    256C474.7 256 464 266.7 464 280C464 293.3 474.7 304 488 304L536 304C549.3 304 560 293.3 560 
+                    280C560 266.7 549.3 256 536 256L488 256zM544 400C544 382.3 529.7 368 512 368C494.3 368 480 
+                    382.3 480 400C480 417.7 494.3 432 512 432C529.7 432 544 417.7 544 400z" />
+                </svg>
+                Productos
+
+            </button>
+        </nav>
+
+        <!-- servicios -->
+        <div id="servicios" class="section" [ngClass]="{ active: activeSection === 'servicios' }">
+
+            <h1 class="page-heading">Servicios para ti</h1>
+            <p class="page-sub">Soluciones tecnologicas que se adaptan a tus necesidades.</p>
+
+            <!-- INTERNET -->
+            <div class="service-card">
+                <div class="service-image internet">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" weight="40px" height="40px">
+                        <path d="M288 96c-90.9 0-173.2 36-233.7 94.6-12.7 12.3-33 12-45.2-.7s-12-33 
+                    .7-45.2C81.7 74.9 179.9 32 288 32S494.3 74.9 566.3 144.7c12.7 12.3 13 32.6 .7
+                     45.2s-32.6 13-45.2 .7C461.2 132 378.9 96 288 96zM240 432a48 48 0 1 1 96 0 48
+                      48 0 1 1 -96 0zM168 326.2c-11.7 13.3-31.9 14.5-45.2 2.8s-14.5-31.9-2.8-45.2C161
+                       237.4 221.1 208 288 208s127 29.4 168 75.8c11.7 13.3 10.4 33.5-2.8 45.2s-33.5 
+                       10.4-45.2-2.8C378.6 292.9 335.8 272 288 272s-90.6 20.9-120 54.2z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>Internet</h2>
+                        <p class="service-desc">
+                            Planes desde 100 Mbps hasta 500 Mbps para hogar y negocio.
+                        </p>
+
+                        <ul>
+                            <li>Fibra óptica de alta velocidad</li>
+                            <li>Instalación rápida</li>
+                            <li>Soporte 24/7</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$300<span>/mes</span>--></span>
+                        <button>Ver planes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TELEFONÍA -->
+            <div class="service-card">
+                <div class="service-image telefonia">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" weight="40px" height="40px">
+                        <path
+                            d="M160.2 25C152.3 6.1 131.7-3.9 112.1 1.4l-5.5 1.5c-64.6 
+                        17.6-119.8 80.2-103.7 156.4 37.1 175 174.8 312.7 349.8 349.8 76.3 
+                        16.2 138.8-39.1 156.4-103.7l1.5-5.5c5.4-19.7-4.7-40.3-23.5-48.1l-97.3-40.5c-16.5-6.9-35.6-2.1-47 
+                        11.8l-38.6 47.2C233.9 335.4 177.3 277 144.8 205.3L189 169.3c13.9-11.3 18.6-30.4 11.8-47L160.2 25z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>Telefonía fija y móvil</h2>
+                        <p class="service-desc">
+                            Comunicación estable para hogar y empresas.
+                        </p>
+
+                        <ul>
+                            <li>Líneas fijas limitadas</li>
+                            <li>Chips con datos y llamadas</li>
+                            <li>Cobertura nacional</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$120--><span><!--/mes--></span></span>
+                        <button>Más información</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAMARAS -->
+            <div class="service-card">
+                <div class="service-image camaras">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" weight="40px" height="40px">
+                        <path d="M96 64c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64l256 
+                        0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64L96 64zM464 336l73.5 
+                        58.8c4.2 3.4 9.4 5.2 14.8 5.2 13.1 0 23.7-10.6 23.7-23.7l0-240.6c0-13.1-10.6-23.7-23.7-23.7-5.4 
+                        0-10.6 1.8-14.8 5.2L464 176 464 336z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>Cámaras de seguridad</h2>
+                        <p class="service-desc">
+                            Sistemas de videovigilancia para proteger tu hogar y negocio.
+                        </p>
+
+                        <ul>
+                            <li>Monitoreo desde celular</li>
+                            <li>Visión nocturna</li>
+                            <li>Instalación profesional</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$1,999--></span>
+                        <button>Cotizar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUNTOS DE VENTA -->
+            <div class="service-card">
+                <div class="service-image puntos">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" weight="40px" height="40px">
+                        <path d="M0 128l0 32 512 0 0-32c0-35.3-28.7-64-64-64L64 64C28.7 64 0 92.7 0 128zm0 80L0 
+                        384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-176-512 0zM64 360c0-13.3 10.7-24 
+                        24-24l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24zm144 0c0-13.3
+                        10.7-24 24-24l64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0c-13.3 0-24-10.7-24-24z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>Puntos de venta</h2>
+                        <p class="service-desc">
+                            Soluciones de cobro modernas para tu negocio.
+                        </p>
+
+                        <ul>
+                            <li>Cobros con tarjeta</li>
+                            <li>Control de ventas</li>
+                            <li>Reportes en tiempo real</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$2,499--></span>
+                        <button>Ver opciones</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GPS -->
+            <div class="service-card">
+                <div class="service-image gps">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" weight="40px" height="40px">
+                        <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 
+                        316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 
+                        0 1 0 0-128 64 64 0 1 0 0 128z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>GPS para vehículos</h2>
+                        <p class="service-desc">
+                            Monitoreo en tiempo real para vehículos y flotillas.
+                        </p>
+
+                        <ul>
+                            <li>Ubicación en vivo</li>
+                            <li>Alertas inteligentes</li>
+                            <li>Historial de recorridos</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$179<span>/mes</span>--></span>
+                        <button>Ver detalles</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGINAS WEB -->
+            <div class="service-card">
+                <div class="service-image web">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" weight="40px" height="40px">
+                        <path d="M351.9 280l-190.9 0c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1 
+                        52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4 
+                        20.3-43.5 34.6-102.9 37.5-167.4zM160.9 232l190.9 0C349 167.5 334.7 108.1 314.4 64.6 
+                        303 40.2 290.7 22.8 279.3 12.2 268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4 
+                        10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4zm-48 0C116.4 146.4 138.5 66.9 
+                        170.8 14.7 78.7 47.3 10.9 131.2 1.5 232l111.4 0zM1.5 280c9.4 100.8 77.2 184.7 169.3 
+                        217.3-32.3-52.2-54.4-131.7-57.9-217.3L1.5 280zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3 
+                        92.1-32.7 159.9-116.5 169.3-217.3l-111.4 0zm111.4-48C501.9 131.2 434.1 47.3 342 14.7 374.3 
+                        66.9 396.4 146.4 399.9 232l111.4 0z" />
+                    </svg>
+                </div>
+
+                <div class="service-content">
+                    <div class="service-info">
+                        <h2>Páginas web con dominio</h2>
+                        <p class="service-desc">
+                            Diseño web profesional para impulsar tu negocio.
+                        </p>
+
+                        <ul>
+                            <li>Dominio propio</li>
+                            <li>Hosting incluido</li>
+                            <li>Diseño adaptable</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-action">
+                        <span class="price"><!--$2,999--></span>
+                        <button>Solicitar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /servicios -->
+
+
+
+
+
+        <!-- SECCIÓN productos -->
+        <div id="productos" class="section" [ngClass]="{ active: activeSection === 'productos' }">
+
+            <h1 class="page-heading">Necesitas algo</h1>
+            <p class="page-sub">Lo que necesites nosotros lo tenemos.</p>
+
+            <div class="products-grid">
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/router.svg" alt="router" width="100px" height="100px">
+
+                    <h3>Routers</h3>
+                    <p>Alta cobertura y velocidad.</p>
+                    <button>Ver modelos</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/switch.svg" alt="switch" width="100px" height="100px">
+                    <h3>Switch</h3>
+                    <p>Conectividad empresarial.</p>
+                    <button>Ver modelos</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/AP.svg" alt="switch" width="100px" height="100px">
+                    <h3>Access Point</h3>
+                    <p>Mayor cobertura WiFi.</p>
+                    <button>Ver equipos</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/camara.svg" alt="switch" width="100px" height="100px">
+                    <h3>Cámaras</h3>
+                    <p>Sistemas de seguridad.</p>
+                    <button>Más información</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/rj45.svg" alt="switch" width="100px" height="100px">
+                    <h3>Cables RJ45</h3>
+                    <p>Accesorios y conectividad.</p>
+                    <button>Explorar</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/ups.svg" alt="switch" width="100px" height="100px">
+                    <h3>No Break</h3>
+                    <p>Protección eléctrica.</p>
+                    <button>Cotizar</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/steren.svg" alt="switch" width="100px" height="100px">
+                    <h3>Productos Steren</h3>
+                    <p>Amplio catálogo tecnológico.</p>
+                    <button>Ver productos</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="../../../assets/img/productos/plus.svg" alt="switch" width="100px" height="100px">
+                    <h3>Y más</h3>
+                    <p>Más equipos y accesorios.</p>
+                    <button>Descubrir</button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!--<div class="support-cta">
+            <div class="support-card">
+                <div class="support-left">
+                    <h2>¿Necesitas ayuda?</h2>
+                    <h3>Estamos aquí para ti</h3>
+                    <p>Si no encontraste la respuesta que buscabas, nuestro equipo está listo para ayudarte en cualquier
+                        momento.</p>
+                    <div class="support-actions">
+                        <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola%20buen%20d%C3%ADa%2C%20necesito%20ayuda"
+                            class="btn whatsapp" target="_blank">
+                            WhatsApp
+                        </a>
+                        <a href="tel:7131334557" class="btn website">
+                            Llamar a Soporte
+                        </a>
+                    </div>
+                </div>
+                <div class="support-right">
+                    <div class="status-card">
+                        <div class="status-icon">🎧</div>
+                        <h4>Soporte 24/7</h4>
+                        <p>Siempre disponibles para ayudarte</p>
+                        <div class="status-live">
+                            <span class="dot"></span>
+                            <a href="https://api.whatsapp.com/send/?phone=7133475658&text=Hola%2C+necesito+ayuda.&type=phone_number&app_absent=0"
+                                target="_blank">Embot en línea</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+    </div>
+</main>
