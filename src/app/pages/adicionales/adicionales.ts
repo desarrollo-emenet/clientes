@@ -11,29 +11,47 @@ import { NgClass } from '@angular/common';
 export class Adicionales {
 
   activeSection: string = 'servicios';
-  serviciosAbierto: string | null = null;
-  productosAbierto: string | null = null;
-  detalleSelec: any = null;
-
+  modalActivo: string | null = null;
 
   showSection(id: string): void {
     this.activeSection = id;
-    this.serviciosAbierto = null;
-    this.productosAbierto = null;
+    this.cerrarModal();
   }
 
-  abrirDetalle(detalles: any) {
-    this.detalleSelec = detalles;
+  abrirModal(seccion: string): void {
+    this.modalActivo = seccion;
+    document.body.style.overflow = 'hidden';
   }
 
-
-  toggleServicios(id: string): void {
-    this.serviciosAbierto = this.serviciosAbierto === id ? null : id;
+  cerrarModal(evento?: MouseEvent): void {
+    if (evento) {
+      const esOverlay = (evento.target as HTMLElement)
+        .classList.contains('modal-overlay');
+      if (!esOverlay) return;
+    }
+    this.modalActivo = null;
+    document.body.style.overflow = '';
   }
 
-  toggleProductos(id: string): void {
-    this.productosAbierto = this.productosAbierto === id ? null : id;
+  solicitarOpcion(opcion: string): void {
+    const mensaje = encodeURIComponent(
+      `Hola, quiero información sobre el punto de venta: ${opcion}`
+    );
+    window.open(
+      `https://api.whatsapp.com/send?phone=5217131334557&text=${mensaje}`,
+      '_blank'
+    );
   }
 
+  enviarCotizacion(evento: Event, servicio: string): void {
+    evento.preventDefault();
+    const mensaje = encodeURIComponent(
+      `Hola, quiero solicitar una cotización de: ${servicio}`
+    );
+    window.open(
+      `https://api.whatsapp.com/send?phone=5217131334557&text=${mensaje}`,
+      '_blank'
+    );
+  }
 
 }
