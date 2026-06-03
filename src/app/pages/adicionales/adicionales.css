@@ -100,8 +100,8 @@
   display: flex;
   gap: 18px;
 
-  background: rgba(255,255,255,.78);
-  border: 1px solid rgba(255,255,255,.65);
+  background: rgba(255, 255, 255, .78);
+  border: 1px solid rgba(255, 255, 255, .65);
 
   backdrop-filter: blur(14px);
 
@@ -112,7 +112,7 @@
   margin-bottom: 18px;
 
   box-shadow:
-    0 10px 30px rgba(15,23,42,.06);
+    0 10px 30px rgba(15, 23, 42, .06);
 
   transition:
     transform .25s ease,
@@ -123,10 +123,10 @@
 .service-card:hover {
   transform: translateY(-4px);
 
-  border-color: rgba(37,99,235,.25);
+  border-color: rgba(37, 99, 235, .25);
 
   box-shadow:
-    0 18px 35px rgba(37,99,235,.12);
+    0 18px 35px rgba(37, 99, 235, .12);
 }
 
 /* ICONO */
@@ -140,14 +140,12 @@
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(
-    135deg,
-    #0b4e94,
-    #2563eb
-  );
+  background: linear-gradient(135deg,
+      #0b4e94,
+      #2563eb);
 
   box-shadow:
-    0 10px 25px rgba(37,99,235,.25);
+    0 10px 25px rgba(37, 99, 235, .25);
 
   flex-shrink: 0;
 }
@@ -162,32 +160,32 @@
 
 .service-image.internet {
   background:
-    linear-gradient(135deg,#2563eb,#0b4e94);
+    linear-gradient(135deg, #2563eb, #0b4e94);
 }
 
 .service-image.telefonia {
   background:
-    linear-gradient(135deg,#0ea5e9,#0284c7);
+    linear-gradient(135deg, #0ea5e9, #0284c7);
 }
 
 .service-image.camaras {
   background:
-    linear-gradient(135deg,#8b5cf6,#6d28d9);
+    linear-gradient(135deg, #8b5cf6, #6d28d9);
 }
 
 .service-image.puntos {
   background:
-    linear-gradient(135deg,#10b981,#059669);
+    linear-gradient(135deg, #10b981, #059669);
 }
 
 .service-image.gps {
   background:
-    linear-gradient(135deg,#f59e0b,#d97706);
+    linear-gradient(135deg, #f59e0b, #d97706);
 }
 
 .service-image.web {
   background:
-    linear-gradient(135deg,#ec4899,#be185d);
+    linear-gradient(135deg, #ec4899, #be185d);
 }
 
 /* CONTENIDO */
@@ -288,11 +286,9 @@
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #0b4e94,
-      #2563eb
-    );
+      #2563eb);
 
   color: white;
 
@@ -310,7 +306,7 @@
   transform: translateY(-2px);
 
   box-shadow:
-    0 10px 20px rgba(37,99,235,.22);
+    0 10px 20px rgba(37, 99, 235, .22);
 }
 
 /* =========================================
@@ -321,15 +317,15 @@
   display: grid;
 
   grid-template-columns:
-    repeat(auto-fit, minmax(220px,1fr));
+    repeat(auto-fit, minmax(220px, 1fr));
 
   gap: 18px;
 }
 
 .product-card {
-  background: rgba(255,255,255,.82);
+  background: rgba(255, 255, 255, .82);
 
-  border: 1px solid rgba(255,255,255,.7);
+  border: 1px solid rgba(255, 255, 255, .7);
 
   backdrop-filter: blur(12px);
 
@@ -345,16 +341,16 @@
     border-color .25s ease;
 
   box-shadow:
-    0 10px 30px rgba(15,23,42,.05);
+    0 10px 30px rgba(15, 23, 42, .05);
 }
 
 .product-card:hover {
   transform: translateY(-5px);
 
-  border-color: rgba(37,99,235,.2);
+  border-color: rgba(37, 99, 235, .2);
 
   box-shadow:
-    0 18px 35px rgba(37,99,235,.12);
+    0 18px 35px rgba(37, 99, 235, .12);
 }
 
 .product-card i {
@@ -372,11 +368,9 @@
   font-size: 1.8rem;
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(37,99,235,.12),
-      rgba(59,130,246,.18)
-    );
+    linear-gradient(135deg,
+      rgba(37, 99, 235, .12),
+      rgba(59, 130, 246, .18));
 
   color: #0b4e94;
 }
@@ -409,11 +403,9 @@
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #0b4e94,
-      #2563eb
-    );
+      #2563eb);
 
   color: white;
 
@@ -431,7 +423,7 @@
   transform: translateY(-2px);
 
   box-shadow:
-    0 10px 20px rgba(37,99,235,.22);
+    0 10px 20px rgba(37, 99, 235, .22);
 }
 
 /* =========================================
@@ -712,12 +704,29 @@
   margin: 0;
 }
 
-.modal-header.internet  { background: linear-gradient(135deg, #2563eb, #0b4e94); }
-.modal-header.telefonia { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
-.modal-header.camaras   { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-.modal-header.puntos    { background: linear-gradient(135deg, #10b981, #059669); }
-.modal-header.gps       { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.modal-header.web       { background: linear-gradient(135deg, #ec4899, #be185d); }
+.modal-header.internet {
+  background: linear-gradient(135deg, #2563eb, #0b4e94);
+}
+
+.modal-header.telefonia {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+}
+
+.modal-header.camaras {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+}
+
+.modal-header.puntos {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.modal-header.gps {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.modal-header.web {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+}
 
 /* BODY */
 
@@ -758,11 +767,9 @@
 
 .plan-card.plan-popular {
   border-color: #2563eb;
-  background: linear-gradient(
-    180deg,
-    rgba(37, 99, 235, 0.04),
-    rgba(37, 99, 235, 0.01)
-  );
+  background: linear-gradient(180deg,
+      rgba(37, 99, 235, 0.04),
+      rgba(37, 99, 235, 0.01));
 }
 
 .plan-badge {
@@ -893,7 +900,7 @@
   gap: 8px;
   padding: 12px 26px;
   border-radius: 999px;
-  background: #1bac50;
+  background: linear-gradient(135deg, #0b4e94, #2563eb);
   color: #fff;
   font-size: 0.92rem;
   font-weight: 600;
@@ -1022,11 +1029,9 @@
 
 .opcion-card.opcion-destacado {
   border-color: #10b981;
-  background: linear-gradient(
-    180deg,
-    rgba(16, 185, 129, 0.05),
-    transparent
-  );
+  background: linear-gradient(180deg,
+      rgba(16, 185, 129, 0.05),
+      transparent);
 }
 
 .opcion-card:hover {
@@ -1326,6 +1331,10 @@
 /* Botón contratar */
 
 .plan-btn-internet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   width: 100%;
   height: 42px;
   border: none;
@@ -1360,4 +1369,3 @@
     max-width: 100%;
   }
 }
-

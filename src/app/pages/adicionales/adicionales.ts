@@ -35,7 +35,7 @@ export class Adicionales {
 
   solicitarOpcion(opcion: string): void {
     const mensaje = encodeURIComponent(
-      `Hola, quiero información sobre el punto de venta: ${opcion}`
+      `Hola, quiero información sobre el punto de venta My Business POS: ${opcion}`
     );
     window.open(
       `https://api.whatsapp.com/send?phone=5217131334557&text=${mensaje}`,
