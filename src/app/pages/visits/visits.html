@@ -8,13 +8,13 @@
 
   <!-- LISTA DE TARJETAS -->
   <div class="visitas-list">
-    <div class="visita-card" *ngFor="let visita of visitas" (click)="abrirDetalle(visita)" data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
+    <div class="visita-card" *ngFor="let visita of visitas" (click)="abrirDetalle(visita)" data-bs-toggle="modal"
+      data-bs-target="#detalleVisitaModal">
 
       <!-- IZQUIERDA -->
       <div class="visita-left">
         <div class="visita-icon" [ngClass]="visita.estatus">
-          <i class="fa-solid"
-             [ngClass]="{
+          <i class="fa-solid" [ngClass]="{
                'fa-check': visita.estatus === 'atendido',
                'fa-x': visita.estatus === 'cancelado',
                'fa-screwdriver-wrench': visita.estatus === 'pendiente'
@@ -42,77 +42,79 @@
   </div>
 
   <div class="modal fade modal-tecnologico" id="detalleVisitaModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
 
-      <div class="modal-header">
-        <div>
-          <h5 class="modal-title">{{ visitaSeleccionada?.asunto || 'Detalle de visita' }}</h5>
-          <span class="modal-subtitle" *ngIf="visitaSeleccionada">
-            <i class="fa-solid fa-calendar"></i> {{ visitaSeleccionada.fecha }}
-          </span>
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title">{{ visitaSeleccionada?.asunto || 'Detalle de visita' }}</h5>
+            <span class="modal-subtitle" *ngIf="visitaSeleccionada">
+              <i class="fa-solid fa-calendar"></i> {{ visitaSeleccionada.fecha }}
+            </span>
+          </div>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
         </div>
-        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-      </div>
 
-      <div class="modal-body" *ngIf="visitaSeleccionada">
-        <div class="modal-grid-layout">
+        <div class="modal-body" *ngIf="visitaSeleccionada">
+          <div class="modal-grid-layout">
 
-          <div class="modal-column modal-info">
-            <h6 class="column-title">Información General</h6>
-            
-            <div class="detalle-group">
-              <label>Asunto</label>
-              <p class="asunto-destacado">{{ visitaSeleccionada.asunto }}</p>
-            </div>
-            
-            <div class="detalle-group">
-              <label>Técnico Asignado</label>
-              <div class="tecnico-avatar-box">
-                <div class="avatar-mini"><i class="fa-solid fa-user-gear"></i></div>
-                <p>{{ visitaSeleccionada.tecnico }}</p>
+            <div class="modal-column modal-info">
+              <h6 class="column-title">Información General</h6>
+
+              <div class="detalle-group">
+                <label>Asunto</label>
+                <p class="asunto-destacado">{{ visitaSeleccionada.asunto }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Técnico Asignado</label>
+                <div class="tecnico-avatar-box">
+                  <div class="avatar-mini"><i class="fa-solid fa-user-gear"></i></div>
+                  <p>{{ visitaSeleccionada.tecnico }}</p>
+                </div>
+              </div>
+
+              <div class="detalle-group">
+                <label>Estatus de la Visita</label>
+                <div>
+                  <span class="status-badge" [ngClass]="visitaSeleccionada.estatus">
+                    <span class="dot"></span>
+                    {{ visitaSeleccionada.estatus === 'atendido'? 'Atendido' : visitaSeleccionada.estatus ===
+                    'cancelado'? 'Cancelado' : 'Pendiente'}}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div class="detalle-group">
-              <label>Estatus de la Visita</label>
-              <div>
-                <span class="status-badge" [ngClass]="visitaSeleccionada.estatus">
-                  <span class="dot"></span>
-                  {{ visitaSeleccionada.estatus === 'atendido'? 'Atendido' : visitaSeleccionada.estatus === 'cancelado'? 'Cancelado' : 'Pendiente'}}
-                </span>
+            <div class="modal-column modal-resolucion">
+              <h6 class="column-title">Informe Técnico</h6>
+
+              <div class="detalle-card-group" *ngIf="visitaSeleccionada.detalles">
+                <label><i class="fa-solid fa-circle-info"></i> Detalles del Reporte</label>
+                <p>{{ visitaSeleccionada.detalles }}</p>
+              </div>
+
+              <div class="detalle-card-group" *ngIf="visitaSeleccionada.diagnostico">
+                <label><i class="fa-solid fa-stethoscope"></i> Diagnóstico</label>
+                <p>{{ visitaSeleccionada.diagnostico }}</p>
+              </div>
+
+              <div class="detalle-card-group" *ngIf="visitaSeleccionada.observaciones">
+                <label><i class="fa-solid fa-eye"></i> Observaciones</label>
+                <p>{{ visitaSeleccionada.observaciones }}</p>
+              </div>
+
+              <div class="detalle-card-group solucion-destacada" *ngIf="visitaSeleccionada.solucion">
+                <label><i class="fa-solid fa-lightbulb"></i> Solución Aplicada</label>
+                <p>{{ visitaSeleccionada.solucion }}</p>
               </div>
             </div>
+
           </div>
-
-          <div class="modal-column modal-resolucion">
-            <h6 class="column-title">Informe Técnico</h6>
-            
-            <div class="detalle-card-group" *ngIf="visitaSeleccionada.detalles">
-              <label><i class="fa-solid fa-circle-info"></i> Detalles del Reporte</label>
-              <p>{{ visitaSeleccionada.detalles }}</p>
-            </div>
-
-            <div class="detalle-card-group" *ngIf="visitaSeleccionada.diagnostico">
-              <label><i class="fa-solid fa-stethoscope"></i> Diagnóstico</label>
-              <p>{{ visitaSeleccionada.diagnostico }}</p>
-            </div>
-
-            <div class="detalle-card-group" *ngIf="visitaSeleccionada.observaciones">
-              <label><i class="fa-solid fa-eye"></i> Observaciones</label>
-              <p>{{ visitaSeleccionada.observaciones }}</p>
-            </div>
-
-            <div class="detalle-card-group solucion-destacada" *ngIf="visitaSeleccionada.solucion">
-              <label><i class="fa-solid fa-lightbulb"></i> Solución Aplicada</label>
-              <p>{{ visitaSeleccionada.solucion }}</p>
-            </div>
-          </div>
-
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
-</div>
 
 </div>
