@@ -19,23 +19,21 @@
         <!-- FORMA DE PAGO -->
         <div class="payment-options">
           <label class="payment-card">
-            <input type="radio" value="TRH" formControlName="formaPago" required>
+            <input type="radio" value="TRH" formControlName="clave" required>
             <div class="card-content">
               <i class="fa-solid fa-building-columns"></i>
               <div>
                 <h6>Transferencia</h6>
-                <p>TRH</p>
               </div>
             </div>
           </label>
 
           <label class="payment-card">
-            <input type="radio" value="DBH" formControlName="formaPago">
+            <input type="radio" value="DBH" formControlName="clave">
             <div class="card-content">
               <i class="fa-solid fa-money-bill-transfer"></i>
               <div>
                 <h6>Depósito</h6>
-                <p>DBH</p>
               </div>
             </div>
           </label>
@@ -44,29 +42,6 @@
 
 
         <div class="form-cards">
-
-          <!-- DATOS DEL CLIENTE -->
-          <div class="form-card">
-            <div class="card-title">
-              <div class="card-icon blue"><i class="fa-solid fa-person"></i></div>
-              <h5>Datos del cliente</h5>
-            </div>
-            <div class="card-body">
-
-              <!-- TELEFONO -->
-              <div class="field">
-                <label>Teléfono</label>
-                <input type="text" formControlName="telefono" class="form-control custom-input"
-                  placeholder="Número de teléfono">
-                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
-                  <span *ngIf="telefono.errors?.['required']">Número requerido.</span>
-                  <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
-                  <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
 
           <!-- INFORMACION DE PAGO -->
           <div class="form-card">
@@ -99,17 +74,6 @@
                 </div>
               </div>
 
-              <!-- CLAVE DE PAGO -->
-              <div class="field">
-                <label>Clave de pago</label>
-                <input type="text" formControlName="clave" class="form-control custom-input"
-                  placeholder="Clave de pago">
-                <div *ngIf="clave.invalid && (clave.dirty || clave.touched)" class="mt-1 text-danger small">
-                  <span *ngIf="clave.errors?.['required']">Requerido.</span>
-                  <span *ngIf="clave.errors?.['maxlength']">Máx 100 caracteres.</span>
-                </div>
-              </div>
-
               <!-- MONTO -->
               <div class="field">
                 <label>Monto a pagar</label>
@@ -137,7 +101,7 @@
             <div class="upload-center">
               <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <h6>Sube tu comprobante aquí</h6>
-              <input type="file" (change)="onFileChange($event)" formControlName="comprobante"
+              <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)" formControlName="comprobante"
                 class="form-control upload-input">
               <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
               <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"

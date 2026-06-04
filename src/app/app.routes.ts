@@ -40,7 +40,7 @@ export const routes: Routes = [
   { path: 'visitas/:numero_cliente', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
-  { path: 'formulario-pagos', component: FormPagos, canActivate: [requireAuthGuard] },
+  { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
 
   
