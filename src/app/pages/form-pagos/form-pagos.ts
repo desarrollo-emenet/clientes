@@ -32,6 +32,7 @@ export class FormPagos {
   archivoSeleccionado!: File;
   pagosForm!: FormGroup;
   data: any;
+  maxDate = new Date();
   private subs: Subscription[] = [];
 
   constructor(

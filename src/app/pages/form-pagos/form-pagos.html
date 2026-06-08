@@ -54,9 +54,9 @@
               <!-- FECHA DE PAGO -->
               <div class="field">
                 <label>Fecha de pago</label>
-                <mat-form-field appearance="outline" class="custom-date-field">
-                  <input matInput [matDatepicker]="picker" formControlName="fechaPago"
-                    placeholder="Selecciona una fecha">
+                <mat-form-field appearance="outline" class="custom-date-field" (click)="picker.open()">
+                  <input matInput [matDatepicker]="picker" formControlName="fechaPago" (focus)="picker.open()"
+                    placeholder="Selecciona una fecha" [max]="maxDate" readonly>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>

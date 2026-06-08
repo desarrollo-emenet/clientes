@@ -179,33 +179,24 @@
 .custom-input,
 .mat-mdc-text-field-wrapper {
   width: 100%;
-
   height: 56px;
-
   border-radius: 16px !important;
-
   border: 1px solid #dbe4f0 !important;
-
   background: rgba(255,255,255,.8) !important;
-
   transition: .25s ease;
-
   box-shadow:
     0 2px 8px rgba(15,23,42,.03);
 }
 
 .custom-input {
   padding: 0 16px;
-
   color: #0f172a;
-
   font-size: .95rem;
 }
 
 .custom-input:focus,
 .custom-date-field.mat-focused .mat-mdc-text-field-wrapper {
   border-color: #0b4e94 !important;
-
   box-shadow:
     0 0 0 4px rgba(59,130,246,.10);
 }
@@ -231,6 +222,24 @@
 .custom-date-field input {
   padding-left: 12px !important;
 }
+
+
+::ng-deep .mat-calendar-body-today {
+  border: none !important;
+}
+
+/* Días bloqueados */
+::ng-deep .mat-calendar-body-disabled {
+  opacity: 0.35 !important;
+}
+
+/* Número del día bloqueado */
+::ng-deep .mat-calendar-body-disabled .mat-calendar-body-cell-content {
+  color: #94a3b8 !important;
+  text-decoration: line-through;
+  cursor: not-allowed !important;
+}
+
 
 /* =========================
    UPLOAD
