@@ -14,7 +14,7 @@
 
 /* calendario */
 .mat-datepicker-content {
-    background-color: rgb(231, 242, 255) !important;
+    background-color: rgb(255, 255, 255) !important;
     border-radius: 15px !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
 }
