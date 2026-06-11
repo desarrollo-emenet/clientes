@@ -43,6 +43,29 @@
 
         <div class="form-cards">
 
+          <!--<div class="form-card">
+            <div class="card-title">
+              <div class="card-icon blue"><i class="fa-solid fa-user"></i></div>
+              <h5>Información del cliente</h5>
+            </div>
+
+            <div class="card-body grid-2">
+
+              <!- - TELEFONO - ->
+              <div class="field">
+                <label>Teléfono</label>
+                <input type="text" formControlName="telefono" class="form-control custom-input"
+                  placeholder="Número de teléfono">
+                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
+                  <span *ngIf="telefono.errors?.['required']">Requerido.</span>
+                  <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
+                  <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>-->
+
           <!-- INFORMACION DE PAGO -->
           <div class="form-card">
             <div class="card-title">
@@ -101,8 +124,8 @@
             <div class="upload-center">
               <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <h6>Sube tu comprobante aquí</h6>
-              <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)" formControlName="comprobante"
-                class="form-control upload-input">
+              <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
+                formControlName="comprobante" class="form-control upload-input">
               <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
               <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"
                 class="mt-1 text-danger small">

@@ -46,27 +46,31 @@ export class FormPagos {
       //cliente: ['', [Validators.required, Validators.maxLength(10)]],
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
-      //telefono: ['', [Validators.required, Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
+      telefono: ['', [Validators.required, Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required]],
       comprobante: [null, [Validators.required]],
       monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
 
     })
   }
-  get clave() { //SI
+  get telefono() { 
+    return this.pagosForm.controls['telefono'];
+  }
+
+  get clave() { 
     return this.pagosForm.controls['clave'];
   }
-  get fechaPago() { //SI
+  get fechaPago() { 
     return this.pagosForm.controls['fechaPago'];
   }
-  get numOperacion() { //SI
+  get numOperacion() { 
     return this.pagosForm.controls['numOperacion'];
   }
 
-  get comprobante() { //SI
+  get comprobante() {
     return this.pagosForm.controls['comprobante'];
   }
-  get monto() { //SI
+  get monto() { 
     return this.pagosForm.controls['monto'];
   }
 

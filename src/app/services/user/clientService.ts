@@ -9,6 +9,7 @@ import { environment } from './routeApi';
 })
 export class ClientService {
   private apiLocalUrl = environment.apiLocalUrl
+  private apiLocalUrl2 = environment.apiLocalUrl2
 
   constructor(private http: HttpClient) { }
 
@@ -89,8 +90,17 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const headers = this.getHead();
-    return this.http.post<any>(`${this.apiLocalUrl}/pagos`, data, { headers: headers });
+    const headers = this.getHeaders2()
+    return this.http.post<any>(`${this.apiLocalUrl2}/pagos-bancoV2`, data, { headers: headers });
   }
 
+  
+  
+getHeaders2(): HttpHeaders {
+      const token = this.getToken();
+    const token2 = 'wDApSmjJxmYA9Tf2fgSV15gfuYLe5au4gCZA7zGwegE25IVLWeWFo9dCUugVrGYY';
+    let headers = new HttpHeaders().set('Accept', 'application/json').set("x-web-key", `${token2}`);
+     if (token) headers = headers.set('Authorization', `Bearer ${token}`);
+    return headers;
+  }
 }
