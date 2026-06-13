@@ -1369,3 +1369,259 @@
     max-width: 100%;
   }
 }
+
+/* =========================================
+   MODAL PRODUCTO DETALLE
+========================================= */
+
+.modal-panel-product {
+  max-width: 700px;
+}
+
+.product-modal-content {
+  padding: 24px 28px 28px;
+}
+
+/* Top Section: Image + Info */
+.product-modal-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Image Carousel */
+.product-image-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.carousel-main {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  border: 1px solid #e2e8f0;
+}
+
+.carousel-main img {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+.carousel-thumbnails {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+  border-color: #0b4e94;
+}
+
+.thumbnail.active {
+  border-color: #0b4e94;
+  opacity: 1;
+  box-shadow: 0 0 0 2px rgba(11, 78, 148, 0.2);
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Info */
+.product-modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+.product-modal-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.product-modal-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0b4e94;
+  line-height: 1;
+}
+
+.product-modal-availability {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.product-modal-availability.low-stock {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.product-modal-availability.in-stock {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* Sections */
+.product-modal-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.section-description {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0b4e94;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Features List */
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.features-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.features-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Specifications Grid */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.spec-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.spec-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* CTA Button */
+.product-modal-cta {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.btn-contactar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 18px rgba(11, 78, 148, 0.25);
+}
+
+.btn-contactar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(11, 78, 148, 0.35);
+}
+
+/* Responsive Product Modal */
+@media (max-width: 640px) {
+  .modal-panel-product {
+    max-width: 100%;
+  }
+
+  .product-modal-top {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-modal-content {
+    padding: 20px;
+  }
+
+  .carousel-main {
+    min-height: 160px;
+  }
+
+  .carousel-main img {
+    max-height: 140px;
+  }
+}

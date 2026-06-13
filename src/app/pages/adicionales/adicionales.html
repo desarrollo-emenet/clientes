@@ -253,7 +253,7 @@
 
             <div class="products-grid">
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('router')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/router.svg"
                             alt="Routers" />
@@ -265,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('switch')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/switch.svg"
                             alt="Switch" />
@@ -277,7 +277,7 @@
                     </div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('access-point')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/AP.svg"
                             alt="Access Point" />
@@ -289,7 +289,7 @@
                     </div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('camaras')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/camara.svg"
                             alt="Cámaras" />
@@ -301,7 +301,7 @@
                     </div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('cables-rj45')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/rj45.svg"
                             alt="Cables RJ45" />
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" (click)="abrirModalProducto('no-break')">
                     <div class="product-img-wrap">
                         <img src="../../../assets/img/productos/ups.svg"
                             alt="No Break" />
@@ -756,6 +756,90 @@
                     </div>
                     <button type="submit" class="form-submit">Solicitar información</button>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PRODUCTO DETALLE -->
+    <div class="modal-overlay" [class.modal-open]="modalActivo === 'producto'" (click)="cerrarModal($event)">
+        <div class="modal-panel modal-panel-product">
+            <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
+            
+            <div class="product-modal-content" *ngIf="productoSeleccionado">
+                <!-- Top Section: Image Carousel + Product Info -->
+                <div class="product-modal-top">
+                    <!-- Image Carousel -->
+                    <div class="product-image-carousel">
+                        <div class="carousel-main">
+                            <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]" 
+                                 [alt]="productoSeleccionado.nombre" />
+                        </div>
+                        <div class="carousel-thumbnails" *ngIf="productoSeleccionado.imagenes.length > 1">
+                            <div *ngFor="let img of productoSeleccionado.imagenes; let i = index"
+                                 class="thumbnail"
+                                 [class.active]="i === productoSeleccionado.imagenActual"
+                                 (click)="cambiarImagen(i)">
+                                <img [src]="img" [alt]="'Thumbnail ' + (i + 1)" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="product-modal-info">
+                        <h2 class="product-modal-name">{{ productoSeleccionado.nombre }}</h2>
+                        <div class="product-modal-price">{{ productoSeleccionado.precio }}</div>
+                        <div class="product-modal-availability" 
+                             [class.low-stock]="productoSeleccionado.disponibilidad === 'Baja disponibilidad'"
+                             [class.in-stock]="productoSeleccionado.disponibilidad === 'En stock'">
+                            {{ productoSeleccionado.disponibilidad }}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Features -->
+                <div class="product-modal-section">
+                    <h3 class="section-title">Características principales</h3>
+                    <ul class="features-list">
+                        <li *ngFor="let feature of productoSeleccionado.caracteristicas">
+                            {{ feature }}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Description -->
+                <div class="product-modal-section">
+                    <h3 class="section-description">{{ productoSeleccionado.descripcion }}</h3>
+                </div>
+                
+                <!-- Technical Specifications -->
+                <div class="product-modal-section">
+                    <h3 class="section-title">Especificaciones técnicas</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item" *ngFor="let spec of productoSeleccionado.especificaciones">
+                            <span class="spec-label">{{ spec.label }}</span>
+                            <span class="spec-value">{{ spec.value }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More Specifications -->
+                <div class="product-modal-section" *ngIf="productoSeleccionado.masEspecificaciones">
+                    <h3 class="section-title">Más especificaciones</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item" *ngFor="let spec of productoSeleccionado.masEspecificaciones">
+                            <span class="spec-label">{{ spec.label }}</span>
+                            <span class="spec-value">{{ spec.value }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="product-modal-cta">
+                    <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20{{ productoSeleccionado.nombre }}"
+                       class="btn-contactar" target="_blank">
+                        Contactar para comprar
+                    </a>
+                </div>
             </div>
         </div>
     </div>
