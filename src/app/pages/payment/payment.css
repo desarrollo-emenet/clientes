@@ -1,114 +1,24 @@
-
-/* Animaciones Embot */
-.embot-icon {
-  width: 22px;
-  height: 22px;
-  transition: transform 0.3s ease;
+.page{
+  background: #f4f6fb;
+  min-height: 100vh;
 }
-
-.speedtest-icon {
-  width: 20px;
-  height: 20px;
-}
-
-.eye-l,
-.eye-r {
-  transform-origin: center;
-  transform-box: fill-box;
-}
-
-/* Parpadeo de ojos */
-.action-item:hover .eye-l,
-.action-item:hover .eye-r {
-  animation: embot-eyes 1.2s ease-in-out infinite;
-}
-
-/* Soporte: el icono se usa dentro del botón de soporte */
-.btn-whatsapp:hover .eye-l,
-.btn-whatsapp:hover .eye-r {
-  animation: embot-eyes 1.2s ease-in-out infinite;
-}
-
-/* Balanceo de cabeza */
-.action-item:hover .embot-icon {
-  animation: embot-wiggle 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  transform-origin: bottom left;
-}
-
-.btn-whatsapp:hover .embot-icon {
-  animation: embot-wiggle 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  transform-origin: bottom left;
-}
-
-@keyframes embot-eyes {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-1px);
-  }
-
-  50% {
-    transform: translateX(1px);
-  }
-
-  75% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes embot-blink {
-
-  0%,
-  90%,
-  100% {
-    transform: scaleY(1);
-  }
-
-  95% {
-    transform: scaleY(0.1);
-  }
-}
-
-@keyframes embot-wiggle {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  25% {
-    transform: rotate(8deg);
-  }
-
-  50% {
-    transform: rotate(-8deg);
-  }
-
-  75% {
-    transform: rotate(2deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
 .payments-page {
   padding: 40px 20px;
-  background: #f5f7fb;
+  background: #f4f6fb;
   min-height: 100vh;
 }
 
 .payments-wrapper {
   max-width: 850px;
   margin: auto;
+  
 }
 
 /* HEADER */
 
 .payments-header {
-  margin-bottom: 25px;
+  margin-bottom: 25px;  
+  
 }
 
 .page-title {
@@ -132,6 +42,8 @@
   overflow: hidden;
   border: 1px solid #e8eef5;
   transition: 0.25s ease;
+  box-shadow:
+    0 10px 40px rgba(15,23,42,.08);
 }
 
 .payment-card[open] {
@@ -375,6 +287,8 @@
   border-radius: 24px;
   padding: 28px;
   border: 1px solid #e8eef5;
+  box-shadow:
+    0 10px 40px rgba(15,23,42,.08);
 
   display: flex;
   align-items: center;
@@ -720,3 +634,98 @@
 }
 
 
+
+/* Animaciones Embot */
+.embot-icon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+}
+
+.speedtest-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.eye-l,
+.eye-r {
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* Parpadeo de ojos */
+.action-item:hover .eye-l,
+.action-item:hover .eye-r {
+  animation: embot-eyes 1.2s ease-in-out infinite;
+}
+
+/* Soporte: el icono se usa dentro del botón de soporte */
+.btn-whatsapp:hover .eye-l,
+.btn-whatsapp:hover .eye-r {
+  animation: embot-eyes 1.2s ease-in-out infinite;
+}
+
+/* Balanceo de cabeza */
+.action-item:hover .embot-icon {
+  animation: embot-wiggle 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform-origin: bottom left;
+}
+
+.btn-whatsapp:hover .embot-icon {
+  animation: embot-wiggle 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform-origin: bottom left;
+}
+
+@keyframes embot-eyes {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-1px);
+  }
+
+  50% {
+    transform: translateX(1px);
+  }
+
+  75% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes embot-blink {
+
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes embot-wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(8deg);
+  }
+
+  50% {
+    transform: rotate(-8deg);
+  }
+
+  75% {
+    transform: rotate(2deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}

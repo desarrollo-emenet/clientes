@@ -1,6 +1,6 @@
-<div class="container-fluid mt-4">
+
   <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
-    <main class="col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4 bg-light">
+    <main class=" page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
 
       <div class="payments-wrapper">
 
@@ -188,12 +188,12 @@
 
         <!-- Descifrar invoice quitar boton y modal solo es para pruebas-->
         <br>
-        <div>
-          <!-- Descifrar invoice-->
+        <!--<div>
+          <!- - Descifrar invoice- ->
           <button class="btn-invoice" (click)="openInvoiceModal()">
             invoice
           </button>
-        </div>
+        </div>-->
 
         <!-- MODAL -->
         <div class="modal-overlay" *ngIf="showInvoiceModal">
@@ -241,5 +241,5 @@
     </main>
     <ngx-sonner-toaster richColors position="top-center" />
   </div>
-</div>
+
 

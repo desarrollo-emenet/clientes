@@ -74,7 +74,7 @@ export class FormPagos {
     return this.pagosForm.controls['monto'];
   }
 
-
+  
   onFileChange(event: any) {
     const file = event.target.files[0]; //obtener archivo seleccionado
     if (!file) {
@@ -121,6 +121,10 @@ export class FormPagos {
         this.data = res,
           this.loading = false;
         //console.log('Datos del cliente cargados', this.data);
+            const telefonoOriginal = this.data?.cliente?.cliente?.telefono ?? '';
+            //quitar espacio y solo tomar 10 digitos
+            const telefono = telefonoOriginal.replace(/\s/g, '').substring(0, 10);
+            this.pagosForm.patchValue({ telefono : telefono });
       },
       error: (e) => {
         this.loading = false;
@@ -144,6 +148,7 @@ export class FormPagos {
   }
 
 
+
   enviarPago() {
     //enviar datos recolectados por formulario a backend
     if (this.pagosForm.invalid) {
@@ -156,19 +161,18 @@ export class FormPagos {
 
     this.loading = true;
 
-    console.log("dataaaa", this.data);
+    //console.log("dataaaa", this.data);
     const cliente = this.data?.numero_cliente ?? '';
-    const telefono = this.data?.cliente?.cliente?.telefono ?? '';
+    //const telefono = this.data?.cliente?.cliente?.telefono ?? '';
     const raw = this.pagosForm.value;
     const fecha = new Date(raw.fechaPago);
-
 
     const formData = new FormData();
     formData.append('cliente', cliente);
     formData.append('clave', raw.clave);
     formData.append('fechaPago', fecha.toISOString().split('T')[0]);
     formData.append('numOperacion', raw.numOperacion);
-    formData.append('telefono', telefono);
+    formData.append('telefono', raw.telefono);
     formData.append('monto', raw.monto);
     formData.append('comprobante', this.archivoSeleccionado);
 

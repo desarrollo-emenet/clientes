@@ -10,6 +10,7 @@ import { environment } from './routeApi';
 export class ClientService {
   private apiLocalUrl = environment.apiLocalUrl
   private apiLocalUrl2 = environment.apiLocalUrl2
+  private tokenKey = environment.tokenKey
 
   constructor(private http: HttpClient) { }
 
@@ -18,20 +19,16 @@ export class ClientService {
     return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
   }
 
-  //obtencion de headers
-  getHeaders(): HttpHeaders {
+  getHeaders(inlcudeWebKey: boolean = false ): HttpHeaders {
     const token = this.getToken();
     let headers = new HttpHeaders().set('Accept', 'application/json');
+    if (inlcudeWebKey) headers = headers.set("x-web-key", `${this.tokenKey}`);
     if (token) headers = headers.set('Authorization', `Bearer ${token}`);
     return headers;
   }
 
-  getHead(): HttpHeaders{
-    const token = this.getToken();
-    let headers = new HttpHeaders();
-    if (token) headers = headers.set('Authorization', `Bearer ${token}`);
-    return headers;
-  }
+
+  
   //peticiones para usuarios
   getAuthenticatedUser(): Observable<any> {
     const headers = this.getHeaders();
@@ -90,17 +87,8 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const headers = this.getHeaders2()
+    const headers = this.getHeaders(true); // Incluir x-web-key
     return this.http.post<any>(`${this.apiLocalUrl2}/pagos-bancoV2`, data, { headers: headers });
   }
-
   
-  
-getHeaders2(): HttpHeaders {
-      const token = this.getToken();
-    const token2 = 'wDApSmjJxmYA9Tf2fgSV15gfuYLe5au4gCZA7zGwegE25IVLWeWFo9dCUugVrGYY';
-    let headers = new HttpHeaders().set('Accept', 'application/json').set("x-web-key", `${token2}`);
-     if (token) headers = headers.set('Authorization', `Bearer ${token}`);
-    return headers;
-  }
 }

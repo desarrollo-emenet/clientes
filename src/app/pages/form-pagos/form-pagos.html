@@ -1,4 +1,4 @@
-<div class="container-fluid">
+
   <main class="page">
     <div class="payment-container">
 
@@ -43,7 +43,7 @@
 
         <div class="form-cards">
 
-          <!--<div class="form-card">
+          <div class="form-card">
             <div class="card-title">
               <div class="card-icon blue"><i class="fa-solid fa-user"></i></div>
               <h5>Información del cliente</h5>
@@ -51,7 +51,7 @@
 
             <div class="card-body grid-2">
 
-              <!- - TELEFONO - ->
+              <!-- TELEFONO -->
               <div class="field">
                 <label>Teléfono</label>
                 <input type="text" formControlName="telefono" class="form-control custom-input"
@@ -64,7 +64,7 @@
               </div>
 
             </div>
-          </div>-->
+          </div>
 
           <!-- INFORMACION DE PAGO -->
           <div class="form-card">
@@ -77,7 +77,7 @@
               <!-- FECHA DE PAGO -->
               <div class="field">
                 <label>Fecha de pago</label>
-                <mat-form-field appearance="outline" class="custom-date-field" (click)="picker.open()">
+                <mat-form-field appearance="outline" class="custom-date-field custom-input-date" (click)="picker.open()">
                   <input matInput [matDatepicker]="picker" formControlName="fechaPago" (focus)="picker.open()"
                     placeholder="Selecciona una fecha" [max]="maxDate" readonly>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -148,4 +148,3 @@
     </div>
     <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
   </main>
-</div>
