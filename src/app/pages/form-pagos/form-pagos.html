@@ -1,17 +1,86 @@
+<main class="page">
+  <div class="payment-container">
 
-  <main class="page">
-    <div class="payment-container">
+    <!-- NAVEGACIÓN -->
+    <nav class="page-nav">
+      <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
+        <i class="fi fi-rr-info"></i>
+        Estatus de pagos
+      </button>
+      <p></p>
+      <button class="nav-btn" [ngClass]="{ active: activeSection === 'formulario' }"
+        (click)="showSection('formulario')">
+        <i class="fa-solid fa-question"></i>
+        Formulario de pago
+      </button>
+    </nav>
 
-      <!-- HEADER -->
-      <div class="payment-header">
+    <div id="pagos" class="section" [ngClass]="{ active: activeSection === 'pagos' }">
+
+
+      <div class="payment-header" [attr.open]="pagosAbierto">
+        <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
+        <div class="header-content">
+          <h2>Historial de pagos</h2>
+          <p>Consulta el estado y detalle de tus pagos técnicas.</p>
+        </div>
+      </div>
+
+      <div class="pagos-list">
+        <div class="pagos-card" *ngFor="let pago of pagos" (click)="abrirDetalle(pago)">
+
+          <div class="pagos-left">
+            <div class="pagos-icon" [ngClass]="pago.estatus">
+              <i class="fa-solid" [ngClass]="{
+            'fa-check': pago.estatus === 'validado',
+            'fa-xmark': pago.estatus === 'declinado',
+            'fa-clock': pago.estatus === 'pendiente'
+          }">
+              </i>
+            </div>
+
+            <div class="pagos-info">
+              <h4>{{ pago.asunto }}</h4>
+
+              <div class="pagos-meta">
+                <span>
+                  <i class="fa-solid fa-calendar"></i>
+                  Enviado: {{ pago.fecha }}
+                </span>
+              </div>
+
+              <p>Referencia: {{ pago.referencia }}</p>
+            </div>
+          </div>
+
+          <div class="pagos-right">
+            <span class="status-badge" [ngClass]="pago.estatus">
+              <span class="dot"></span>
+
+              {{ pago.estatus === 'validado'
+              ? 'Validado'
+              : pago.estatus === 'declinado'
+              ? 'Declinado'
+              : 'Pendiente' }}
+            </span>
+          </div>
+
+        </div>
+      </div>     
+
+
+    </div>
+
+    <!-- HEADER -->
+    <div id="formulario" class="section" [ngClass]="{ active: activeSection === 'formulario' }">
+
+      <div class="payment-header" [attr.open]="formularioAbierto">
         <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
         <div class="header-content">
           <h2>¡Registre su pago!</h2>
           <p>Por favor llene los siguientes campos para continuar</p>
         </div>
       </div>
-
-
 
       <!-- FORMULARIO -->
       <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
@@ -77,7 +146,8 @@
               <!-- FECHA DE PAGO -->
               <div class="field">
                 <label>Fecha de pago</label>
-                <mat-form-field appearance="outline" class="custom-date-field custom-input-date" (click)="picker.open()">
+                <mat-form-field appearance="outline" class="custom-date-field custom-input-date"
+                  (click)="picker.open()">
                   <input matInput [matDatepicker]="picker" formControlName="fechaPago" (focus)="picker.open()"
                     placeholder="Selecciona una fecha" [max]="maxDate" readonly>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -136,8 +206,8 @@
         </div>
 
         <!-- BOTON -->
-        <div class="submit-wrapper">
-          <button type="submit" class="submit-btn" [disabled]="loading">
+        <div class="actions-container">
+          <button type="submit" class="btn-primary" [disabled]="loading">
             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
             {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
           </button>
@@ -145,6 +215,93 @@
 
       </form>
 
+      <div class="actions-container">
+        <button type="button" class="btn-secondary" (click)="goNavigate('/pagos')">
+          Regresar
+        </button>
+      </div>
+
     </div>
-    <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
-  </main>
+
+  </div>
+  <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
+
+
+
+  <!-- MODAL DETALLE PAGO -->
+      <div class="modal-overlay" *ngIf="pagoSeleccionado" (click)="cerrarDetalle()">
+        <div class="modal-pago-custom" (click)="$event.stopPropagation()">
+          <!-- HEADER -->
+          <div class="modal-header-custom">
+            <div>
+              <h4>{{ pagoSeleccionado.asunto }}</h4>
+              <span class="modal-subtitle">
+                <i class="fa-solid fa-calendar"></i>
+                Enviado: {{ pagoSeleccionado.fecha }}
+              </span>
+            </div>
+
+            <button class="close-btn" (click)="cerrarDetalle()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="modal-grid-layout">
+            <div class="modal-column modal-info">
+              <h6 class="column-title">
+                Información del pago
+              </h6>
+
+              <div class="detalle-group">
+                <label>Concepto</label>
+                <p>{{ pagoSeleccionado.asunto }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Referencia</label>
+                <p>{{ pagoSeleccionado.referencia }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Monto</label>
+                <p>${{ pagoSeleccionado.monto }}</p>
+              </div>
+
+              <div class="detalle-group">
+                <label>Estatus</label>
+                <span class="status-badge" [ngClass]="pagoSeleccionado.estatus">
+                  <span class="dot"></span>
+                  {{ pagoSeleccionado.estatus === 'validado'? 'Validado': pagoSeleccionado.estatus === 'declinado'
+                  ? 'Declinado': 'Pendiente' }}
+                </span>
+              </div>
+
+            </div>
+
+            <!-- RESULTADO -->
+            <div class="modal-column modal-resolucion">
+              <h6 class="column-title">
+                Resultado de validación
+              </h6>
+              <div class="detalle-card-group solucion-destacada" *ngIf="pagoSeleccionado.estatus === 'validado'">
+
+                <label><i class="fa-solid fa-circle-check"></i>Pago validado</label>
+                <p>Tu comprobante fue revisado y aprobado correctamente.</p>
+
+              </div>
+
+              <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'pendiente'">
+                <label><i class="fa-solid fa-clock"></i>En proceso</label>
+                <p>Estamos validando tu comprobante de pago.</p>
+              </div>
+
+              <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'declinado'">
+
+                <label><i class="fa-solid fa-circle-xmark"></i>Pago rechazado</label>
+                <p>{{ pagoSeleccionado.observacion }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>

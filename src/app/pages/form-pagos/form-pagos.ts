@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf, NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,17 +12,19 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../services/user/user-service';
 import { Subscription } from 'rxjs';
+import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-form-pagos',
   imports: [NgxSonnerToaster,
     NgIf,
+    NgClass,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatIconModule],
+    MatIconModule, NgForOf],
   templateUrl: './form-pagos.html',
   styleUrl: './form-pagos.css'
 })
@@ -35,9 +37,14 @@ export class FormPagos {
   maxDate = new Date();
   private subs: Subscription[] = [];
 
+  activeSection: string = 'pagos';
+  pagosAbierto: string | null = null;
+  formularioAbierto: string | null = null;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private loginS: LoginS,
     private clientS: ClientService,
     private user: UserService,
     private route: ActivatedRoute) {
@@ -53,6 +60,25 @@ export class FormPagos {
 
     })
   }
+
+  showSection(id: string): void {
+    this.activeSection = id;
+    this.pagosAbierto = null;
+    this.formularioAbierto = null;
+  }
+
+    togglePagos(id: string): void {
+    this.pagosAbierto = this.pagosAbierto === id ? null : id;
+  }
+
+  toggleFormulario(id: string): void {
+    this.formularioAbierto = this.formularioAbierto === id ? null : id;
+  }
+
+  goNavigate(ruta: string) {
+    this.loginS.goNavigate(ruta);
+  }
+  
   get telefono() { 
     return this.pagosForm.controls['telefono'];
   }
@@ -147,8 +173,6 @@ export class FormPagos {
 
   }
 
-
-
   enviarPago() {
     //enviar datos recolectados por formulario a backend
     if (this.pagosForm.invalid) {
@@ -199,5 +223,45 @@ export class FormPagos {
       }
     });
   }
+
+  pagoSeleccionado: any = null;
+
+abrirDetalle(pago: any): void {
+  this.pagoSeleccionado = pago;
+}
+
+cerrarDetalle(): void {
+  this.pagoSeleccionado = null;
+}
+
+  pagos = [
+    {
+      asunto: 'Pago mensual Internet',
+      referencia: 'PAY-202605-001',
+      fecha: '13 Junio 2026',
+      monto: 300,
+      estatus: 'validado', // validado | pendiente | declinado
+      observacion: '',
+      comprobante: 'assets/img/comprobante.jpg'
+    },
+    {
+      asunto: 'Pago mensual Internet',
+      referencia: 'PAY-202605-001',
+      fecha: '13 Mayo 2026',
+      monto: 300,
+      estatus: 'declinado', // validado | pendiente | declinado
+      observacion: 'El comprobante no coincide con el monto',
+      comprobante: 'assets/img/comprobante.jpg'
+    },
+    {
+      asunto: 'Pago mensual Internet',
+      referencia: 'PAY-202605-001',
+      fecha: '13 Abril 2026',
+      monto: 300,
+      estatus: 'pendiente', // validado | pendiente | declinado
+      observacion: 'El comprobante no coincide con el monto',
+      comprobante: 'assets/img/comprobante.jpg'
+    }
+  ];
 
 }
