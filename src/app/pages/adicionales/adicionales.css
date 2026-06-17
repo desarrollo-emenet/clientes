@@ -1625,3 +1625,173 @@
     max-height: 140px;
   }
 }
+
+/* =========================================
+   ZOOM LIGHTBOX
+========================================= */
+
+/* Cursor e indicador de zoom en imagen principal */
+.carousel-main {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.carousel-main-img {
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.carousel-main:hover .carousel-main-img {
+  transform: scale(1.03);
+  filter: brightness(0.92);
+}
+
+.carousel-zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(11, 78, 148, 0.85);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  pointer-events: none;
+}
+
+.carousel-main:hover .carousel-zoom-hint {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Overlay del lightbox */
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.zoom-overlay.zoom-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Botón de cierre — esquina superior derecha del viewport */
+.zoom-close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: #0f172a;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+  z-index: 2010;
+}
+
+.zoom-close:hover {
+  background: #f1f5f9;
+  transform: scale(1.1);
+}
+
+/* Flechas de navegación laterales */
+.zoom-nav {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+  z-index: 2005;
+  user-select: none;
+}
+
+.zoom-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Contenedor de la imagen (tarjeta blanca) */
+.zoom-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: min(600px, 80vw);
+  max-height: 80vh;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.zoom-overlay.zoom-open .zoom-container {
+  transform: scale(1);
+}
+
+/* Imagen ampliada */
+.zoom-img {
+  max-width: 100%;
+  max-height: calc(80vh - 48px);
+  object-fit: contain;
+  border-radius: 8px;
+  user-select: none;
+  display: block;
+}
+
+/* Contador inferior */
+.zoom-counter {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  letter-spacing: 0.04em;
+  z-index: 2005;
+}

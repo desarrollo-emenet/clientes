@@ -13,6 +13,7 @@ export class Adicionales {
   activeSection: string = 'servicios';
   modalActivo: string | null = null;
   productoSeleccionado: any = null;
+  zoomIndex: number | null = null;
 
   showSection(id: string): void {
     this.activeSection = id;
@@ -109,33 +110,63 @@ export class Adicionales {
     }
   }
 
+  abrirZoom(index: number): void {
+    this.zoomIndex = index;
+  }
+
+  cerrarZoom(evento?: MouseEvent): void {
+    if (evento) {
+      const esOverlay = (evento.target as HTMLElement)
+        .classList.contains('zoom-overlay');
+      if (!esOverlay) return;
+    }
+    this.zoomIndex = null;
+  }
+
+  zoomSiguiente(evento: MouseEvent): void {
+    evento.stopPropagation();
+    const total = this.productoSeleccionado.imagenes.length;
+    this.zoomIndex = ((this.zoomIndex! + 1) % total);
+  }
+
+  zoomAnterior(evento: MouseEvent): void {
+    evento.stopPropagation();
+    const total = this.productoSeleccionado.imagenes.length;
+    this.zoomIndex = ((this.zoomIndex! - 1 + total) % total);
+  }
+
+  get imagenZoomActual(): string | null {
+    if (this.zoomIndex === null || !this.productoSeleccionado) return null;
+    return this.productoSeleccionado.imagenes[this.zoomIndex];
+  }
+
   private obtenerDatosProducto(categoria: string): any {
     const productos: any = {
       router: {
-        nombre: 'Routers',
-        precio: '$600.00 MXN',
-        disponibilidad: 'Baja disponibilidad',
+        nombre: 'Router tp-link',
+        precio: '$390.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/router.svg',
-          '../../../assets/img/productos/router.svg'
+          '../../../assets/img/productos/router/r1.png',
+          '../../../assets/img/productos/router/r2.png'
         ],
         caracteristicas: [
-          'Compatible con Windows, Mac y Linux',
-          'Diseño ergonómico para uso prolongado'
+          'Red de Invitados proporciona acceso independiente para invitados.',
+          'Velocidad de transmisión inalámbrica de 300 Mbps ideal para tareas básicas.'
         ],
-        descripcion: 'Conectividad empresarial de alto rendimiento.',
+        descripcion: 'Conectividad para el hogar.',
         especificaciones: [
-          { label: 'Fuente de luz', value: 'LED' },
-          { label: 'IP Class', value: 'IP65' },
-          { label: 'Material', value: 'Plástico resistente' },
-          { label: 'Tipo de escaneo', value: 'Láser' }
+          { label: 'Interface', value: '4 10/100Mbps LAN PORTS 1 10/100Mbps WAN PORT' },
+          { label: 'Fuente de alimentacion', value: '9VDC / 0.6A' },
+          { label: 'Botón', value: 'WPS/Reset' },
+          { label: 'Antena', value: '2 antenas' }
         ]
       },
       switch: {
         nombre: 'Switch',
         precio: '$850.00 MXN',
-        disponibilidad: 'En stock',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
           '../../../assets/img/productos/switch.svg',
@@ -235,6 +266,27 @@ export class Adicionales {
           { label: 'Tiempo de respaldo', value: '20-30 min' },
           { label: 'Salidas', value: '8 outlets' },
           { label: 'Tipo', value: 'Line Interactive' }
+        ]
+      },
+      'roku': {
+        nombre: 'Roku Premiere',
+        precio: '$750.00 MXN',
+        disponibilidad: 'En stock',
+        imagenActual: 0,
+        imagenes: [
+          '../../../assets/img/productos/roku.svg',
+          '../../../assets/img/productos/roku.svg'
+        ],
+        caracteristicas: [
+          '4K Ultra HD',
+          'HDR'
+        ],
+        descripcion: 'Disfruta de tus películas y series favoritas en alta definición.',
+        especificaciones: [
+          { label: 'Resolución', value: '4K (3840x2160)' },
+          { label: 'HDR', value: 'Sí' },
+          { label: 'Puertos', value: 'HDMI' },
+          { label: 'Tipo', value: 'Streaming Player' }
         ]
       }
     };

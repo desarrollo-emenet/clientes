@@ -255,20 +255,18 @@
 
                 <div class="product-card" (click)="abrirModalProducto('router')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/router.svg"
-                            alt="Routers" />
+                        <img src="../../../assets/img/productos/router.svg" alt="Routers" />
                     </div>
                     <div class="product-info">
-                        <h3>Routers</h3>
-                        <p>Alta cobertura y velocidad para toda tu red.</p>
-                        <span class="product-cta">Ver modelos</span>
+                        <h3>Router</h3>
+                        <p>TL-WR850N Inalámbrico N 300Mbps</p>
+                        <span class="product-cta">$390.00 MXN</span>
                     </div>
                 </div>
 
                 <div class="product-card" (click)="abrirModalProducto('switch')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/switch.svg"
-                            alt="Switch" />
+                        <img src="../../../assets/img/productos/switch.svg" alt="Switch" />
                     </div>
                     <div class="product-info">
                         <h3>Switch</h3>
@@ -279,8 +277,7 @@
 
                 <div class="product-card" (click)="abrirModalProducto('access-point')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/AP.svg"
-                            alt="Access Point" />
+                        <img src="../../../assets/img/productos/AP.svg" alt="Access Point" />
                     </div>
                     <div class="product-info">
                         <h3>Access Point</h3>
@@ -291,8 +288,7 @@
 
                 <div class="product-card" (click)="abrirModalProducto('camaras')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/camara.svg"
-                            alt="Cámaras" />
+                        <img src="../../../assets/img/productos/camara.svg" alt="Cámaras" />
                     </div>
                     <div class="product-info">
                         <h3>Cámaras</h3>
@@ -303,8 +299,7 @@
 
                 <div class="product-card" (click)="abrirModalProducto('cables-rj45')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/rj45.svg"
-                            alt="Cables RJ45" />
+                        <img src="../../../assets/img/productos/rj45.svg" alt="Cables RJ45" />
                     </div>
                     <div class="product-info">
                         <h3>Cables RJ45</h3>
@@ -315,15 +310,27 @@
 
                 <div class="product-card" (click)="abrirModalProducto('no-break')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/ups.svg"
-                            alt="No Break" />
+                        <img src="../../../assets/img/productos/ups.svg" alt="No Break" />
                     </div>
                     <div class="product-info">
                         <h3>No Break</h3>
                         <p>Protección eléctrica para tus equipos.</p>
                         <span class="product-cta">Cotizar</span>
                     </div>
+
                 </div>
+                <div class="product-card" (click)="abrirModalProducto('roku')">
+                    <div class="product-img-wrap">
+                        <img src="../../../assets/img/productos/roku.svg" alt="Roku Premiere" />
+                    </div>
+                    <div class="product-info">
+                        <h3>Roku Premiere</h3>
+                        <p>4k & HDR streaming</p>
+                        <span class="product-cta">$750.00 MXN</span>
+                    </div>
+
+                </div>
+
 
             </div>
 
@@ -764,38 +771,41 @@
     <div class="modal-overlay" [class.modal-open]="modalActivo === 'producto'" (click)="cerrarModal($event)">
         <div class="modal-panel modal-panel-product">
             <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            
+
             <div class="product-modal-content" *ngIf="productoSeleccionado">
                 <!-- Top Section: Image Carousel + Product Info -->
                 <div class="product-modal-top">
                     <!-- Image Carousel -->
                     <div class="product-image-carousel">
                         <div class="carousel-main">
-                            <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]" 
-                                 [alt]="productoSeleccionado.nombre" />
+                            <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]"
+                                [alt]="productoSeleccionado.nombre" class="carousel-main-img"
+                                (click)="abrirZoom(productoSeleccionado.imagenActual)"
+                                title="Click para ampliar" />
+                            <div class="carousel-zoom-hint">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </div>
                         </div>
                         <div class="carousel-thumbnails" *ngIf="productoSeleccionado.imagenes.length > 1">
-                            <div *ngFor="let img of productoSeleccionado.imagenes; let i = index"
-                                 class="thumbnail"
-                                 [class.active]="i === productoSeleccionado.imagenActual"
-                                 (click)="cambiarImagen(i)">
+                            <div *ngFor="let img of productoSeleccionado.imagenes; let i = index" class="thumbnail"
+                                [class.active]="i === productoSeleccionado.imagenActual" (click)="cambiarImagen(i)">
                                 <img [src]="img" [alt]="'Thumbnail ' + (i + 1)" />
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Product Info -->
                     <div class="product-modal-info">
                         <h2 class="product-modal-name">{{ productoSeleccionado.nombre }}</h2>
                         <div class="product-modal-price">{{ productoSeleccionado.precio }}</div>
-                        <div class="product-modal-availability" 
-                             [class.low-stock]="productoSeleccionado.disponibilidad === 'Baja disponibilidad'"
-                             [class.in-stock]="productoSeleccionado.disponibilidad === 'En stock'">
+                        <div class="product-modal-availability"
+                            [class.low-stock]="productoSeleccionado.disponibilidad === 'Bajo disponibilidad'"
+                            [class.in-stock]="productoSeleccionado.disponibilidad === 'Disponible'">
                             {{ productoSeleccionado.disponibilidad }}
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Main Features -->
                 <div class="product-modal-section">
                     <h3 class="section-title">Características principales</h3>
@@ -805,43 +815,63 @@
                         </li>
                     </ul>
                 </div>
-                
+
                 <!-- Description -->
                 <div class="product-modal-section">
                     <h3 class="section-description">{{ productoSeleccionado.descripcion }}</h3>
                 </div>
-                
+
                 <!-- Technical Specifications -->
                 <div class="product-modal-section">
                     <h3 class="section-title">Especificaciones técnicas</h3>
                     <div class="specs-grid">
                         <div class="spec-item" *ngFor="let spec of productoSeleccionado.especificaciones">
-                            <span class="spec-label">{{ spec.label }}</span>
+                            <span class="spec-label"><i class="fa-regular fa-circle-check"></i> {{ spec.label }}</span>
                             <span class="spec-value">{{ spec.value }}</span>
                         </div>
                     </div>
                 </div>
-                
-                <!-- More Specifications -->
-                <div class="product-modal-section" *ngIf="productoSeleccionado.masEspecificaciones">
-                    <h3 class="section-title">Más especificaciones</h3>
-                    <div class="specs-grid">
-                        <div class="spec-item" *ngFor="let spec of productoSeleccionado.masEspecificaciones">
-                            <span class="spec-label">{{ spec.label }}</span>
-                            <span class="spec-value">{{ spec.value }}</span>
-                        </div>
-                    </div>
-                </div>
-                
+
                 <!-- CTA Button -->
                 <div class="product-modal-cta">
                     <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20{{ productoSeleccionado.nombre }}"
-                       class="btn-contactar" target="_blank">
-                        Contactar para comprar
+                        class="btn-contactar" target="_blank">
+                        <i class="fa-solid fa-cart-shopping"></i> Contactar para comprar
                     </a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ZOOM LIGHTBOX -->
+    <div class="zoom-overlay" [class.zoom-open]="zoomIndex !== null" (click)="cerrarZoom($event)">
+
+        <button class="zoom-close" (click)="cerrarZoom()">
+            &#x2715;
+        </button>
+
+        <button class="zoom-nav zoom-nav-prev"
+            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+            (click)="zoomAnterior($event)">
+            &#8249;
+        </button>
+
+        <div class="zoom-container">
+            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual"
+                alt="Imagen ampliada" class="zoom-img" />
+        </div>
+
+        <button class="zoom-nav zoom-nav-next"
+            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+            (click)="zoomSiguiente($event)">
+            &#8250;
+        </button>
+
+        <div class="zoom-counter"
+            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
+            {{ (zoomIndex ?? 0) + 1 }} / {{ productoSeleccionado.imagenes.length }}
+        </div>
+
     </div>
 
 </main>
