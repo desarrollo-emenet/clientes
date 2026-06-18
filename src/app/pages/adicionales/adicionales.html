@@ -255,7 +255,7 @@
 
                 <div class="product-card" (click)="abrirModalProducto('router')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/router.svg" alt="Routers" />
+                        <img src="../../../assets/img/productos/router/r3.png" alt="Routers" />
                     </div>
                     <div class="product-info">
                         <h3>Router</h3>
@@ -266,34 +266,45 @@
 
                 <div class="product-card" (click)="abrirModalProducto('switch')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/switch.svg" alt="Switch" />
+                        <img src="../../../assets/img/productos/switch/s2.png" alt="Switch" />
                     </div>
                     <div class="product-info">
-                        <h3>Switch</h3>
-                        <p>Conectividad empresarial de alto rendimiento.</p>
-                        <span class="product-cta">Ver modelos</span>
+                        <h3>Switch 5 puertos</h3>
+                        <p>LS1005G Gigabit 5 puertos</p>
+                        <span class="product-cta">$250.00 MXN</span>
+                    </div>
+                </div>
+                <div class="product-card" (click)="abrirModalProducto('switchs')">
+                    <div class="product-img-wrap">
+                        <img src="../../../assets/img/productos/switch8/s2.png" alt="Switch" />
+                    </div>
+                    <div class="product-info">
+                        <h3>Switch 8 puertos</h3>
+                        <p>LS1008 escritorio de 8 puertos 10/100Mbps</p>
+                        <span class="product-cta">$160.00 MXN</span>
                     </div>
                 </div>
 
+
                 <div class="product-card" (click)="abrirModalProducto('access-point')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/AP.svg" alt="Access Point" />
+                        <img src="../../../assets/img/productos/wifi/e1.png" alt="Access Point" />
                     </div>
                     <div class="product-info">
-                        <h3>Access Point</h3>
-                        <p>Mayor cobertura WiFi en cada rincón.</p>
-                        <span class="product-cta">Ver equipos</span>
+                        <h3>Extensor WiFi</h3>
+                        <p>TL-WA850RE N300Mbps repetidor de WiFi</p>
+                        <span class="product-cta">$350.00 MXN</span>
                     </div>
                 </div>
 
                 <div class="product-card" (click)="abrirModalProducto('camaras')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/camara.svg" alt="Cámaras" />
+                        <img src="../../../assets/img/productos/camaras/c1.png" alt="Cámaras" />
                     </div>
                     <div class="product-info">
-                        <h3>Cámaras</h3>
-                        <p>Sistemas de videovigilancia y seguridad.</p>
-                        <span class="product-cta">Más información</span>
+                        <h3>Kit de Cámaras</h3>
+                        <p>Kit Bullet Uniarch Un104G3 Incluye 4 Camaras Bullet 2Mp </p>
+                        <span class="product-cta">$4,800.00 MXN</span>
                     </div>
                 </div>
 
@@ -304,18 +315,18 @@
                     <div class="product-info">
                         <h3>Cables RJ45</h3>
                         <p>Accesorios y conectividad de calidad.</p>
-                        <span class="product-cta">Explorar</span>
+                        <span class="product-cta">$18.00 MXN</span>
                     </div>
                 </div>
 
                 <div class="product-card" (click)="abrirModalProducto('no-break')">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/ups.svg" alt="No Break" />
+                        <img src="../../../assets/img/productos/break/b2.png" alt="No Break" />
                     </div>
                     <div class="product-info">
                         <h3>No Break</h3>
-                        <p>Protección eléctrica para tus equipos.</p>
-                        <span class="product-cta">Cotizar</span>
+                        <p>UPS 520VA 34 Minutos Koblenz regulador de voltaje integrado</p>
+                        <span class="product-cta">$1,300.00 MXN</span>
                     </div>
 
                 </div>
@@ -325,7 +336,7 @@
                     </div>
                     <div class="product-info">
                         <h3>Roku Premiere</h3>
-                        <p>4k & HDR streaming</p>
+                        <p>3920RW-SW Premiere Reproductor multimedia 4K/HDR</p>
                         <span class="product-cta">$750.00 MXN</span>
                     </div>
 
@@ -780,8 +791,7 @@
                         <div class="carousel-main">
                             <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]"
                                 [alt]="productoSeleccionado.nombre" class="carousel-main-img"
-                                (click)="abrirZoom(productoSeleccionado.imagenActual)"
-                                title="Click para ampliar" />
+                                (click)="abrirZoom(productoSeleccionado.imagenActual)" title="Click para ampliar" />
                             <div class="carousel-zoom-hint">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i>
                             </div>
@@ -850,25 +860,21 @@
             &#x2715;
         </button>
 
-        <button class="zoom-nav zoom-nav-prev"
-            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+        <button class="zoom-nav zoom-nav-prev" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
             (click)="zoomAnterior($event)">
             &#8249;
         </button>
 
         <div class="zoom-container">
-            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual"
-                alt="Imagen ampliada" class="zoom-img" />
+            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual" alt="Imagen ampliada" class="zoom-img" />
         </div>
 
-        <button class="zoom-nav zoom-nav-next"
-            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+        <button class="zoom-nav zoom-nav-next" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
             (click)="zoomSiguiente($event)">
             &#8250;
         </button>
 
-        <div class="zoom-counter"
-            *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
+        <div class="zoom-counter" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
             {{ (zoomIndex ?? 0) + 1 }} / {{ productoSeleccionado.imagenes.length }}
         </div>
 

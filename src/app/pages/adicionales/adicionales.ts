@@ -164,13 +164,34 @@ export class Adicionales {
         ]
       },
       switch: {
-        nombre: 'Switch',
-        precio: '$850.00 MXN',
+        nombre: 'Switch tp-link 5 puertos',
+        precio: '$250.00 MXN',
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/switch.svg',
-          '../../../assets/img/productos/switch.svg'
+          '../../../assets/img/productos/switch/s1.png',
+          '../../../assets/img/productos/switch/s2.png'
+        ],
+        caracteristicas: [
+          'Puertos Gigabit Ethernet',
+          'La tecnología Green Ethernet ahorra energía'
+        ],
+        descripcion: 'Conectividad empresarial de alto rendimiento.',
+        especificaciones: [
+          { label: 'Capacidad de Switcheo', value: '10 Gbps' },
+          { label: 'Cantidad de Ventiladores', value: 'Fanless' },
+          { label: 'Interface', value: '5× 10/100/1000Mbps, Auto-Negotiation, Auto-MDI/MDIX Ports' },
+          { label: 'Estándares y Protocolos', value: 'IEEE 802.3i/802.3u/ 802.3ab/802.3x' }
+        ]
+      },
+      switchs: {
+        nombre: 'Switch tp-link 8 puertos',
+        precio: '$160.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
+        imagenActual: 0,
+        imagenes: [
+          '../../../assets/img/productos/switch8/s1.png',
+          '../../../assets/img/productos/switch8/s2.png'
         ],
         caracteristicas: [
           'Puertos Gigabit Ethernet',
@@ -185,44 +206,44 @@ export class Adicionales {
         ]
       },
       'access-point': {
-        nombre: 'Access Point',
-        precio: '$1,200.00 MXN',
-        disponibilidad: 'En stock',
+        nombre: 'Extensor WiFi tp-link',
+        precio: '$350.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/AP.svg',
-          '../../../assets/img/productos/AP.svg'
+          '../../../assets/img/productos/wifi/e2.png',
+          '../../../assets/img/productos/wifi/e3.png'
         ],
         caracteristicas: [
-          'WiFi 6 de última generación',
-          'Cobertura hasta 200 metros'
+          'Mejora la señal inalámbrica a áreas anteriormente inalcanzables o difíciles de cablear',
+          'Puerto Ethernet permite que el Extensor funcione como un adaptador inalámbrico'
         ],
         descripcion: 'Mayor cobertura WiFi en cada rincón.',
         especificaciones: [
-          { label: 'Estándar', value: 'WiFi 6 (802.11ax)' },
-          { label: 'Velocidad', value: 'AX3000' },
-          { label: 'Antenas', value: '4x4 MIMO' },
-          { label: 'Puertos', value: '2x Gigabit' }
+          { label: 'Interface', value: '1 x 10/100Mbps Ethernet Port (RJ45)' },
+          { label: 'Botón', value: 'Botón RE (Range Extender), Botón de Reinicio' },
+          { label: 'Input Power', value: '4x4 100-240V~50/60Hz' },
+          { label: 'Estándares Inalámbricos', value: 'IEEE 802.11n, IEEE 802.11g, IEEE 802.11b' }
         ]
       },
       camaras: {
-        nombre: 'Cámaras',
-        precio: '$1,500.00 MXN',
-        disponibilidad: 'Baja disponibilidad',
+        nombre: 'Kit de Cámaras Uniarch',
+        precio: '$4,800.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/camara.svg',
-          '../../../assets/img/productos/camara.svg'
+          '../../../assets/img/productos/camaras/c1.png',
+          '../../../assets/img/productos/camaras/c2.png'
         ],
         caracteristicas: [
-          'Resolución 4K Ultra HD',
-          'Visión nocturna infrarroja'
+          'Soporta cámaras TVI, AHD, CVI, CVBS, IP/ Soporta 1 salida HDMI y 1 salida VGA',
+          'Protección IP67 / Tecnología Colorhunter'
         ],
         descripcion: 'Sistemas de videovigilancia y seguridad.',
         especificaciones: [
-          { label: 'Resolución', value: '4K (3840x2160)' },
-          { label: 'Sensor', value: 'CMOS 1/2.7"' },
-          { label: 'Lente', value: '2.8mm' },
+          { label: 'Incluye', value: ' 4 Camaras Bullet 2Mp / Exteriores / Lente 2.8 Mm /1 Xvr /Calidad 1080P' },
+          { label: 'Incluye', value: ' 4 Cables Preponchados De 18M0 / 1 Distribuidor de Energía y Fuente de Poder' },
+          { label: 'DVR', value: 'Soporta H.265/H.264/Ultra265 en cámaras IP UNV' },
           { label: 'IR', value: '30 metros' }
         ]
       },
@@ -249,37 +270,37 @@ export class Adicionales {
       },
       'no-break': {
         nombre: 'No Break',
-        precio: '$2,800.00 MXN',
-        disponibilidad: 'En stock',
+        precio: '$1,300.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/ups.svg',
-          '../../../assets/img/productos/ups.svg'
+          '../../../assets/img/productos/break/b1.png',
+          '../../../assets/img/productos/break/b3.png'
         ],
         caracteristicas: [
-          'Potencia 1500VA',
-          'Protección contra sobretensión'
+          'Protege computadoras de escritorio, pantallas pequeñas, modems y más',
+          ' Incorpora un sistema de regulación automática de voltaje'
         ],
         descripcion: 'Protección eléctrica para tus equipos.',
         especificaciones: [
-          { label: 'Capacidad', value: '1500VA / 900W' },
-          { label: 'Tiempo de respaldo', value: '20-30 min' },
-          { label: 'Salidas', value: '8 outlets' },
-          { label: 'Tipo', value: 'Line Interactive' }
+          { label: 'Potencia', value: '520VA' },
+          { label: 'Tiempo de respaldo', value: '8 min de autonomia' },
+          { label: 'Salidas', value: '6 tomas de corriente' },
+          { label: 'Voltaje', value: '120V' }
         ]
       },
       'roku': {
         nombre: 'Roku Premiere',
         precio: '$750.00 MXN',
-        disponibilidad: 'En stock',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/roku.svg',
-          '../../../assets/img/productos/roku.svg'
+          '../../../assets/img/productos/roku/ro1.png',
+          '../../../assets/img/productos/roku/ro2.png'
         ],
         caracteristicas: [
-          '4K Ultra HD',
-          'HDR'
+          '4K a 60 fps y compatibilidad con HDR.',
+          'Wi-Fi integrado (compatible con redes de 2.4 GHz).'
         ],
         descripcion: 'Disfruta de tus películas y series favoritas en alta definición.',
         especificaciones: [
