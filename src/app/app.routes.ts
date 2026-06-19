@@ -16,7 +16,6 @@ import { EmailVerificado } from './auth/email-verificado/email-verificado';
 import { emailVerificadoGuard } from './guards/email-verificado-guard';
 import { Service } from './pages/service/service';
 import { serviceAccessGuard } from './guards/service-access-guard';
-import { Component } from '@angular/core';
 import { FAQ } from './pages/faq/faq';
 import { FormPagos } from './pages/form-pagos/form-pagos';
 import { Adicionales } from './pages/adicionales/adicionales';
