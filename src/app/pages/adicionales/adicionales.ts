@@ -269,7 +269,7 @@ export class Adicionales {
         ]
       },
       'no-break': {
-        nombre: 'No Break',
+        nombre: 'No Break Koblenz',
         precio: '$1,300.00 MXN',
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
