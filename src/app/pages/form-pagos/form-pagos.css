@@ -52,6 +52,11 @@
    MAIN CONTAINER
 ========================= */
 
+.container{
+  width: 100%;
+  max-width: 770px;
+}
+
 .payment-container {
   width: 100%;
   max-width: 770px;
@@ -341,41 +346,6 @@
   .pagos-info h4 {
     font-size: .95rem;
   }
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.pago-wrapper {
-  margin-top: 24px;
-}
-
-.pago-btn {
-  width: 100%;
-  height: 60px;
-  border: none;
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      135deg,
-      #0b4e94,
-      #0b4e94,
-      #0b4e94
-    );
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: .25s ease;
-  box-shadow:
-    0 12px 30px rgba(37,99,235,.22);
-}
-
-.pago-btn:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 16px 35px rgba(37,99,235,.28);
 }
 
 
@@ -828,18 +798,9 @@
   transition: all .25s ease;
 }
 
-/* REGRESAR */
-
-.btn-secondary {
-  background: #fff;
-  color: #0b4e94;
-  border: 2px solid #dbe4f0;
-}
-
-.btn-secondary:hover {
-  background: #f8fafc;
-  border-color: #0b4e94;
-}
+/* =========================
+   BUTTON
+========================= */
 
 /* ENVIAR */
 

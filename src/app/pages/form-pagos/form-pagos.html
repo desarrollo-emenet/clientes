@@ -1,8 +1,9 @@
 <main class="page">
-  <div class="payment-container">
 
+  <div class="container">
+    
     <!-- NAVEGACIÓN -->
-    <nav class="page-nav">
+     <nav class="page-nav">
       <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
         <i class="fi fi-rr-info"></i>
         Estatus de pagos
@@ -14,6 +15,11 @@
         Formulario de pago
       </button>
     </nav>
+
+  
+
+  <div class="payment-container">
+
 
     <div id="pagos" class="section" [ngClass]="{ active: activeSection === 'pagos' }">
 
@@ -66,7 +72,7 @@
           </div>
 
         </div>
-      </div>     
+      </div>
 
 
     </div>
@@ -215,93 +221,88 @@
 
       </form>
 
-      <div class="actions-container">
-        <button type="button" class="btn-secondary" (click)="goNavigate('/pagos')">
-          Regresar
-        </button>
-      </div>
-
     </div>
 
+  </div>
   </div>
   <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
 
 
 
   <!-- MODAL DETALLE PAGO -->
-      <div class="modal-overlay" *ngIf="pagoSeleccionado" (click)="cerrarDetalle()">
-        <div class="modal-pago-custom" (click)="$event.stopPropagation()">
-          <!-- HEADER -->
-          <div class="modal-header-custom">
-            <div>
-              <h4>{{ pagoSeleccionado.asunto }}</h4>
-              <span class="modal-subtitle">
-                <i class="fa-solid fa-calendar"></i>
-                Enviado: {{ pagoSeleccionado.fecha }}
-              </span>
-            </div>
+  <div class="modal-overlay" *ngIf="pagoSeleccionado" (click)="cerrarDetalle()">
+    <div class="modal-pago-custom" (click)="$event.stopPropagation()">
+      <!-- HEADER -->
+      <div class="modal-header-custom">
+        <div>
+          <h4>{{ pagoSeleccionado.asunto }}</h4>
+          <span class="modal-subtitle">
+            <i class="fa-solid fa-calendar"></i>
+            Enviado: {{ pagoSeleccionado.fecha }}
+          </span>
+        </div>
 
-            <button class="close-btn" (click)="cerrarDetalle()">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
+        <button class="close-btn" (click)="cerrarDetalle()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-grid-layout">
+        <div class="modal-column modal-info">
+          <h6 class="column-title">
+            Información del pago
+          </h6>
+
+          <div class="detalle-group">
+            <label>Concepto</label>
+            <p>{{ pagoSeleccionado.asunto }}</p>
           </div>
 
-          <div class="modal-grid-layout">
-            <div class="modal-column modal-info">
-              <h6 class="column-title">
-                Información del pago
-              </h6>
+          <div class="detalle-group">
+            <label>Referencia</label>
+            <p>{{ pagoSeleccionado.referencia }}</p>
+          </div>
 
-              <div class="detalle-group">
-                <label>Concepto</label>
-                <p>{{ pagoSeleccionado.asunto }}</p>
-              </div>
+          <div class="detalle-group">
+            <label>Monto</label>
+            <p>${{ pagoSeleccionado.monto }}</p>
+          </div>
 
-              <div class="detalle-group">
-                <label>Referencia</label>
-                <p>{{ pagoSeleccionado.referencia }}</p>
-              </div>
+          <div class="detalle-group">
+            <label>Estatus</label>
+            <span class="status-badge" [ngClass]="pagoSeleccionado.estatus">
+              <span class="dot"></span>
+              {{ pagoSeleccionado.estatus === 'validado'? 'Validado': pagoSeleccionado.estatus === 'declinado'
+              ? 'Declinado': 'Pendiente' }}
+            </span>
+          </div>
 
-              <div class="detalle-group">
-                <label>Monto</label>
-                <p>${{ pagoSeleccionado.monto }}</p>
-              </div>
+        </div>
 
-              <div class="detalle-group">
-                <label>Estatus</label>
-                <span class="status-badge" [ngClass]="pagoSeleccionado.estatus">
-                  <span class="dot"></span>
-                  {{ pagoSeleccionado.estatus === 'validado'? 'Validado': pagoSeleccionado.estatus === 'declinado'
-                  ? 'Declinado': 'Pendiente' }}
-                </span>
-              </div>
+        <!-- RESULTADO -->
+        <div class="modal-column modal-resolucion">
+          <h6 class="column-title">
+            Resultado de validación
+          </h6>
+          <div class="detalle-card-group solucion-destacada" *ngIf="pagoSeleccionado.estatus === 'validado'">
 
-            </div>
+            <label><i class="fa-solid fa-circle-check"></i>Pago validado</label>
+            <p>Tu comprobante fue revisado y aprobado correctamente.</p>
 
-            <!-- RESULTADO -->
-            <div class="modal-column modal-resolucion">
-              <h6 class="column-title">
-                Resultado de validación
-              </h6>
-              <div class="detalle-card-group solucion-destacada" *ngIf="pagoSeleccionado.estatus === 'validado'">
+          </div>
 
-                <label><i class="fa-solid fa-circle-check"></i>Pago validado</label>
-                <p>Tu comprobante fue revisado y aprobado correctamente.</p>
+          <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'pendiente'">
+            <label><i class="fa-solid fa-clock"></i>En proceso</label>
+            <p>Estamos validando tu comprobante de pago.</p>
+          </div>
 
-              </div>
+          <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'declinado'">
 
-              <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'pendiente'">
-                <label><i class="fa-solid fa-clock"></i>En proceso</label>
-                <p>Estamos validando tu comprobante de pago.</p>
-              </div>
-
-              <div class="detalle-card-group" *ngIf="pagoSeleccionado.estatus === 'declinado'">
-
-                <label><i class="fa-solid fa-circle-xmark"></i>Pago rechazado</label>
-                <p>{{ pagoSeleccionado.observacion }}</p>
-              </div>
-            </div>
+            <label><i class="fa-solid fa-circle-xmark"></i>Pago rechazado</label>
+            <p>{{ pagoSeleccionado.observacion }}</p>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 </main>
