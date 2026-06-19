@@ -19,14 +19,14 @@ export class App implements OnDestroy {
   protected readonly title = signal('Marcos');
 
   showSidebar = true;
-  showheader   = true;
-  showFooter   = true;
+  showheader = true;
+  showFooter = true;
 
   /** Controla si el bottom nav está oculto */
   bottomNavOculto = false;
 
   private posicionScrollAnterior = 0;
-  private readonly UMBRAL_SCROLL  = 8;  // px mínimos para reaccionar
+  private readonly UMBRAL_SCROLL = 8;  // px mínimos para reaccionar
   private rutaSub!: Subscription;
 
   rutasSinNav = [
@@ -50,7 +50,8 @@ export class App implements OnDestroy {
     '/edit-perfil',
     '/visitas',
     '/faq',
-    '/formulario-pagos'
+    '/formulario-pagos',
+    '/adicionales'
   ];
 
   constructor(private router: Router) {
@@ -72,11 +73,11 @@ export class App implements OnDestroy {
     if (!this.showSidebar) return;
 
     const posicionActual = window.scrollY;
-    const diferencia     = posicionActual - this.posicionScrollAnterior;
+    const diferencia = posicionActual - this.posicionScrollAnterior;
 
     if (Math.abs(diferencia) < this.UMBRAL_SCROLL) return;
 
-    this.bottomNavOculto        = diferencia > 0;
+    this.bottomNavOculto = diferencia > 0;
     this.posicionScrollAnterior = posicionActual;
   }
 
@@ -86,9 +87,9 @@ export class App implements OnDestroy {
 
   private actualizarVistas(url: string): void {
     if (!url) return;
-    const urlLimpia  = url.split('?')[0];
+    const urlLimpia = url.split('?')[0];
     this.showSidebar = !this.rutasSinNav.includes(urlLimpia);
-    this.showheader  = !this.rutasSinNav.includes(urlLimpia);
-    this.showFooter  = !this.rutasSinFooter.some(r => urlLimpia.startsWith(r));
+    this.showheader = !this.rutasSinNav.includes(urlLimpia);
+    this.showFooter = !this.rutasSinFooter.some(r => urlLimpia.startsWith(r));
   }
 }
