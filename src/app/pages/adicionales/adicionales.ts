@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NgClass, CommonModule } from '@angular/common';
-
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-adicionales',
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, MatIconModule],
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
@@ -244,28 +244,28 @@ export class Adicionales {
           { label: 'Incluye', value: ' 4 Camaras Bullet 2Mp / Exteriores / Lente 2.8 Mm /1 Xvr /Calidad 1080P' },
           { label: 'Incluye', value: ' 4 Cables Preponchados De 18M0 / 1 Distribuidor de Energía y Fuente de Poder' },
           { label: 'DVR', value: 'Soporta H.265/H.264/Ultra265 en cámaras IP UNV' },
-          { label: 'IR', value: '30 metros' }
+          { label: 'Protección', value: 'IP67' }
         ]
       },
       'cables-rj45': {
         nombre: 'Cables RJ45',
-        precio: '$45.00 MXN',
-        disponibilidad: 'En stock',
+        precio: '$5.00 MXN',
+        disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/rj45.svg',
-          '../../../assets/img/productos/rj45.svg'
+          '../../../assets/img/productos/cable/c1.png',
+          '../../../assets/img/productos/cable/c3.png'
         ],
         caracteristicas: [
-          'Categoría CAT6',
-          'Conector dorado 24K'
+          'Categoría CAT5e',
+          'Conectores RJ45 también se venden por se parado'
         ],
-        descripcion: 'Accesorios y conectividad de calidad.',
+        descripcion: 'Costo adicional por ponchado de cables y conectores $15',
         especificaciones: [
-          { label: 'Categoría', value: 'CAT6' },
-          { label: 'Velocidad', value: 'hasta 10 Gbps' },
-          { label: 'Material', value: 'Cobre puro' },
-          { label: 'Longitud', value: '1.5 metros' }
+          { label: 'Categoría', value: 'CAT5e' },
+          { label: 'Velocidad', value: 'hasta 100 Mbps' },
+          { label: 'Material', value: 'Cobre' },
+          { label: 'Longitud', value: '1.0 metro' }
         ]
       },
       'no-break': {
