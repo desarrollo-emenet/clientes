@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgClass, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -14,6 +14,18 @@ export class Adicionales {
   modalActivo: string | null = null;
   productoSeleccionado: any = null;
   zoomIndex: number | null = null;
+
+  @HostListener('window:keydown.escape')
+  cerrarConEscape(): void {
+    if (this.zoomIndex !== null) {
+      this.cerrarZoom();
+      return;
+    }
+    if (this.modalActivo !== null) {
+      this.modalActivo = null;
+      document.body.style.overflow = '';
+    }
+  }
 
   showSection(id: string): void {
     this.activeSection = id;
