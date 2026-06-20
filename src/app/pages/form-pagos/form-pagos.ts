@@ -1,5 +1,5 @@
 import { NgClass, NgIf, NgForOf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
@@ -53,7 +53,7 @@ export class FormPagos {
       //cliente: ['', [Validators.required, Validators.maxLength(10)]],
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
-      telefono: ['', [Validators.required, Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
+      telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required]],
       comprobante: [null, [Validators.required]],
       monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
@@ -67,7 +67,7 @@ export class FormPagos {
     this.formularioAbierto = null;
   }
 
-    togglePagos(id: string): void {
+  togglePagos(id: string): void {
     this.pagosAbierto = this.pagosAbierto === id ? null : id;
   }
 
@@ -78,29 +78,29 @@ export class FormPagos {
   goNavigate(ruta: string) {
     this.loginS.goNavigate(ruta);
   }
-  
-  get telefono() { 
+
+  get telefono() {
     return this.pagosForm.controls['telefono'];
   }
 
-  get clave() { 
+  get clave() {
     return this.pagosForm.controls['clave'];
   }
-  get fechaPago() { 
+  get fechaPago() {
     return this.pagosForm.controls['fechaPago'];
   }
-  get numOperacion() { 
+  get numOperacion() {
     return this.pagosForm.controls['numOperacion'];
   }
 
   get comprobante() {
     return this.pagosForm.controls['comprobante'];
   }
-  get monto() { 
+  get monto() {
     return this.pagosForm.controls['monto'];
   }
 
-  
+
   onFileChange(event: any) {
     const file = event.target.files[0]; //obtener archivo seleccionado
     if (!file) {
@@ -116,10 +116,10 @@ export class FormPagos {
     }
 
     if (file.size > 2 * 1024 * 1024) {
-    toast.error('El archivo no debe superar los 2 MB');
-    this.pagosForm.get('comprobante')?.setValue(null);
-    return;
-  }
+      toast.error('El archivo no debe superar los 2 MB');
+      this.pagosForm.get('comprobante')?.setValue(null);
+      return;
+    }
     this.archivoSeleccionado = file;
   }
 
@@ -147,10 +147,10 @@ export class FormPagos {
         this.data = res,
           this.loading = false;
         //console.log('Datos del cliente cargados', this.data);
-            const telefonoOriginal = this.data?.cliente?.cliente?.telefono ?? '';
-            //quitar espacio y solo tomar 10 digitos
-            const telefono = telefonoOriginal.replace(/\s/g, '').substring(0, 10);
-            this.pagosForm.patchValue({ telefono : telefono });
+        const telefonoOriginal = this.data?.cliente?.cliente?.telefono ?? '';
+        //quitar espacio y solo tomar 10 digitos
+        const telefono = telefonoOriginal.replace(/\s/g, '').substring(0, 10);
+        this.pagosForm.patchValue({ telefono: telefono });
       },
       error: (e) => {
         this.loading = false;
@@ -226,13 +226,19 @@ export class FormPagos {
 
   pagoSeleccionado: any = null;
 
-abrirDetalle(pago: any): void {
-  this.pagoSeleccionado = pago;
-}
+  abrirDetalle(pago: any): void {
+    this.pagoSeleccionado = pago;
+  }
 
-cerrarDetalle(): void {
-  this.pagoSeleccionado = null;
-}
+  cerrarDetalle(): void {
+    this.pagoSeleccionado = null;
+  }
+  @HostListener('document:keydown.escape')
+  alPresionarEscape(): void {
+    if (this.pagoSeleccionado) {
+      this.cerrarDetalle();
+    }
+  }
 
   pagos = [
     {

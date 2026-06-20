@@ -1,9 +1,9 @@
 <main class="page">
 
   <div class="container">
-    
+
     <!-- NAVEGACIÓN -->
-     <nav class="page-nav">
+    <nav class="page-nav">
       <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
         <i class="fi fi-rr-info"></i>
         Estatus de pagos
@@ -16,214 +16,214 @@
       </button>
     </nav>
 
-  
-
-  <div class="payment-container">
 
 
-    <div id="pagos" class="section" [ngClass]="{ active: activeSection === 'pagos' }">
+    <div class="payment-container">
 
 
-      <div class="payment-header" [attr.open]="pagosAbierto">
-        <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
-        <div class="header-content">
-          <h2>Historial de pagos</h2>
-          <p>Consulta el estado y detalle de tus pagos técnicas.</p>
+      <div id="pagos" class="section" [ngClass]="{ active: activeSection === 'pagos' }">
+
+
+        <div class="payment-header" [attr.open]="pagosAbierto">
+          <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="header-content">
+            <h2>Historial de pagos</h2>
+            <p>Consulta el estado y detalle de tus pagos técnicas.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="pagos-list">
-        <div class="pagos-card" *ngFor="let pago of pagos" (click)="abrirDetalle(pago)">
+        <div class="pagos-list">
+          <div class="pagos-card" *ngFor="let pago of pagos" (click)="abrirDetalle(pago)">
 
-          <div class="pagos-left">
-            <div class="pagos-icon" [ngClass]="pago.estatus">
-              <i class="fa-solid" [ngClass]="{
+            <div class="pagos-left">
+              <div class="pagos-icon" [ngClass]="pago.estatus">
+                <i class="fa-solid" [ngClass]="{
             'fa-check': pago.estatus === 'validado',
             'fa-xmark': pago.estatus === 'declinado',
             'fa-clock': pago.estatus === 'pendiente'
           }">
-              </i>
-            </div>
-
-            <div class="pagos-info">
-              <h4>{{ pago.asunto }}</h4>
-
-              <div class="pagos-meta">
-                <span>
-                  <i class="fa-solid fa-calendar"></i>
-                  Enviado: {{ pago.fecha }}
-                </span>
+                </i>
               </div>
 
-              <p>Referencia: {{ pago.referencia }}</p>
+              <div class="pagos-info">
+                <h4>{{ pago.asunto }}</h4>
+
+                <div class="pagos-meta">
+                  <span>
+                    <i class="fa-solid fa-calendar"></i>
+                    Enviado: {{ pago.fecha }}
+                  </span>
+                </div>
+
+                <p>Referencia: {{ pago.referencia }}</p>
+              </div>
             </div>
+
+            <div class="pagos-right">
+              <span class="status-badge" [ngClass]="pago.estatus">
+                <span class="dot"></span>
+
+                {{ pago.estatus === 'validado'
+                ? 'Validado'
+                : pago.estatus === 'declinado'
+                ? 'Declinado'
+                : 'Pendiente' }}
+              </span>
+            </div>
+
           </div>
-
-          <div class="pagos-right">
-            <span class="status-badge" [ngClass]="pago.estatus">
-              <span class="dot"></span>
-
-              {{ pago.estatus === 'validado'
-              ? 'Validado'
-              : pago.estatus === 'declinado'
-              ? 'Declinado'
-              : 'Pendiente' }}
-            </span>
-          </div>
-
         </div>
+
+
       </div>
 
+      <!-- HEADER -->
+      <div id="formulario" class="section" [ngClass]="{ active: activeSection === 'formulario' }">
 
-    </div>
-
-    <!-- HEADER -->
-    <div id="formulario" class="section" [ngClass]="{ active: activeSection === 'formulario' }">
-
-      <div class="payment-header" [attr.open]="formularioAbierto">
-        <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
-        <div class="header-content">
-          <h2>¡Registre su pago!</h2>
-          <p>Por favor llene los siguientes campos para continuar</p>
-        </div>
-      </div>
-
-      <!-- FORMULARIO -->
-      <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
-
-        <!-- FORMA DE PAGO -->
-        <div class="payment-options">
-          <label class="payment-card">
-            <input type="radio" value="TRH" formControlName="clave" required>
-            <div class="card-content">
-              <i class="fa-solid fa-building-columns"></i>
-              <div>
-                <h6>Transferencia</h6>
-              </div>
-            </div>
-          </label>
-
-          <label class="payment-card">
-            <input type="radio" value="DBH" formControlName="clave">
-            <div class="card-content">
-              <i class="fa-solid fa-money-bill-transfer"></i>
-              <div>
-                <h6>Depósito</h6>
-              </div>
-            </div>
-          </label>
+        <div class="payment-header" [attr.open]="formularioAbierto">
+          <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="header-content">
+            <h2>¡Registre su pago!</h2>
+            <p>Por favor llene los siguientes campos para continuar</p>
+          </div>
         </div>
 
+        <!-- FORMULARIO -->
+        <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
 
-
-        <div class="form-cards">
-
-          <div class="form-card">
-            <div class="card-title">
-              <div class="card-icon blue"><i class="fa-solid fa-user"></i></div>
-              <h5>Información del cliente</h5>
-            </div>
-
-            <div class="card-body grid-2">
-
-              <!-- TELEFONO -->
-              <div class="field">
-                <label>Teléfono</label>
-                <input type="text" formControlName="telefono" class="form-control custom-input"
-                  placeholder="Número de teléfono">
-                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
-                  <span *ngIf="telefono.errors?.['required']">Requerido.</span>
-                  <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
-                  <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
+          <!-- FORMA DE PAGO -->
+          <div class="payment-options">
+            <label class="payment-card">
+              <input type="radio" value="TRH" formControlName="clave" required>
+              <div class="card-content">
+                <i class="fa-solid fa-building-columns"></i>
+                <div>
+                  <h6>Transferencia</h6>
                 </div>
               </div>
+            </label>
 
-            </div>
+            <label class="payment-card">
+              <input type="radio" value="DBH" formControlName="clave">
+              <div class="card-content">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <div>
+                  <h6>Depósito</h6>
+                </div>
+              </div>
+            </label>
           </div>
 
-          <!-- INFORMACION DE PAGO -->
-          <div class="form-card">
-            <div class="card-title">
-              <div class="card-icon green"><i class="fa-solid fa-credit-card"></i></div>
-              <h5>Información del pago</h5>
-            </div>
-            <div class="card-body grid-2">
 
-              <!-- FECHA DE PAGO -->
-              <div class="field">
-                <label>Fecha de pago</label>
-                <mat-form-field appearance="outline" class="custom-date-field custom-input-date"
-                  (click)="picker.open()">
-                  <input matInput [matDatepicker]="picker" formControlName="fechaPago" (focus)="picker.open()"
-                    placeholder="Selecciona una fecha" [max]="maxDate" readonly>
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+
+          <div class="form-cards">
+
+            <div class="form-card">
+              <div class="card-title">
+                <div class="card-icon blue"><i class="fa-solid fa-user"></i></div>
+                <h5>Información del cliente</h5>
               </div>
 
-              <!-- NUMERO DE OPERACION -->
-              <div class="field">
-                <label>Número de operación</label>
-                <input type="text" formControlName="numOperacion" class="form-control custom-input"
-                  placeholder="Número de operación">
-                <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
+              <div class="card-body grid-2">
+
+                <!-- TELEFONO -->
+                <div class="field">
+                  <label>Teléfono</label>
+                  <input type="text" formControlName="telefono" class="form-control custom-input"
+                    placeholder="Número de teléfono">
+                  <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
+                    <span *ngIf="telefono.errors?.['required']">Requerido.</span>
+                    <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
+                    <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- INFORMACION DE PAGO -->
+            <div class="form-card">
+              <div class="card-title">
+                <div class="card-icon green"><i class="fa-solid fa-credit-card"></i></div>
+                <h5>Información del pago</h5>
+              </div>
+              <div class="card-body grid-2">
+
+                <!-- FECHA DE PAGO -->
+                <div class="field">
+                  <label>Fecha de pago</label>
+                  <mat-form-field appearance="outline" class="custom-date-field custom-input-date"
+                    (click)="picker.open()">
+                    <input matInput [matDatepicker]="picker" formControlName="fechaPago" (focus)="picker.open()"
+                      placeholder="Selecciona una fecha" [max]="maxDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <!-- NUMERO DE OPERACION -->
+                <div class="field">
+                  <label>Número de operación</label>
+                  <input type="text" formControlName="numOperacion" class="form-control custom-input"
+                    placeholder="Número de operación">
+                  <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
+                    class="mt-1 text-danger small">
+                    <span *ngIf="numOperacion.errors?.['required']">Requerido.</span>
+                    <span *ngIf="numOperacion.errors?.['maxlength']">Máx 100 caracteres.</span>
+                  </div>
+                </div>
+
+                <!-- MONTO -->
+                <div class="field">
+                  <label>Monto a pagar</label>
+                  <input type="text" formControlName="monto" class="form-control custom-input"
+                    placeholder="Monto a pagar">
+                  <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-1 text-danger small">
+                    <span *ngIf="monto.errors?.['required']">Requerido.</span>
+                    <span *ngIf="monto.errors?.['maxlength']">Máx 5 caracteres.</span>
+                    <span *ngIf="monto.errors?.['pattern']">Formato inválido.</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SUBIR COMPROBANTE -->
+          <div class="form-card upload-card">
+            <div class="card-title">
+              <div class="card-icon purple"><i class="fa-solid fa-file-import"></i></div>
+              <h5>Comprobante de pago</h5>
+            </div>
+            <div class="card-body upload-body">
+              <div class="upload-center">
+                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <h6>Sube tu comprobante aquí</h6>
+                <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
+                  formControlName="comprobante" class="form-control upload-input">
+                <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
+                <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"
                   class="mt-1 text-danger small">
-                  <span *ngIf="numOperacion.errors?.['required']">Requerido.</span>
-                  <span *ngIf="numOperacion.errors?.['maxlength']">Máx 100 caracteres.</span>
+                  <span *ngIf="comprobante.errors?.['required']">Requerido.</span>
                 </div>
               </div>
-
-              <!-- MONTO -->
-              <div class="field">
-                <label>Monto a pagar</label>
-                <input type="text" formControlName="monto" class="form-control custom-input"
-                  placeholder="Monto a pagar">
-                <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-1 text-danger small">
-                  <span *ngIf="monto.errors?.['required']">Requerido.</span>
-                  <span *ngIf="monto.errors?.['maxlength']">Máx 5 caracteres.</span>
-                  <span *ngIf="monto.errors?.['pattern']">Formato inválido.</span>
-                </div>
-              </div>
-
             </div>
           </div>
 
-        </div>
-
-        <!-- SUBIR COMPROBANTE -->
-        <div class="form-card upload-card">
-          <div class="card-title">
-            <div class="card-icon purple"><i class="fa-solid fa-file-import"></i></div>
-            <h5>Comprobante de pago</h5>
+          <!-- BOTON -->
+          <div class="actions-container">
+            <button type="submit" class="btn-primary" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
+            </button>
           </div>
-          <div class="card-body upload-body">
-            <div class="upload-center">
-              <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-              <h6>Sube tu comprobante aquí</h6>
-              <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
-                formControlName="comprobante" class="form-control upload-input">
-              <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
-              <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"
-                class="mt-1 text-danger small">
-                <span *ngIf="comprobante.errors?.['required']">Requerido.</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- BOTON -->
-        <div class="actions-container">
-          <button type="submit" class="btn-primary" [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
-          </button>
-        </div>
+        </form>
 
-      </form>
+      </div>
 
     </div>
-
-  </div>
   </div>
   <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
 
