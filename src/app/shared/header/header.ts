@@ -32,11 +32,13 @@ export class Header implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.verificarRuta(window.location.pathname);
+    void this.loadNotificationData();
 
     this.rutaSub = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.verificarRuta(event.urlAfterRedirects || event.url);
+        void this.loadNotificationData();
       });
   }
 

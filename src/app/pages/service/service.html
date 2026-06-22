@@ -15,8 +15,7 @@
         </p>
       </div>
     </div>
-    <div class="service-layout"
-      [class.service-layout--centered]="servicios.length < 3 && !loading">
+    <div class="service-layout" [class.service-layout--centered]="servicios.length < 3 && !loading">
 
       <!-- Loading state -->
       <div *ngIf="loading" class="service-loading" style="grid-column: 1 / -1;">
@@ -61,13 +60,11 @@
 
         <!-- Acciones de la Tarjeta -->
         <div class="service-card-actions">
-          <button class="action-btn action-btn-primary" type="button"
-            (click)="verDetalles(s.cliente?.cliente)">
+          <button class="action-btn action-btn-primary" type="button" (click)="verDetalles(s.cliente?.cliente)">
             <i class="fa-solid fa-circle-info"></i>
             <span>Ver detalles</span>
           </button>
-          <button class="action-btn action-btn-danger" type="button"
-            (click)="eliminarServicio(s.idServicio)">
+          <button class="action-btn action-btn-danger" type="button" (click)="eliminarServicio(s.idServicio)">
             <i class="fa-solid fa-trash-can"></i>
             <span>Eliminar</span>
           </button>
@@ -80,12 +77,14 @@
     <div class="modal-overlay" *ngIf="showAddServiceModal" (click)="cerrarAddServiceModal()">
       <div class="modal-container" (click)="$event.stopPropagation()">
         <div class="banner-card-modal">
-          <button type="button" class="btn-close-customs" (click)="cerrarAddServiceModal()" aria-label="Cerrar">&times;</button>
+          <button type="button" class="btn-close-customs" (click)="cerrarAddServiceModal()"
+            aria-label="Cerrar">&times;</button>
           <div class="modal-headers-accents">
             <h2 class="modal-title"></h2>
           </div>
           <div class="banner-modal-content">
-            <div *ngIf="!mostrarConfirmacion" class="apple-card service-panel" style="box-shadow: none; border-radius: 16px;">
+            <div *ngIf="!mostrarConfirmacion" class="apple-card service-panel"
+              style="box-shadow: none; border-radius: 16px;">
               <div class="apple-card__accent"></div>
               <div class="apple-card__body">
                 <p class="apple-card__label"><i class="fa-solid fa-house-signal"></i> Agregar servicio</p>
@@ -98,7 +97,8 @@
                         [class.is-invalid]="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)" />
                     </div>
 
-                    <button class="btn-water btn-water-inline" type="submit" [disabled]="adding" [class.loading]="adding">
+                    <button class="btn-water btn-water-inline" type="submit" [disabled]="adding"
+                      [class.loading]="adding">
                       <span class="water-fill"></span>
                       <span class="btn-water-content">
                         <span *ngIf="adding" class="spinner-border spinner-border-sm" role="status"></span>
@@ -117,16 +117,18 @@
                 </form>
               </div>
             </div>
-        
+
             <!-- Verificación -->
-            <div *ngIf="mostrarConfirmacion" class="apple-card verification-card mt-3" style="box-shadow: none; border-radius: 16px;">
+            <div *ngIf="mostrarConfirmacion" class="apple-card verification-card mt-3"
+              style="box-shadow: none; border-radius: 16px;">
               <div class="apple-card__body">
                 <p class="apple-card__label"><i class="fa-solid fa-user-check"></i> Verificación de servicio</p>
                 <p class="apple-text-secondary mb-3">Ingresa el código enviado a tu correo</p>
                 <div class="service-form-grid">
-                  <input type="text" class="apple-input text-center" placeholder="——————" maxlength="6" [(ngModel)]="codigo"
-                    style="letter-spacing: 0.4em; font-weight:700;" />
-                  <button class="btn-water btn-water-inline btn-water-success" type="button" (click)="confirmarCodigo()">
+                  <input type="text" class="apple-input text-center" placeholder="——————" maxlength="6"
+                    [(ngModel)]="codigo" style="letter-spacing: 0.4em; font-weight:700;" />
+                  <button class="btn-water btn-water-inline btn-water-success" type="button"
+                    (click)="confirmarCodigo()">
                     <span class="water-fill"></span>
                     <span class="btn-water-content">
                       <svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -171,30 +173,52 @@
 
     <!-- Modal de aviso -->
     <div class="modal-overlay" *ngIf="showBannerModal" (click)="cerrarModal()">
-      <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-container modal-container--wide" (click)="$event.stopPropagation()">
         <div class="banner-card-modal">
-          <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">&times;</button>
+          <!-- Botón de cerrar blanco original -->
+          <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">
+            &times;
+          </button>
+
+          <!-- Encabezado con gradiente azul original -->
           <div class="modal-header-accent">
-            <span class="modal-eyebrow-badge">AVISO IMPORTANTE</span>
-            <h2 class="modal-title">¡Tenemos noticias!</h2>
+            <span class="modal-eyebrow-badge">IMPORTANTE</span>
+            <h2 class="modal-title">¡Compralo hoy!</h2>
           </div>
+
+          <!-- Contenido del modal -->
           <div class="banner-modal-content">
-            <h3 class="modal-subtitle">Estimado cliente</h3>
-            <div class="modal-info-box">
-              <p class="modal-info-text">
-                <i class="bi bi-clock-fill modal-icon modal-icon--blue"></i>
-                Ya puede realizar el <strong>pago</strong> de sus servicios.<br>
-                <i class="bi bi-calendar-x-fill modal-icon modal-icon--red"></i>
-                Desde nuestra página <strong>emenet.mx</strong><br>
-                <i class="bi bi-arrow-repeat modal-icon modal-icon--green"></i>
-                <strong>Paga tus servicios</strong> y sigue disfrutando de tu internet.
-              </p>
+            <h3 class="modal-subtitle"></h3>
+
+            <div class="promo-content-card">
+              <!-- Lado izquierdo: Imagen promocional -->
+              <div class="promo-image-wrapper">
+                <img src="assets/img/servicios/flayer4.webp" alt="Nuevos productos de red" class="promo-img" />
+              </div>
+
+              <!-- Lado derecho: Información -->
+              <div class="promo-text-wrapper">
+                <p class="promo-lead">
+                  ¡Mejora tu conexión con nuestros nuevos equipos!
+                </p>
+                <p class="promo-description">
+                  Disfruta de máxima velocidad y cobertura con nuestros
+                  <strong>Routers, Extensores Wi-Fi</strong> y
+                  <strong>Switches Gigabit</strong>.
+                </p>
+                <p class="promo-footer-text">
+                  Pídelos hoy mismo en la App en <b class="text-primary">Adicionales</b> y navega al máximo.
+                </p>
+              </div>
             </div>
-            <a href="https://emenet.mx/pagar-servicio" target="_blank"
-              class="btn-water btn-water-inline text-decoration-none">
-              <span class="water-fill"></span>
-              <span class="btn-water-content"><i class="fa-solid fa-sack-dollar"></i> Pagar servicio</span>
-            </a>
+
+            <!-- Botón Ver Catálogo y Comprar centrado -->
+            <div class="text-center mt-3">
+              <a href="https://emenet.mx" target="_blank" class="btn-catalog">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Ver Catálogo y Comprar
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -202,11 +226,11 @@
     <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
   </div>
   <div class="btn-service">
-  <button type="button" class="btn-service btn-water-inline fab-add-service" (click)="showAddServiceModal = true">
-    <span class="water-fill"></span>
-    <span class="btn-service-content">
-      <i class="fa-solid fa-user-plus"></i>
-    </span>
-  </button>
+    <button type="button" class="btn-service btn-water-inline fab-add-service" (click)="showAddServiceModal = true">
+      <span class="water-fill"></span>
+      <span class="btn-service-content">
+        <i class="fa-solid fa-user-plus"></i>
+      </span>
+    </button>
   </div>
 </section>

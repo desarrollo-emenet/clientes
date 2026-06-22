@@ -13,8 +13,19 @@
     </div>
 
     <div class="header-actions d-flex align-items-center">
-      <button class="notif-btn" type="button" (click)="toggleNotificaciones()" aria-label="Notificaciones">
+      <button
+        class="notif-btn"
+        type="button"
+        (click)="toggleNotificaciones()"
+        aria-label="Notificaciones"
+      >
         <i class="fa-regular fa-bell"></i>
+        <span
+          class="notif-badge"
+          *ngIf="notifications.length > 0"
+        >
+          {{ notifications.length }}
+        </span>
       </button>
 
       <div class="notif-panel" *ngIf="isNotifOpen" (click)="$event.stopPropagation()">
