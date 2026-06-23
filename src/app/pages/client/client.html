@@ -323,28 +323,74 @@
         </section>
 
         <!-- Modal de estado de cuenta -->
-        <div class="modal-overlay" *ngIf="showEstadoCuentaModal" (click)="cerrarEstadoCuentaModal()">
-          <div class="modal-container" (click)="$event.stopPropagation()">
-            <div class="banner-card-modal">
-              <button type="button" class="btn-close-custom" (click)="cerrarEstadoCuentaModal()"
-                aria-label="Cerrar">&times;</button>
-              <div class="modal-header-accent">
-                <h2 class="modal-title">Estado de cuenta</h2>
+        <div class="modal-overlay"
+             *ngIf="showEstadoCuentaModal"
+             (click)="cerrarEstadoCuentaModal()">
+          <div class="modal-container"
+               (click)="$event.stopPropagation()">
+            <div class="statement-modal-card">
+              
+              <!-- Botón cerrar minimalista -->
+              <button type="button"
+                      class="btn-close-minimal"
+                      (click)="cerrarEstadoCuentaModal()"
+                      aria-label="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+              <div class="statement-modal-header">
+                <!-- Icono destacado minimalista -->
+                <div class="statement-icon-badge">
+                  <i class="fa-solid fa-receipt"></i>
+                </div>
+                <h2 class="statement-modal-title">
+                  Estado de cuenta
+                </h2>
+                <p class="statement-modal-subtitle">
+                  Selecciona el periodo que deseas descargar en formato PDF
+                </p>
               </div>
-              <div class="banner-modal-content">
-                <div class="modal-estado-cuenta">
-                  <p class="modal-estado-cuenta-p">Seleccione el estado de cuenta que desea descargar</p>
-                  <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="estado-cuenta-item">
-                    <div class="estado-cuenta-info">
-                      <i class="fa-solid fa-coins"></i>
-                      <span>{{ item?.mensualidad }}</span>
+
+              <div class="statement-modal-body">
+                <!-- Listado de estados de cuenta -->
+                <div *ngIf="data?.cliente?.servicios?.estadoCuenta?.length;
+                            else emptyStates"
+                     class="statement-list">
+                  <div *ngFor="let item of
+                              data?.cliente?.servicios?.estadoCuenta"
+                       class="statement-item">
+                    <div class="statement-item-left">
+                      <div class="statement-item-icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                      </div>
+                      <div class="statement-item-details">
+                        <span class="statement-item-name">
+                          {{ item?.mensualidad }}
+                        </span>
+                        <span class="statement-item-meta">
+                          Servicio activo
+                        </span>
+                      </div>
                     </div>
-                    <button class="btn btn-outline-primary btn-sm" (click)="descargarEstadoCuentaPDF(item)">
-                      <i class="fa-solid fa-download"></i> PDF
+                    <button class="btn-statement-download"
+                            (click)="descargarEstadoCuentaPDF(item)">
+                      <i class="fa-solid fa-cloud-arrow-down"></i>
+                      <span>PDF</span>
                     </button>
                   </div>
                 </div>
+
+                <!-- Estado vacío -->
+                <ng-template #emptyStates>
+                  <div class="statement-empty-state">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <p>
+                      No se encontraron periodos de facturación disponibles
+                    </p>
+                  </div>
+                </ng-template>
               </div>
+
             </div>
           </div>
         </div>
