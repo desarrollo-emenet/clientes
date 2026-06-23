@@ -207,17 +207,25 @@
                   <strong>Switches Gigabit</strong>.
                 </p>
                 <p class="promo-footer-text">
-                  Pídelos hoy mismo en la App en <b class="text-primary">Adicionales</b> y navega al máximo.
+                  Pídelos hoy mismo entra en la App en el apartado <b class="text-primary">Adicionales</b> y navega al
+                  máximo.
                 </p>
               </div>
             </div>
 
             <!-- Botón Ver Catálogo y Comprar centrado -->
             <div class="text-center mt-3">
+              <!--
               <a href="https://emenet.mx" target="_blank" class="btn-catalog">
                 <i class="fa-solid fa-cart-shopping"></i>
-                Ver Catálogo y Comprar
+                Aceptar
               </a>
+              -->
+
+              <button type="button" class="btn-catalog" (click)="cerrarModal()">
+                <i class="fa-solid fa-check-to-slot"></i>
+                Aceptar
+              </button>
             </div>
           </div>
         </div>
