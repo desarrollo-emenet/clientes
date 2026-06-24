@@ -212,52 +212,61 @@ export class Client implements OnInit {
   private async dibujarEncabezadoPDF(
     doc: jsPDF, pageW: number, margen: number, item: any
   ): Promise<void> {
-    const altoHeader = 22;
-    const altoSub = 10;
+    const altoHeader = 34;
 
-    // Barra principal azul oscura
-    doc.setFillColor(11, 78, 148);
+    // Fondo blanco del encabezado
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, pageW, altoHeader, 'F');
 
-    // Barra secundaria azul más clara
-    doc.setFillColor(24, 106, 206);
-    doc.rect(0, altoHeader, pageW, altoSub, 'F');
+    // Línea inferior de acento en color #333333
+    doc.setFillColor(51, 51, 51);
+    doc.rect(0, altoHeader, pageW, 1.5, 'F');
 
-    // Logo en barra principal
+    // Logo emenet a la izquierda (oscuro, sobre fondo blanco)
     try {
-      const logoResp = await fetch('assets/img/emenetLogoB.png');
+      const logoResp = await fetch('assets/img/emenetLogo.png');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(
-        logoDataUrl, 'PNG', margen, 3, 32, 16, undefined, 'FAST'
+        logoDataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST'
       );
     } catch {
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(13);
-      doc.setFont('helvetica', 'bold');
-      doc.text('emenet', margen, 15);
+      try {
+        const logoResp = await fetch('assets/img/emenetLogoB.png');
+        const logoBlob = await logoResp.blob();
+        const logoDataUrl = await this.blobToDataUrl(logoBlob);
+        doc.addImage(
+          logoDataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST'
+        );
+      } catch {
+        doc.setTextColor(51, 51, 51);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('emenet', margen, 20);
+      }
     }
 
-    // Etiqueta "ESTADO DE CUENTA" centrada arriba
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.text('ESTADO DE CUENTA', pageW / 2, 14, { align: 'center' });
-
-    // Folio y fecha en la barra secundaria
+    // Bloque de información en esquina derecha (estilo recibo Telmex)
     const hoy = new Date().toLocaleDateString('es-MX', {
       year: 'numeric', month: 'long', day: 'numeric'
     });
+    const folio = `Folio: ${Date.now().toString().slice(-8)}`;
+    const xInfo = pageW - margen;
+
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(51, 51, 51);
+    doc.text('COMPROBANTE DE PAGO', xInfo, 9, { align: 'right' });
+
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(180, 220, 255);
-    doc.text(
-      `Periodo: ${item?.mensualidad ?? 'N/A'}  ·  Emitido: ${hoy}`,
-      margen, altoHeader + 7
-    );
+    doc.setTextColor(60, 75, 100);
+    doc.text(`Periodo: ${item?.mensualidad ?? 'N/A'}`, xInfo, 16, { align: 'right' });
+    doc.text(`Emitido: ${hoy}`, xInfo, 22, { align: 'right' });
 
-    const folio = `Folio: ${Date.now().toString().slice(-8)}`;
-    doc.text(folio, pageW - margen, altoHeader + 7, { align: 'right' });
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(120, 140, 170);
+    doc.text(folio, xInfo, 28, { align: 'right' });
   }
 
   private calcularTotalServicios(servicios: any): number {
@@ -288,10 +297,10 @@ export class Client implements OnInit {
     const xDer = margen + anchoUtil - colDer;
     const altoBloque = 42;
 
-    // Fondo del bloque de cliente
-    doc.setFillColor(248, 250, 255);
+    // Fondo del bloque de cliente (gris neutro muy claro)
+    doc.setFillColor(250, 250, 250);
     doc.rect(0, y, pageW, altoBloque, 'F');
-    doc.setDrawColor(220, 232, 252);
+    doc.setDrawColor(225, 225, 225);
     doc.setLineWidth(0.3);
     doc.line(0, y + altoBloque, pageW, y + altoBloque);
 
@@ -299,7 +308,7 @@ export class Client implements OnInit {
     const nombre = (cliente?.nombre ?? 'N/A').toUpperCase();
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 78, 148);
+    doc.setTextColor(51, 51, 51);
     doc.text(nombre, margen, y + 9);
 
     const direccionParts = [
@@ -317,34 +326,48 @@ export class Client implements OnInit {
     doc.setTextColor(120, 135, 160);
     doc.text(`No. Cliente:`, margen, y + 30);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 78, 148);
+    doc.setTextColor(51, 51, 51);
     doc.text(`${numeroCliente ?? 'N/A'}`, margen + 22, y + 30);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(120, 135, 160);
     doc.text(`Venta: #${item?.VENTA ?? 'N/A'}`, margen + 55, y + 30);
 
-    // --- COLUMNA DERECHA: Importe destacado (estilo cajita TotalPlay) ---
+    // --- COLUMNA DERECHA: Importe destacado (estilo comprobante con borde) ---
     const importe = this.formatearPesos(totalServicios);
     const deuda = cliente?.deuda ?? 0;
-    const colorCaja: [number, number, number] = deuda > 0
-      ? [220, 53, 69] : [11, 78, 148];
+    const colorBordeCaja: [number, number, number] = deuda > 0
+      ? [220, 53, 69] : [51, 51, 51];
+    const colorTextoCaja: [number, number, number] = deuda > 0
+      ? [180, 30, 50] : [51, 51, 51];
 
-    doc.setFillColor(...colorCaja);
+    // Solo borde, sin relleno
+    doc.setFillColor(252, 252, 252);
     doc.roundedRect(xDer, y + 2, colDer, altoBloque - 6, 4, 4, 'F');
+    doc.setDrawColor(...colorBordeCaja);
+    doc.setLineWidth(1.2);
+    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 6, 4, 4, 'D');
 
+    // Franja superior coloreada como acento
+    doc.setFillColor(...colorBordeCaja);
+    doc.roundedRect(xDer, y + 2, colDer, 8, 4, 4, 'F');
+    doc.rect(xDer, y + 6, colDer, 4, 'F');
+
+    // Etiqueta en la franja
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
     const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'CARGO MENSUAL';
-    doc.text(etiqCaja, xDer + colDer / 2, y + 11, { align: 'center' });
+    doc.text(etiqCaja, xDer + colDer / 2, y + 8.5, { align: 'center' });
 
+    // Importe con texto de color oscuro sobre fondo claro
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
-    doc.text(`$${importe}`, xDer + colDer / 2, y + 25, { align: 'center' });
+    doc.setTextColor(...colorTextoCaja);
+    doc.text(`$${importe}`, xDer + colDer / 2, y + 26, { align: 'center' });
 
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(210, 230, 255);
+    doc.setTextColor(120, 140, 170);
     doc.text('MXN · Incluye todos los servicios',
       xDer + colDer / 2, y + 33, { align: 'center' });
 
@@ -362,20 +385,27 @@ export class Client implements OnInit {
     let y = yInicio;
     const pad = 4;
 
-    // Título sección con barra lateral
-    doc.setFillColor(11, 78, 148);
-    doc.rect(margen, y, 3, 8, 'F');
-    doc.setFontSize(9);
+    // Título sección (estilo Totalplay)
+    doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 78, 148);
-    doc.text('Detalle de servicios contratados', margen + 6, y + 6);
-    y += 12;
+    doc.setTextColor(51, 51, 51);
+    doc.text('Detalle de servicios contratados', margen, y + 7);
+
+    // Barra de acento horizontal gruesa (Totalplay)
+    doc.setFillColor(51, 51, 51);
+    doc.rect(margen, y + 10, 35, 1.5, 'F');
+
+    // Línea fina continuadora gris
+    doc.setDrawColor(220, 220, 220);
+    doc.setLineWidth(0.3);
+    doc.line(margen + 35, y + 10.6, margen + anchoUtil, y + 10.6);
+    y += 17;
 
     const colServ = anchoUtil * 0.35;
     const colDet = anchoUtil * 0.40;
 
-    // Encabezado tabla
-    doc.setFillColor(11, 78, 148);
+    // Encabezado tabla (Gris #333333)
+    doc.setFillColor(51, 51, 51);
     doc.rect(margen, y, anchoUtil, 7, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7.5);
@@ -391,12 +421,13 @@ export class Client implements OnInit {
     let subtotal = 0;
 
     filas.forEach((fila, idx) => {
+      // Filas con gris claro alternado neutro
       const bgRgb: [number, number, number] = idx % 2 === 0
-        ? [248, 251, 255] : [238, 245, 255];
+        ? [250, 250, 250] : [242, 242, 242];
       doc.setFillColor(...bgRgb);
       doc.rect(margen, y, anchoUtil, 9, 'F');
 
-      doc.setDrawColor(220, 232, 250);
+      doc.setDrawColor(220, 220, 220);
       doc.setLineWidth(0.2);
       doc.line(margen, y + 9, margen + anchoUtil, y + 9);
 
@@ -414,7 +445,7 @@ export class Client implements OnInit {
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8.5);
-      doc.setTextColor(11, 78, 148);
+      doc.setTextColor(51, 51, 51);
       doc.text(
         `$ ${fila.precio}`,
         margen + anchoUtil - pad, y + 6.5, { align: 'right' }
@@ -425,9 +456,9 @@ export class Client implements OnInit {
     });
 
     // Subtotal
-    doc.setFillColor(225, 235, 250);
+    doc.setFillColor(235, 235, 235);
     doc.rect(margen, y, anchoUtil, 8, 'F');
-    doc.setTextColor(11, 78, 148);
+    doc.setTextColor(51, 51, 51);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
     doc.text('Subtotal', margen + pad, y + 5.5);
@@ -519,71 +550,72 @@ export class Client implements OnInit {
     const importe = this.formatearPesos(totalServicios);
     const pad = 4;
 
-    // Separador visual
-    doc.setDrawColor(200, 218, 248);
+    // Separador visual gris neutro
+    doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.4);
     doc.line(margen, y, margen + anchoUtil, y);
     y += 5;
 
-    // Caja principal de total
-    const altoTotal = 26;
-    const colorFondo: [number, number, number] = deuda > 0
-      ? [255, 242, 244] : [240, 255, 248];
-    const colorBorde: [number, number, number] = deuda > 0
-      ? [220, 53, 69] : [25, 160, 80];
-    const colorTexto: [number, number, number] = deuda > 0
-      ? [190, 30, 50] : [20, 120, 65];
-    const colorImporte: [number, number, number] = deuda > 0
-      ? [220, 53, 69] : [25, 160, 80];
+    // Caja principal de total (Diseño estilo Totalplay con bordes y acento)
+    const altoTotal = 28;
+    const esDeudor = deuda > 0;
+    const colorAcento: [number, number, number] = esDeudor ? [220, 53, 69] : [25, 135, 84];
+    const colorFondo: [number, number, number] = esDeudor ? [255, 248, 248] : [245, 253, 248];
 
+    // Fondo y borde
     doc.setFillColor(...colorFondo);
-    doc.roundedRect(margen, y, anchoUtil, altoTotal, 3, 3, 'F');
-    doc.setDrawColor(...colorBorde);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(margen, y, anchoUtil, altoTotal, 3, 3, 'D');
+    doc.roundedRect(margen, y, anchoUtil, altoTotal, 2, 2, 'F');
+    doc.setDrawColor(...colorAcento);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(margen, y, anchoUtil, altoTotal, 2, 2, 'D');
 
-    // Barra izquierda de acento
-    doc.setFillColor(...colorBorde);
-    doc.roundedRect(margen, y, 4, altoTotal, 2, 2, 'F');
+    // Barra izquierda de acento gruesa (estilo Totalplay)
+    doc.setFillColor(...colorAcento);
+    doc.rect(margen, y, 4, altoTotal, 'F');
 
-    // Etiqueta estado
-    doc.setFontSize(8.5);
+    // Mensaje de estado principal
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...colorTexto);
-    const etiqTotal = deuda > 0 ? 'TOTAL A PAGAR' : 'TU CUENTA ESTÁ AL CORRIENTE';
-    doc.text(etiqTotal, margen + pad + 4, y + 9);
+    doc.setTextColor(51, 51, 51);
+    const mensajeEstado = esDeudor ? 'SALDO ANTERIOR PENDIENTE' : 'TU CUENTA SE ENCUENTRA AL CORRIENTE';
+    doc.text(mensajeEstado, margen + 8, y + 10);
 
-    // Periodo
+    // Subtexto del periodo
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 120, 150);
+    doc.setTextColor(110, 120, 130);
     doc.text(
-      `Periodo: ${item?.mensualidad ?? 'N/A'}  ·  Fecha límite: del 1 al 5 de cada mes`,
-      margen + pad + 4, y + 16
+      `Periodo de facturación: ${item?.mensualidad ?? 'N/A'}  ·  Límite de pago: del 1 al 5 de cada mes`,
+      margen + 8, y + 19
     );
 
-    // Importe grande a la derecha
-    if (deuda > 0) {
-      doc.setFontSize(18);
+    // Sección de importe a la derecha
+    if (esDeudor) {
+      doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...colorImporte);
+      doc.setTextColor(220, 53, 69);
       doc.text(
         `$ ${this.formatearPesos(deuda)}`,
-        margen + anchoUtil - pad, y + 18, { align: 'right' }
+        margen + anchoUtil - 6, y + 12, { align: 'right' }
       );
       doc.setFontSize(7);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(160, 80, 90);
-      doc.text('MXN · Saldo pendiente',
-        margen + anchoUtil - pad, y + 24, { align: 'right' });
-    } else {
-      doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...colorImporte);
+      doc.setTextColor(150, 60, 70);
+      doc.text('TOTAL A PAGAR (MXN)',
+        margen + anchoUtil - 6, y + 19, { align: 'right' });
+    } else {
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(25, 135, 84);
       doc.text(
         `$ ${importe} MXN`,
-        margen + anchoUtil - pad, y + 20, { align: 'right' }
+        margen + anchoUtil - 6, y + 11.5, { align: 'right' }
       );
+      doc.setFontSize(7);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(110, 120, 130);
+      doc.text('SIN ADEUDOS PENDIENTES',
+        margen + anchoUtil - 6, y + 19, { align: 'right' });
     }
 
     return y + altoTotal + 8;
@@ -598,22 +630,31 @@ export class Client implements OnInit {
     let y = yInicio;
     const pad = 4;
 
-    // Encabezado de sección
-    doc.setFillColor(11, 78, 148);
-    doc.rect(margen, y, 3, 8, 'F');
-    doc.setFontSize(9);
+    // Título sección (estilo Totalplay)
+    doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 78, 148);
-    doc.text('Formas de pago disponibles', margen + 6, y + 6);
-    y += 14;
+    doc.setTextColor(51, 51, 51);
+    doc.text('Formas de pago disponibles', margen, y + 7);
+
+    // Barra de acento horizontal gruesa (Totalplay)
+    doc.setFillColor(51, 51, 51);
+    doc.rect(margen, y + 10, 35, 1.5, 'F');
+
+    // Línea fina continuadora gris
+    doc.setDrawColor(220, 220, 220);
+    doc.setLineWidth(0.3);
+    doc.line(margen + 35, y + 10.6, margen + anchoUtil, y + 10.6);
+    y += 17;
 
     const colW = (anchoUtil - 6) / 2;
     const xIzq = margen;
     const xDer = margen + colW + 6;
 
+    const yCajas = y;
+
     // --- Caja 1: HSBC ---
     y = await this.dibujarCajaPagoCompleta(doc, {
-      x: xIzq, y, w: colW,
+      x: xIzq, y: yCajas, w: colW,
       titulo: 'Sucursal bancaria · HSBC',
       lineas: [
         { label: 'Depósito en ventanilla o cajero', valor: '' },
@@ -626,7 +667,7 @@ export class Client implements OnInit {
 
     // --- Caja 2: SPEI ---
     await this.dibujarCajaPagoCompleta(doc, {
-      x: xDer, y: yInicio + 14, w: colW,
+      x: xDer, y: yCajas, w: colW,
       titulo: 'Transferencia SPEI',
       lineas: [
         { label: 'Banca en línea o app bancaria', valor: '' },
@@ -677,12 +718,12 @@ export class Client implements OnInit {
     // Fondo de la caja
     doc.setFillColor(248, 251, 255);
     doc.roundedRect(x, y, w, altoTotal, 3, 3, 'F');
-    doc.setDrawColor(205, 222, 248);
+    doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.3);
     doc.roundedRect(x, y, w, altoTotal, 3, 3, 'D');
 
-    // Encabezado azul
-    doc.setFillColor(11, 78, 148);
+    // Encabezado color #333333
+    doc.setFillColor(51, 51, 51);
     doc.roundedRect(x, y, w, altoHeader, 3, 3, 'F');
     doc.rect(x, y + altoHeader - 3, w, 3, 'F');
     doc.setTextColor(255, 255, 255);
@@ -699,7 +740,7 @@ export class Client implements OnInit {
         doc.setFontSize(7.5);
         doc.text(linea.label, x + pad, lineY);
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(11, 78, 148);
+        doc.setTextColor(51, 51, 51);
         const labelW = doc.getTextWidth(linea.label + ' ');
         doc.text(linea.valor, x + pad + labelW, lineY);
       } else {
@@ -771,12 +812,12 @@ export class Client implements OnInit {
     const pageH = doc.internal.pageSize.getHeight();
     const altoFoot = 16;
 
-    // Franja fina de acento sobre el pie
-    doc.setFillColor(24, 106, 206);
+    // Franja fina de acento gris oscuro sobre el pie
+    doc.setFillColor(80, 80, 80);
     doc.rect(0, pageH - altoFoot - 1, pageW, 1, 'F');
 
-    // Fondo azul oscuro del pie
-    doc.setFillColor(11, 78, 148);
+    // Fondo gris #333333 del pie
+    doc.setFillColor(51, 51, 51);
     doc.rect(0, pageH - altoFoot, pageW, altoFoot, 'F');
 
     // Logo en pie
@@ -793,7 +834,7 @@ export class Client implements OnInit {
     }
 
     // Texto central
-    doc.setTextColor(180, 210, 255);
+    doc.setTextColor(220, 220, 220);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.text(
@@ -802,7 +843,7 @@ export class Client implements OnInit {
     );
 
     // Página
-    doc.setTextColor(140, 180, 230);
+    doc.setTextColor(180, 180, 180);
     doc.setFontSize(6.5);
     doc.text('Pág. 1 de 1', pageW - 12, pageH - 5.5, { align: 'right' });
   }
