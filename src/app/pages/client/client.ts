@@ -164,7 +164,7 @@ export class Client implements OnInit {
     this.showPagoModal = true;
   }
 
-  cerrarPagoModal(){
+  cerrarPagoModal() {
     this.showPagoModal = false;
   }
 
@@ -180,21 +180,28 @@ export class Client implements OnInit {
   }
 
   async descargarEstadoCuentaPDF(item: any): Promise<void> {
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const doc = new jsPDF({
+      orientation: 'portrait', unit: 'mm', format: 'a4'
+    });
     const cliente = this.data?.cliente?.cliente;
     const servicios = this.data?.cliente?.servicios;
     const numeroCliente = this.data?.numero_cliente;
     const pageW = doc.internal.pageSize.getWidth();
-    const margen = 15;
+    const margen = 12;
     const anchoUtil = pageW - margen * 2;
+    const totalServicios = this.calcularTotalServicios(servicios);
 
-    await this.dibujarEncabezadoPDF(doc, pageW, margen);
-    let y = this.dibujarInfoClientePDF(
-      doc, cliente, numeroCliente, item, margen, anchoUtil
+    await this.dibujarEncabezadoPDF(doc, pageW, margen, item);
+    let y = await this.dibujarBannerClientePDF(
+      doc, cliente, numeroCliente, item, totalServicios, margen, anchoUtil, pageW
     );
-    y = this.dibujarTablaServiciosPDF(doc, servicios, cliente, y, margen, anchoUtil);
-    y = this.dibujarTotalPendientePDF(doc, cliente, y, margen, anchoUtil);
-    await this.dibujarPublicidadPagoPDF(doc, y, margen, anchoUtil);
+    y = this.dibujarTablaServiciosPDF(
+      doc, servicios, cliente, y, margen, anchoUtil
+    );
+    y = this.dibujarResumenTotalPDF(
+      doc, cliente, item, totalServicios, y, margen, anchoUtil
+    );
+    await this.dibujarSeccionPagoPDF(doc, y, margen, anchoUtil);
     await this.dibujarPiePDF(doc, pageW);
 
     const nombreArchivo =
@@ -203,103 +210,145 @@ export class Client implements OnInit {
   }
 
   private async dibujarEncabezadoPDF(
-    doc: jsPDF, pageW: number, margen: number
+    doc: jsPDF, pageW: number, margen: number, item: any
   ): Promise<void> {
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageW, 32, 'F');
+    const altoHeader = 22;
+    const altoSub = 10;
 
-    // Add larger logo to the header
+    // Barra principal azul oscura
+    doc.setFillColor(11, 78, 148);
+    doc.rect(0, 0, pageW, altoHeader, 'F');
+
+    // Barra secundaria azul más clara
+    doc.setFillColor(24, 106, 206);
+    doc.rect(0, altoHeader, pageW, altoSub, 'F');
+
+    // Logo en barra principal
     try {
-      const logoResponse = await fetch('assets/img/emenetLogo.png');
-      const logoBlob = await logoResponse.blob();
+      const logoResp = await fetch('assets/img/emenetLogoB.png');
+      const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
-      doc.addImage(logoDataUrl, 'PNG', margen, 5, 28, 20);
-    } catch (error) {
-      console.error('Error loading logo:', error);
+      doc.addImage(
+        logoDataUrl, 'PNG', margen, 3, 32, 16, undefined, 'FAST'
+      );
+    } catch {
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.text('emenet', margen, 15);
     }
 
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(18);
+    // Etiqueta "ESTADO DE CUENTA" centrada arriba
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text('', margen + 30, 13);
+    doc.text('ESTADO DE CUENTA', pageW / 2, 14, { align: 'center' });
 
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    doc.text('', margen + 30, 20);
-
+    // Folio y fecha en la barra secundaria
     const hoy = new Date().toLocaleDateString('es-MX', {
       year: 'numeric', month: 'long', day: 'numeric'
     });
-    doc.setFontSize(8);
-    doc.text(`Emitido: ${hoy}`, pageW - margen, 20, { align: 'right' });
-    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(180, 220, 255);
+    doc.text(
+      `Periodo: ${item?.mensualidad ?? 'N/A'}  ·  Emitido: ${hoy}`,
+      margen, altoHeader + 7
+    );
+
+    const folio = `Folio: ${Date.now().toString().slice(-8)}`;
+    doc.text(folio, pageW - margen, altoHeader + 7, { align: 'right' });
   }
 
-  private dibujarInfoClientePDF(
+  private calcularTotalServicios(servicios: any): number {
+    const internet = servicios?.internet?.precio ?? 0;
+    const camaras = (servicios?.camaras?.canServicios ?? 0) *
+      (servicios?.camaras?.precio ?? 0);
+    const telefono = (servicios?.telefono?.canServicios ?? 0) *
+      (servicios?.telefono?.precio ?? 0);
+    const tv = (servicios?.cuentasTv?.canServicios ?? 0) *
+      (servicios?.cuentasTv?.precio ?? 0);
+    return internet + camaras + telefono + tv;
+  }
+
+  private async dibujarBannerClientePDF(
     doc: jsPDF,
     cliente: any,
     numeroCliente: string,
     item: any,
+    totalServicios: number,
     margen: number,
-    anchoUtil: number
-  ): number {
-    let y = 42;
+    anchoUtil: number,
+    pageW: number
+  ): Promise<number> {
+    let y = 38;
+    const pad = 4;
+    const colIzq = anchoUtil * 0.55;
+    const colDer = anchoUtil * 0.42;
+    const xDer = margen + anchoUtil - colDer;
+    const altoBloque = 42;
 
-    doc.setFillColor(245, 247, 255);
-    doc.roundedRect(margen, y, anchoUtil, 38, 3, 3, 'F');
+    // Fondo del bloque de cliente
+    doc.setFillColor(248, 250, 255);
+    doc.rect(0, y, pageW, altoBloque, 'F');
+    doc.setDrawColor(220, 232, 252);
+    doc.setLineWidth(0.3);
+    doc.line(0, y + altoBloque, pageW, y + altoBloque);
 
-    doc.setFontSize(10);
+    // --- COLUMNA IZQUIERDA: Datos del cliente ---
+    const nombre = (cliente?.nombre ?? 'N/A').toUpperCase();
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(10, 36, 99);
-    doc.text('DATOS DEL CLIENTE', margen + 4, y + 7);
+    doc.setTextColor(11, 78, 148);
+    doc.text(nombre, margen, y + 9);
 
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(60, 60, 60);
-
-    const nombre = cliente?.nombre ?? 'N/A';
-    const numCliente = `Cliente #${numeroCliente ?? 'N/A'}`;
-    const numVenta = `Venta #${item?.VENTA ?? 'N/A'}`;
     const direccionParts = [
-      cliente?.direccion,
-      cliente?.colonia,
-      cliente?.municipio,
-      cliente?.estado,
-      cliente?.pais
+      cliente?.direccion, cliente?.colonia,
+      cliente?.municipio, cliente?.estado
     ].filter(Boolean);
     const direccion = direccionParts.join(', ') || 'Sin dirección registrada';
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(20, 20, 20);
-    doc.text(nombre, margen + 4, y + 16);
-
+    const dirLines = doc.splitTextToSize(direccion, colIzq - pad);
+    doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(80, 80, 80);
-    doc.text(`${numCliente}   |   ${numVenta}`, margen + 4, y + 23);
+    doc.setTextColor(70, 85, 110);
+    doc.text(dirLines, margen, y + 16);
 
-    const dirLines = doc.splitTextToSize(direccion, anchoUtil - 8);
-    doc.text(dirLines, margen + 4, y + 30);
+    doc.setFontSize(7.5);
+    doc.setTextColor(120, 135, 160);
+    doc.text(`No. Cliente:`, margen, y + 30);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(11, 78, 148);
+    doc.text(`${numeroCliente ?? 'N/A'}`, margen + 22, y + 30);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(120, 135, 160);
+    doc.text(`Venta: #${item?.VENTA ?? 'N/A'}`, margen + 55, y + 30);
 
-    y += 46;
+    // --- COLUMNA DERECHA: Importe destacado (estilo cajita TotalPlay) ---
+    const importe = this.formatearPesos(totalServicios);
+    const deuda = cliente?.deuda ?? 0;
+    const colorCaja: [number, number, number] = deuda > 0
+      ? [220, 53, 69] : [11, 78, 148];
 
-    doc.setFillColor(11, 78, 148);
-    doc.roundedRect(margen, y, anchoUtil, 22, 3, 3, 'F');
+    doc.setFillColor(...colorCaja);
+    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 6, 4, 4, 'F');
+
     doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('PERÍODO DE PAGO', margen + 4, y + 7);
+    const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'CARGO MENSUAL';
+    doc.text(etiqCaja, xDer + colDer / 2, y + 11, { align: 'center' });
+
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`$${importe}`, xDer + colDer / 2, y + 25, { align: 'center' });
+
+    doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.text(item?.mensualidad ?? 'N/A', margen + 4, y + 15);
+    doc.setTextColor(210, 230, 255);
+    doc.text('MXN · Incluye todos los servicios',
+      xDer + colDer / 2, y + 33, { align: 'center' });
 
-    const importe = this.formatearPesos(item?.importe ?? 0);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text(`MXN ${importe}`, margen + anchoUtil - 4, y + 15, { align: 'right' });
-
-    return y + 30;
+    return y + altoBloque + 6;
   }
 
   private dibujarTablaServiciosPDF(
@@ -311,52 +360,89 @@ export class Client implements OnInit {
     anchoUtil: number
   ): number {
     let y = yInicio;
+    const pad = 4;
 
+    // Título sección con barra lateral
+    doc.setFillColor(11, 78, 148);
+    doc.rect(margen, y, 3, 8, 'F');
+    doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(10, 36, 99);
-    doc.text('SERVICIOS CONTRATADOS', margen, y);
-    y += 6;
+    doc.setTextColor(11, 78, 148);
+    doc.text('Detalle de servicios contratados', margen + 6, y + 6);
+    y += 12;
 
-    const colServicio = anchoUtil * 0.45;
-    const colDetalle = anchoUtil * 0.30;
-    const colPrecio = anchoUtil * 0.25;
+    const colServ = anchoUtil * 0.35;
+    const colDet = anchoUtil * 0.40;
 
+    // Encabezado tabla
     doc.setFillColor(11, 78, 148);
     doc.rect(margen, y, anchoUtil, 7, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(8.5);
+    doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
-    doc.text('Servicio', margen + 3, y + 5);
-    doc.text('Detalle', margen + colServicio + 3, y + 5);
-    doc.text('Precio/mes', margen + colServicio + colDetalle + 3, y + 5);
+    doc.text('SERVICIO', margen + pad, y + 5);
+    doc.text('PLAN / DETALLE', margen + colServ + pad, y + 5);
+    doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 5, {
+      align: 'right'
+    });
     y += 7;
 
     const filas = this.construirFilasServicios(servicios, cliente);
+    let subtotal = 0;
 
     filas.forEach((fila, idx) => {
-      const bgColor = idx % 2 === 0 ? [255, 255, 255] : [245, 247, 255];
-      doc.setFillColor(bgColor[0], bgColor[1], bgColor[2]);
-      doc.rect(margen, y, anchoUtil, 8, 'F');
+      const bgRgb: [number, number, number] = idx % 2 === 0
+        ? [248, 251, 255] : [238, 245, 255];
+      doc.setFillColor(...bgRgb);
+      doc.rect(margen, y, anchoUtil, 9, 'F');
 
-      doc.setTextColor(30, 30, 30);
+      doc.setDrawColor(220, 232, 250);
+      doc.setLineWidth(0.2);
+      doc.line(margen, y + 9, margen + anchoUtil, y + 9);
+
+      doc.setTextColor(25, 40, 70);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.text(fila.servicio, margen + pad, y + 6.5);
+
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.text(fila.servicio, margen + 3, y + 5.5);
-      const detalleMaxW = colDetalle - 6;
-      const detalleTexto = this.truncarTextoPDF(doc, fila.detalle, detalleMaxW);
-      doc.text(detalleTexto, margen + colServicio + 3, y + 5.5);
-      doc.text(`MXN ${fila.precio}`, margen + anchoUtil - 3, y + 5.5, { align: 'right' });
-      y += 8;
+      doc.setFontSize(7.5);
+      doc.setTextColor(80, 100, 130);
+      const maxDet = colDet - 4;
+      const detT = this.truncarTextoPDF(doc, fila.detalle, maxDet);
+      doc.text(detT, margen + colServ + pad, y + 6.5);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(11, 78, 148);
+      doc.text(
+        `$ ${fila.precio}`,
+        margen + anchoUtil - pad, y + 6.5, { align: 'right' }
+      );
+
+      subtotal += parseFloat(fila.precio.replace(/,/g, ''));
+      y += 9;
     });
 
-    doc.setDrawColor(200, 210, 240);
-    doc.line(margen, y, margen + anchoUtil, y);
+    // Subtotal
+    doc.setFillColor(225, 235, 250);
+    doc.rect(margen, y, anchoUtil, 8, 'F');
+    doc.setTextColor(11, 78, 148);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.text('Subtotal', margen + pad, y + 5.5);
+    doc.text(
+      `$ ${this.formatearPesos(subtotal)}`,
+      margen + anchoUtil - pad, y + 5.5, { align: 'right' }
+    );
+    y += 8;
 
-    return y + 8;
+    return y + 6;
   }
 
-  private truncarTextoPDF(doc: jsPDF, texto: string, maxWidth: number): string {
+  private truncarTextoPDF(
+    doc: jsPDF, texto: string, maxWidth: number
+  ): string {
     const t = texto ?? '';
     if (!t) return '';
     if (doc.getTextWidth(t) <= maxWidth) return t;
@@ -382,163 +468,257 @@ export class Client implements OnInit {
     if (servicios?.internet) {
       filas.push({
         servicio: 'Internet',
-        detalle: `${cliente?.nombrePlan ?? ''}`,
+        detalle: `${cliente?.nombrePlan ?? ''} — ${cliente?.planInternet ?? ''} Mbps`,
         precio: this.formatearPesos(servicios.internet.precio ?? 0)
       });
     }
 
     if ((servicios?.camaras?.canServicios ?? 0) > 0) {
+      const costoTotalCamaras = (servicios.camaras.canServicios ?? 0) *
+        (servicios.camaras.precio ?? 0);
       filas.push({
         servicio: 'Cámaras',
         detalle: `${servicios.camaras.canServicios} servicio(s)`,
-        precio: this.formatearPesos(servicios.camaras.precio ?? 0)
+        precio: this.formatearPesos(costoTotalCamaras)
       });
     }
 
     if ((servicios?.telefono?.canServicios ?? 0) > 0) {
+      const costoTotalTelefono = (servicios.telefono.canServicios ?? 0) *
+        (servicios.telefono.precio ?? 0);
       filas.push({
         servicio: 'Telefonía',
         detalle: `${servicios.telefono.canServicios} línea(s)`,
-        precio: this.formatearPesos(servicios.telefono.precio ?? 0)
+        precio: this.formatearPesos(costoTotalTelefono)
       });
     }
 
     if ((servicios?.cuentasTv?.canServicios ?? 0) > 0) {
+      const costoTotalTv = (servicios.cuentasTv.canServicios ?? 0) *
+        (servicios.cuentasTv.precio ?? 0);
       filas.push({
         servicio: 'TV',
         detalle: `${servicios.cuentasTv.canServicios} servicio(s)`,
-        precio: this.formatearPesos(servicios.cuentasTv.precio ?? 0)
+        precio: this.formatearPesos(costoTotalTv)
       });
     }
 
     return filas;
   }
 
-  private dibujarTotalPendientePDF(
+  private dibujarResumenTotalPDF(
     doc: jsPDF,
     cliente: any,
+    item: any,
+    totalServicios: number,
     y: number,
     margen: number,
     anchoUtil: number
   ): number {
     const deuda = cliente?.deuda ?? 0;
-    const colorFondo = deuda > 0 ? [220, 53, 69] : [40, 167, 69];
+    const importe = this.formatearPesos(totalServicios);
+    const pad = 4;
 
-    doc.setFillColor(colorFondo[0], colorFondo[1], colorFondo[2]);
-    doc.roundedRect(margen, y, anchoUtil, 18, 3, 3, 'F');
+    // Separador visual
+    doc.setDrawColor(200, 218, 248);
+    doc.setLineWidth(0.4);
+    doc.line(margen, y, margen + anchoUtil, y);
+    y += 5;
 
-    doc.setTextColor(255, 255, 255);
+    // Caja principal de total
+    const altoTotal = 26;
+    const colorFondo: [number, number, number] = deuda > 0
+      ? [255, 242, 244] : [240, 255, 248];
+    const colorBorde: [number, number, number] = deuda > 0
+      ? [220, 53, 69] : [25, 160, 80];
+    const colorTexto: [number, number, number] = deuda > 0
+      ? [190, 30, 50] : [20, 120, 65];
+    const colorImporte: [number, number, number] = deuda > 0
+      ? [220, 53, 69] : [25, 160, 80];
+
+    doc.setFillColor(...colorFondo);
+    doc.roundedRect(margen, y, anchoUtil, altoTotal, 3, 3, 'F');
+    doc.setDrawColor(...colorBorde);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(margen, y, anchoUtil, altoTotal, 3, 3, 'D');
+
+    // Barra izquierda de acento
+    doc.setFillColor(...colorBorde);
+    doc.roundedRect(margen, y, 4, altoTotal, 2, 2, 'F');
+
+    // Etiqueta estado
+    doc.setFontSize(8.5);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.text('TOTAL PENDIENTE', margen + 4, y + 7);
+    doc.setTextColor(...colorTexto);
+    const etiqTotal = deuda > 0 ? 'TOTAL A PAGAR' : 'TU CUENTA ESTÁ AL CORRIENTE';
+    doc.text(etiqTotal, margen + pad + 4, y + 9);
 
-    doc.setFontSize(13);
+    // Periodo
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 120, 150);
     doc.text(
-      `MXN ${this.formatearPesos(deuda)}`,
-      margen + anchoUtil - 4,
-      y + 12,
-      { align: 'right' }
+      `Periodo: ${item?.mensualidad ?? 'N/A'}  ·  Fecha límite: del 1 al 5 de cada mes`,
+      margen + pad + 4, y + 16
     );
 
+    // Importe grande a la derecha
     if (deuda > 0) {
-      doc.setFontSize(7.5);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...colorImporte);
+      doc.text(
+        `$ ${this.formatearPesos(deuda)}`,
+        margen + anchoUtil - pad, y + 18, { align: 'right' }
+      );
+      doc.setFontSize(7);
       doc.setFont('helvetica', 'normal');
-      doc.text('Realiza tu pago del 1 al 5 de cada mes.', margen + 4, y + 14);
+      doc.setTextColor(160, 80, 90);
+      doc.text('MXN · Saldo pendiente',
+        margen + anchoUtil - pad, y + 24, { align: 'right' });
+    } else {
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...colorImporte);
+      doc.text(
+        `$ ${importe} MXN`,
+        margen + anchoUtil - pad, y + 20, { align: 'right' }
+      );
     }
 
-    return y + 22;
+    return y + altoTotal + 8;
   }
 
-  private async dibujarPublicidadPagoPDF(
+  private async dibujarSeccionPagoPDF(
     doc: jsPDF,
     yInicio: number,
     margen: number,
     anchoUtil: number
-  ): Promise<number> {
+  ): Promise<void> {
     let y = yInicio;
+    const pad = 4;
 
-    const tituloColor: [number, number, number] = [11, 78, 148];
-    const grisTexto: [number, number, number] = [60, 60, 60];
-    const paddingX = 4;
-
-    doc.setTextColor(tituloColor[0], tituloColor[1], tituloColor[2]);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text('Paga tu servicio', margen, y);
-    y += 5;
-
-    doc.setTextColor(grisTexto[0], grisTexto[1], grisTexto[2]);
-    doc.setFont('helvetica', 'normal');
+    // Encabezado de sección
+    doc.setFillColor(11, 78, 148);
+    doc.rect(margen, y, 3, 8, 'F');
     doc.setFontSize(9);
-    doc.text('Paga tu servicio de forma rápida y segura', margen, y);
-    y += 6;
-    doc.setTextColor(grisTexto[0], grisTexto[1], grisTexto[2]);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.text('Recuerda que ya puedes hacer tu pago en linea o directamente de nuestra app web', margen, y);
-    y += 7;
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(11, 78, 148);
+    doc.text('Formas de pago disponibles', margen + 6, y + 6);
+    y += 14;
 
     const colW = (anchoUtil - 6) / 2;
     const xIzq = margen;
     const xDer = margen + colW + 6;
-    const boxH = 46;
 
-    doc.setDrawColor(210, 220, 240);
-    doc.setFillColor(248, 250, 255);
-    doc.roundedRect(xIzq, y, colW, boxH, 2, 2, 'FD');
-    doc.roundedRect(xDer, y, colW, boxH, 2, 2, 'FD');
+    // --- Caja 1: HSBC ---
+    y = await this.dibujarCajaPagoCompleta(doc, {
+      x: xIzq, y, w: colW,
+      titulo: 'Sucursal bancaria · HSBC',
+      lineas: [
+        { label: 'Depósito en ventanilla o cajero', valor: '' },
+        { label: 'No. Cuenta:', valor: '4062409131' },
+        { label: 'Beneficiario:', valor: 'IPTVTEL COMUNICACIONES' }
+      ],
+      logoPath: 'assets/img/FormasPago/hsbc.svg',
+      pad
+    });
 
-    doc.setTextColor(20, 20, 20);
+    // --- Caja 2: SPEI ---
+    await this.dibujarCajaPagoCompleta(doc, {
+      x: xDer, y: yInicio + 14, w: colW,
+      titulo: 'Transferencia SPEI',
+      lineas: [
+        { label: 'Banca en línea o app bancaria', valor: '' },
+        { label: 'CLABE:', valor: '021453040624091311' },
+        { label: 'Beneficiario:', valor: 'IPTVTEL COMUNICACIONES' }
+      ],
+      logoPath: 'assets/img/FormasPago/spei.png',
+      pad
+    });
+
+    y += 6;
+
+    // --- Caja 3: OXXO (ancho completo) ---
+    await this.dibujarCajaPagoCompleta(doc, {
+      x: margen, y, w: anchoUtil,
+      titulo: 'Tiendas de conveniencia · OXXO · Farmacia del Ahorro',
+      lineas: [
+        { label: 'Pago en efectivo en cualquier establecimiento participante', valor: '' },
+        { label: 'No. Referencia:', valor: '4741764001982278' },
+        { label: 'Tu pago se verá reflejado en menos de 24 hrs.', valor: '' }
+      ],
+      logoPath: 'assets/img/FormasPago/oxxo.png',
+      logoW: 36,
+      logoH: 15,
+      pad
+    });
+  }
+
+  private async dibujarCajaPagoCompleta(
+    doc: jsPDF,
+    opciones: {
+      x: number; y: number; w: number;
+      titulo: string;
+      lineas: { label: string; valor: string }[];
+      logoPath: string;
+      logoW?: number;
+      logoH?: number;
+      pad: number;
+    }
+  ): Promise<number> {
+    const { x, y, w, titulo, lineas, logoPath, logoW, logoH, pad } = opciones;
+    const wLogo = logoW ?? 14;
+    const hLogo = logoH ?? 10;
+    const altoHeader = 8;
+    const altoContenido = lineas.length * 8 + 4;
+    const altoTotal = altoHeader + altoContenido;
+
+    // Fondo de la caja
+    doc.setFillColor(248, 251, 255);
+    doc.roundedRect(x, y, w, altoTotal, 3, 3, 'F');
+    doc.setDrawColor(205, 222, 248);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x, y, w, altoTotal, 3, 3, 'D');
+
+    // Encabezado azul
+    doc.setFillColor(11, 78, 148);
+    doc.roundedRect(x, y, w, altoHeader, 3, 3, 'F');
+    doc.rect(x, y + altoHeader - 3, w, 3, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
-    doc.text('Sucursal bancaria', xIzq + paddingX, y + 6);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.text('Depósito en ventanilla', xIzq + paddingX, y + 11);
-    doc.text('No. cuenta: 4062409131', xIzq + paddingX, y + 18);
-    doc.text('Referencia: Nombre del titular', xIzq + paddingX, y + 23);
-    const benef1 = 'Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV';
-    const benef1Lines = doc.splitTextToSize(benef1, colW - paddingX * 2);
-    doc.text(benef1Lines, xIzq + paddingX, y + 28);
-    await this.agregarImagenPDF(doc, 'assets/img/hsbc.png', 'PNG', xIzq + colW - 18, y + boxH - 14, 14, 10);
+    doc.text(titulo, x + pad, y + 5.5);
 
-    doc.setTextColor(20, 20, 20);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
-    doc.text('Transferencia electrónica', xDer + paddingX, y + 6);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.text('Banca en línea o app móvil', xDer + paddingX, y + 11);
-    doc.text('CLABE: 021453040624091311', xDer + paddingX, y + 18);
-    doc.text('Referencia: Nombre del titular', xDer + paddingX, y + 23);
-    const benef2 = 'Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV';
-    const benef2Lines = doc.splitTextToSize(benef2, colW - paddingX * 2);
-    doc.text(benef2Lines, xDer + paddingX, y + 28);
-    await this.agregarImagenPDF(doc, 'assets/img/spei.png', 'PNG', xDer + colW - 18, y + boxH - 14, 14, 10);
+    // Contenido
+    lineas.forEach((linea, idx) => {
+      const lineY = y + altoHeader + 6 + idx * 8;
+      if (linea.valor) {
+        doc.setTextColor(80, 100, 130);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.text(linea.label, x + pad, lineY);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(11, 78, 148);
+        const labelW = doc.getTextWidth(linea.label + ' ');
+        doc.text(linea.valor, x + pad + labelW, lineY);
+      } else {
+        doc.setTextColor(90, 110, 140);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        const maxW = w - pad * 2 - (wLogo + 4);
+        const wrapped = doc.splitTextToSize(linea.label, maxW);
+        doc.text(wrapped, x + pad, lineY);
+      }
+    });
 
-    y += boxH + 8;
-
-    const boxH2 = 30;
-    doc.setFillColor(248, 250, 255);
-    doc.roundedRect(margen, y, anchoUtil, boxH2, 2, 2, 'FD');
-
-    doc.setTextColor(20, 20, 20);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
-    doc.text('Otros métodos', margen + paddingX, y + 6);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.text('Tiendas de conveniencia', margen + paddingX, y + 11);
-    doc.text('Proveedores', margen + paddingX, y + 17);
-    doc.text(
-      'OXXO · Farmacia del Ahorro · Financiera del Bienestar',
-      margen + paddingX,
-      y + 22
+    // Logo a la derecha
+    await this.agregarImagenPDF(
+      doc, logoPath, 'PNG',
+      x + w - wLogo - pad, y + altoTotal - hLogo - 4, wLogo, hLogo
     );
-    doc.text('No. cuenta: 4741764001982278', margen + paddingX, y + 27);
-    await this.agregarImagenPDF(doc, 'assets/img/tienda.png', 'PNG', margen + anchoUtil - 20, y + 10, 14, 14);
 
-    return y + boxH2 + 6;
+    return y + altoTotal;
   }
 
   private async agregarImagenPDF(
@@ -551,40 +731,83 @@ export class Client implements OnInit {
     h: number
   ): Promise<void> {
     try {
-      const resp = await fetch(assetPath);
-      const blob = await resp.blob();
-      const dataUrl = await this.blobToDataUrl(blob);
-      doc.addImage(dataUrl, format, x, y, w, h);
+      let dataUrl: string;
+      if (assetPath.endsWith('.svg')) {
+        dataUrl = await this.svgToPngDataUrl(assetPath);
+      } else {
+        const resp = await fetch(assetPath);
+        const blob = await resp.blob();
+        dataUrl = await this.blobToDataUrl(blob);
+      }
+      doc.addImage(dataUrl, 'PNG', x, y, w, h, undefined, 'FAST');
     } catch (e) {
-      console.error('Error loading image:', assetPath, e);
+      // Ignorado: imagen no crítica
     }
+  }
+
+  private svgToPngDataUrl(svgPath: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const scale = 3;
+        canvas.width = (img.naturalWidth || 512) * scale;
+        canvas.height = (img.naturalHeight || 512) * scale;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/png'));
+        } else {
+          reject(new Error('Canvas context not available'));
+        }
+      };
+      img.onerror = () => reject(new Error('Failed to load SVG'));
+      img.src = svgPath;
+    });
   }
 
   private async dibujarPiePDF(doc: jsPDF, pageW: number): Promise<void> {
     const pageH = doc.internal.pageSize.getHeight();
-    doc.setFillColor(11, 78, 148);
-    doc.rect(0, pageH - 12, pageW, 12, 'F');
+    const altoFoot = 16;
 
-    // Add logo to the left corner
+    // Franja fina de acento sobre el pie
+    doc.setFillColor(24, 106, 206);
+    doc.rect(0, pageH - altoFoot - 1, pageW, 1, 'F');
+
+    // Fondo azul oscuro del pie
+    doc.setFillColor(11, 78, 148);
+    doc.rect(0, pageH - altoFoot, pageW, altoFoot, 'F');
+
+    // Logo en pie
     try {
-      const logoResponse = await fetch('assets/img/logoB.png');
-      const logoBlob = await logoResponse.blob();
+      const logoResp = await fetch('assets/img/emenetLogoB.png');
+      const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
-      doc.addImage(logoDataUrl, 'PNG', 20, pageH - 10, 13, 10);
-    } catch (error) {
-      console.error('Error loading logo:', error);
+      doc.addImage(
+        logoDataUrl, 'PNG',
+        12, pageH - altoFoot + 3, 22, 10, undefined, 'FAST'
+      );
+    } catch {
+      // Sin logo de respaldo
     }
 
-    doc.setTextColor(255, 255, 255);
+    // Texto central
+    doc.setTextColor(180, 210, 255);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.text(
-      'emenet comunicaciones · Estado de Cuenta · 2026',
-      pageW / 2,
-      pageH - 4.5,
-      { align: 'center' }
+      'emenet comunicaciones  ·  Estado de Cuenta  ·  Documento generado automáticamente',
+      pageW / 2, pageH - 5.5, { align: 'center' }
     );
+
+    // Página
+    doc.setTextColor(140, 180, 230);
+    doc.setFontSize(6.5);
+    doc.text('Pág. 1 de 1', pageW - 12, pageH - 5.5, { align: 'right' });
   }
+
+
 
   private blobToDataUrl(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {

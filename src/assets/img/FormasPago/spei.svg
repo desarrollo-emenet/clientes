@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 150" width="100%" height="100%">
+  <!-- Fondo opcional (elimina esta línea si prefieres fondo transparente) -->
+  <rect width="100%" height="100%" fill="transparent"/>
+  
+  <g>
+    <!-- Letra S (Estilo flechas curvas entrelazadas) -->
+    <path d="M 65 30 C 95 30, 115 50, 115 70 L 90 70 C 90 60, 80 52, 65 52 C 50 52, 40 60, 40 70 C 40 85, 115 80, 115 110 C 115 130, 95 145, 65 145 C 30 145, 15 125, 15 105 L 40 105 C 40 118, 50 123, 65 123 C 80 123, 90 115, 90 105 C 90 90, 15 95, 15 70 C 15 48, 35 30, 65 30 Z" fill="#002F6C"/>
+    
+    <!-- Letra P -->
+    <path d="M 135 35 L 185 35 C 210 35, 225 48, 225 68 C 225 88, 210 100, 185 100 L 163 100 L 163 145 L 135 145 Z M 163 58 L 163 77 L 182 77 C 192 77, 197 72, 197 67 C 197 62, 192 58, 182 58 Z" fill="#002F6C"/>
+    
+    <!-- Letra E -->
+    <path d="M 245 35 L 305 35 L 305 58 L 273 58 L 273 77 L 300 77 L 300 98 L 273 98 L 273 122 L 307 122 L 307 145 L 245 145 Z" fill="#002F6C"/>
+    
+    <!-- Letra I -->
+    <path d="M 325 35 L 353 35 L 353 145 L 325 145 Z" fill="#002F6C"/>
+    
+    <!-- Símbolo de Dinero / Flechas Dinámicas de Transferencia -->
+    <path d="M 380 40 L 425 40 L 402 15 Z" fill="#00A859"/>
+    <path d="M 390 48 L 390 110 C 390 125, 400 135, 415 135 L 435 135 L 435 113 L 418 113 C 414 113, 412 111, 412 107 L 412 48 Z" fill="#00A859"/>
+    <circle cx="425" cy="75" r="10" fill="#FFC72C"/>
+  </g>
+</svg>
