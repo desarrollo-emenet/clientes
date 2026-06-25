@@ -209,35 +209,59 @@ export class Client implements OnInit {
     doc.save(nombreArchivo);
   }
 
-  private async dibujarEncabezadoPDF(
-    doc: jsPDF, pageW: number, margen: number, item: any
+  private cargarJsBarcode(): Promise<any> {
+    return new Promise((resolve) => {
+      if ((window as any).JsBarcode) {
+        resolve((window as any).JsBarcode);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src =
+        'https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js';
+      script.onload = () => resolve((window as any).JsBarcode);
+      script.onerror = () => resolve(null);
+      document.head.appendChild(script);
+    });
+  }
+
+  private async dibujarCodigoBarrasPDF(
+    doc: jsPDF,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    valor: string
   ): Promise<void> {
-    const altoHeader = 34;
+    const jsbc = await this.cargarJsBarcode();
+    if (!jsbc) return;
 
-    // Fondo blanco del encabezado
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageW, altoHeader, 'F');
+    const canvas = document.createElement('canvas');
+    jsbc(canvas, valor, {
+      format: 'CODE128',
+      width: 2,
+      height: 50,
+      displayValue: false,
+      margin: 0
+    });
 
-    // Línea inferior de acento en color #333333
-    doc.setFillColor(51, 51, 51);
-    doc.rect(0, altoHeader, pageW, 1.5, 'F');
+    const dataUrl = canvas.toDataURL('image/png');
+    doc.addImage(dataUrl, 'PNG', x, y, w, h, undefined, 'FAST');
+  }
 
-    // Logo emenet a la izquierda (oscuro, sobre fondo blanco)
+  private async dibujarLogoEncabezado(
+    doc: jsPDF, margen: number
+  ): Promise<void> {
     try {
-      const logoResp = await fetch('assets/img/emenetLogo.png');
-      const logoBlob = await logoResp.blob();
-      const logoDataUrl = await this.blobToDataUrl(logoBlob);
-      doc.addImage(
-        logoDataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST'
-      );
+      const resp = await fetch('assets/img/emenetLogo.png');
+      const blob = await resp.blob();
+      const dataUrl = await this.blobToDataUrl(blob);
+      doc.addImage(dataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST');
     } catch {
       try {
-        const logoResp = await fetch('assets/img/emenetLogoB.png');
-        const logoBlob = await logoResp.blob();
-        const logoDataUrl = await this.blobToDataUrl(logoBlob);
-        doc.addImage(
-          logoDataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST'
-        );
+        const resp = await fetch('assets/img/emenetLogoB.png');
+        const blob = await resp.blob();
+        const dataUrl = await this.blobToDataUrl(blob);
+        doc.addImage(dataUrl, 'PNG', margen, 5, 36, 18, undefined, 'FAST');
       } catch {
         doc.setTextColor(51, 51, 51);
         doc.setFontSize(14);
@@ -245,28 +269,58 @@ export class Client implements OnInit {
         doc.text('emenet', margen, 20);
       }
     }
+  }
 
-    // Bloque de información en esquina derecha (estilo recibo Telmex)
+  private dibujarInfoEncabezado(
+    doc: jsPDF, pageW: number, margen: number, item: any
+  ): void {
     const hoy = new Date().toLocaleDateString('es-MX', {
       year: 'numeric', month: 'long', day: 'numeric'
     });
-    const folio = `Folio: ${Date.now().toString().slice(-8)}`;
-    const xInfo = pageW - margen;
-
+    const x = pageW - margen - 56;
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(51, 51, 51);
-    doc.text('COMPROBANTE DE PAGO', xInfo, 9, { align: 'right' });
-
+    doc.text('COMPROBANTE DE PAGO', x, 9, { align: 'right' });
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(60, 75, 100);
-    doc.text(`Periodo: ${item?.mensualidad ?? 'N/A'}`, xInfo, 16, { align: 'right' });
-    doc.text(`Emitido: ${hoy}`, xInfo, 22, { align: 'right' });
-
+    doc.text(`Periodo: ${item?.mensualidad ?? 'N/A'}`, x, 15, { align: 'right' });
+    doc.text(`Emitido: ${hoy}`, x, 21, { align: 'right' });
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(120, 140, 170);
-    doc.text(folio, xInfo, 28, { align: 'right' });
+    doc.text(`Folio: ${Date.now().toString().slice(-8)}`, x, 27, { align: 'right' });
+  }
+
+  private async dibujarCodigoBarrasEncabezado(
+    doc: jsPDF, pageW: number, margen: number
+  ): Promise<void> {
+    const x = pageW - margen - 50;
+    const ref = '4741764001982278';
+    await this.dibujarCodigoBarrasPDF(doc, x, 4, 50, 16, ref);
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(51, 51, 51);
+    doc.text('4741  7640  0198  2278', x + 25, 23, { align: 'center' });
+
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(110, 120, 130);
+    doc.text('Ref. OXXO / Ahorro / Bienestar', x + 25, 28, { align: 'center' });
+  }
+
+  private async dibujarEncabezadoPDF(
+    doc: jsPDF, pageW: number, margen: number, item: any
+  ): Promise<void> {
+    const altoHeader = 34;
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 0, pageW, altoHeader, 'F');
+    doc.setFillColor(51, 51, 51);
+    doc.rect(0, altoHeader, pageW, 1.5, 'F');
+
+    await this.dibujarLogoEncabezado(doc, margen);
+    this.dibujarInfoEncabezado(doc, pageW, margen, item);
+    await this.dibujarCodigoBarrasEncabezado(doc, pageW, margen);
   }
 
   private calcularTotalServicios(servicios: any): number {
@@ -537,6 +591,84 @@ export class Client implements OnInit {
     return filas;
   }
 
+  private obtenerColoresEstado(deudor: boolean): {
+    acento: [number, number, number];
+    fondo: [number, number, number];
+  } {
+    if (deudor) {
+      return {
+        acento: [220, 53, 69],
+        fondo: [255, 255, 255]
+      };
+    }
+    return {
+      acento: [25, 135, 84],
+      fondo: [255, 255, 255]
+    };
+  }
+
+  private dibujarCajaEstado(
+    doc: jsPDF,
+    x: number,
+    y: number,
+    ancho: number,
+    alto: number,
+    col: {
+      acento: [number, number, number];
+      fondo: [number, number, number];
+    }
+  ): void {
+    doc.setFillColor(col.fondo[0], col.fondo[1], col.fondo[2]);
+    doc.roundedRect(x, y, ancho, alto, 2, 2, 'F');
+    doc.setDrawColor(col.acento[0], col.acento[1], col.acento[2]);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(x, y, ancho, alto, 2, 2, 'D');
+  }
+
+  private dibujarTextosIzquierda(
+    doc: jsPDF,
+    deudor: boolean,
+    mensualidad: string,
+    x: number,
+    y: number
+  ): void {
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(51, 51, 51);
+    const msg = deudor
+      ? 'SALDO ANTERIOR PENDIENTE'
+      : 'TU CUENTA SE ENCUENTRA AL CORRIENTE';
+    doc.text(msg, x, y + 6.2);
+
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(110, 120, 130);
+    const sub = `Periodo: ${mensualidad}  ·  Límite: del 1 al 5`;
+    doc.text(sub, x, y + 11.2);
+  }
+
+  private dibujarValoresDerecha(
+    doc: jsPDF,
+    deudor: boolean,
+    importeText: string,
+    colorAcento: [number, number, number],
+    x: number,
+    y: number
+  ): void {
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(120, 130, 140);
+    const etiqueta = deudor ? 'TOTAL A PAGAR' : 'ESTADO';
+    doc.text(etiqueta, x, y + 6.2, { align: 'right' });
+
+    const tSize = deudor ? 13 : 10;
+    doc.setFontSize(tSize);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(colorAcento[0], colorAcento[1], colorAcento[2]);
+    const valor = deudor ? `$ ${importeText}` : 'AL CORRIENTE';
+    doc.text(valor, x, y + 11.2, { align: 'right' });
+  }
+
   private dibujarResumenTotalPDF(
     doc: jsPDF,
     cliente: any,
@@ -546,79 +678,25 @@ export class Client implements OnInit {
     margen: number,
     anchoUtil: number
   ): number {
-    const deuda = cliente?.deuda ?? 0;
-    const importe = this.formatearPesos(totalServicios);
-    const pad = 4;
+    const deudor = (cliente?.deuda ?? 0) > 0;
+    const imp = deudor ? cliente.deuda : totalServicios;
+    const mes = item?.mensualidad ?? 'N/A';
 
-    // Separador visual gris neutro
-    doc.setDrawColor(210, 210, 210);
+    doc.setDrawColor(220, 220, 220);
     doc.setLineWidth(0.4);
     doc.line(margen, y, margen + anchoUtil, y);
     y += 5;
 
-    // Caja principal de total (Diseño estilo Totalplay con bordes y acento)
-    const altoTotal = 28;
-    const esDeudor = deuda > 0;
-    const colorAcento: [number, number, number] = esDeudor ? [220, 53, 69] : [25, 135, 84];
-    const colorFondo: [number, number, number] = esDeudor ? [255, 248, 248] : [245, 253, 248];
-
-    // Fondo y borde
-    doc.setFillColor(...colorFondo);
-    doc.roundedRect(margen, y, anchoUtil, altoTotal, 2, 2, 'F');
-    doc.setDrawColor(...colorAcento);
-    doc.setLineWidth(0.6);
-    doc.roundedRect(margen, y, anchoUtil, altoTotal, 2, 2, 'D');
-
-    // Barra izquierda de acento gruesa (estilo Totalplay)
-    doc.setFillColor(...colorAcento);
-    doc.rect(margen, y, 4, altoTotal, 'F');
-
-    // Mensaje de estado principal
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
-    const mensajeEstado = esDeudor ? 'SALDO ANTERIOR PENDIENTE' : 'TU CUENTA SE ENCUENTRA AL CORRIENTE';
-    doc.text(mensajeEstado, margen + 8, y + 10);
-
-    // Subtexto del periodo
-    doc.setFontSize(7.5);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(110, 120, 130);
-    doc.text(
-      `Periodo de facturación: ${item?.mensualidad ?? 'N/A'}  ·  Límite de pago: del 1 al 5 de cada mes`,
-      margen + 8, y + 19
+    const alto = 16;
+    const col = this.obtenerColoresEstado(deudor);
+    this.dibujarCajaEstado(doc, margen, y, anchoUtil, alto, col);
+    this.dibujarTextosIzquierda(doc, deudor, mes, margen + 6, y);
+    this.dibujarValoresDerecha(
+      doc, deudor, this.formatearPesos(imp), col.acento,
+      margen + anchoUtil - 6, y
     );
 
-    // Sección de importe a la derecha
-    if (esDeudor) {
-      doc.setFontSize(16);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(220, 53, 69);
-      doc.text(
-        `$ ${this.formatearPesos(deuda)}`,
-        margen + anchoUtil - 6, y + 12, { align: 'right' }
-      );
-      doc.setFontSize(7);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(150, 60, 70);
-      doc.text('TOTAL A PAGAR (MXN)',
-        margen + anchoUtil - 6, y + 19, { align: 'right' });
-    } else {
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(25, 135, 84);
-      doc.text(
-        `$ ${importe} MXN`,
-        margen + anchoUtil - 6, y + 11.5, { align: 'right' }
-      );
-      doc.setFontSize(7);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(110, 120, 130);
-      doc.text('SIN ADEUDOS PENDIENTES',
-        margen + anchoUtil - 6, y + 19, { align: 'right' });
-    }
-
-    return y + altoTotal + 8;
+    return y + alto + 6;
   }
 
   private async dibujarSeccionPagoPDF(
