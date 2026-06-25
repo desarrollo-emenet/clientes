@@ -737,7 +737,7 @@ export class Client implements OnInit {
         { label: 'Depósito en ventanilla o cajero', valor: '' },
         { label: 'No. Cuenta:', valor: '4062409131' },
         { label: 'Beneficiario:', valor: 'IPTVTEL COMUNICACIONES' },
-        { label: 'Recuerda subir tu pago en la App o a nuestro Embot', valor: '' }
+        { label: 'Recuerda subir tu pago en la App o ha nuestro Embot', valor: '' }
       ],
       logoPath: 'assets/img/FormasPago/hsbc.svg',
       pad,
@@ -752,7 +752,7 @@ export class Client implements OnInit {
         { label: 'Banca en línea o app bancaria', valor: '' },
         { label: 'CLABE:', valor: '021453040624091311' },
         { label: 'Beneficiario:', valor: 'IPTVTEL COMUNICACIONES' },
-        { label: 'Recuerda subir tu pago en la App o a nuestro Embot', valor: '' }
+        { label: 'Recuerda subir tu pago en la App o ha nuestro Embot', valor: '' }
       ],
       logoPath: 'assets/img/FormasPago/spei.png',
       pad,
@@ -769,7 +769,7 @@ export class Client implements OnInit {
         { label: 'Pago en efectivo en cualquier establecimiento participante', valor: '' },
         { label: 'No. Referencia:', valor: '4741764001982278' },
         { label: 'Tu pago se verá reflejado en menos de 24 hrs.', valor: '' },
-        { label: 'Recuerda subir tu pago en la App o a nuestro Embot al', valor: '713 347 5658' }
+        { label: 'Recuerda subir tu pago en la App o ha nuestro Embot al', valor: '713 347 5658' }
       ],
       logoPath: 'assets/img/FormasPago/oxxo.png',
       logoW: 36,
