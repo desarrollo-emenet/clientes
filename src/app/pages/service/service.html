@@ -45,14 +45,20 @@
             </div>
           </div>
 
-          <span class="status-badge" [ngClass]="{
-              'status-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-              'status-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-              'status-badge--neutral': !s.cliente?.infoRed?.estado
-            }">
+          <span
+            class="status-badge"
+            [ngClass]="obtenerDetalleClasificacion(
+              s.cliente?.clasificacion
+            ).clase"
+          >
             <i class="fa-solid fa-circle"></i>
-            {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+            {{
+              obtenerDetalleClasificacion(
+                s.cliente?.clasificacion
+              ).texto
+            }}
           </span>
+
         </div>
 
         <!-- Divisor elegante -->

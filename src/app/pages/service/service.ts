@@ -33,6 +33,26 @@ export class Service implements OnInit, OnDestroy {
   data: any = null;
   private subs: Subscription[] = [];
 
+  private readonly MAPA_CLASIFICACIONES: Record<
+    string,
+    { texto: string; clase: string }
+  > = {
+      ifo: { texto: 'Fibra Óptica', clase: 'status-badge--success' },
+      ina: { texto: 'Inalambrico', clase: 'status-badge--info' },
+      baja: { texto: 'Baja', clase: 'status-badge--danger' }
+    };
+
+  obtenerDetalleClasificacion(clasificacion: string) {
+    const clave = clasificacion?.toLowerCase() || '';
+    return (
+      this.MAPA_CLASIFICACIONES[clave] || {
+        texto: clasificacion || 'Desconocido',
+        clase: 'status-badge--neutral'
+      }
+    );
+  }
+
+
   constructor(private fb: FormBuilder, private router: Router, private api: ClientService) {
     this.serviceForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
@@ -82,6 +102,7 @@ export class Service implements OnInit, OnDestroy {
         this.cliente = data?.cliente ?? [];
 
         this.loading = false;
+        //LOg desde consola
         //console.log(data);
       },
       error: (e) => {

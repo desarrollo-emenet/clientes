@@ -403,6 +403,12 @@
   color: #475569;
 }
 
+.status-badge--info {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+}
+
+
 @keyframes pulse-dot {
   0% { opacity: 0.4; }
   50% { opacity: 1; }
