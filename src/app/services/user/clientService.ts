@@ -87,8 +87,13 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const headers = this.getHeaders(true); // Incluir x-web-key
+    const headers = this.getHeaders(true); 
     return this.http.post<any>(`${this.apiLocalUrl2}/pagos-bancoV2`, data, { headers: headers });
   }
   
+  resBanco(cliente: string): Observable<any> {
+    const headers = this.getHeaders(true); 
+    return this.http.get<any>(`${this.apiLocalUrl2}/pagos-bancoV2/${cliente}`, { headers: headers });
+  }
+
 }

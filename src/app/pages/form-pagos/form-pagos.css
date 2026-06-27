@@ -197,7 +197,7 @@
   color: #22c55e;
 }
 
-.pagos-icon.declinado {
+.pagos-icon.rechazado {
   background: #fdecec;
   color: #ef4444;
 }
@@ -278,12 +278,12 @@
   background: #22c55e;
 }
 
-.status-badge.declinado {
+.status-badge.rechazado {
   background: #fdecec;
   color: #ef4444;
 }
 
-.status-badge.declinado .dot {
+.status-badge.rechazado .dot {
   background: #ef4444;
 }
 
@@ -365,189 +365,6 @@
   padding: 20px;
 }
 
-/* MODAL */
-
-.modal-pago-custom {
-  width: 100%;
-  max-width: 850px;
-
-  background: #fff;
-  border-radius: 24px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 20px 60px rgba(15, 23, 42, .15);
-
-  animation: modalShow .25s ease;
-}
-
-@keyframes modalShow {
-
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* HEADER */
-
-.modal-header-custom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  padding: 24px 28px;
-
-  border-bottom: 1px solid #edf2f7;
-}
-
-.modal-header-custom h4 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #172033;
-}
-
-.modal-subtitle {
-  color: #7c8798;
-  font-size: .85rem;
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  margin-top: 6px;
-}
-
-.close-btn {
-  border: none;
-  background: #f1f5f9;
-
-  width: 42px;
-  height: 42px;
-
-  border-radius: 12px;
-
-  cursor: pointer;
-}
-
-/* GRID */
-
-.modal-grid-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-}
-
-/* COLUMNAS */
-
-.modal-column {
-  padding: 28px;
-}
-
-.modal-info {
-  background: #fff;
-}
-
-.modal-resolucion {
-  background: #f8fafc;
-  border-left: 1px solid #edf2f7;
-}
-
-/* TITULOS */
-
-.column-title {
-  font-size: .75rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-
-  color: #94a3b8;
-
-  margin-bottom: 20px;
-}
-
-/* DETALLES */
-
-.detalle-group {
-  margin-bottom: 18px;
-}
-
-.detalle-group label {
-  display: block;
-  font-size: .75rem;
-  font-weight: 600;
-
-  text-transform: uppercase;
-
-  color: #64748b;
-
-  margin-bottom: 6px;
-}
-
-.detalle-group p {
-  margin: 0;
-  font-weight: 600;
-  color: #172033;
-}
-
-/* TARJETAS */
-
-.detalle-card-group {
-  background: #fff;
-
-  border: 1px solid #edf2f7;
-
-  border-radius: 16px;
-
-  padding: 18px;
-}
-
-.detalle-card-group label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  margin-bottom: 10px;
-
-  font-weight: 700;
-  color: #172033;
-}
-
-.detalle-card-group p {
-  margin: 0;
-  color: #64748b;
-}
-
-.solucion-destacada {
-  border-left: 4px solid #22c55e;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 768px) {
-
-  .modal-grid-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-resolucion {
-    border-left: none;
-    border-top: 1px solid #edf2f7;
-  }
-
-  .modal-column {
-    padding: 20px;
-  }
-
-  .modal-header-custom {
-    padding: 20px;
-  }
-}
 /* =========================
    FORMULARIO LAYOUT
 ========================= */

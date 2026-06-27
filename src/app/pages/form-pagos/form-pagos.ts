@@ -37,6 +37,7 @@ export class FormPagos {
   maxDate = new Date();
   private subs: Subscription[] = [];
 
+
   activeSection: string = 'pagos';
   pagosAbierto: string | null = null;
   formularioAbierto: string | null = null;
@@ -151,6 +152,8 @@ export class FormPagos {
         //quitar espacio y solo tomar 10 digitos
         const telefono = telefonoOriginal.replace(/\s/g, '').substring(0, 10);
         this.pagosForm.patchValue({ telefono: telefono });
+        this.respuestaPago();
+
       },
       error: (e) => {
         this.loading = false;
@@ -173,6 +176,30 @@ export class FormPagos {
 
   }
 
+
+  pagos: any[] = [];
+
+  respuestaPago() {
+    const cliente = this.data?.numero_cliente;
+    if (!cliente) {
+      console.error('No existe número de cliente');
+      return;
+    }
+    this.loading = true;
+    this.clientS.resBanco(cliente).subscribe({
+      next: (res) => {
+        //console.log('Respuesta:', res);
+        this.pagos = res.pagos || [];
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      }
+    });
+
+  }
+
   enviarPago() {
     //enviar datos recolectados por formulario a backend
     if (this.pagosForm.invalid) {
@@ -181,7 +208,6 @@ export class FormPagos {
       console.log('datos del formulario no validos', this.pagosForm.value);
       return
     }
-
 
     this.loading = true;
 
@@ -239,35 +265,35 @@ export class FormPagos {
       this.cerrarDetalle();
     }
   }
-
-  pagos = [
-    {
-      asunto: 'Pago mensual Internet',
-      referencia: 'PAY-202605-001',
-      fecha: '13 Junio 2026',
-      monto: 300,
-      estatus: 'validado', // validado | pendiente | declinado
-      observacion: '',
-      comprobante: 'assets/img/comprobante.jpg'
-    },
-    {
-      asunto: 'Pago mensual Internet',
-      referencia: 'PAY-202605-001',
-      fecha: '13 Mayo 2026',
-      monto: 300,
-      estatus: 'declinado', // validado | pendiente | declinado
-      observacion: 'El comprobante no coincide con el monto',
-      comprobante: 'assets/img/comprobante.jpg'
-    },
-    {
-      asunto: 'Pago mensual Internet',
-      referencia: 'PAY-202605-001',
-      fecha: '13 Abril 2026',
-      monto: 300,
-      estatus: 'pendiente', // validado | pendiente | declinado
-      observacion: 'El comprobante no coincide con el monto',
-      comprobante: 'assets/img/comprobante.jpg'
-    }
-  ];
+  /*
+    pagos = [
+      {
+        asunto: 'Pago mensual Internet',
+        referencia: 'PAY-202605-001',
+        fecha: '13 Junio 2026',
+        monto: 300,
+        estatus: 'validado', // validado | pendiente | declinado
+        observacion: '',
+        comprobante: 'assets/img/comprobante.jpg'
+      },
+      {
+        asunto: 'Pago mensual Internet',
+        referencia: 'PAY-202605-001',
+        fecha: '13 Mayo 2026',
+        monto: 300,
+        estatus: 'declinado', // validado | pendiente | declinado
+        observacion: 'El comprobante no coincide con el monto',
+        comprobante: 'assets/img/comprobante.jpg'
+      },
+      {
+        asunto: 'Pago mensual Internet',
+        referencia: 'PAY-202605-001',
+        fecha: '13 Abril 2026',
+        monto: 300,
+        estatus: 'pendiente', // validado | pendiente | declinado
+        observacion: 'El comprobante no coincide con el monto',
+        comprobante: 'assets/img/comprobante.jpg'
+      }
+    ];*/
 
 }
