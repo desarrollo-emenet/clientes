@@ -3,14 +3,17 @@
 
     <!-- HEADER -->
     <div class="visitas-header">
-      <h2>Historial de Visitas</h2>
-      <p>Consulta el estado y detalle de tus visitas técnicas.</p>
+      <div class="header-icon"><i class="fa-solid fa-ticket"></i></div>
+      <div class="header-content">
+        <h2>Historial de Visitas</h2>
+        <p>Consulta el estado y detalle de tus visitas técnicas.</p>
+      </div>
     </div>
 
     <!-- LISTA DE TARJETAS -->
     <div class="visitas-list">
-      <div class="visita-card" *ngFor="let visita of visitas; trackBy: trackByVisitas" (click)="abrirDetalle(visita)" 
-      data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
+      <div class="visita-card" *ngFor="let visita of visitas; trackBy: trackByVisitas" (click)="abrirDetalle(visita)"
+        data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
 
         <!-- IZQUIERDA -->
         <div class="visita-left">
@@ -83,7 +86,7 @@
 
                 <div class="detalle-group">
                   <label>Fecha programada</label>
-                  <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a')  || 'Pendiente de agendar' }}</p>
+                  <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a') || 'Pendiente de agendar' }}</p>
                 </div>
 
                 <div class="detalle-group">
