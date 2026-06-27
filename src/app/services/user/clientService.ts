@@ -96,4 +96,10 @@ export class ClientService {
     return this.http.get<any>(`${this.apiLocalUrl2}/pagos-bancoV2/${cliente}`, { headers: headers });
   }
 
+  //visitas
+  visitas(cliente: string): Observable<any>{
+    const headers = this.getHeaders(true);
+    return this.http.get<any>(`${this.apiLocalUrl2}/reportes-clienteV2/${cliente}`, { headers: headers });
+  }
+
 }

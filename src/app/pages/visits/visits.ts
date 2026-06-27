@@ -1,68 +1,165 @@
-import { NgClass, NgIf, NgForOf } from '@angular/common';
+import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user/user-service';
 import { toast } from 'ngx-sonner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ClientService } from '../../services/user/clientService';
+
+
+interface Visitas {
+  id: number;
+  problema: string;
+  detalle: string;
+  diagnostico: string;
+  solucion: string;
+  estado: string;
+  created_at: string;
+  agendaFecha: string;
+  atencionFecha: string;
+  usuarioAgendado: string;
+  usuarioProceso: string;
+  usarioAtencion: string;
+}
 
 @Component({
   selector: 'app-visits',
-  imports: [NgClass, NgIf, NgForOf],
+  imports: [NgClass, NgIf, NgForOf, DatePipe],
   templateUrl: './visits.html',
   styleUrl: './visits.css'
 })
 export class Visits {
 
-    private subs: Subscription[] = [];
-  
-    constructor(
-      private user: UserService,
-      private route: ActivatedRoute,) { }
-  
-    ngOnInit(): void {
-      const sub = this.user.obtenerUsuarioAutenticado(this.route)
-        .subscribe({
-          next: (numeroCliente) => {
-            if (!numeroCliente) return;
-            //this.loadClientData(numeroCliente);
-          },
-          error: (e) => {
-            console.error('Error al obtener usuario autenticado', e);
-            toast.error('Error al obtener información del usuario');
-          }
-        });
-      this.subs.push(sub);
-    }
+  loading = false;
+  data: any;
 
-  visitas = [
-    {
-      asunto: 'Sin conexión a Internet',
-      fecha: '13 Mayo 2026',
-      tecnico: 'Luis Bernal',
-      estatus: 'atendido',
-      detalles: 'Se realizó revisión de ONT y reconexión.',
-      diagnostico: 'Sin conexión a Internet',
-      solucion: 'Se restableció el acceso a Internet'
-    },
-    {
-      asunto: 'Foco Rojo',
-      fecha: '10 Mayo 2026',
-      tecnico: 'Daniel',
-      estatus: 'cancelado',
-      detalles: 'Cliente no se encontraba en domicilio.',
-      diagnostico: 'Sin conexión a Internet',
-      solucion: 'Se restableció el acceso a Internet'
-    },
-    {
-      asunto: 'Internet lento a',
-      fecha: '3 Mayo 2026',
-      tecnico: 'Daniel',
-      estatus: 'pendiente',
-      detalles: 'Cliente no se encontraba en domicilio.'
-    }
-  ];
+  constructor(
+    private user: UserService,
+    private route: ActivatedRoute,
+    private clientS: ClientService,
+    private router: Router) { }
 
-  visitaSeleccionada: any = null;
+  ngOnInit(): void {
+    this.user.obtenerUsuarioAutenticado(this.route).subscribe({
+      next: (numeroCliente) => {
+        if (!numeroCliente) return;
+        this.loadClientData(numeroCliente);
+      },
+      error: (e) => {
+        console.error('Error al obtener usuario autenticado', e);
+        toast.error('Error al obtener información del usuario');
+      }
+    });
+  }
+
+  loadClientData(numeroCliente: string): void {
+    this.loading = true;
+    //this.data = null;
+
+    this.clientS.getClientePorNumero(numeroCliente).subscribe({
+      next: res => {
+        this.data = res,
+          this.loading = false;
+        this.respuestaVisitas();
+
+      },
+      error: (e) => this.manejoError(e)
+    });
+  }
+
+
+  visitas: Visitas[] = [];
+
+  respuestaVisitas() {
+    const cliente = this.data?.numero_cliente;
+    if (!cliente) {
+      console.error('No existe número de cliente');
+      return;
+    }
+    //this.loading = true;
+    this.clientS.visitas(cliente).subscribe({
+      next: ({ visitas }) => {
+        console.log('Respuesta:', visitas);
+        this.visitas = visitas ?? [];
+        //this.loading = false;
+      },
+      error: (err) => {
+        //this.loading = false;
+        console.error(err);
+      }
+    });
+
+  }
+
+
+  private manejoError(e: any): void {
+    this.loading = false;
+    switch (e?.status) {
+      case 0:
+        toast.error('No se pudo conectar al servidor');
+        break;
+
+      case 401:
+        toast.error('No autorizado');
+        this.router.navigateByUrl('/iniciar-sesion');
+        break;
+
+      case 403:
+        toast.error('No autorizado');
+        break;
+
+      case 404:
+        toast.error('Servicio no encontrado');
+        break;
+
+      default:
+        toast.error('Error inesperado');
+    }
+    console.error(e);
+  }
+
+
+  private readonly estadoConfig: Record<string, {
+    texto: string;
+    clase: string;
+    icono: string;
+  }> = {
+      '0': {
+        texto: 'Agendado',
+        clase: 'agendado',
+        icono: 'fa-calendar-check'
+      },
+      '1': {
+        texto: 'Pendiente',
+        clase: 'pendiente',
+        icono: 'fa-clock'
+      },
+      '2': {
+        texto: 'Finalizado',
+        clase: 'finalizado',
+        icono: 'fa-check'
+      },
+      '3': {
+        texto: 'En atención',
+        clase: 'proceso',
+        icono: 'fa-screwdriver-wrench'
+      }
+    };
+
+  getEstadoConfig(estado: string) {
+    return this.estadoConfig[estado] ?? {
+      texto: 'Desconocido',
+      clase: 'desconocido',
+      icono: 'fa-circle-question'
+    };
+  }
+
+
+  trackByVisitas(index: number, visita: any): number {
+    return visita.id;
+  }
+
+  visitaSeleccionada: Visitas | null = null;
 
   abrirDetalle(visita: any) {
     this.visitaSeleccionada = visita;

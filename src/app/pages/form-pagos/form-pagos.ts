@@ -71,7 +71,7 @@ export class FormPagos {
 
     this.pagosForm = this.fb.nonNullable.group({
       fechaPago: ['', [Validators.required]],
-      numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
+      numOperacion: ['', [Validators.required, Validators.maxLength(35)]],
       telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required]],
       comprobante: [null, [Validators.required]],

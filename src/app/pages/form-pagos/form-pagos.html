@@ -62,8 +62,8 @@
 
                 <div class="detalle-group">
                   <label>Monto</label>
-                  <p>${{ pago.cantidad }} -   {{ pago.clave === 'TRH' ? 'Transferencia' : 'Depósito' }}
-</p>
+                  <p>${{ pago.cantidad }} - {{ pago.clave === 'TRH' ? 'Transferencia' : 'Depósito' }}
+                  </p>
                 </div>
 
                 <p>Referencia: {{ pago.numOperacion || 'S/R' }}</p>
@@ -148,10 +148,11 @@
                   <label>Teléfono</label>
                   <input type="text" formControlName="telefono" class="form-control custom-input"
                     placeholder="Número de teléfono">
-                  <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)" class="mt-1 text-danger small">
+                  <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)"
+                    class="mt-1 text-danger small">
                     <span *ngIf="f['telefono'].errors?.['required']">Requerido.</span>
                     <span *ngIf="f['telefono'].errors?.['maxlength']">Máx 10 caracteres.</span>
-                    <span *ngIf="f['telefono'].errors?.['pattern']">Formato inválido.</span>
+                    <span *ngIf="f['telefono'].errors?.['pattern']"> Formato inválido.</span>
                   </div>
                 </div>
 
@@ -180,13 +181,21 @@
 
                 <!-- NUMERO DE OPERACION -->
                 <div class="field">
-                  <label>Número de operación</label>
-                  <input type="text" formControlName="numOperacion" class="form-control custom-input"
-                    placeholder="Número de operación">
+                  <label>
+                    {{pagosForm.get('clave')?.value === 'TRH'? 'Clave de rastreo'
+                    : pagosForm.get('clave')?.value === 'DBH'? 'Número de operacion'
+                    : 'Número de operación'}}
+                  </label>
+
+                  <input type="text" formControlName="numOperacion" class="form-control custom-input" [placeholder]="
+                  pagosForm.get('clave')?.value === 'TRH'? 'Ingresa la clave de rastreo'
+                  : pagosForm.get('clave')?.value === 'DBH'? 'Ingresa el número de operacion, autorizacion o folio de venta'
+                  : 'Número de operación'">
+
                   <div *ngIf="f['numOperacion'].invalid && (f['numOperacion'].dirty || f['numOperacion'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['numOperacion'].errors?.['required']">Requerido.</span>
-                    <span *ngIf="f['numOperacion'].errors?.['maxlength']">Máx 100 caracteres.</span>
+                    <span *ngIf="f['numOperacion'].errors?.['maxlength']">Máx 35 caracteres.</span>
                   </div>
                 </div>
 
@@ -195,7 +204,8 @@
                   <label>Monto a pagar</label>
                   <input type="text" formControlName="monto" class="form-control custom-input"
                     placeholder="Monto a pagar">
-                  <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)" class="mt-1 text-danger small">
+                  <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)"
+                    class="mt-1 text-danger small">
                     <span *ngIf="f['monto'].errors?.['required']">Requerido.</span>
                     <span *ngIf="f['monto'].errors?.['maxlength']">Máx 5 caracteres.</span>
                     <span *ngIf="f['monto'].errors?.['pattern']">Formato inválido.</span>

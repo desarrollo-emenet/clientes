@@ -109,14 +109,19 @@
   color: #22c55e;
 }
 
-.visita-icon.cancelado {
+.visita-icon.proceso {
   background: #fdecec;
-  color: #ef4444;
+  color: #bb6161cc;
 }
 
 .visita-icon.pendiente {
   background: #fff7e6;
   color: #f59e0b;
+}
+
+.visita-icon.agendado {
+  background: #fff7e6;
+  color: #0b4e94;
 }
 
 /* =========================
@@ -190,12 +195,12 @@
   background: #22c55e;
 }
 
-.status-badge.cancelado {
+.status-badge.proceso {
   background: #fdecec;
-  color: #ef4444;
+  color: #bb6161cc;
 }
 
-.status-badge.cancelado .dot {
+.status-badge.proceso .dot {
   background: #ef4444;
 }
 
@@ -206,6 +211,15 @@
 
 .status-badge.pendiente .dot {
   background: #f59e0b;
+}
+
+.status-badge.agendado {
+  background: #fff7e6;
+  color: #0b4e94;
+}
+
+.status-badge.agendado .dot {
+  background: #0b4e94;
 }
 
 /* =========================
@@ -219,7 +233,7 @@
 /* =========================
    MODAL
 ========================= */
-.modal-tecnologico .modal-content {
+.modal-visitas .modal-content {
   background: #ffffff;
   border-radius: 28px;
   border: none;
@@ -231,18 +245,18 @@
   overflow: hidden;
 }
 
-.modal-tecnologico .modal-header {
+.modal-visitas .modal-header {
   border-bottom: 1px solid #edf2f7;
   padding: 24px 28px;
 }
 
-.modal-tecnologico .modal-title {
+.modal-visitas .modal-title {
   font-size: 1.2rem;
   font-weight: 700;
   color: #172033;
 }
 
-.modal-tecnologico .modal-subtitle {
+.modal-visitas .modal-subtitle {
   color: #7c8798;
   font-size: .85rem;
   display: flex;
@@ -251,7 +265,7 @@
   margin-top: 4px;
 }
 
-.modal-tecnologico .modal-body {
+.modal-visitas .modal-body {
   padding: 0;
 }
 
