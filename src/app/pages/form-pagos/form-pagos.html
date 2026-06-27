@@ -33,7 +33,7 @@
         </div>
 
         <div class="pagos-list">
-          <div class="pagos-card" *ngFor="let pago of pagos">
+          <div class="pagos-card" *ngFor="let pago of pagos; trackBy: trackByPago">
 
             <div class="pagos-left">
               <div class="pagos-icon" [ngClass]="{
@@ -62,10 +62,11 @@
 
                 <div class="detalle-group">
                   <label>Monto</label>
-                  <p>${{ pago.cantidad }} - {{ pago.clave }}</p>
+                  <p>${{ pago.cantidad }} -   {{ pago.clave === 'TRH' ? 'Transferencia' : 'Depósito' }}
+</p>
                 </div>
 
-                <p>Referencia: {{ pago.numOperacion || 'Sin referencia' }}</p>
+                <p>Referencia: {{ pago.numOperacion || 'S/R' }}</p>
 
                 <p *ngIf="pago.observacion">Observación: {{ pago.observacion }}</p>
               </div>
@@ -147,10 +148,10 @@
                   <label>Teléfono</label>
                   <input type="text" formControlName="telefono" class="form-control custom-input"
                     placeholder="Número de teléfono">
-                  <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="mt-1 text-danger small">
-                    <span *ngIf="telefono.errors?.['required']">Requerido.</span>
-                    <span *ngIf="telefono.errors?.['maxlength']">Máx 10 caracteres.</span>
-                    <span *ngIf="telefono.errors?.['pattern']">Formato inválido.</span>
+                  <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)" class="mt-1 text-danger small">
+                    <span *ngIf="f['telefono'].errors?.['required']">Requerido.</span>
+                    <span *ngIf="f['telefono'].errors?.['maxlength']">Máx 10 caracteres.</span>
+                    <span *ngIf="f['telefono'].errors?.['pattern']">Formato inválido.</span>
                   </div>
                 </div>
 
@@ -182,10 +183,10 @@
                   <label>Número de operación</label>
                   <input type="text" formControlName="numOperacion" class="form-control custom-input"
                     placeholder="Número de operación">
-                  <div *ngIf="numOperacion.invalid && (numOperacion.dirty || numOperacion.touched)"
+                  <div *ngIf="f['numOperacion'].invalid && (f['numOperacion'].dirty || f['numOperacion'].touched)"
                     class="mt-1 text-danger small">
-                    <span *ngIf="numOperacion.errors?.['required']">Requerido.</span>
-                    <span *ngIf="numOperacion.errors?.['maxlength']">Máx 100 caracteres.</span>
+                    <span *ngIf="f['numOperacion'].errors?.['required']">Requerido.</span>
+                    <span *ngIf="f['numOperacion'].errors?.['maxlength']">Máx 100 caracteres.</span>
                   </div>
                 </div>
 
@@ -194,10 +195,10 @@
                   <label>Monto a pagar</label>
                   <input type="text" formControlName="monto" class="form-control custom-input"
                     placeholder="Monto a pagar">
-                  <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="mt-1 text-danger small">
-                    <span *ngIf="monto.errors?.['required']">Requerido.</span>
-                    <span *ngIf="monto.errors?.['maxlength']">Máx 5 caracteres.</span>
-                    <span *ngIf="monto.errors?.['pattern']">Formato inválido.</span>
+                  <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)" class="mt-1 text-danger small">
+                    <span *ngIf="f['monto'].errors?.['required']">Requerido.</span>
+                    <span *ngIf="f['monto'].errors?.['maxlength']">Máx 5 caracteres.</span>
+                    <span *ngIf="f['monto'].errors?.['pattern']">Formato inválido.</span>
                   </div>
                 </div>
 
@@ -219,9 +220,9 @@
                 <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
                   formControlName="comprobante" class="form-control upload-input">
                 <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
-                <div *ngIf="comprobante.invalid && (comprobante.dirty || comprobante.touched)"
+                <div *ngIf="f['comprobante'].invalid && (f['comprobante'].dirty || f['comprobante'].touched)"
                   class="mt-1 text-danger small">
-                  <span *ngIf="comprobante.errors?.['required']">Requerido.</span>
+                  <span *ngIf="f['comprobante'].errors?.['required']">Requerido.</span>
                 </div>
               </div>
             </div>

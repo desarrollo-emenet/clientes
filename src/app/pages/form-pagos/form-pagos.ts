@@ -1,5 +1,5 @@
 import { NgClass, NgIf, NgForOf } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
@@ -11,8 +11,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../services/user/user-service';
-import { Subscription } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { LoginS } from '../../services/auth/login';
+
+interface Pago {
+  id: number;
+  numOperacion: string;
+  clave: string;
+  mensualidad: string;
+  cantidad: string;
+  estado: string;
+  observacion: string | null;
+  created_at: string;
+}
+
 
 @Component({
   selector: 'app-form-pagos',
@@ -35,8 +47,15 @@ export class FormPagos {
   pagosForm!: FormGroup;
   data: any;
   maxDate = new Date();
-  private subs: Subscription[] = [];
 
+  private readonly TIPOS_PERMITIDOS = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'application/pdf'
+  ];
+
+  private readonly MAX_FILE_SIZE = 2 * 1024 * 1024;
 
   activeSection: string = 'pagos';
   pagosAbierto: string | null = null;
@@ -50,8 +69,7 @@ export class FormPagos {
     private user: UserService,
     private route: ActivatedRoute) {
 
-    this.pagosForm = this.fb.group({
-      //cliente: ['', [Validators.required, Validators.maxLength(10)]],
+    this.pagosForm = this.fb.nonNullable.group({
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(100)]],
       telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
@@ -76,29 +94,32 @@ export class FormPagos {
     this.formularioAbierto = this.formularioAbierto === id ? null : id;
   }
 
-  goNavigate(ruta: string) {
-    this.loginS.goNavigate(ruta);
-  }
+  get f() {
+  return this.pagosForm.controls;
+}
 
-  get telefono() {
-    return this.pagosForm.controls['telefono'];
-  }
 
-  get clave() {
-    return this.pagosForm.controls['clave'];
-  }
-  get fechaPago() {
-    return this.pagosForm.controls['fechaPago'];
-  }
-  get numOperacion() {
-    return this.pagosForm.controls['numOperacion'];
-  }
+  ngOnInit() {
 
-  get comprobante() {
-    return this.pagosForm.controls['comprobante'];
-  }
-  get monto() {
-    return this.pagosForm.controls['monto'];
+    this.user.obtenerUsuarioAutenticado(this.route).subscribe({
+      next: numeroCliente => {
+        if (!numeroCliente) return;
+        forkJoin({
+          cliente: this.clientS.getClientePorNumero(numeroCliente),
+          pagos: this.clientS.resBanco(numeroCliente)
+        }).subscribe({
+          next: ({ cliente, pagos }) => {
+            this.data = cliente;
+            this.pagos = pagos.pagos;
+            const telefono =
+              this.data?.cliente?.cliente?.telefono
+                ?.replace(/\s/g, '')
+                .substring(0, 10) ?? '';
+            this.pagosForm.patchValue({ telefono });
+          }
+        });
+      }
+    });
   }
 
 
@@ -108,15 +129,14 @@ export class FormPagos {
       return;
     }
 
-    const tipoPermitido = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-    if (!tipoPermitido.includes(file.type)) {
+    if (!this.TIPOS_PERMITIDOS.includes(file.type)) {
       toast.error('Tipo de archivo no permitido. Por favor, selecciona un archivo de imagen o PDF.');
       this.pagosForm.get('comprobante')?.setValue(null);
 
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > this.MAX_FILE_SIZE) {
       toast.error('El archivo no debe superar los 2 MB');
       this.pagosForm.get('comprobante')?.setValue(null);
       return;
@@ -124,60 +144,31 @@ export class FormPagos {
     this.archivoSeleccionado = file;
   }
 
-  ngOnInit(): void {
-    const sub = this.user.obtenerUsuarioAutenticado(this.route)
-      .subscribe({
-        next: (numeroCliente) => {
-          if (!numeroCliente) return;
-          this.loadClientData(numeroCliente);
-        },
-        error: (e) => {
-          //console.error('Error al obtener usuario autenticado', e);
-          toast.error('Error al obtener información del usuario');
-        }
-      });
-    this.subs.push(sub);
-  }
-
-  loadClientData(numeroCliente: string) {
+  loadClientData(numeroCliente: string): void {
     this.loading = true;
-    this.data = null;
+    //this.data = null;
 
-    const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
+    this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
         this.data = res,
           this.loading = false;
+
         //console.log('Datos del cliente cargados', this.data);
-        const telefonoOriginal = this.data?.cliente?.cliente?.telefono ?? '';
-        //quitar espacio y solo tomar 10 digitos
-        const telefono = telefonoOriginal.replace(/\s/g, '').substring(0, 10);
-        this.pagosForm.patchValue({ telefono: telefono });
+        const telefono =
+          this.data?.cliente?.cliente?.telefono
+            ?.replace(/\s/g, '')
+            .substring(0, 10) ?? '';
+
+        this.pagosForm.patchValue({ telefono });
         this.respuestaPago();
 
       },
-      error: (e) => {
-        this.loading = false;
-        console.error('Error en servicio', e);
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 404) {
-          toast.error('Servicio no encontrado');
-        } else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
-        } else if (e?.status === 403) {
-          toast.error('No autorizado para eliminar este servicio');
-        } else {
-          toast.error('Error inesperado');
-        }
-      }
-
-    })
-
+      error: (e) => this.manejoError(e)
+    });
   }
 
 
-  pagos: any[] = [];
+  pagos: Pago[] = [];
 
   respuestaPago() {
     const cliente = this.data?.numero_cliente;
@@ -185,12 +176,12 @@ export class FormPagos {
       console.error('No existe número de cliente');
       return;
     }
-    this.loading = true;
+    //this.loading = true;
     this.clientS.resBanco(cliente).subscribe({
-      next: (res) => {
+      next: ({ pagos }) => {
         //console.log('Respuesta:', res);
-        this.pagos = res.pagos || [];
-        this.loading = false;
+        this.pagos = pagos ?? [];
+        //this.loading = false;
       },
       error: (err) => {
         this.loading = false;
@@ -205,7 +196,6 @@ export class FormPagos {
     if (this.pagosForm.invalid) {
       this.pagosForm.markAllAsTouched();
       toast.error("Completar los campos requeridos");
-      console.log('datos del formulario no validos', this.pagosForm.value);
       return
     }
 
@@ -213,7 +203,6 @@ export class FormPagos {
 
     //console.log("dataaaa", this.data);
     const cliente = this.data?.numero_cliente ?? '';
-    //const telefono = this.data?.cliente?.cliente?.telefono ?? '';
     const raw = this.pagosForm.value;
     const fecha = new Date(raw.fechaPago);
 
@@ -226,74 +215,50 @@ export class FormPagos {
     formData.append('monto', raw.monto);
     formData.append('comprobante', this.archivoSeleccionado);
 
-    console.log('cliente', formData.get('cliente'));
-    console.log('telefono', formData.get('telefono'));
-    console.log('clave', formData.get('clave'));
-    console.log('fechaPago', formData.get('fechaPago'));
-    console.log('numOperacion', formData.get('numOperacion'));
-    console.log('monto', formData.get('monto'));
-    console.log('comprobante', formData.get('comprobante'));
-
-
     this.clientS.pagosBanco(formData as any).subscribe({
       next: () => {
-        this.loading = false;
         toast.success('datos enviados')
         this.pagosForm.reset()
+        this.loading = false;
+
       },
       error: (e) => {
         this.loading = false;
         console.log(e);
         toast.error('No se pudo enviar')
-        console.error('Error en servicio', e);
       }
     });
   }
 
-  pagoSeleccionado: any = null;
+  private manejoError(e: any): void {
+    this.loading = false;
+    switch (e?.status) {
+      case 0:
+        toast.error('No se pudo conectar al servidor');
+        break;
 
-  abrirDetalle(pago: any): void {
-    this.pagoSeleccionado = pago;
-  }
+      case 401:
+        toast.error('No autorizado');
+        this.router.navigateByUrl('/iniciar-sesion');
+        break;
 
-  cerrarDetalle(): void {
-    this.pagoSeleccionado = null;
-  }
-  @HostListener('document:keydown.escape')
-  alPresionarEscape(): void {
-    if (this.pagoSeleccionado) {
-      this.cerrarDetalle();
+      case 403:
+        toast.error('No autorizado');
+        break;
+
+      case 404:
+        toast.error('Servicio no encontrado');
+        break;
+
+      default:
+        toast.error('Error inesperado');
     }
+    console.error(e);
   }
-  /*
-    pagos = [
-      {
-        asunto: 'Pago mensual Internet',
-        referencia: 'PAY-202605-001',
-        fecha: '13 Junio 2026',
-        monto: 300,
-        estatus: 'validado', // validado | pendiente | declinado
-        observacion: '',
-        comprobante: 'assets/img/comprobante.jpg'
-      },
-      {
-        asunto: 'Pago mensual Internet',
-        referencia: 'PAY-202605-001',
-        fecha: '13 Mayo 2026',
-        monto: 300,
-        estatus: 'declinado', // validado | pendiente | declinado
-        observacion: 'El comprobante no coincide con el monto',
-        comprobante: 'assets/img/comprobante.jpg'
-      },
-      {
-        asunto: 'Pago mensual Internet',
-        referencia: 'PAY-202605-001',
-        fecha: '13 Abril 2026',
-        monto: 300,
-        estatus: 'pendiente', // validado | pendiente | declinado
-        observacion: 'El comprobante no coincide con el monto',
-        comprobante: 'assets/img/comprobante.jpg'
-      }
-    ];*/
+
+  //evitar recarga de elementos repetidos 
+  trackByPago(index: number, pago: any): number {
+    return pago.id;
+  }
 
 }
