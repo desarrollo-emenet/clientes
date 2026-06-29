@@ -48,6 +48,20 @@ export class FormPagos {
   data: any;
   maxDate = new Date();
 
+  filtroEstado = 'todos';
+  elementosPorPagina = 2;
+  paginaActual = 1;
+
+  filtros = [
+    { value: 'todos', label: 'Todas' },
+    { value: '0', label: 'Agendadas' },
+    { value: '1', label: 'Pendientes' },
+    { value: 'registrado', label: 'Registrado' },
+    { value: '4', label: 'Rechazado' }
+
+
+  ];
+
   private readonly TIPOS_PERMITIDOS = [
     'image/jpeg',
     'image/jpg',
@@ -95,8 +109,8 @@ export class FormPagos {
   }
 
   get f() {
-  return this.pagosForm.controls;
-}
+    return this.pagosForm.controls;
+  }
 
 
   ngOnInit() {
@@ -179,8 +193,9 @@ export class FormPagos {
     //this.loading = true;
     this.clientS.resBanco(cliente).subscribe({
       next: ({ pagos }) => {
-        //console.log('Respuesta:', res);
         this.pagos = pagos ?? [];
+        console.log('Respuesta:', pagos);
+
         //this.loading = false;
       },
       error: (err) => {
@@ -259,6 +274,72 @@ export class FormPagos {
   //evitar recarga de elementos repetidos 
   trackByPago(index: number, pago: any): number {
     return pago.id;
+  }
+
+
+
+  // Filtros
+
+  get pagosFiltradas(): Pago[] {
+    if (this.filtroEstado === 'todos') {
+      return this.pagos;
+    }
+    if (this.filtroEstado === 'registrado') {
+      return this.pagos.filter(v =>
+        v.estado === '2' || v.estado === '3');
+    }
+    return this.pagos.filter(
+      pagos => pagos.estado === this.filtroEstado
+    );
+  }
+
+  cambiarFiltro(estado: string): void {
+    this.filtroEstado = estado;
+    this.paginaActual = 1;
+  }
+
+  contarEstado(estado: string): number {
+    if (estado === 'todos') {
+      return this.pagos.length;
+    }
+    if (estado === 'registrado') {
+      return this.pagos.filter(v =>
+        v.estado === '2' || v.estado === '3').length;
+    }
+    return this.pagos.filter(
+      pagos => pagos.estado === estado
+    ).length;
+  }
+
+  // paginacion
+
+  get pagosPaginados(): Pago[] {
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    return this.pagosFiltradas.slice(
+      inicio,
+      inicio + this.elementosPorPagina
+    );
+  }
+
+  get totalPaginas(): number {
+    return Math.max(
+      1,
+      Math.ceil(this.pagosFiltradas.length / this.elementosPorPagina)
+    );
+  }
+
+  get paginas(): number[] {
+    return Array.from(
+      { length: this.totalPaginas },
+      (_, index) => index + 1
+    );
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina < 1 || pagina > this.totalPaginas) {
+      return;
+    }
+    this.paginaActual = pagina;
   }
 
 }

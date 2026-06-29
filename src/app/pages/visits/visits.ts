@@ -3,9 +3,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user/user-service';
 import { toast } from 'ngx-sonner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { ClientService } from '../../services/user/clientService';
-
 
 interface Visitas {
   id: number;
@@ -13,7 +11,7 @@ interface Visitas {
   detalle: string;
   diagnostico: string;
   solucion: string;
-  estado: string;
+  estado: number;
   created_at: string;
   agendaFecha: string;
   atencionFecha: string;
@@ -32,6 +30,47 @@ export class Visits {
 
   loading = false;
   data: any;
+  visitas: Visitas[] = [];
+  filtroEstado = -1;
+
+  elementosPorPagina = 2;
+  paginaActual = 1;
+
+  filtros = [
+  { value: -1, label: 'Todas' },
+  { value: 0, label: 'Agendadas' },
+  { value: 1, label: 'Pendientes' },
+  { value: 3, label: 'En atención' },
+  { value: 2, label: 'Finalizadas' }
+  ];
+
+  private readonly estadoConfig: Record<string, {
+    texto: string;
+    clase: string;
+    icono: string;
+  }> = {
+      '0': {
+        texto: 'Agendado',
+        clase: 'agendado',
+        icono: 'fa-calendar-check'
+      },
+      '1': {
+        texto: 'Pendiente',
+        clase: 'pendiente',
+        icono: 'fa-clock'
+      },
+      '2': {
+        texto: 'Finalizado',
+        clase: 'finalizado',
+        icono: 'fa-check'
+      },
+      '3': {
+        texto: 'En atención',
+        clase: 'proceso',
+        icono: 'fa-screwdriver-wrench'
+      }
+    };
+
 
   constructor(
     private user: UserService,
@@ -67,9 +106,6 @@ export class Visits {
     });
   }
 
-
-  visitas: Visitas[] = [];
-
   respuestaVisitas() {
     const cliente = this.data?.numero_cliente;
     if (!cliente) {
@@ -79,7 +115,6 @@ export class Visits {
     //this.loading = true;
     this.clientS.visitas(cliente).subscribe({
       next: ({ visitas }) => {
-        console.log('Respuesta:', visitas);
         this.visitas = visitas ?? [];
         //this.loading = false;
       },
@@ -88,9 +123,7 @@ export class Visits {
         console.error(err);
       }
     });
-
   }
-
 
   private manejoError(e: any): void {
     this.loading = false;
@@ -119,34 +152,9 @@ export class Visits {
   }
 
 
-  private readonly estadoConfig: Record<string, {
-    texto: string;
-    clase: string;
-    icono: string;
-  }> = {
-      '0': {
-        texto: 'Agendado',
-        clase: 'agendado',
-        icono: 'fa-calendar-check'
-      },
-      '1': {
-        texto: 'Pendiente',
-        clase: 'pendiente',
-        icono: 'fa-clock'
-      },
-      '2': {
-        texto: 'Finalizado',
-        clase: 'finalizado',
-        icono: 'fa-check'
-      },
-      '3': {
-        texto: 'En atención',
-        clase: 'proceso',
-        icono: 'fa-screwdriver-wrench'
-      }
-    };
+  
 
-  getEstadoConfig(estado: string) {
+  getEstadoConfig(estado: number) {
     return this.estadoConfig[estado] ?? {
       texto: 'Desconocido',
       clase: 'desconocido',
@@ -164,5 +172,62 @@ export class Visits {
   abrirDetalle(visita: any) {
     this.visitaSeleccionada = visita;
   }
+
+
+// Filtros
+
+get visitasFiltradas(): Visitas[] {
+  if (this.filtroEstado === -1) {
+    return this.visitas;
+  }
+  return this.visitas.filter(
+    visita => visita.estado === this.filtroEstado
+  );
+}
+
+cambiarFiltro(estado: number): void {
+  this.filtroEstado = estado
+  this.paginaActual = 1;
+}
+
+contarEstado(estado: number): number {
+  if (estado === -1) {
+    return this.visitas.length;
+  }
+  return this.visitas.filter(
+    visita => visita.estado === estado
+  ).length;
+}
+
+// paginacion
+
+get visitasPaginadas(): Visitas[] {
+  const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+  return this.visitasFiltradas.slice(
+    inicio,
+    inicio + this.elementosPorPagina
+  );
+}
+
+get totalPaginas(): number {
+  return Math.max(
+    1,
+    Math.ceil(this.visitasFiltradas.length / this.elementosPorPagina)
+  );
+}
+
+get paginas(): number[] {
+  return Array.from(
+    { length: this.totalPaginas },
+    (_, index) => index + 1
+  );
+}
+
+cambiarPagina(pagina: number): void {
+  if (pagina < 1 || pagina > this.totalPaginas) {
+    return;
+  }
+  this.paginaActual = pagina;
+}
 
 }
