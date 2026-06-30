@@ -22,10 +22,10 @@
       </div>
 
       <div class="empty-state" *ngIf="visitasFiltradas.length === 0">
-        <i class="fa-solid fa-calendar-xmark"></i>
-        <h4>No hay visitas</h4>
-        <p>No se encontraron visitas para este filtro.</p>
-      </div>
+          <i class="fa-solid fa-money-bill"></i>
+          <h4>Sin resultados</h4>
+          <p>{{ mensajeFiltro }}</p>
+        </div>
 
       <div class="visitas-list" *ngIf="visitasFiltradas.length > 0">
 

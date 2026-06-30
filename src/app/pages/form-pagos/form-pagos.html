@@ -38,8 +38,8 @@
         </div>
         <div class="empty-state" *ngIf="pagosFiltradas.length === 0">
           <i class="fa-solid fa-money-bill"></i>
-          <h4>No hay Pagos</h4>
-          <p>No se encontraron pagos para este filtro.</p>
+          <h4>Sin resultados</h4>
+          <p>{{ mensajeFiltro }}</p>
         </div>
 
         <div class="pagos-list" *ngIf="pagosFiltradas.length > 0">

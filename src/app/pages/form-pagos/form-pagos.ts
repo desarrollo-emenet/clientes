@@ -54,7 +54,6 @@ export class FormPagos {
 
   filtros = [
     { value: 'todos', label: 'Todas' },
-    { value: '0', label: 'Agendadas' },
     { value: '1', label: 'Pendientes' },
     { value: 'registrado', label: 'Registrado' },
     { value: '4', label: 'Rechazado' }
@@ -310,6 +309,26 @@ export class FormPagos {
       pagos => pagos.estado === estado
     ).length;
   }
+
+  get mensajeFiltro(): string {
+
+  switch (this.filtroEstado) {
+
+    case '1':
+      return 'No hay pagos pendientes.';
+
+    case 'registrado':
+      return 'No hay pagos registrados.';
+
+    case '4':
+      return 'No hay pagos registrados.';
+
+    default:
+      return 'No se encontraron pagos.';
+
+  }
+
+}
 
   // paginacion
 
