@@ -7,7 +7,7 @@
   padding: 20px;
   display: flex;
   justify-content: center;
-    background: #f4f6fb;
+  background: #f4f6fb;
 
 }
 
@@ -34,7 +34,7 @@
 }
 
 .nav-btn.active {
-  background: #0b4e94;
+  background: linear-gradient(135deg, #0b4e94 0%, #138ddf  100%);
   color: #fff;
   box-shadow: 0 4px 12px rgba(79, 124, 255, 0.3);
 }
@@ -52,21 +52,17 @@
    MAIN CONTAINER
 ========================= */
 
-.container{
+.container {
   width: 100%;
-  max-width: 770px;
+  max-width:800px;
 }
 
 .payment-container {
   width: 100%;
-  max-width: 770px;
-  background: rgba(255,255,255,0.88);
-  border-radius: 30px;
-  padding: 28px;
-  border: 1px solid rgba(255,255,255,.7);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 10px 40px rgba(15,23,42,.08);
+  max-width: 800px;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
 }
 
 /* =========================
@@ -76,166 +72,316 @@
 .payment-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 22px;
+  padding: 35px;
+  background: linear-gradient(135deg, #0b4e94 0%, #138ddf  100%);
+  color: white;
+  box-sizing: border-box;
+  width: 100%;
 
-  margin-bottom: 2rem;
+
 }
 
 .header-icon {
-  width: 74px;
-  height: 74px;
-
-  border-radius: 24px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0b4e94,
-      rgba(24, 106, 206, 0.753)
-    );
-
+  width: 75px;
+  height: 75px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .18);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 32px;
+  backdrop-filter: blur(10px);
+}
 
-  color: white;
-  font-size: 2rem;
-
-  box-shadow:
-    0 10px 25px rgba(37,99,235,.25);
+.header-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .header-content h2 {
   margin: 0;
-
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 700;
+  word-break: break-word;
 
-  color: #0f172a;
 }
 
 .header-content p {
-  margin: 6px 0 0;
+  margin-top: 6px;
+  opacity: .9;
+  word-break: break-word;
 
+}
+
+/* ==========================================================
+   FILTROS
+========================================================== */
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 30px 18px;
+  overflow-x: auto;
+  border-bottom: 1px solid #edf2f7;
+  background: #fff;
+  scrollbar-width: none;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-container::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
   color: #64748b;
+  font-size: .93rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .25s;
+  white-space: nowrap;
+}
+
+.filter-btn span {
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.filter-btn:hover {
+  background: #eef5fc;
+  color: #0b4e94;
+}
+
+.filter-btn:hover span {
+  color: #0b4e94;
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #0b4e94 0%, #138ddf  100%);
+  color: #ffffff;
+}
+
+.filter-btn.active span {
+  color: rgba(255, 255, 255, .85);
 }
 
 
-/* =========================
-   HISTORIAL DE PAGOS
-========================= */
-
-/* =========================
-   LISTA
-========================= */
 .pagos-list {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 20px 30px 35px;
 }
 
-/* =========================
-   CARD
-========================= */
+
 .pagos-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background: #fff;
-  border-radius: 24px;
   padding: 22px;
-
+  border-radius: 18px;
+  border: 1px solid var(--gray-200);
+  background: white;
   cursor: pointer;
-
-  border: none;
-
-  box-shadow:
-    0 2px 10px rgba(15, 23, 42, .04),
-    0 8px 30px rgba(15, 23, 42, .05);
-
-  transition: all .25s ease;
+  transition: .35s ease;
 }
 
 .pagos-card:hover {
-  transform: translateY(-3px);
-
-  box-shadow:
-    0 8px 20px rgba(15, 23, 42, .08),
-    0 20px 40px rgba(15, 23, 42, .08);
+  transform: translateY(-4px);
+  border-color: #c7dcf4;
+  box-shadow: 0 10px 25px rgba(11, 78, 148, .08);
 }
 
-/* =========================
-   LEFT
-========================= */
+
 .pagos-left {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 18px;
+  align-items: flex-start;
+  flex: 1;
 }
 
-/* =========================
-   ICONO
-========================= */
-.pagos-icon {
-  width: 58px;
-  height: 58px;
-
-  border-radius: 18px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1.25rem;
-
-  flex-shrink: 0;
+.pagos-info {
+  flex: 1;
 }
 
-.pagos-icon.validado {
-  background: #e8f7ee;
-  color: #22c55e;
-}
-
-.pagos-icon.rechazado {
-  background: #fdecec;
-  color: #ef4444;
-}
-
-.pagos-icon.pendiente {
-  background: #fff7e6;
-  color: #f59e0b;
-}
-
-/* =========================
-   INFO
-========================= */
 .pagos-info h4 {
-  margin: 0 0 6px;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #172033;
-}
-
-.pagos-info p {
-  margin: 0;
-  color: #7c8798;
-  font-size: .9rem;
+  margin: 0 0 8px;
+  color: var(--gray-900);
+  font-size: 1.15rem;
 }
 
 .pagos-meta {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
 .pagos-meta span {
+  color: var(--gray-500);
+  font-size: .92rem;
+}
+
+.pagos-meta i {
+  color: var(--primary);
+  margin-right: 6px;
+}
+
+.pagos-info p {
+  margin: 0;
+  color: #64748b;
+}
+
+.pagos-right {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: #7c8798;
-  font-size: .9rem;
+  gap: 18px;
+}
+
+.pagos-right .fa-chevron-right {
+  color: #b4bcc9;
+  transition: .3s;
+}
+
+.pagos-card:hover .fa-chevron-right {
+  color: var(--primary);
+  transform: translateX(5px);
+}
+
+/* ========================
+   ICONO 
+======================== */
+
+.pagos-icon {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  position: relative;
+  transition: .25s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    0 8px 18px rgba(15, 23, 42, .06);
+}
+
+.pagos-card:hover .pagos-icon {
+  transform: scale(1.06);
+}
+
+.pagos-icon i {
+  font-size: 1.35rem;
+  transition: .25s;
+}
+
+.pagos-icon.pendiente {
+  background:
+    linear-gradient(135deg, #fff9e8, #ffe9ba);
+  color: #d97706;
+}
+
+.pagos-icon.pendiente::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(217, 119, 6, .12);
+}
+
+.pagos-icon.validado {
+  background: #d8ecf8;
+  color: #0b4e94;
+}
+
+.pagos-icon.validado::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(22, 63, 150, 0.12);
+}
+
+.pagos-icon.rechazado {
+  background:
+    linear-gradient(135deg, #fff1f1, #ffdede);
+  color: #dc2626;
+}
+
+.pagos-icon.rechazado::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(220, 38, 38, .12);
+}
+
+/* ==========================================================
+   BADGE
+========================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.status-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-badge.pendiente {
+  background: #fff7e6;
+  color: #d97706;
+}
+
+.status-badge.validado {
+  background: #d8ecf8;
+  color: #0b4e94;
+}
+
+.status-badge.rechazado {
+  background: #fff1f1;
+  color: #dc2626;
+}
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.empty-state {
+  padding: 70px 20px;
+  text-align: center;
+  color: #7b8798;
+}
+
+.empty-state i {
+  font-size: 60px;
+  color: #0b4e94;
+  margin-bottom: 20px;
+}
+
+.empty-state h4 {
+  margin-bottom: 10px;
 }
 
 /* =========================
@@ -247,263 +393,50 @@
   gap: 14px;
 }
 
-/* =========================
-   BADGE
-========================= */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+/* ==========================================================
+   PAGINACION
+========================================================== */
 
-  padding: 8px 14px;
-
-  border-radius: 999px;
-
-  font-size: .8rem;
-  font-weight: 700;
-}
-
-.status-badge .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.status-badge.validado {
-  background: #e8f7ee;
-  color: #22c55e;
-}
-
-.status-badge.validado .dot {
-  background: #22c55e;
-}
-
-.status-badge.rechazado {
-  background: #fdecec;
-  color: #ef4444;
-}
-
-.status-badge.rechazado .dot {
-  background: #ef4444;
-}
-
-.status-badge.pendiente {
-  background: #fff7e6;
-  color: #f59e0b;
-}
-
-.status-badge.pendiente .dot {
-  background: #f59e0b;
-}
-
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-
-  .pagos-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .pagos-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .modal-grid-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-resolucion {
-    border-left: none;
-    border-top: 1px solid #edf2f7;
-  }
-
-  .modal-column {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-
-  .pagos-header h2 {
-    font-size: 1.7rem;
-  }
-
-  .pagos-card {
-    padding: 18px;
-  }
-
-  .pagos-icon {
-    width: 52px;
-    height: 52px;
-  }
-
-  .pagos-info h4 {
-    font-size: .95rem;
-  }
-}
-
-
-/* OVERLAY */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, .55);
-  backdrop-filter: blur(6px);
-  z-index: 9999;
-
+.pagination-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-
-  padding: 20px;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px 35px;
 }
 
-/* =========================
-   PAGINACIÓN
-========================= */
-
-.pagination-container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    margin:35px 0 10px;
-    flex-wrap:wrap;
+.btn-page {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid #dbe4ef;
+  background: #fff;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .25s;
 }
 
-.btn-page{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:12px;
-    background:#fff;
-    color:#5f6b7a;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.05);
-
-    transition:
-        background .25s ease,
-        color .25s ease,
-        transform .2s ease,
-        box-shadow .25s ease;
+.btn-page:hover:not(:disabled) {
+  background: #eef5fc;
+  color: #0b4e94;
+  border-color: #bcd3ea;
 }
 
-.btn-page:hover:not(:disabled){
-    background:#1064be;
-    color:#fff;
-    transform:translateY(-2px);
-    box-shadow:
-        0 8px 18px rgba(16,100,190,.25);
+.btn-page.active {
+  background: #0b4e94;
+  color: #fff !important;
+  border-color: #0b4e94;
 }
 
-.btn-page.active{
-    background:#1064be;
-    color:#fff;
-    box-shadow:
-        0 10px 22px rgba(16,100,190,.35);
+.btn-page.active:hover {
+  background: #0b4e94;
+  color: #fff;
 }
 
-.btn-page:active:not(:disabled){
-    transform:scale(.95);
-}
-
-.btn-page:disabled{
-    opacity:.35;
-    cursor:not-allowed;
-    transform:none;
-    box-shadow:none;
-}
-
-@media (max-width:768px){
-
-    .pagination-container{
-        gap:6px;
-    }
-
-    .btn-page{
-        width:38px;
-        height:38px;
-        border-radius:10px;
-        font-size:13px;
-    }
-
-}
-
-.filter-container{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:25px;
-}
-
-.filter-btn{
-    padding:10px 18px;
-    border:none;
-    border-radius:999px;
-    background:#f3f4f6;
-    color:#64748b;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.filter-btn:hover{
-    background:#dbeafe;
-    color:#1064be;
-}
-
-.filter-btn.active{
-    background:#1064be;
-    color:#fff;
-}
-
-.empty-state{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    margin:40px 0;
-    padding:50px 20px;
-    background:#fff;
-    border-radius:18px;
-    border:1px solid #eef2f7;
-    text-align:center;
-    box-shadow:0 6px 20px rgba(0,0,0,.05);
-
-}
-
-.empty-state i{
-    font-size:60px;
-    color:#1064be;
-    margin-bottom:18px;
-    opacity:.75;
-}
-
-.empty-state h4{
-    margin-bottom:10px;
-    color:#1f2937;
-    font-size:22px;
-}
-
-.empty-state p{
-    color:#6b7280;
-    max-width:340px;
-    line-height:1.5;
+.btn-page:disabled {
+  opacity: .45;
+  cursor: not-allowed;
 }
 
 /* =========================
@@ -518,25 +451,17 @@
   margin-bottom: 20px;
 }
 
-/* =========================
-   CARD
-========================= */
-
 .form-card,
 .upload-card {
-  background: rgba(255,255,255,.55);
+  background: rgba(255, 255, 255, .55);
   border-radius: 24px;
   padding: 22px;
   margin-bottom: 1rem;
   border: 1px solid #e2e8f0;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.8),
-    0 4px 14px rgba(15,23,42,.04);
+    inset 0 1px 0 rgba(255, 255, 255, .8),
+    0 4px 14px rgba(15, 23, 42, .04);
 }
-
-/* =========================
-   CARD TITLE
-========================= */
 
 .card-title {
   display: flex;
@@ -566,33 +491,25 @@
 }
 
 .card-icon.blue {
-  background: rgba(37,99,235,.12);
+  background: rgba(37, 99, 235, .12);
   color: #0b4e94;
 }
 
 .card-icon.green {
-  background: rgba(16,185,129,.12);
+  background: rgba(16, 185, 129, .12);
   color: #10b981;
 }
 
 .card-icon.purple {
-  background: rgba(139,92,246,.12);
+  background: rgba(139, 92, 246, .12);
   color: #8b5cf6;
 }
-
-/* =========================
-   GRID
-========================= */
 
 .card-grid {
   display: grid;
   gap: 16px;
 
 }
-
-/* =========================
-   FIELD
-========================= */
 
 .field label {
   display: block;
@@ -613,10 +530,10 @@
   height: 56px;
   border-radius: 16px !important;
   border: 1px solid #dbe4f0 !important;
-  background: rgba(255,255,255,.8) !important;
+  background: rgba(255, 255, 255, .8) !important;
   transition: .25s ease;
   box-shadow:
-    0 2px 8px rgba(15,23,42,.03);
+    0 2px 8px rgba(15, 23, 42, .03);
 }
 
 .custom-input {
@@ -629,13 +546,13 @@
 .custom-date-field.mat-focused .mat-mdc-text-field-wrapper {
   border-color: #0b4e94 !important;
   box-shadow:
-    0 0 0 4px rgba(59,130,246,.10);
+    0 0 0 4px rgba(59, 130, 246, .10);
 }
 
 /* =========================
    MATERIAL
 ========================= */
-.custom-input-date{
+.custom-input-date {
   padding: 0 5px;
   color: #3b3e47e0;
   font-size: .95rem;
@@ -689,30 +606,22 @@
 }
 
 
-
-
-/*========================
-   UPLOAD
-========================= */
-
 .upload-body {
   border: 2px dashed #cbd5e1;
   border-radius: 22px;
   padding: 32px 20px;
   text-align: center;
   background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.6),
-      rgba(248,250,252,.9)
-    );
+    linear-gradient(180deg,
+      rgba(255, 255, 255, .6),
+      rgba(248, 250, 252, .9));
   transition: .25s ease;
 }
 
 .upload-body:hover {
   border-color: #0b4e94;
   background:
-    rgba(59,130,246,.03);
+    rgba(59, 130, 246, .03);
 }
 
 .upload-big-icon {
@@ -768,25 +677,23 @@
   border: none;
   border-radius: 18px;
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #0b4e94,
       #0b4e94,
-      #0b4e94
-    );
+      #0b4e94);
   color: white;
   font-size: 1rem;
   font-weight: 700;
   transition: .25s ease;
   box-shadow:
-    0 12px 30px rgba(37,99,235,.22);
+    0 12px 30px rgba(37, 99, 235, .22);
 }
 
 .btn-primary:hover:not(:disabled) {
-   transform: translateY(-2px);
+  transform: translateY(-2px);
 
   box-shadow:
-    0 16px 35px rgba(37,99,235,.28);
+    0 16px 35px rgba(37, 99, 235, .28);
 }
 
 .btn-primary:disabled {
@@ -795,64 +702,13 @@
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 768px) {
-
-  .payment-container {
-    padding: 22px;
-  }
-
-  .form-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .payment-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .header-content h2 {
-    font-size: 1.7rem;
-  }
-}
-
-@media (max-width: 576px) {
-
-  .page {
-    padding: 14px;
-  }
-
-  .payment-container {
-    border-radius: 24px;
-    padding: 18px;
-  }
-
-  .form-card,
-  .upload-card {
-    padding: 18px;
-  }
-
-  .header-icon {
-    width: 64px;
-    height: 64px;
-  }
-
-  .header-content h2 {
-    font-size: 1.5rem;
-  }
-}
-
-
-
 
 /* =========================
    FORMA DE PAGO
 ========================= */
 
 .payment-options {
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
@@ -892,7 +748,7 @@
   font-size: 1.2rem;
 }
 
-.payment-card input:checked + .card-content {
+.payment-card input:checked+.card-content {
   border-color: #0b4d94;
   background: #0b4d9448;
   box-shadow: 0 10px 30px rgba(21, 128, 250, 0.15);
@@ -908,4 +764,235 @@
   margin: 2px 0 0;
   color: #64748b;
   font-size: .9rem;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+#formulario form {
+    padding: 32px;
+    padding-top: 28px;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .page {
+    padding: 12px;
+  }
+
+  .payment-container {
+    border-radius: 20px;
+  }
+
+  .payment-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 28px 20px;
+  }
+
+  .header-icon {
+    width: 68px;
+    height: 68px;
+    font-size: 28px;
+    border-radius: 18px;
+  }
+
+  .header-content h2 {
+    font-size: 1.6rem;
+  }
+
+  .header-content p {
+    font-size: .92rem;
+  }
+
+  #formulario form {
+    padding: 24px;
+  }
+
+  .form-layout,
+  .form-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-container {
+    padding: 18px;
+  }
+
+  .filter-btn {
+    padding: 10px 16px;
+    font-size: .88rem;
+  }
+
+  .pagos-list {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .pagos-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .pagos-left {
+    width: 100%;
+  }
+
+  .pagos-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pagos-meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pagination-container {
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 18px;
+  }
+
+  .btn-page {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .page {
+    padding: 10px;
+  }
+
+  .payment-container {
+    border-radius: 18px;
+  }
+
+  .payment-header {
+    padding: 24px 18px;
+  }
+
+  .header-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 24px;
+    border-radius: 16px;
+  }
+
+  .header-content h2 {
+    font-size: 1.35rem;
+  }
+
+  .header-content p {
+    font-size: .85rem;
+  }
+
+  #formulario form {
+    padding: 18px;
+  }
+
+  .form-card,
+  .upload-card {
+    padding: 18px;
+  }
+
+  .filter-container {
+    padding: 14px;
+  }
+
+  .filter-btn {
+    padding: 9px 14px;
+    font-size: .82rem;
+  }
+
+  .pagos-list {
+    padding: 14px;
+  }
+
+  .pagos-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .pagos-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+
+  .pagos-info h4 {
+    font-size: 1rem;
+  }
+
+  .pagos-info p,
+  .pagos-meta span {
+    font-size: .85rem;
+  }
+
+  .status-badge {
+    font-size: .75rem;
+    padding: 7px 12px;
+  }
+
+  .pagination-container {
+    padding: 16px;
+  }
+
+  .btn-page {
+    width: 34px;
+    height: 34px;
+  }
+
+  .empty-state {
+    padding: 50px 16px;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .payment-header {
+    padding: 20px 14px;
+  }
+
+  .header-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .filter-btn {
+    font-size: .78rem;
+    padding: 8px 12px;
+  }
+
+  .pagos-card {
+    padding: 14px;
+  }
+
+  .pagos-left {
+    gap: 12px;
+  }
+
+  .pagos-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+  }
+
+  .pagos-icon i {
+    font-size: 1rem;
+  }
+
+  .status-badge {
+    font-size: .72rem;
+    padding: 6px 10px;
+  }
+
+  .btn-page {
+    width: 32px;
+    height: 32px;
+  }
 }

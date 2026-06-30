@@ -41,15 +41,15 @@ export class Visits {
   visitaSeleccionada: Visitas | null = null;
 
   filtroEstado = -1;
-  elementosPorPagina = 2;
+  elementosPorPagina = 10;
   paginaActual = 1;
 
   readonly filtros = [
     { value: -1, label: 'Todas' },
     { value: 0, label: 'Agendadas' },
     { value: 1, label: 'Pendientes' },
-    { value: 3, label: 'En atención' },
-    { value: 2, label: 'Finalizadas' }
+    { value: 2, label: 'En atención' },
+    { value: 3, label: 'Finalizadas' }
   ];
 
   private readonly estados: Record<number, EstadoConfig> = {
@@ -65,15 +65,15 @@ export class Visits {
       icono: 'fa-clock'
     },
     2: {
-      texto: 'Finalizado',
-      clase: 'finalizado',
-      icono: 'fa-check'
-    },
-    3: {
       texto: 'En atención',
       clase: 'proceso',
       icono: 'fa-screwdriver-wrench'
-    }
+    },
+    3: {
+      texto: 'Finalizado',
+      clase: 'finalizado',
+      icono: 'fa-check'
+    }    
   };
 
 
@@ -101,7 +101,6 @@ export class Visits {
 
   loadClientData(numeroCliente: string): void {
     this.loading = true;
-    //this.data = null;
 
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: cliente => {
@@ -169,6 +168,7 @@ export class Visits {
     return visita.id;
   }
 
+
   cambiarFiltro(estado: number): void {
     this.filtroEstado = estado;
     this.paginaActual = 1;
@@ -224,8 +224,8 @@ export class Visits {
     const mensajes: Record<number, string> = {
       0: 'No existen visitas agendadas.',
       1: 'No existen visitas pendientes.',
-      2: 'No existen visitas finalizadas.',
-      3: 'No existen visitas en atención.'
+      2: 'No existen visitas en atención.',
+      3: 'No existen visitas finalizadas.'
     };
 
     return mensajes[this.filtroEstado] ??

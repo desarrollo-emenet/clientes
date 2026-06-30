@@ -1,5 +1,4 @@
 <main class="page">
-
   <div class="container">
 
     <!-- NAVEGACIÓN -->
@@ -17,11 +16,9 @@
     </nav>
 
     <div class="payment-container">
-
       <div id="pagos" class="section" [ngClass]="{ active: activeSection === 'pagos' }">
 
-
-
+        <!-- header -->
         <div class="payment-header" [attr.open]="pagosAbierto">
           <div class="header-icon"><i class="fa-solid fa-receipt"></i></div>
           <div class="header-content">
@@ -30,30 +27,26 @@
           </div>
         </div>
 
+        <!--filtros-->
         <div class="filter-container">
           <button *ngFor="let filtro of filtros" class="filter-btn" [class.active]="filtroEstado === filtro.value"
             (click)="cambiarFiltro(filtro.value)">
             {{ filtro.label }} ({{ contarEstado(filtro.value) }})
           </button>
         </div>
-        <div class="empty-state" *ngIf="pagosFiltradas.length === 0">
+
+        <section class="empty-state" *ngIf="pagosFiltrados.length === 0">
           <i class="fa-solid fa-money-bill"></i>
           <h4>Sin resultados</h4>
           <p>{{ mensajeFiltro }}</p>
-        </div>
+        </section>
 
-        <div class="pagos-list" *ngIf="pagosFiltradas.length > 0">
-          <div class="pagos-card" *ngFor="let pago of pagosPaginados; trackBy: trackByPago">
+        <section class="pagos-list" *ngIf="pagosFiltrados.length > 0">
+          <article class="pagos-card" *ngFor="let pago of pagosPaginados; trackBy: trackByPago">
 
             <div class="pagos-left">
-              <div class="pagos-icon" [ngClass]="{
-                'pendiente': pago.estado === '1','validado': pago.estado === '2' || 
-                pago.estado === '3','rechazado': pago.estado === '4'}">
-
-                <i class="fa-solid" [ngClass]="{
-                'fa-check': pago.estado === '1','fa-xmark': pago.estado === '2'|| 
-                pago.estado === '3','fa-clock': pago.estado === '4'}">
-                </i>
+              <div class="pagos-icon" [ngClass]="getEstadoConfig(pago.estado).clase">
+                <i class="fa-solid" [ngClass]="getEstadoConfig(pago.estado).icono"></i>
               </div>
 
               <div class="pagos-info">
@@ -78,22 +71,17 @@
             </div>
 
             <div class="pagos-right">
-              <span class="status-badge" [ngClass]="{
-                'pendiente': pago.estado === '1','validado': pago.estado === '2' || 
-                pago.estado === '3','rechazado': pago.estado === '4'}">
-
+              <span class="status-badge" [ngClass]="getEstadoConfig(pago.estado).clase">
                 <span class="dot"></span>
-
-                {{ pago.estado === '2' || pago.estado === '3'? 'Validado'
-                : pago.estado === '4'? 'Rechazado': 'Pendiente' }}
+                {{ getEstadoConfig(pago.estado).texto }}
               </span>
             </div>
 
-          </div>
-        </div>
+          </article>
+        </section>
 
         <!-- paginacion -->
-        <div class="pagination-container" *ngIf="totalPaginas > 1">
+        <nav class="pagination-container" *ngIf="totalPaginas > 1">
           <button class="btn-page" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
@@ -106,9 +94,7 @@
           <button class="btn-page" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
-        </div>
-
-
+        </nav>
       </div>
 
       <!-- HEADER -->

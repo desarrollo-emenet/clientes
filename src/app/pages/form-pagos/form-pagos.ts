@@ -2,17 +2,16 @@ import { NgClass, NgIf, NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { ClientService } from '../../services/user/clientService';
+import { UserService } from '../../services/user/user-service';
 
+import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { UserService } from '../../services/user/user-service';
 import { forkJoin } from 'rxjs';
-import { LoginS } from '../../services/auth/login';
 
 interface Pago {
   id: number;
@@ -25,6 +24,11 @@ interface Pago {
   created_at: string;
 }
 
+interface EstadoConfig {
+  texto: string;
+  clase: string;
+  icono: string;
+}
 
 @Component({
   selector: 'app-form-pagos',
@@ -40,6 +44,7 @@ interface Pago {
   templateUrl: './form-pagos.html',
   styleUrl: './form-pagos.css'
 })
+
 export class FormPagos {
 
   loading = false;
@@ -47,19 +52,44 @@ export class FormPagos {
   pagosForm!: FormGroup;
   data: any;
   maxDate = new Date();
+  pagos: Pago[] = [];
+
 
   filtroEstado = 'todos';
-  elementosPorPagina = 2;
+  elementosPorPagina = 10;
   paginaActual = 1;
 
-  filtros = [
+  readonly filtros = [
     { value: 'todos', label: 'Todas' },
     { value: '1', label: 'Pendientes' },
     { value: 'registrado', label: 'Registrado' },
     { value: '4', label: 'Rechazado' }
-
-
   ];
+
+
+  private readonly estados: Record<string, EstadoConfig> = {
+
+    '1': {
+      texto: 'Pendiente',
+      clase: 'pendiente',
+      icono: 'fa-clock'
+    },
+    '2': {
+      texto: 'Validado',
+      clase: 'validado',
+      icono: 'fa-check'
+    },
+    '3': {
+      texto: 'Validado',
+      clase: 'validado',
+      icono: 'fa-check'
+    },
+    '4': {
+      texto: 'Recahzado',
+      clase: 'rechazado',
+      icono: 'fa-xmark'
+    }
+  };
 
   private readonly TIPOS_PERMITIDOS = [
     'image/jpeg',
@@ -77,7 +107,6 @@ export class FormPagos {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loginS: LoginS,
     private clientS: ClientService,
     private user: UserService,
     private route: ActivatedRoute) {
@@ -110,7 +139,6 @@ export class FormPagos {
   get f() {
     return this.pagosForm.controls;
   }
-
 
   ngOnInit() {
 
@@ -159,21 +187,18 @@ export class FormPagos {
 
   loadClientData(numeroCliente: string): void {
     this.loading = true;
-    //this.data = null;
 
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
         this.data = res,
           this.loading = false;
-
-        //console.log('Datos del cliente cargados', this.data);
         const telefono =
           this.data?.cliente?.cliente?.telefono
             ?.replace(/\s/g, '')
             .substring(0, 10) ?? '';
 
         this.pagosForm.patchValue({ telefono });
-        this.respuestaPago();
+        this.respuestaPago(this.data?.cliente?.cliente?.numero_cliente);
 
       },
       error: (e) => this.manejoError(e)
@@ -181,28 +206,13 @@ export class FormPagos {
   }
 
 
-  pagos: Pago[] = [];
-
-  respuestaPago() {
-    const cliente = this.data?.numero_cliente;
-    if (!cliente) {
-      console.error('No existe número de cliente');
-      return;
-    }
-    //this.loading = true;
+  private respuestaPago(cliente: string) {
     this.clientS.resBanco(cliente).subscribe({
       next: ({ pagos }) => {
         this.pagos = pagos ?? [];
-        console.log('Respuesta:', pagos);
-
-        //this.loading = false;
       },
-      error: (err) => {
-        this.loading = false;
-        console.error(err);
-      }
+      error: e => this.manejoError(e)
     });
-
   }
 
   enviarPago() {
@@ -237,8 +247,7 @@ export class FormPagos {
 
       },
       error: (e) => {
-        this.loading = false;
-        console.log(e);
+        this.manejoError(e);
         toast.error('No se pudo enviar')
       }
     });
@@ -270,26 +279,33 @@ export class FormPagos {
     console.error(e);
   }
 
+  getEstadoConfig(estado: string) {
+    return this.estados[estado] ?? {
+      texto: 'Desconocido',
+      clase: 'desconocido',
+      icono: 'fa-circle-question'
+    };
+  }
+
   //evitar recarga de elementos repetidos 
   trackByPago(index: number, pago: any): number {
     return pago.id;
   }
 
-
-
-  // Filtros
-
-  get pagosFiltradas(): Pago[] {
-    if (this.filtroEstado === 'todos') {
-      return this.pagos;
+//filtro
+  private coincideFiltro(pago: Pago): boolean {
+    switch (this.filtroEstado) {
+      case 'todos':
+        return true;
+      case 'registrado':
+        return ['2', '3'].includes(pago.estado);
+      default:
+        return pago.estado === this.filtroEstado;
     }
-    if (this.filtroEstado === 'registrado') {
-      return this.pagos.filter(v =>
-        v.estado === '2' || v.estado === '3');
-    }
-    return this.pagos.filter(
-      pagos => pagos.estado === this.filtroEstado
-    );
+  }
+
+  get pagosFiltrados(): Pago[] {
+    return this.pagos.filter(pago => this.coincideFiltro(pago));
   }
 
   cambiarFiltro(estado: string): void {
@@ -302,39 +318,27 @@ export class FormPagos {
       return this.pagos.length;
     }
     if (estado === 'registrado') {
-      return this.pagos.filter(v =>
-        v.estado === '2' || v.estado === '3').length;
+      return this.pagos.filter(p => ['2', '3'].includes(p.estado)).length;
     }
-    return this.pagos.filter(
-      pagos => pagos.estado === estado
-    ).length;
+    return this.pagos.filter(p => p.estado === estado).length;
   }
 
   get mensajeFiltro(): string {
 
-  switch (this.filtroEstado) {
+    const mensajes: Record<string, string> = {
+      '1': 'No hay pagos pendientes.',
+      'registrado': 'No hay pagos registrados.',
+      '4': 'No hay pagos declinados.',
+      'todos': 'No se encontraron pagos.'
+    };
 
-    case '1':
-      return 'No hay pagos pendientes.';
-
-    case 'registrado':
-      return 'No hay pagos registrados.';
-
-    case '4':
-      return 'No hay pagos registrados.';
-
-    default:
-      return 'No se encontraron pagos.';
-
+    return mensajes[this.filtroEstado] ?? 'No se encontraron pagos.';
   }
 
-}
-
-  // paginacion
-
+  //paginacion
   get pagosPaginados(): Pago[] {
     const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
-    return this.pagosFiltradas.slice(
+    return this.pagosFiltrados.slice(
       inicio,
       inicio + this.elementosPorPagina
     );
@@ -343,22 +347,20 @@ export class FormPagos {
   get totalPaginas(): number {
     return Math.max(
       1,
-      Math.ceil(this.pagosFiltradas.length / this.elementosPorPagina)
+      Math.ceil(this.pagosFiltrados.length / this.elementosPorPagina)
     );
   }
 
   get paginas(): number[] {
     return Array.from(
       { length: this.totalPaginas },
-      (_, index) => index + 1
+      (_, i) => i + 1
     );
   }
 
   cambiarPagina(pagina: number): void {
-    if (pagina < 1 || pagina > this.totalPaginas) {
-      return;
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
     }
-    this.paginaActual = pagina;
   }
-
 }

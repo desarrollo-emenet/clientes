@@ -12,24 +12,24 @@
 
 
     <!-- LISTA DE TARJETAS -->
-    <div class="visitas-list">
+    <!--<div class="visitas-list">-->
 
-      <div class="filter-container">
-        <button *ngFor="let filtro of filtros" class="filter-btn" [class.active]="filtroEstado === filtro.value"
-          (click)="cambiarFiltro(filtro.value)">
-          {{ filtro.label }} ({{ contarEstado(filtro.value) }})
-        </button>
-      </div>
+    <div class="filter-container">
+      <button *ngFor="let filtro of filtros" class="filter-btn" [class.active]="filtroEstado === filtro.value"
+        (click)="cambiarFiltro(filtro.value)">
+        {{ filtro.label }} <span>({{ contarEstado(filtro.value) }}) </span>
+      </button>
+    </div>
 
-      <div class="empty-state" *ngIf="visitasFiltradas.length === 0">
-          <i class="fa-solid fa-money-bill"></i>
-          <h4>Sin resultados</h4>
-          <p>{{ mensajeFiltro }}</p>
-        </div>
+    <section class="empty-state" *ngIf="visitasFiltradas.length === 0">
+      <i class="fa-solid fa-money-bill"></i>
+      <h4>Sin resultados</h4>
+      <p>{{ mensajeFiltro }}</p>
+    </section>
 
-      <div class="visitas-list" *ngIf="visitasFiltradas.length > 0">
+    <section class="visitas-list" *ngIf="visitasFiltradas.length > 0">
 
-      <div class="visita-card" *ngFor="let visita of visitasPaginadas; trackBy: trackByVisitas"
+      <article class="visita-card" *ngFor="let visita of visitasPaginadas; trackBy: trackByVisitas"
         (click)="abrirDetalle(visita)" data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
 
         <!-- IZQUIERDA -->
@@ -48,13 +48,9 @@
               </span>
             </div>
 
-            <p *ngIf="visita.usarioAtencion; else sinTecnico">
-              Técnico: {{ visita.usarioAtencion }}
+            <p>
+              Técnico: {{ visita.usarioAtencion || 'sin asignar' }}
             </p>
-
-            <ng-template #sinTecnico>
-              <p>Técnico: Sin asignar</p>
-            </ng-template>
           </div>
         </div>
 
@@ -67,107 +63,108 @@
           <i class="fa-solid fa-chevron-right"></i>
         </div>
 
+      </article>
+    </section>
+
+    <!-- paginacion -->
+    <nav class="pagination-container" *ngIf="totalPaginas > 1">
+      <button class="btn-page" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+        {{ pagina }}
+      </button>
+
+      <button class="btn-page" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </nav>
+
+  </div>
+</main>
+
+
+
+<div class="modal fade modal-visitas" id="detalleVisitaModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <div>
+
+          <h5 class="modal-title">{{ visitaSeleccionada?.problema || 'Detalle de visita' }}</h5>
+          <span class="modal-subtitle" *ngIf="visitaSeleccionada">
+            <i class="fa-solid fa-calendar"></i> {{ visitaSeleccionada.created_at | date:'dd/MM/yyyy, h:mm a' }}
+          </span>
+        </div>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
       </div>
-      </div>
 
-      <!-- paginacion -->
-      <div class="pagination-container" *ngIf="totalPaginas > 1">
-        <button class="btn-page" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
+      <div class="modal-body" *ngIf="visitaSeleccionada">
+        <div class="modal-grid-layout">
 
-        <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === paginaActual"
-          (click)="cambiarPagina(pagina)">
-          {{ pagina }}
-        </button>
+          <div class="modal-column modal-info">
+            <h6 class="column-title">Información General</h6>
 
-        <button class="btn-page" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-    </div>
-
-
-
-    <div class="modal fade modal-visitas" id="detalleVisitaModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <div>
-
-              <h5 class="modal-title">{{ visitaSeleccionada?.problema || 'Detalle de visita' }}</h5>
-              <span class="modal-subtitle" *ngIf="visitaSeleccionada">
-                <i class="fa-solid fa-calendar"></i> {{ visitaSeleccionada.created_at | date:'dd/MM/yyyy, h:mm a' }}
-              </span>
+            <div class="detalle-group">
+              <label>Problema reportado</label>
+              <p class="asunto-destacado">{{ visitaSeleccionada.problema }}</p>
             </div>
-            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+
+            <div class="detalle-group">
+              <label>Fecha de solicitud</label>
+              <p>{{ visitaSeleccionada.created_at | date:'dd/MM/yyyy, h:mm a' }}</p>
+            </div>
+
+            <div class="detalle-group">
+              <label>Fecha programada</label>
+              <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a') || 'Pendiente de agendar' }}</p>
+            </div>
+
+            <div class="detalle-group">
+              <label>Fecha de atención</label>
+              <p>{{ (visitaSeleccionada.atencionFecha | date:'dd/MM/yyyy, h:mm a') || 'Sin atender' }}</p>
+            </div>
+
+            <div class="detalle-group">
+              <label>Técnico asignado</label>
+
+              <div class="tecnico-avatar-box">
+                <div class="avatar-mini">
+                  <i class="fa-solid fa-user-gear"></i>
+                </div>
+
+                <p>{{ visitaSeleccionada.usarioAtencion || 'Sin asignar' }}</p>
+              </div>
+            </div>
           </div>
 
-          <div class="modal-body" *ngIf="visitaSeleccionada">
-            <div class="modal-grid-layout">
+          <div class="modal-column modal-resolucion">
+            <h6 class="column-title">Informe Técnico</h6>
 
-              <div class="modal-column modal-info">
-                <h6 class="column-title">Información General</h6>
+            <div class="detalle-card-group">
+              <label><i class="fa-solid fa-circle-info"></i>Detalle del reporte</label>
+              <p>{{ visitaSeleccionada.detalle || 'Sin información.' }}</p>
+            </div>
 
-                <div class="detalle-group">
-                  <label>Problema reportado</label>
-                  <p class="asunto-destacado">{{ visitaSeleccionada.problema }}</p>
-                </div>
+            <div class="detalle-card-group">
+              <label><i class="fa-solid fa-stethoscope"></i>Diagnóstico</label>
+              <p>{{ visitaSeleccionada.diagnostico || 'Sin diagnóstico registrado.' }}</p>
+            </div>
 
-                <div class="detalle-group">
-                  <label>Fecha de solicitud</label>
-                  <p>{{ visitaSeleccionada.created_at | date:'dd/MM/yyyy, h:mm a' }}</p>
-                </div>
-
-                <div class="detalle-group">
-                  <label>Fecha programada</label>
-                  <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a') || 'Pendiente de agendar' }}</p>
-                </div>
-
-                <div class="detalle-group">
-                  <label>Fecha de atención</label>
-                  <p>{{ (visitaSeleccionada.atencionFecha | date:'dd/MM/yyyy, h:mm a') || 'Sin atender' }}</p>
-                </div>
-
-                <div class="detalle-group">
-                  <label>Técnico asignado</label>
-
-                  <div class="tecnico-avatar-box">
-                    <div class="avatar-mini">
-                      <i class="fa-solid fa-user-gear"></i>
-                    </div>
-
-                    <p>{{ visitaSeleccionada.usarioAtencion || 'Sin asignar' }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="modal-column modal-resolucion">
-                <h6 class="column-title">Informe Técnico</h6>
-
-                <div class="detalle-card-group">
-                  <label><i class="fa-solid fa-circle-info"></i>Detalle del reporte</label>
-                  <p>{{ visitaSeleccionada.detalle || 'Sin información.' }}</p>
-                </div>
-
-                <div class="detalle-card-group">
-                  <label><i class="fa-solid fa-stethoscope"></i>Diagnóstico</label>
-                  <p>{{ visitaSeleccionada.diagnostico || 'Sin diagnóstico registrado.' }}</p>
-                </div>
-
-                <div class="detalle-card-group solucion-destacada">
-                  <label><i class="fa-solid fa-lightbulb"></i>Solución aplicada</label>
-                  <p>{{ visitaSeleccionada.solucion || 'Aún no se registra una solución.' }}</p>
-                </div>
-              </div>
-
+            <div class="detalle-card-group solucion-destacada">
+              <label><i class="fa-solid fa-lightbulb"></i>Solución aplicada</label>
+              <p>{{ visitaSeleccionada.solucion || 'Aún no se registra una solución.' }}</p>
             </div>
           </div>
 
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
-</main>
+</div>
+
+<!--</div>-->
