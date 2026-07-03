@@ -25,6 +25,8 @@ export class Service implements OnInit, OnDestroy {
   numeroClienteTemp: string = '';
   showBannerModal: boolean = false;
   showAddServiceModal: boolean = false;
+  showDeleteModal: boolean = false;
+  idParaEliminar: number | null = null;
 
   //servicios es un array de cualquier tipo
   servicios: any[] = [];
@@ -232,30 +234,29 @@ export class Service implements OnInit, OnDestroy {
     return `${min}:${sec < 10 ? '0' + sec : sec}`;
   }
 
-  //toast con mensaje de eliminar
-  eliminarServicio(id: number) {
-    toast.warning('¿Eliminar servicio?', {
-      description: 'Esta accion no se puede deshacer',
-      action: {
-        label: 'Eliminar',
-        onClick: () => this.eliminar(id),
-      },
-      cancel: {
-        label: 'Cancelar',
-      },
-    });
+  abrirConfirmacionEliminar(id: number) {
+    this.idParaEliminar = id;
+    this.showDeleteModal = true;
   }
 
-  eliminar(id: number) {
-    //if (!confirm('¿Eliminar servicio?')) return;
+  cerrarConfirmacionEliminar() {
+    this.showDeleteModal = false;
+    this.idParaEliminar = null;
+  }
+
+  confirmarEliminar() {
+    if (this.idParaEliminar === null) return;
+    const id = this.idParaEliminar;
+    this.cerrarConfirmacionEliminar();
+
     const s = this.api.deleteService(id).subscribe({
       next: () => {
-        toast.success('Eliminado');
+        toast.success('Servicio eliminado');
         this.load();
       },
       error: (e) => {
         if (e?.status === 409) {
-          toast.error('Debes tener minimo un servicio');
+          toast.error('Debes tener mínimo un servicio');
         } else {
           toast.error('No se pudo eliminar');
         }
