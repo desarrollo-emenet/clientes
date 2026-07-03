@@ -20,11 +20,9 @@
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    #0b4e94,
-    rgba(24, 106, 206, 0.753)
-  );
+  background: linear-gradient(135deg,
+      #0b4e94,
+      rgba(24, 106, 206, 0.753));
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -274,8 +272,8 @@
   border: 1.5px solid transparent;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   gap: 12px;
 }
 
@@ -393,9 +391,9 @@
   font-size: 0.95rem;
   flex-shrink: 0;
   transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .payment-card--clickable:hover .payment-download-hint {
@@ -640,7 +638,7 @@
 
 /* Botón adelnatar pago ahora */
 .btn-adelantar-pay {
-  background: #0b4e94;
+  background: #2ba74f;
   color: #fff;
   border: none;
   border-radius: 30px;
