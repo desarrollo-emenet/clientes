@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgForOf } from '@angular/common';
+import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,6 +34,7 @@ interface EstadoConfig {
   selector: 'app-form-pagos',
   imports: [NgxSonnerToaster,
     NgIf,
+    DatePipe,
     NgClass,
     ReactiveFormsModule,
     MatDatepickerModule,
@@ -100,7 +101,7 @@ export class FormPagos {
 
   private readonly MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-  activeSection: string = 'pagos';
+  activeSection: string = 'formulario';
   pagosAbierto: string | null = null;
   formularioAbierto: string | null = null;
 

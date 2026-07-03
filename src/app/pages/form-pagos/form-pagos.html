@@ -3,16 +3,17 @@
 
     <!-- NAVEGACIÓN -->
     <nav class="page-nav">
-      <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
-        <i class="fi fi-rr-info"></i>
-        Estatus de pagos
-      </button>
-      <p></p>
       <button class="nav-btn" [ngClass]="{ active: activeSection === 'formulario' }"
         (click)="showSection('formulario')">
         <i class="fa-solid fa-question"></i>
         Formulario de pago
       </button>
+      <p></p>
+      <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
+        <i class="fi fi-rr-info"></i>
+        Estatus de pagos
+      </button>
+
     </nav>
 
     <div class="payment-container">
@@ -55,7 +56,7 @@
                 <div class="pagos-meta">
                   <span>
                     <i class="fa-solid fa-calendar"></i>
-                    Enviado: {{ pago.created_at }}
+                    Enviado: {{ pago.created_at | date:'dd/MM/yyyy, h:mm a' }}
                   </span>
                 </div>
 

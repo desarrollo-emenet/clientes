@@ -91,8 +91,10 @@
               <i class="fa-solid fa-check" style="color:#0b4e94;"></i>
               Confirmar contraseña
             </label>
-            <input type="password" formControlName="password_confirmation" class="ep-input"
-              placeholder="Repite la contraseña" />
+            <div class="ep-input-group">
+              <input type="password" formControlName="password_confirmation" class="ep-input"
+                placeholder="Repite la contraseña" />
+            </div>
             <div class="ep-error" *ngIf="updateForm.hasError('passwordMissMatch') &&
                 (passwordConfirmation.touched || updateForm.touched)">
               Las contraseñas no coinciden.
