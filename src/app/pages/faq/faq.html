@@ -21,12 +21,10 @@
             <p class="page-sub">Sigue estos pasos para identificar y resolver problemas con tu conexión.</p>
 
             <!-- ONT -->
-            <details class="help-block" style="margin-top: 24px;"
-                [attr.open]="helpAbierto === 'ont' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('ont'); $event.preventDefault()">
-                    <span class="help-label"> diagrama equipo ONT — puertos y botones</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" style="margin-top: 24px;" [attr.open]="helpAbierto === 'ont' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('ont'); $event.preventDefault()">
+                    <span class="help-label">Diagrama equipo ONT — puertos y botones</span>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
 
@@ -83,8 +81,9 @@
                                 </div>
                             </div>
                             <!-- Imagen 3 reset-->
-                            <img class="img-clickable" src="../../../assets/img/ont/reset.webp" alt="Botón Reset del ONT"
-                                height="450px" width="450px" (click)="abrirModal('../../../assets/img/ont/reset.webp')">
+                            <img class="img-clickable" src="../../../assets/img/ont/reset.webp"
+                                alt="Botón Reset del ONT" height="450px" width="450px"
+                                (click)="abrirModal('../../../assets/img/ont/reset.webp')">
                             <div class="ont-grid">
                                 <div class="ont-card">
                                     <div class="ont-num">6</div>
@@ -210,12 +209,10 @@
             </details>
 
             <!-- 1 -->
-            <details class="help-block"
-                [attr.open]="helpAbierto === 'paso1' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('paso1'); $event.preventDefault()">
-                    <span class="help-label">1. Inspección visual</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" [attr.open]="helpAbierto === 'paso1' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('paso1'); $event.preventDefault()">
+                    <div class="help-label">1. Inspección visual</div>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
                     <ol class="step-list">
@@ -230,12 +227,10 @@
             </details>
 
             <!-- 2 -->
-            <details class="help-block"
-                [attr.open]="helpAbierto === 'paso2' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('paso2'); $event.preventDefault()">
-                    <span class="help-label">2. Luz roja en el equipo</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" [attr.open]="helpAbierto === 'paso2' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('paso2'); $event.preventDefault()">
+                    <div class="help-label">2. Luz roja en el equipo</div>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
                     <div class="alert-card">
@@ -246,12 +241,10 @@
             </details>
 
             <!-- 3 -->
-            <details class="help-block"
-                [attr.open]="helpAbierto === 'paso3' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('paso3'); $event.preventDefault()">
-                    <span class="help-label">3. Tengo WiFi pero no hay internet</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" [attr.open]="helpAbierto === 'paso3' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('paso3'); $event.preventDefault()">
+                    <div class="help-label">3. Tengo WiFi pero no hay internet</div>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
                     <ol class="step-list">
@@ -264,12 +257,10 @@
             </details>
 
             <!-- 4 -->
-            <details class="help-block"
-                [attr.open]="helpAbierto === 'paso4' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('paso4'); $event.preventDefault()">
-                    <span class="help-label">4. Internet lento</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" [attr.open]="helpAbierto === 'paso4' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('paso4'); $event.preventDefault()">
+                    <div class="help-label">4. Internet lento</div>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
                     <ol class="step-list">
@@ -282,12 +273,10 @@
             </details>
 
             <!-- 5 -->
-            <details class="help-block"
-                [attr.open]="helpAbierto === 'paso5' ? '' : null">
-                <summary class="help-summary"
-                    (click)="toggleHelp('paso5'); $event.preventDefault()">
-                    <span class="help-label">5. No aparecen las redes WiFi</span>
-                    <span class="chevron">▼</span>
+            <details class="help-block" [attr.open]="helpAbierto === 'paso5' ? '' : null">
+                <summary class="help-summary" (click)="toggleHelp('paso5'); $event.preventDefault()">
+                    <div class="help-label">5. No aparecen las redes WiFi</div>
+                    <div class="chevron">▼</div>
                 </summary>
                 <div class="help-body">
                     <ol class="step-list">
@@ -307,20 +296,21 @@
             <h1 class="page-heading">Preguntas frecuentes</h1>
             <p class="page-sub">Encuentra respuestas a las dudas más comunes sobre nuestros servicios.</p>
 
-
-            <details class="faq-section"
-                [attr.open]="faqAbierto === 'internet' ? '' : null">
-                <summary class="section-summary"
-                    (click)="toggleFaq('internet'); $event.preventDefault()">
-                    <span class="section-label">Servicio de Internet</span>
-                    <span class="section-chevron">▼</span>
+            <!-- Servicio de Internet -->
+            <details class="faq-section" [attr.open]="faqAbierto === 'internet' ? '' : null">
+                <summary class="section-summary" (click)="toggleFaq('internet'); $event.preventDefault()">
+                    <span class="section-label">
+                        <img src="assets/img/productos/AP.svg" alt="Internet" class="section-icon-img">
+                        Servicio de Internet
+                    </span>
+                    <div class="section-chevron">▼</div>
                 </summary>
                 <div class="questions-list">
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'internet-0' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('internet-0'); $event.preventDefault()">
                             <span>¿Qué interfiere en mi red WiFi?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Obstáculos físicos como paredes y pisos reducen la señal.<br>
@@ -337,22 +327,21 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'internet-1' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('internet-1'); $event.preventDefault()">
                             <span>¿Cómo puedo expandir mi señal WiFi?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Se recomienda usar un Access Point conectado por cable Ethernet para mayor estabilidad y
-                            mejor
-                            rendimiento.
+                            mejor rendimiento.
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'internet-2' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('internet-2'); $event.preventDefault()">
                             <span>¿Cómo valido que mi velocidad sea correcta?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             <ul>
@@ -368,10 +357,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'internet-3' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('internet-3'); $event.preventDefault()">
                             <span>¿Cuál es la diferencia entre 2.4 GHz y 5 GHz?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             <strong>2.4 GHz:</strong> Mayor alcance, menor velocidad.<br>
@@ -379,34 +368,33 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'internet-4' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('internet-4'); $event.preventDefault()">
                             <span>¿Cómo cambio mi contraseña WiFi?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Si el equipo lo permite, el cambio se realiza de forma remota. En caso contrario, se agenda
-                            una
-                            visita técnica.
+                            una visita técnica.
                         </div>
                     </details>
                 </div>
             </details>
 
-
-            <details class="faq-section"
-                [attr.open]="faqAbierto === 'soporte' ? '' : null">
-                <summary class="section-summary"
-                    (click)="toggleFaq('soporte'); $event.preventDefault()">
-                    <span class="section-label">Soporte Técnico</span>
-                    <span class="section-chevron">▼</span>
+            <!-- Soporte Técnico -->
+            <details class="faq-section" [attr.open]="faqAbierto === 'soporte' ? '' : null">
+                <summary class="section-summary" (click)="toggleFaq('soporte'); $event.preventDefault()">
+                    <span class="section-label">
+                        <img src="assets/img/productos/supp.svg" alt="Soporte Técnico" class="section-icon-img">
+                        Soporte Técnico</span>
+                    <div class="section-chevron">▼</div>
                 </summary>
                 <div class="questions-list">
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'soporte-0' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('soporte-0'); $event.preventDefault()">
                             <span>¿Cómo puedo contactar a soporte?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Tel: <a href="tel:7131334557">713 133 4557</a><br>
@@ -417,10 +405,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'soporte-1' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('soporte-1'); $event.preventDefault()">
                             <span>Horarios de atención</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Lunes a viernes: 9:00 am – 6:00 pm<br>
@@ -430,10 +418,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'soporte-2' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('soporte-2'); $event.preventDefault()">
                             <span>¿Cuánto tarda una visita técnica?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             De 1 a 48 horas dependiendo de la zona y disponibilidad.
@@ -443,29 +431,30 @@
                 </div>
             </details>
 
-            <details class="faq-section"
-                [attr.open]="faqAbierto === 'cancelacion' ? '' : null">
-                <summary class="section-summary"
-                    (click)="toggleFaq('cancelacion'); $event.preventDefault()">
-                    <span class="section-label">Cancelación y Cambios</span>
-                    <span class="section-chevron">▼</span>
+            <!-- Cancelación y Cambios -->
+            <details class="faq-section" [attr.open]="faqAbierto === 'cancelacion' ? '' : null">
+                <summary class="section-summary" (click)="toggleFaq('cancelacion'); $event.preventDefault()">
+                    <span class="section-label">
+                        <img src="assets/img/productos/cancel.svg" alt="Cancelación y Cambios" class="section-icon-img">
+                        Cancelación y Cambios</span>
+                    <div class="section-chevron">▼</div>
                 </summary>
                 <div class="questions-list">
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'cancelacion-0' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('cancelacion-0'); $event.preventDefault()">
                             <span>¿Puedo cancelar el servicio?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Sí, siempre que no tengas adeudos. Es necesario devolver los equipos.
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'cancelacion-1' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('cancelacion-1'); $event.preventDefault()">
                             <span>¿Qué pasa si cambio de domicilio?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Puedes solicitar el cambio. Si hay cobertura, se realiza la instalación con costo adicional.
@@ -475,29 +464,30 @@
                 </div>
             </details>
 
-            <details class="faq-section"
-                [attr.open]="faqAbierto === 'pagos' ? '' : null">
-                <summary class="section-summary"
-                    (click)="toggleFaq('pagos'); $event.preventDefault()">
-                    <span class="section-label">Pagos</span>
-                    <span class="section-chevron">▼</span>
+            <!-- Pagos -->
+            <details class="faq-section" [attr.open]="faqAbierto === 'pagos' ? '' : null">
+                <summary class="section-summary" (click)="toggleFaq('pagos'); $event.preventDefault()">
+                    <span class="section-label">
+                        <img src="assets/img/productos/pay.svg" alt="Pagos" class="section-icon-img">
+                        Pagos</span>
+                    <div class="section-chevron">▼</div>
                 </summary>
                 <div class="questions-list">
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagos-0' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagos-0'); $event.preventDefault()">
                             <span>¿Hay cargos adicionales?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Sí, pueden aplicar en casos como daños, reparaciones o cambio de domicilio.
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagos-1' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagos-1'); $event.preventDefault()">
                             <span>¿Qué pasa si no pago a tiempo?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             La fecha de pago es del 1 al 5. Después de eso, el servicio se suspende, pero puedes pagar y
@@ -505,10 +495,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagos-2' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagos-2'); $event.preventDefault()">
                             <span>¿Cuánto tarda la reconexión?</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Entre 1 y 5 horas después del pago.
@@ -518,19 +508,20 @@
                 </div>
             </details>
 
-            <details class="faq-section"
-                [attr.open]="faqAbierto === 'como-pagar' ? '' : null">
-                <summary class="section-summary"
-                    (click)="toggleFaq('como-pagar'); $event.preventDefault()">
-                    <span class="section-label">Como pagar</span>
-                    <span class="section-chevron">▼</span>
+            <!-- Cómo pagar -->
+            <details class="faq-section" [attr.open]="faqAbierto === 'como-pagar' ? '' : null">
+                <summary class="section-summary" (click)="toggleFaq('como-pagar'); $event.preventDefault()">
+                    <span class="section-label">
+                        <img src="assets/img/productos/que.svg" alt="Cómo pagar" class="section-icon-img">
+                        Cómo pagar</span>
+                    <div class="section-chevron">▼</div>
                 </summary>
                 <div class="questions-list">
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagar-0' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagar-0'); $event.preventDefault()">
                             <span>Pago en línea</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Ingresa a <a href="https://emenet.mx/pagar-servicio" target="_blank">pagar servicio</a><br>
@@ -539,10 +530,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagar-1' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagar-1'); $event.preventDefault()">
                             <span>Depósito en HSBC</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Beneficiario: IPTVTEL COMUNICACIONES S DE RL DE CV<br>
@@ -551,10 +542,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagar-2' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagar-2'); $event.preventDefault()">
                             <span>Transferencia bancaria</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             Banco: HSBC<br>
@@ -565,10 +556,10 @@
                         </div>
                     </details>
 
-                    <details class="faq-item">
-                        <summary class="q-summary">
+                    <details class="faq-item" [attr.open]="itemAbierto === 'pagar-3' ? '' : null">
+                        <summary class="q-summary" (click)="toggleItem('pagar-3'); $event.preventDefault()">
                             <span>Pago en tiendas</span>
-                            <span class="q-icon">+</span>
+                            <div class="q-icon">+</div>
                         </summary>
                         <div class="faq-content">
                             OXXO, Farmacia del Ahorro y Financiera del Bienestar<br>
@@ -580,37 +571,55 @@
                 </div>
             </details>
 
-
         </div>
+
         <div class="support-cta">
-            <div class="support-card">
-                <div class="support-left">
-                    <h2>¿Necesitas ayuda?</h2>
-                    <h3>Estamos aquí para ti</h3>
-                    <p>Si no encontraste la respuesta que buscabas, nuestro equipo está listo para ayudarte en cualquier
-                        momento.</p>
-                    <div class="support-actions">
-                        <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola%20buen%20d%C3%ADa%2C%20necesito%20ayuda"
-                            class="btn whatsapp" target="_blank">
-                            WhatsApp
-                        </a>
-                        <a href="tel:7131334557" class="btn website">
-                            Llamar a Soporte
-                        </a>
-                    </div>
+            <div class="support-header">
+                <div class="support-icon-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <title>ic_fluent_bot_24_regular</title>
+                        <path
+                            d="M17.753 14a2.25 2.25 0 0 1 2.25 2.25v.905A3.75 3.75 0 0 1 18.696 20C17.13 21.344 14.89 22.001 12 22.001s-5.128-.657-6.691-2a3.75 3.75 0 0 1-1.305-2.844v-.907A2.25 2.25 0 0 1 6.254 14zm0 1.5h-11.5a.75.75 0 0 0-.75.75v.907c0 .656.287 1.279.784 1.706C7.545 19.945 9.44 20.501 12 20.501s4.458-.556 5.719-1.639a2.25 2.25 0 0 0 .784-1.707v-.905a.75.75 0 0 0-.75-.75M11.9 2.007 12 2a.75.75 0 0 1 .743.649l.007.101v.75h3.5a2.25 2.25 0 0 1 2.25 2.25v4.505a2.25 2.25 0 0 1-2.25 2.25h-8.5a2.25 2.25 0 0 1-2.25-2.25V5.75A2.25 2.25 0 0 1 7.75 3.5h3.5v-.75a.75.75 0 0 1 .649-.743L12 2zM16.25 5h-8.5a.75.75 0 0 0-.75.75v4.505c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75V5.75a.75.75 0 0 0-.75-.75m-6.5 1.5a1.25 1.25 0 1 1 0 2.499 1.25 1.25 0 0 1 0-2.499m4.492 0a1.25 1.25 0 1 1 0 2.499 1.25 1.25 0 0 1 0-2.499"
+                            fill="#ffff" />
+                    </svg>
                 </div>
-                <div class="support-right">
-                    <div class="status-card">
-                        <div class="status-icon">🎧</div>
-                        <h4>Soporte 24/7</h4>
-                        <p>Siempre disponibles para ayudarte</p>
-                        <div class="status-live">
-                            <span class="dot"></span>
+                <div class="support-title-group">
+                    <div class="support-meta">
+                        <span class="support-badge">Atención Directa</span>
+                        <div class="support-status-group">
+                            <span class="status-dot"></span>
                             <a href="https://api.whatsapp.com/send/?phone=7133475658&text=Hola%2C+necesito+ayuda.&type=phone_number&app_absent=0"
-                                target="_blank">Embot en línea</a>
+                                target="_blank" class="status-link">Embot en línea</a>
                         </div>
                     </div>
+                    <h3>¿Necesitas ayuda adicional?</h3>
+                    <p>Si la información anterior no resolvió tus dudas, ponte en contacto con nosotros directamente.
+                        Estamos listos para asistirte.</p>
                 </div>
+            </div>
+            <div class="support-actions">
+                <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola%20buen%20d%C3%ADa%2C%20necesito%20ayuda"
+                    class="btn-contact btn-whatsapp" target="_blank">
+                    <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                        xml:space="preserve" fill="currentColor">
+                        <path
+                            d="M16.6 14c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1c-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.2-.5-.5-1-1.1-1.4-1.7-.1-.2 0-.4.1-.5s.2-.3.4-.4c.1-.1.2-.3.2-.4.1-.1.1-.3 0-.4S9.7 8.5 9.5 8c-.1-.7-.3-.7-.5-.7h-.5c-.2 0-.5.2-.6.3Q7 8.5 7 9.7c.1.9.4 1.8 1 2.6 1.1 1.6 2.5 2.9 4.2 3.7.5.2.9.4 1.4.5.5.2 1 .2 1.6.1.7-.1 1.3-.6 1.7-1.2.2-.4.2-.8.1-1.2zm2.5-9.1C15.2 1 8.9 1 5 4.9c-3.2 3.2-3.8 8.1-1.6 12L2 22l5.3-1.4c1.5.8 3.1 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9.1-2.6-1-5.1-2.8-7m-2.7 14c-1.3.8-2.8 1.3-4.4 1.3-1.5 0-2.9-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3c-2.4-4-1.2-9 2.7-11.5S16.6 3.7 19 7.5c2.4 3.9 1.3 9-2.6 11.4" />
+                    </svg> Chat de WhatsApp
+                </a>
+                <a href="tel:7131334557" class="btn-contact btn-phone">
+                    <svg width="18" height="18" viewBox="-16 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor">
+                        <path
+                            d="M226 480H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h178c26.51 0 48 21.49 48 48v352c0 26.492-21.461 47.971-48 48m-66-64h-48c-8.852.015-16 7.172-16 16 0 8.837 7.163 16 16 16h48c8.837 0 16-7.163 16-16 0-8.828-7.148-15.985-16-16m80-304H34v288h206zm126.215 14.221c6.628-11.479 21.306-15.412 32.785-8.785 30.198 17.435 52.562 43.227 65.859 72.768a159 159 0 0 1 14.168 65.856 159 159 0 0 1-14.129 65.649c-13.292 29.578-35.67 55.403-65.898 72.855-11.479 6.628-26.157 2.695-32.785-8.784s-2.694-26.158 8.785-32.785c17.396-10.043 31.078-24.049 40.565-40.219q.207-.39.43-.776a113 113 0 0 0 5.137-10.012 112.6 112.6 0 0 0 9.887-45.942 112.6 112.6 0 0 0-9.918-46.103 113 113 0 0 0-5.106-9.943 24 24 0 0 1-.428-.773c-9.487-16.171-23.17-30.178-40.567-40.222-11.479-6.627-15.412-21.305-8.785-32.784M351 200.574c-11.479-6.627-26.157-2.694-32.785 8.785s-2.694 26.157 8.785 32.784a15.9 15.9 0 0 1 5.74 5.653l.071.125.046.079q.397.69.72 1.401a16.1 16.1 0 0 1 1.426 6.648 16.1 16.1 0 0 1-1.392 6.475q-.336.75-.755 1.476l-.119.21a15.9 15.9 0 0 1-5.737 5.646c-11.479 6.628-15.412 21.306-8.785 32.785s21.306 15.412 32.785 8.785c12.103-6.988 21.061-17.332 26.375-29.178a63.6 63.6 0 0 0 5.636-26.188 63.6 63.6 0 0 0-5.674-26.392c-5.319-11.811-14.263-22.123-26.337-29.094M144 64h-16c-8.852.015-16 7.173-16 16 0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16 0-8.827-7.148-15.985-16-16" />
+                    </svg> Llamar a Soporte
+                </a>
+                <a href="tel:7133473674" class="btn-contact btn-phone">
+                    <svg width="18" height="18" viewBox="-16 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor">
+                        <path
+                            d="M226 480H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h178c26.51 0 48 21.49 48 48v352c0 26.492-21.461 47.971-48 48m-66-64h-48c-8.852.015-16 7.172-16 16 0 8.837 7.163 16 16 16h48c8.837 0 16-7.163 16-16 0-8.828-7.148-15.985-16-16m80-304H34v288h206zm126.215 14.221c6.628-11.479 21.306-15.412 32.785-8.785 30.198 17.435 52.562 43.227 65.859 72.768a159 159 0 0 1 14.168 65.856 159 159 0 0 1-14.129 65.649c-13.292 29.578-35.67 55.403-65.898 72.855-11.479 6.628-26.157 2.695-32.785-8.784s-2.694-26.158 8.785-32.785c17.396-10.043 31.078-24.049 40.565-40.219q.207-.39.43-.776a113 113 0 0 0 5.137-10.012 112.6 112.6 0 0 0 9.887-45.942 112.6 112.6 0 0 0-9.918-46.103 113 113 0 0 0-5.106-9.943 24 24 0 0 1-.428-.773c-9.487-16.171-23.17-30.178-40.567-40.222-11.479-6.627-15.412-21.305-8.785-32.784M351 200.574c-11.479-6.627-26.157-2.694-32.785 8.785s-2.694 26.157 8.785 32.784a15.9 15.9 0 0 1 5.74 5.653l.071.125.046.079q.397.69.72 1.401a16.1 16.1 0 0 1 1.426 6.648 16.1 16.1 0 0 1-1.392 6.475q-.336.75-.755 1.476l-.119.21a15.9 15.9 0 0 1-5.737 5.646c-11.479 6.628-15.412 21.306-8.785 32.785s21.306 15.412 32.785 8.785c12.103-6.988 21.061-17.332 26.375-29.178a63.6 63.6 0 0 0 5.636-26.188 63.6 63.6 0 0 0-5.674-26.392c-5.319-11.811-14.263-22.123-26.337-29.094M144 64h-16c-8.852.015-16 7.173-16 16 0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16 0-8.827-7.148-15.985-16-16" />
+                    </svg> Asistencia Ixtlahuaca
+                </a>
             </div>
         </div>
     </div>
