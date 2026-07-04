@@ -1,7 +1,8 @@
-.page{
+.page {
   background: #f4f6fb;
   min-height: 100vh;
 }
+
 .payments-page {
   padding: 40px 20px;
   background: #f4f6fb;
@@ -11,14 +12,14 @@
 .payments-wrapper {
   max-width: 850px;
   margin: auto;
-  
+
 }
 
 /* HEADER */
 
 .payments-header {
-  margin-bottom: 25px;  
-  
+  margin-bottom: 25px;
+
 }
 
 .page-title {
@@ -43,7 +44,7 @@
   border: 1px solid #e8eef5;
   transition: 0.25s ease;
   box-shadow:
-    0 10px 40px rgba(15,23,42,.08);
+    0 10px 40px rgba(15, 23, 42, .08);
 }
 
 .payment-card[open] {
@@ -288,7 +289,7 @@
   padding: 28px;
   border: 1px solid #e8eef5;
   box-shadow:
-    0 10px 40px rgba(15,23,42,.08);
+    0 10px 40px rgba(15, 23, 42, .08);
 
   display: flex;
   align-items: center;
@@ -309,7 +310,7 @@
 
 .btn-whatsapp {
   border: none;
-  background: linear-gradient(135deg, #0b4e94, #1a5f8f);
+  background: linear-gradient(135deg, #2e7d32, #1f5723);
   color: white;
   padding: 14px 22px;
   border-radius: 14px;
@@ -677,6 +678,7 @@
 }
 
 @keyframes embot-eyes {
+
   0%,
   100% {
     transform: translateX(0);
