@@ -10,6 +10,7 @@
     <section class="client-details-section" *ngIf="data">
       <h2 class="client-details-title">Detalles del Cliente</h2>
 
+
       <div class="client-card">
         <div class="client-card-header">
           <div class="client-avatar">
@@ -17,7 +18,7 @@
           </div>
           <div class="client-info">
             <h4 class="hero-title">{{ getSaludo() }}</h4>
-            <h3 class="client-name">{{ data.cliente?.cliente?.nombre }}</h3>
+            <h3 class="client-name"> {{ data.cliente?.cliente?.nombre }}</h3>
             <div class="client-id-pill">
               <i class="fa-regular fa-id-card"></i>
               <span>Cliente #{{ data.numero_cliente }}</span>
@@ -30,12 +31,12 @@
 
               <span class="badge badge-success"
                 *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'"><i
-                  class="fa-solid fa-signal"></i> Activo</span>
+                  class="fa-solid fa-signal"></i> Conectado</span>
               <span class="badge badge-danger"
                 *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
                   class="fa-solid fa-signal"></i> Suspendido</span>
               <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado"><i
-                  class="fa-solid fa-signal"></i> Cancelado</span>
+                  class="fa-solid fa-signal"></i> Conectando...</span>
               <span class="badge badge-purple"><i class="fa-solid fa-house-signal"></i> {{
                 data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
             </div>

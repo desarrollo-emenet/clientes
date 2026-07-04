@@ -45,14 +45,17 @@
             </div>
           </div>
 
-          <span class="status-badge" [ngClass]="{
-              'status-badge--success': s.cliente?.infoRed?.estado?.toLowerCase() === 'activo',
-              'status-badge--danger': s.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido',
-              'status-badge--neutral': !s.cliente?.infoRed?.estado
-            }">
+          <span class="status-badge" [ngClass]="obtenerDetalleClasificacion(
+              s.cliente?.clasificacion
+            ).clase">
             <i class="fa-solid fa-circle"></i>
-            {{ s.cliente?.infoRed?.estado || 'CANCELADO' }}
+            {{
+            obtenerDetalleClasificacion(
+            s.cliente?.clasificacion
+            ).texto
+            }}
           </span>
+
         </div>
 
         <!-- Divisor elegante -->
@@ -64,7 +67,7 @@
             <i class="fa-solid fa-circle-info"></i>
             <span>Ver detalles</span>
           </button>
-          <button class="action-btn action-btn-danger" type="button" (click)="eliminarServicio(s.idServicio)">
+          <button class="action-btn action-btn-danger" type="button" (click)="abrirConfirmacionEliminar(s.idServicio)">
             <i class="fa-solid fa-trash-can"></i>
             <span>Eliminar</span>
           </button>
@@ -221,16 +224,48 @@
                 Aceptar
               </a>
               -->
-
-              <button type="button" class="btn-catalog" (click)="cerrarModal()">
-                <i class="fa-solid fa-check-to-slot"></i>
-                Aceptar
-              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- Modal de confirmación de eliminación (Apple style) -->
+    <div class="delete-modal-overlay" *ngIf="showDeleteModal" (click)="cerrarConfirmacionEliminar()" role="dialog"
+      aria-modal="true" aria-labelledby="delete-modal-title">
+      <div class="delete-modal" (click)="$event.stopPropagation()">
+        <!-- Icono de advertencia -->
+        <div class="delete-modal__icon-wrapper">
+          <div class="delete-modal__icon">
+            <i class="fa-solid fa-trash-can"></i>
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="delete-modal__body">
+          <h3 class="delete-modal__title" id="delete-modal-title">
+            Eliminar servicio
+          </h3>
+          <p class="delete-modal__description">
+            Esta acción no se puede deshacer.
+          </p>
+        </div>
+
+        <!-- Divisor -->
+        <div class="delete-modal__divider"></div>
+
+        <!-- Acciones -->
+        <div class="delete-modal__actions">
+          <button class="delete-modal__btn delete-modal__btn--cancel" type="button"
+            (click)="cerrarConfirmacionEliminar()">
+            Cancelar
+          </button>
+          <button class="delete-modal__btn delete-modal__btn--confirm" type="button" (click)="confirmarEliminar()">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
     <ngx-sonner-toaster richColors position="top-center"></ngx-sonner-toaster>
   </div>
   <div class="btn-service">

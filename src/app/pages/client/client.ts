@@ -509,7 +509,7 @@ export class Client implements OnInit {
     doc.setTextColor(51, 51, 51);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
-    doc.text('Subtotal', margen + pad, y + 4.8);
+    doc.text('Total', margen + pad, y + 4.8);
     doc.text(
       `$ ${this.formatearPesos(subtotal)}`,
       margen + anchoUtil - pad, y + 4.8, { align: 'right' }
@@ -659,7 +659,7 @@ export class Client implements OnInit {
     doc.setFontSize(tSize);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(colorAcento[0], colorAcento[1], colorAcento[2]);
-    const valor = deudor ? `$ ${importeText}` : 'AL CORRIENTE';
+    const valor = deudor ? `$ ${importeText}` : 'SIN ADEUDO';
     doc.text(valor, x, y + 9.5, { align: 'right' });
   }
 
