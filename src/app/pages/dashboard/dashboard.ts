@@ -117,7 +117,11 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initViewportListeners();
 
-    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+    this.loadClientData(numeroCliente);
+
+    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
       .subscribe({
         next: (numeroCliente) => {
           if (!numeroCliente) return;
@@ -128,7 +132,7 @@ export class Dashboard implements OnInit, OnDestroy {
           toast.error('Error al obtener información del usuario');
         }
       });
-    this.subs.push(sub);
+    this.subs.push(sub);*/
   }
 
   loadClientData(numeroCliente: string) {

@@ -4,6 +4,7 @@ import { NgIf } from '@angular/common';
 import { LoginS } from '../../services/auth/login';
 import { ClientService } from '../../services/user/clientService';
 import { filter } from 'rxjs/operators';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-user-menu',
@@ -21,7 +22,8 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private loginS: LoginS,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private userServ: UserService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   checkCurrentRoute(): void {
     this.isServiceRoute = this.router.url === '/servicios';
+
   }
 
   @HostListener('document:click', ['$event'])
@@ -103,7 +106,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   loadUser(): void {
     // Use servicio_activo from localStorage since /api/user endpoint doesn't exist
-    const clienteNumero = localStorage.getItem('servicio_activo');
+    const clienteNumero = this.userServ.obtenerServicioActivo();
     
     if (clienteNumero) {
       this.clientService.getClientePorNumero(clienteNumero).subscribe({
@@ -159,7 +162,10 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     this.isDropdownOpen = false;
     if (( route === '/visitas' || route === '/formas-de-pago' || route === '/formulario-pagos' ) && this.user?.numeroCliente) {
       this.router.navigate([route, this.user.numeroCliente]);
-    } else {
+    } else if(route === '/servicios'){
+      this.router.navigate([route]);
+      this.userServ.eliminarServicioActivo();
+    }else {
       this.router.navigate([route]);
     }
   }

@@ -31,7 +31,7 @@ export class Payment {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
       .subscribe({
         next: (numeroCliente) => {
           if (!numeroCliente) return;
@@ -42,7 +42,10 @@ export class Payment {
           toast.error('Error al obtener información del usuario');
         }
       });
-    this.subs.push(sub);
+    this.subs.push(sub);*/
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+    this.loadClientData(numeroCliente);    
   }
 
   //
@@ -50,7 +53,7 @@ export class Payment {
     this.loading = true;
     this.data = null;
 
-    const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
+    this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
         this.data = {
           numero_cliente: res?.cliente?.cliente?.cliente ?? ''
@@ -76,7 +79,6 @@ export class Payment {
       }
     });
 
-    this.subs.push(sub);
   }
 
   // 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
 
 @Component({
@@ -10,7 +10,7 @@ import { LoginS } from '../../services/auth/login';
   styleUrl: './nav.css'
 })
 export class NavComponent {
-  constructor(private auth: LoginS, private router: Router) {}
+  constructor(private auth: LoginS, ) {}
 
 
   logout() {

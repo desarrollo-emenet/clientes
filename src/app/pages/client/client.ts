@@ -35,7 +35,12 @@ export class Client implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    const sub = this.user.obtenerUsuarioAutenticado(this.route)
+
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+    this.loadClientData(numeroCliente);
+
+    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
       .subscribe({
         next: (numeroCliente) => {
           if (!numeroCliente) return;
@@ -46,14 +51,14 @@ export class Client implements OnInit {
           toast.error('Error al obtener información del usuario');
         }
       });
-    this.subs.push(sub);
+    this.subs.push(sub);*/
   }
 
   loadClientData(numeroCliente: string) {
     this.loading = true;
     this.data = null;
 
-    const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
+    this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
         this.data = res,
           this.loading = false;
@@ -81,7 +86,7 @@ export class Client implements OnInit {
 
   pagar(): void {
     //window.open('https://emenet.mx/pagar-servicio', '_blank');
-    const numeroCliente = this.data?.cliente?.cliente?.cliente ?? '';
+    const numeroCliente = this.user.obtenerServicioActivo() ?? '';
     this.loadingPago = true;
     this.paymentService.pagar(numeroCliente);
     setTimeout(() => {

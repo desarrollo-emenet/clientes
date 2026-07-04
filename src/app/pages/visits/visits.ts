@@ -2,7 +2,7 @@ import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user/user-service';
 import { toast } from 'ngx-sonner';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ClientService } from '../../services/user/clientService';
 
 interface Visitas {
@@ -81,39 +81,20 @@ export class Visits {
 
   constructor(
     private user: UserService,
-    private route: ActivatedRoute,
     private clientS: ClientService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.loadClientData();
-    /*this.user.obtenerUsuarioAutenticado(this.route).subscribe({
-      next: (numeroCliente) => {
-        //if (!numeroCliente) return;
-        //this.loadClientData(numeroCliente);
-        if (numeroCliente) {
-          this.loadClientData();
-        }
-      },
-      error: (e) => {
-        console.error('Error al obtener usuario autenticado', e);
-        toast.error('Error al obtener información del usuario');
-      }
-    });*/
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+    this.loadClientData(numeroCliente);
   }
 
-  loadClientData(): void {
-    this.loading = true;
-
-    const numeroCliente = sessionStorage.getItem('servicio_activo') ?? localStorage.getItem('servicio_activo');
-    if (!numeroCliente) return;
+  loadClientData(numeroCliente : string): void {
+    this.loading = true;    
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: cliente => {
-        //this.data = res,
-        //this.loading = false;
-        //this.respuestaVisitas();
         this.obtenerVisitas(cliente.numero_cliente);
-
       },
       error: (e) => this.manejoError(e)
     });

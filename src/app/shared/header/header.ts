@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ClientService } from '../../services/user/clientService';
+import { UserService } from '../../services/user/user-service';
 
 interface Noti {
   title: string;
@@ -28,7 +29,7 @@ export class Header implements OnInit, OnDestroy {
   isNotifOpen = false;
   notifications: Noti[] = [];
 
-  constructor(private router: Router, private clientS: ClientService) {}
+  constructor(private router: Router, private clientS: ClientService, private user: UserService) {}
 
   ngOnInit(): void {
     this.verificarRuta(window.location.pathname);
@@ -86,7 +87,7 @@ export class Header implements OnInit, OnDestroy {
     this.notifications = [];
 
     //notificacion adeudo pendiente
-    const numeroCliente = localStorage.getItem('servicio_activo');
+    const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
 
     try {
@@ -124,7 +125,7 @@ export class Header implements OnInit, OnDestroy {
 
   goNotificaciones(): void {
     this.isNotifOpen = false;
-    const numeroCliente = localStorage.getItem('servicio_activo');
+    const numeroCliente = this.user.obtenerServicioActivo();
     if (numeroCliente) {
       this.router.navigate(['/notificaciones', numeroCliente]);
       return;

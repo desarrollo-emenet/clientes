@@ -1,7 +1,7 @@
 import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ClientService } from '../../services/user/clientService';
 import { UserService } from '../../services/user/user-service';
 
@@ -109,8 +109,7 @@ export class FormPagos {
     private fb: FormBuilder,
     private router: Router,
     private clientS: ClientService,
-    private user: UserService,
-    private route: ActivatedRoute) {
+    private user: UserService) {
 
     this.pagosForm = this.fb.nonNullable.group({
       fechaPago: ['', [Validators.required]],
@@ -142,24 +141,20 @@ export class FormPagos {
   }
 
   ngOnInit() {
-
-    this.user.obtenerUsuarioAutenticado(this.route).subscribe({
-      next: numeroCliente => {
-        if (!numeroCliente) return;
-        forkJoin({
-          cliente: this.clientS.getClientePorNumero(numeroCliente),
-          pagos: this.clientS.resBanco(numeroCliente)
-        }).subscribe({
-          next: ({ cliente, pagos }) => {
-            this.data = cliente;
-            this.pagos = pagos.pagos;
-            const telefono =
-              this.data?.cliente?.cliente?.telefono
-                ?.replace(/\s/g, '')
-                .substring(0, 10) ?? '';
-            this.pagosForm.patchValue({ telefono });
-          }
-        });
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+    forkJoin({
+      cliente: this.clientS.getClientePorNumero(numeroCliente),
+      pagos: this.clientS.resBanco(numeroCliente)
+    }).subscribe({
+      next: ({ cliente, pagos }) => {
+        this.data = cliente;
+        this.pagos = pagos.pagos;
+        const telefono =
+          this.data?.cliente?.cliente?.telefono
+            ?.replace(/\s/g, '')
+            .substring(0, 10) ?? '';
+        this.pagosForm.patchValue({ telefono });
       }
     });
   }
