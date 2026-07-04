@@ -73,8 +73,10 @@ export class Visits {
       texto: 'Finalizado',
       clase: 'finalizado',
       icono: 'fa-check'
-    }    
+    }
   };
+
+
 
 
   constructor(
@@ -84,24 +86,27 @@ export class Visits {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.user.obtenerUsuarioAutenticado(this.route).subscribe({
+    this.loadClientData();
+    /*this.user.obtenerUsuarioAutenticado(this.route).subscribe({
       next: (numeroCliente) => {
         //if (!numeroCliente) return;
         //this.loadClientData(numeroCliente);
         if (numeroCliente) {
-          this.loadClientData(numeroCliente);
+          this.loadClientData();
         }
       },
       error: (e) => {
         console.error('Error al obtener usuario autenticado', e);
         toast.error('Error al obtener información del usuario');
       }
-    });
+    });*/
   }
 
-  loadClientData(numeroCliente: string): void {
+  loadClientData(): void {
     this.loading = true;
 
+    const numeroCliente = sessionStorage.getItem('servicio_activo') ?? localStorage.getItem('servicio_activo');
+    if (!numeroCliente) return;
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: cliente => {
         //this.data = res,

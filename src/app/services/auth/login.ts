@@ -91,6 +91,7 @@ export class LoginS {
     sessionStorage.removeItem('authToken');
 
     localStorage.removeItem('servicio_activo');
+    sessionStorage.removeItem('servicio_activo');
     //borrar tambien al usuario
      // localStorage.removeItem('savedUsuario');
   }

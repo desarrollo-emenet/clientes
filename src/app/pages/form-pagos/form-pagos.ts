@@ -193,14 +193,7 @@ export class FormPagos {
       next: res => {
         this.data = res,
           this.loading = false;
-        const telefono =
-          this.data?.cliente?.cliente?.telefono
-            ?.replace(/\s/g, '')
-            .substring(0, 10) ?? '';
-
-        this.pagosForm.patchValue({ telefono });
         this.respuestaPago(this.data?.cliente?.cliente?.numero_cliente);
-
       },
       error: (e) => this.manejoError(e)
     });
@@ -293,7 +286,7 @@ export class FormPagos {
     return pago.id;
   }
 
-//filtro
+  //filtro
   private coincideFiltro(pago: Pago): boolean {
     switch (this.filtroEstado) {
       case 'todos':
