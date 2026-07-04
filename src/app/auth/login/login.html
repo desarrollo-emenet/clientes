@@ -1,18 +1,16 @@
 <div class="login-layout flip-in" [class.flip-out]="isFlipping">
-  <!-- Panel izquierdo con la imagen (visible solo en pantallas grandes) -->
   <aside class="login-sidebar">
-    <img src="assets/img/login/fondo.webp" alt="Emenet Comunicaciones" class="sidebar-image img-fluid w-100 h-100" loading="lazy">
+    <img src="assets/img/login/fondo.webp" alt="Emenet Comunicaciones" class="sidebar-image img-fluid w-100 h-100"
+      loading="lazy">
   </aside>
 
-  <!-- Panel derecho con el formulario -->
   <main class="login-main flex-column">
 
     <!-- Logo -->
     <div class="text-center mb-4 mt-n4">
-      <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
+      <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
     </div>
 
-    <!-- Contenedor con estilo ep-container -->
     <div class="ep-container">
 
       <!-- ENCABEZADO -->
@@ -42,16 +40,10 @@
             <!-- Campo: Número de cliente -->
             <div class="ep-field">
               <label for="inputUsuario">Número de cliente</label>
-              <input id="inputUsuario" type="text" formControlName="usuario"
-                class="ep-input" placeholder="#####" />
-              <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)"
-                class="ep-error">
-                <span *ngIf="usuario.errors?.['required']">
-                  El campo es requerido.
-                </span>
-                <span *ngIf="usuario.errors?.['maxLength']">
-                  El número de cliente es demasiado largo.
-                </span>
+              <input id="inputUsuario" type="text" formControlName="usuario" class="ep-input" placeholder="#####" />
+              <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
+                <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
+                <span *ngIf="usuario.errors?.['maxLength']"> El número de cliente es demasiado largo. </span>
               </div>
             </div>
 
@@ -59,49 +51,35 @@
             <div class="ep-field">
               <label for="inputPassword">Contraseña</label>
               <div class="ep-input-group">
-                <input id="inputPassword"
-                  [type]="showPassword ? 'text' : 'password'"
-                  formControlName="password" class="ep-input"
-                  autocomplete="current-password" placeholder="••••••••" />
-                <button type="button" class="ep-eye-btn"
-                  [class.revealed]="showPassword" (click)="viewPassword()"
-                  title="Mostrar/ocultar contraseña"
-                  aria-label="Alternar visibilidad de contraseña">
-                  <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'"
-                    width="20" />
+                <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                  class="ep-input" autocomplete="current-password" placeholder="••••••••" />
+                <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()"
+                  title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
+                  <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" width="20" />
                 </button>
               </div>
-              <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                class="ep-error">
-                <span *ngIf="password.errors?.['required']">
-                  La contraseña es requerida.
-                </span>
+              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="ep-error">
+                <span *ngIf="password.errors?.['required']"> La contraseña es requerida. </span>
               </div><br>
-                 <!-- Enlaces: Crear cuenta y Recuperar password -->
-        <div class="ep-links-row">
-          <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')"
-            class="ep-link">Crear cuenta</a>
-          <a routerLink="/recuperar-password"
-            class="ep-link">¿Olvidaste tu contraseña?</a>
-        </div>
+              <!-- Enlaces: Crear cuenta y Recuperar password -->
+              <div class="ep-links-row">
+                <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')" class="ep-link">Crear cuenta</a>
+                <a routerLink="/recuperar-password" class="ep-link">¿Olvidaste tu contraseña?</a>
+              </div>
             </div>
 
           </div>
         </div>
 
-     
-
         <!-- Mensaje de error global -->
-        <div *ngIf="error"
-          class="alert alert-danger text-center error-global">
+        <div *ngIf="error" class="alert alert-danger text-center error-global">
           {{ error }}
         </div>
 
         <!-- Botón Iniciar Sesión -->
         <div class="ep-actions">
           <button type="submit" class="ep-submit-btn" [disabled]="loading">
-            <span *ngIf="loading"
-              class="spinner-border spinner-border-sm me-2"></span>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
             {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
           </button>
         </div>

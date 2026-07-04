@@ -1,9 +1,4 @@
-/* ==========================================================================
-   Fondo de Pantalla Completa y Alineación
-   ========================================================================== */
-.login-layout {
-  /*background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)),
-    url('/assets/img/recuperar/f8.jpeg');*/
+.recover-layout {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -22,14 +17,6 @@
   will-change: transform, opacity;
 }
 
-.auth-card {
-  display: none;
-}
-
-/* ==========================================================================
-   Contenedor del Formulario (Inspirado en edit-profile)
-   ========================================================================== */
-
 .ep-container {
   width: 100%;
   max-width: 500px;
@@ -41,9 +28,9 @@
   box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
 }
 
-/* ==========================================================================
+/* =======================
    HEADER
-   ========================================================================== */
+   ======================= */
 
 .ep-header {
   display: flex;
@@ -78,9 +65,9 @@
   color: #64748b;
 }
 
-/* ==========================================================================
+/* ==================
    CARD
-   ========================================================================== */
+   ================ */
 
 .ep-card {
   background: rgba(255, 255, 255, 0.55);
@@ -127,9 +114,9 @@
   gap: 18px;
 }
 
-/* ==========================================================================
+/* ===================
    FIELDS
-   ========================================================================== */
+   =================== */
 
 .ep-field label {
   display: block;
@@ -184,9 +171,9 @@
   color: #e53e3e;
 }
 
-/* ==========================================================================
+/* ===================
    LINKS
-   ========================================================================== */
+   =================== */
 
 .ep-links-row {
   display: flex;
@@ -209,9 +196,9 @@
   color: #3472df;
 }
 
-/* ==========================================================================
+/* ====================
    ACCIONES / BOTONES
-   ========================================================================== */
+   ==================== */
 
 .ep-actions {
   display: flex;
@@ -263,8 +250,6 @@
   font-size: 0.85rem;
 }
 
-/* El contenido de .login-layout ahora está al inicio para consistencia */
-
 .flip-in {
   -webkit-animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation: flipScreenIn 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -276,10 +261,7 @@
   pointer-events: none;
 }
 
-/* 
-  Optimizamos inyectando perspective en la propiedad transform.
-  Esto asegura un renderizado plano sin bugs en WebKit. 
-*/
+
 @-webkit-keyframes flipScreenIn {
   0% {
     -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);

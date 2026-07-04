@@ -32,7 +32,7 @@ export class Recover implements OnInit {
 
   recover() {
     if (this.recoverForm.invalid) { this.recoverForm.markAllAsTouched(); return; }
-
+    
     this.loading = true;
     const raw = this.recoverForm.value;
 
@@ -50,7 +50,7 @@ export class Recover implements OnInit {
         this.loading = false;
         toast.error('Error al enviar el correo');
       }
-    });  
+    });
   }
 
   goToUrl(url: string) {

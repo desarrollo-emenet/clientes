@@ -1,7 +1,5 @@
-/* ==========================================================================
-   Fondo de Pantalla Completa y Alineación
-   ========================================================================== */
-.login-layout {
+
+.email-layout {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -37,11 +35,11 @@
   }
 }
 
-/* ==========================================================================
+/* ============================
    Responsivo Móvil
-   ========================================================================== */
+   =========================== */
 @media (max-width: 575px) {
-  .login-layout {
+  .email-layout {
     padding: 1.5rem 1rem;
     align-items: stretch;
   }

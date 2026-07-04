@@ -5,15 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
-
-
 @Component({
   selector: 'app-create-account',
   imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css'
 })
-
 
 export class CreateAccount {
   createForm!: FormGroup;
@@ -22,16 +19,12 @@ export class CreateAccount {
   loading = false;
   isFlipping = false;
 
-
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
     this.createForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
     }, 
     );
   }
-
-
-
 
   passwordMatchValidator(group: FormGroup) {
     const pass = group.get('password')?.value;
@@ -42,16 +35,12 @@ export class CreateAccount {
     return null;
   }
 
-
   get numero_cliente() { return this.createForm.controls['numero_cliente']; }
 
   register() {
     if (this.loading) return;
-
     if (this.createForm.invalid) { this.createForm.markAllAsTouched(); return; }
-
     this.loading = true;
-
     const raw = this.createForm.value;
 
     //normalizar numero de cliente
@@ -88,7 +77,6 @@ export class CreateAccount {
     });
   }
 
-
   viewPassword() {
     this.showPassword = !this.showPassword;
   }
@@ -99,5 +87,4 @@ export class CreateAccount {
       this.router.navigateByUrl(url);
     }, 550); // Tiempo óptimo para evitar trabas en el DOM
   }
-
 }

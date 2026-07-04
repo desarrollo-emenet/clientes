@@ -1,10 +1,8 @@
-<div class="login-layout flip-in" [class.flip-out]="isFlipping">
-  <!-- Logo -->
+<div class="recover-layout flip-in" [class.flip-out]="isFlipping">
   <div class="text-center mb-4 mt-n4">
-    <img src="assets/img/emenetLogo.png" alt="Emenet Logo" height="70">
+    <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
   </div>
 
-  <!-- Contenedor con estilo ep-container -->
   <div class="ep-container">
 
     <!-- ENCABEZADO -->
@@ -34,29 +32,25 @@
           <!-- Campo: Correo electrónico -->
           <div class="ep-field">
             <label for="exampleInputEmail1">Correo electrónico</label>
-            <input formControlName="email" type="email" class="ep-input"
-              id="exampleInputEmail1" placeholder="correo@dominio.com"
-              aria-describedby="emailHelp" />
-            
-            <div *ngIf="email.invalid && (email.dirty || email.touched)"
-              class="ep-error">
+            <input formControlName="email" type="email" class="ep-input" id="exampleInputEmail1"
+              placeholder="correo@dominio.com" aria-describedby="emailHelp" />
+
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="ep-error">
               <span *ngIf="email.errors?.['required']">Email requerido</span>
               <span *ngIf="email.errors?.['email']">
                 Email debe tener formato válido
               </span>
             </div>
           </div>
-<!-- Enlaces: Regresar -->
-      <div class="ep-links-row">
-        <a (click)="goToUrl('/iniciar-sesion')" class="ep-link"
-          style="cursor: pointer;">
-          Regresar a inicio de sesión
-        </a>
-      </div>
+
+          <!-- Enlaces: Regresar -->
+          <div class="ep-links-row">
+            <a (click)="goToUrl('/iniciar-sesion')" class="ep-link" style="cursor: pointer;">
+              Regresar a inicio de sesión
+            </a>
+          </div>
         </div>
       </div>
-
-      
 
       <!-- Mensaje de error global -->
       <div *ngIf="error" class="alert alert-danger text-center error-global">
@@ -66,14 +60,13 @@
       <!-- Botón Recuperar -->
       <div class="ep-actions">
         <button type="submit" class="ep-submit-btn" [disabled]="loading">
-          <span *ngIf="loading"
-            class="spinner-border spinner-border-sm me-2"></span>
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
           {{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}
         </button>
       </div>
 
     </form>
-    
+
   </div>
 </div>
 <ngx-sonner-toaster richColors closeButton position="top-center" />

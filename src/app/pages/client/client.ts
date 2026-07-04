@@ -261,13 +261,13 @@ export class Client implements OnInit {
     doc: jsPDF, margen: number
   ): Promise<void> {
     try {
-      const resp = await fetch('assets/img/emenetLogo.png');
+      const resp = await fetch('assets/img/emenetLogo.webp');
       const blob = await resp.blob();
       const dataUrl = await this.blobToDataUrl(blob);
       doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
     } catch {
       try {
-        const resp = await fetch('assets/img/emenetLogoB.png');
+        const resp = await fetch('assets/img/emenetLogoB.webp');
         const blob = await resp.blob();
         const dataUrl = await this.blobToDataUrl(blob);
         doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
@@ -917,7 +917,7 @@ export class Client implements OnInit {
 
     // Logo en pie
     try {
-      const logoResp = await fetch('assets/img/emenetLogoB.png');
+      const logoResp = await fetch('assets/img/emenetLogoB.webp');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(
