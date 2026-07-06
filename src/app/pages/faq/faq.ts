@@ -22,11 +22,13 @@ export class FAQ {
   altoNatural: number = 0;
   helpAbierto: string | null = null;
   faqAbierto: string | null = null;
+  itemAbierto: string | null = null;
 
   showSection(id: string): void {
     this.activeSection = id;
     this.helpAbierto = null;
     this.faqAbierto = null;
+    this.itemAbierto = null;
   }
 
   showView(id: string): void {
@@ -39,6 +41,11 @@ export class FAQ {
 
   toggleFaq(id: string): void {
     this.faqAbierto = this.faqAbierto === id ? null : id;
+    this.itemAbierto = null;
+  }
+
+  toggleItem(id: string): void {
+    this.itemAbierto = this.itemAbierto === id ? null : id;
   }
 
   abrirModal(src: string): void {
