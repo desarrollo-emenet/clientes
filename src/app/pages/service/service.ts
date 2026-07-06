@@ -154,16 +154,12 @@ export class Service implements OnInit, OnDestroy {
         if (e?.status === 0) {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {
-          toast.error('Servicio no encontrado');
-        } else if (e?.status === 409) {
-          toast.error('Servicio ya existente');
+          toast.error('Cliente no encontrado o dado de baja');
         } else if (e?.status === 422) {
           toast.error('Número de cliente inválido');
         } else if (e?.status === 401) {
           toast.error('No autorizado');
           this.router.navigateByUrl('/iniciar-sesion');
-        } else if (e?.status === 403) {
-          toast.error('Este cliente esta clasificado como baja de servicio');
         } else {
           toast.error('Error inesperado');
         }
