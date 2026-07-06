@@ -160,8 +160,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/router/r1.png',
-          '../../../assets/img/productos/router/r2.png'
+          '../../../assets/img/productos/router/r1.webp',
+          '../../../assets/img/productos/router/r2.webp'
         ],
         caracteristicas: [
           'Red de Invitados proporciona acceso independiente para invitados.',
@@ -181,8 +181,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/switch/s1.png',
-          '../../../assets/img/productos/switch/s2.png'
+          '../../../assets/img/productos/switch/s1.webp',
+          '../../../assets/img/productos/switch/s2.webp'
         ],
         caracteristicas: [
           'Puertos Gigabit Ethernet',
@@ -202,8 +202,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/switch8/s1.png',
-          '../../../assets/img/productos/switch8/s2.png'
+          '../../../assets/img/productos/switch8/s1.webp',
+          '../../../assets/img/productos/switch8/s2.webp'
         ],
         caracteristicas: [
           'Puertos Gigabit Ethernet',
@@ -223,8 +223,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/wifi/e2.png',
-          '../../../assets/img/productos/wifi/e3.png'
+          '../../../assets/img/productos/wifi/e2.webp',
+          '../../../assets/img/productos/wifi/e3.webp'
         ],
         caracteristicas: [
           'Mejora la señal inalámbrica a áreas anteriormente inalcanzables o difíciles de cablear',
@@ -244,8 +244,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/camaras/c1.png',
-          '../../../assets/img/productos/camaras/c2.png'
+          '../../../assets/img/productos/camaras/c1.webp',
+          '../../../assets/img/productos/camaras/c2.webp'
         ],
         caracteristicas: [
           'Soporta cámaras TVI, AHD, CVI, CVBS, IP/ Soporta 1 salida HDMI y 1 salida VGA',
@@ -265,8 +265,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/cable/c1.png',
-          '../../../assets/img/productos/cable/c3.png'
+          '../../../assets/img/productos/cable/c1.webp',
+          '../../../assets/img/productos/cable/c3.webp'
         ],
         caracteristicas: [
           'Categoría CAT5e',
@@ -286,8 +286,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/break/b1.png',
-          '../../../assets/img/productos/break/b3.png'
+          '../../../assets/img/productos/break/b1.webp',
+          '../../../assets/img/productos/break/b3.webp'
         ],
         caracteristicas: [
           'Protege computadoras de escritorio, pantallas pequeñas, modems y más',
@@ -307,8 +307,8 @@ export class Adicionales {
         disponibilidad: 'Bajo disponibilidad',
         imagenActual: 0,
         imagenes: [
-          '../../../assets/img/productos/roku/ro1.png',
-          '../../../assets/img/productos/roku/ro2.png'
+          '../../../assets/img/productos/roku/ro1.webp',
+          '../../../assets/img/productos/roku/ro2.webp'
         ],
         caracteristicas: [
           '4K a 60 fps y compatibilidad con HDR.',
