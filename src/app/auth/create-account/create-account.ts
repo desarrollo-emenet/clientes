@@ -65,11 +65,11 @@ export class CreateAccount {
         if (e?.status === 0) {
           toast.error('No se pudo conectar al servido')
         } else if (e?.status === 409) {
-          toast.error('Este cliente ya tiene una cuenta registrada')
+          toast.error('El correo de este cliente ya ha sido registrado. Contacta a soporte')
         } else if (e?.status === 422) {
-          toast.error('Este numero de cliente ha sido dado de baja')
+          toast.error('El correo del cliente no es valido o no esta registrado. Contacta a soporte')
         } else if (e?.status === 404) {
-          toast.error('Cliente no encontrado')
+          toast.error('Este servicio está dado de baja y no puede registrarse')
         } else {
           toast.error('Error')
         }
