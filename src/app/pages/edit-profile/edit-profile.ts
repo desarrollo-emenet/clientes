@@ -82,7 +82,7 @@ export class EditProfile {
             this.updateForm.get('password')?.reset();
 
             setTimeout(() => {
-              this.auth.goNavigate('/perfil');
+              this.auth.goNavigate('/dashboard');
             }, 1500);
 
           },

@@ -54,7 +54,7 @@ export class Login {
         if (token) {
           localStorage.setItem('authToken', token);
         }
-        sessionStorage.setItem('authToken', res.token);
+        //sessionStorage.setItem('authToken', res.token);
 
         //navegamos al dashboard
         toast.success('Sesión iniciada correctamente');
