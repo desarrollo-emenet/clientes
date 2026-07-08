@@ -1,218 +1,3 @@
-/* Modal estado de cuenta - Minimalista y Premium */
-.statement-modal-card {
-  background: #ffffff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.statement-modal-header {
-  padding: 2.25rem 2rem 1rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.statement-icon-badge {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: linear-gradient(135deg,
-      #0b4e94,
-      rgba(24, 106, 206, 0.753));
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-}
-
-.statement-modal-card:hover .statement-icon-badge {
-  transform: scale(1.05);
-  filter: brightness(1.15);
-}
-
-.statement-modal-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 0.5rem;
-  letter-spacing: -0.02em;
-}
-
-.statement-modal-subtitle {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.4;
-  max-width: 320px;
-}
-
-.statement-modal-body {
-  padding: 0 2rem 2.25rem;
-}
-
-.statement-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 280px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-/* Scrollbar personalizado para la lista */
-.statement-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.statement-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.statement-list::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-
-.statement-list::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-.statement-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 14px;
-  gap: 12px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.statement-item:hover {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  transform: translateY(-2px);
-}
-
-.statement-item-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.statement-item-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: #f1f5f9;
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: all 0.25s ease;
-}
-
-.statement-item:hover .statement-item-icon {
-  background: rgba(11, 78, 148, 0.08);
-  color: #0b4e94;
-}
-
-.statement-item-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.statement-item-name {
-  font-size: 0.925rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.statement-item-meta {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-.btn-statement-download {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 1.5px solid #0b4e94;
-  color: #0b4e94;
-  font-weight: 600;
-  font-size: 0.8rem;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-statement-download:hover {
-  background: #0b4e94;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(11, 78, 148, 0.25);
-  transform: scale(1.03);
-}
-
-.btn-statement-download:active {
-  transform: scale(0.98);
-}
-
-.btn-close-minimal {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
-}
-
-.btn-close-minimal:hover {
-  background: #f1f5f9;
-  color: #334155;
-  transform: rotate(90deg);
-}
-
-.statement-empty-state {
-  text-align: center;
-  padding: 32px 16px;
-  color: #94a3b8;
-}
-
-.statement-empty-state i {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  opacity: 0.7;
-}
-
-.statement-empty-state p {
-  font-size: 0.875rem;
-  margin: 0;
-}
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -680,9 +465,7 @@
   text-decoration: underline;
 }
 
-/* =============================================
-   RESUMEN DE CUENTA
-   ============================================= */
+/*Resumen de cuenta*/
 .accent-bar {
   width: 4px;
   height: 24px;
@@ -779,9 +562,7 @@
   margin-top: 3px;
 }
 
-/* =============================================
-   DETAILS (servicios contratados)
-   ============================================= */
+/*servicios contratados*/
 .details {
   margin-bottom: 20px;
 
@@ -797,9 +578,7 @@
 
 }
 
-/* =============================================
-   SERVICE CARDS NEW
-   ============================================= */
+/*Seervices*/
 .service-card-new {
   background: #fff;
   border: 1px solid #f0f1f5;
@@ -943,9 +722,7 @@
   color: #ea580c;
 }
 
-/* =============================================
-   HISTORIAL DE PAGOS
-   ============================================= */
+/*Historial de pagos*/
 .history {
   margin-bottom: 36px;
 }
@@ -965,9 +742,7 @@
   font-size: 0.95rem;
 }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
+/*Responsive*/
 @media (max-width: 991px) {
   .resumen-grid {
     grid-template-columns: 1fr;
@@ -1221,9 +996,7 @@
   }
 }
 
-/* =============================================
-   LOADING CON LOGO
-   ============================================= */
+/*Logo*/
 .loading-container {
   display: flex;
   flex-direction: column;
