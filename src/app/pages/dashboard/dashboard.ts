@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CurrencyPipe, NgClass, NgFor, NgIf, DOCUMENT } from '@angular/common';
+import { CurrencyPipe, NgIf, DOCUMENT } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { Subscription } from 'rxjs';
@@ -15,10 +15,7 @@ import { UserService } from '../../services/user/user-service';
 })
 export class Dashboard implements OnInit, OnDestroy {
 
-  isLogin = false;
-  username = 'Marcos'
-  error = '';
-  mostrarMensaje = false
+  mostrarMensaje = false;
   private viewportListeners: (() => void)[] = [];
 
   data: any = null;
@@ -39,7 +36,6 @@ export class Dashboard implements OnInit, OnDestroy {
     const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
       return 'Buenos días';
-
     }
     if (hour >= 12 && hour < 19) {
       return 'Buenas tardes';
@@ -70,7 +66,6 @@ export class Dashboard implements OnInit, OnDestroy {
       const precio = Number(servicios.cuentasTv.precio) || 0;
       const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
       total += precio * canServicios;
-
     }
 
     return total;
@@ -78,8 +73,10 @@ export class Dashboard implements OnInit, OnDestroy {
 
   getMesPagoReciente(): string {
     const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
-    return estadoCuenta[estadoCuenta.length - 1].mensualidad;
-
+    if (estadoCuenta && estadoCuenta.length > 0) {
+      return estadoCuenta[estadoCuenta.length - 1].mensualidad;
+    }
+    return 'N/A';
   }
 
   private setAppVh(): void {
@@ -120,19 +117,6 @@ export class Dashboard implements OnInit, OnDestroy {
     const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
     this.loadClientData(numeroCliente);
-
-    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
-      .subscribe({
-        next: (numeroCliente) => {
-          if (!numeroCliente) return;
-          this.loadClientData(numeroCliente);
-        },
-        error: (e) => {
-          console.error('Error al obtener usuario autenticado', e);
-          toast.error('Error al obtener información del usuario');
-        }
-      });
-    this.subs.push(sub);*/
   }
 
   loadClientData(numeroCliente: string) {
@@ -148,7 +132,6 @@ export class Dashboard implements OnInit, OnDestroy {
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
         } 
-
       },
       error: (e) => {
         this.loading = false;
@@ -161,7 +144,6 @@ export class Dashboard implements OnInit, OnDestroy {
           toast.error('No autorizado');
           this.router.navigateByUrl('/iniciar-sesion');
         } else if (e?.status === 403) {
-          //toast.error('No autorizado para eliminar este servicio');
           this.mostrarMensaje = true;
         } else {
           toast.error('Error inesperado');
@@ -174,14 +156,6 @@ export class Dashboard implements OnInit, OnDestroy {
     const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
-  }
-
-  goEstadoCuenta() {
-    this.auth.goNavigate('/estadoCuenta');
-  }
-
-  navigateTo(ruta: string) {
-    this.router.navigateByUrl(ruta);
   }
 
   cerrarModal() {
