@@ -16,7 +16,7 @@ export const serviceAccessGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  const servicioActivo = sessionStorage.getItem('servicio_activo') ?? localStorage.getItem('servicio_activo');
+  const servicioActivo = localStorage.getItem('servicio_activo');
   if (servicioActivo === numeroCliente) {
     return true;
   }
@@ -25,7 +25,6 @@ export const serviceAccessGuard: CanActivateFn = (route, state) => {
     map(response => {
       if (response.has_access) {
         localStorage.setItem('servicio_activo', numeroCliente);
-        sessionStorage.setItem('servicio_activo', numeroCliente);
         return true;
       } else {
         setTimeout(() => toast.error('No tienes acceso a este servicio'), 0);

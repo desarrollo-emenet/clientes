@@ -38,13 +38,11 @@ export class UserService {
 
   obtenerServicioActivo(): string | null {
   return (
-    sessionStorage.getItem('servicio_activo') ??
     localStorage.getItem('servicio_activo')
   );
 }
 
   eliminarServicioActivo(): void {
-    sessionStorage.removeItem('servicio_activo');
     localStorage.removeItem('servicio_activo');
   }
 }

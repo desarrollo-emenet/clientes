@@ -19,7 +19,7 @@ export class LoginS {
   private apiLocalUrl = environment.apiLocalUrl
 
   private getToken(): string | null {
-    return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') ;
+    return localStorage.getItem('authToken');
   }
   getHeaders(): HttpHeaders {
     const token = this.getToken();
@@ -66,6 +66,7 @@ export class LoginS {
         this.router.navigate(['/iniciar-sesion']);
         if (err?.status !== 401) {
           console.error('Error en logout:', err);
+          toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
         }
       }
     });

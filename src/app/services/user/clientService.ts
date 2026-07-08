@@ -16,7 +16,7 @@ export class ClientService {
 
   //obtener token de local o de sessionStorage
   private getToken(): string | null {
-    return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    return localStorage.getItem('authToken');
   }
 
   getHeaders(inlcudeWebKey: boolean = false ): HttpHeaders {

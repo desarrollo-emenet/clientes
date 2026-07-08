@@ -119,7 +119,7 @@ export class Header implements OnInit, OnDestroy {
         });
       }
     } catch (error) {
-      console.error('Error al obtener datos del cliente para notificaciones', error);
+      //console.error('Error al obtener datos del cliente para notificaciones', error);
     }
   }
 
