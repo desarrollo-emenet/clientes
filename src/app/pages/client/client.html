@@ -40,7 +40,7 @@
             <div class="banner-amount-ad debt">
               Sin adeudos
             </div>
-            <div class="banner-sub">Adelanta tu proximo mes y manten tu servicio activo</div>
+            <div class="banner-sub">Adelanta tu próximo mes y mantén tu servicio activo</div>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
         <div class="banner-section banner-pay"
           *ngIf="(data.cliente?.cliente?.deuda ?? 0) === 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
           <button class="btn-adelantar-pay" (click)="abrirPagoModal()" [disabled]="loadingPago || loading">
-            <i class="fa-solid fa-credit-card me-2"></i>Adelantar Pago
+            <i class="fa-solid fa-credit-card me-2"></i>Adelantar pago
             <!--<ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Adelantar Pago</ng-container>
 
@@ -135,140 +135,135 @@
       </div>
 
       <!-- SERVICIOS CONTRATADOS -->
-      <div class="details">
-        <div class="  -inner">
-          <div class="section-header-accent">
-            <div class="accent-bar"></div>
-            <h4>Servicios contratados</h4>
-          </div>
-          <div class="row g-3 justify-content-center">
+      <div class="section-header-accent">
+        <div class="accent-bar"></div>
+        <h4>Servicios contratados</h4>
+      </div>
+      <div class="row g-3 justify-content-center mb-4">
 
-            <!-- Internet -->
-            <div class="col-12" [ngClass]="{
-                'col-md-12': contarServiciosActivos() === 1,
-                'col-md-6': contarServiciosActivos() === 2,
-                'col-md-4': contarServiciosActivos() === 3,
-                'col-md-3': contarServiciosActivos() === 4
-              }">
-              <div class="service-card-new">
-                <div class="service-card-top">
-                  <div class="svc-icon svc-icon--blue">
-                    <i class="fa-solid fa-wifi"></i>
-                  </div>
-                  <div>
-                    <div class="svc-name">Internet</div>
-                    <div class="svc-name-plan">{{ data?.cliente?.cliente?.nombrePlan || '' }}</div>
-                  </div>
-                </div>
-                <div class="svc-badge badge-blue">
-                  {{ data.cliente?.cliente?.planInternet || 0 }} Mbps
-                </div>
-                <div class="svc-price-row">
-
-                  <span class="svc-price-label">Precio mensual</span>
-                  <span class="svc-price svc-price--blue">
-                    MXN {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
-                    }}/mes
-                  </span>
-                </div>
+        <!-- Internet -->
+        <div class="col-12" [ngClass]="{
+            'col-md-12': contarServiciosActivos() === 1,
+            'col-md-6': contarServiciosActivos() === 2,
+            'col-md-4': contarServiciosActivos() === 3,
+            'col-md-3': contarServiciosActivos() === 4
+          }">
+          <div class="service-card-new">
+            <div class="service-card-top">
+              <div class="svc-icon svc-icon--blue">
+                <i class="fa-solid fa-wifi"></i>
+              </div>
+              <div>
+                <div class="svc-name">Internet</div>
+                <div class="svc-name-plan">{{ data?.cliente?.cliente?.nombrePlan || '' }}</div>
               </div>
             </div>
-
-            <!-- Cámaras -->
-            <div class="col-12" [ngClass]="{
-                'col-md-12': contarServiciosActivos() === 1,
-                'col-md-6': contarServiciosActivos() === 2,
-                'col-md-4': contarServiciosActivos() === 3,
-                'col-md-3': contarServiciosActivos() === 4
-              }" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
-              <div class="service-card-new">
-                <div class="service-card-top">
-                  <div class="svc-icon svc-icon--green">
-                    <i class="fa-solid fa-camera"></i>
-                  </div>
-                  <div>
-                    <div class="svc-name">Cámaras</div>
-                    <div class="svc-name-plan">Plan contratado</div>
-                  </div>
-                </div>
-                <div class="svc-badge badge-green">
-                  {{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicios
-                </div>
-                <div class="svc-meta"></div>
-                <div class="svc-price-row">
-                  <span class="svc-price-label">Precio por cámara</span>
-                  <span class="svc-price svc-price--green">
-                    MXN {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
-                    }}/mes
-                  </span>
-                </div>
-              </div>
+            <div class="svc-badge badge-blue">
+              {{ data.cliente?.cliente?.planInternet || 0 }} Mbps
             </div>
-
-            <!-- Telefonía -->
-            <div class="col-12" [ngClass]="{
-                'col-md-12': contarServiciosActivos() === 1,
-                'col-md-6': contarServiciosActivos() === 2,
-                'col-md-4': contarServiciosActivos() === 3,
-                'col-md-3': contarServiciosActivos() === 4
-              }" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
-              <div class="service-card-new">
-                <div class="service-card-top">
-                  <div class="svc-icon svc-icon--violet">
-                    <i class="fa-solid fa-phone"></i>
-                  </div>
-                  <div>
-                    <div class="svc-name">Telefonía</div>
-                    <div class="svc-name-plan">Plan contratado</div>
-                  </div>
-                </div>
-                <div class="svc-badge badge-violet">
-                  {{ data.cliente?.servicios?.telefono?.canServicios || 0 }} servicio
-                </div>
-                <div class="svc-meta"></div>
-                <div class="svc-price-row">
-                  <span class="svc-price-label">Precio por linea telefónica</span>
-                  <span class="svc-price svc-price--violet">
-                    MXN {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
-                    }}/mes
-                  </span>
-                </div>
-              </div>
+            <div class="svc-price-row">
+              <span class="svc-price-label">Precio mensual</span>
+              <span class="svc-price svc-price--blue">
+                MXN {{ (data.cliente?.servicios?.internet?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                }}/mes
+              </span>
             </div>
-
-            <!-- TV -->
-            <div class="col-12" [ngClass]="{
-                'col-md-12': contarServiciosActivos() === 1,
-                'col-md-6': contarServiciosActivos() === 2,
-                'col-md-4': contarServiciosActivos() === 3,
-                'col-md-3': contarServiciosActivos() === 4
-              }" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
-              <div class="service-card-new">
-                <div class="service-card-top">
-                  <div class="svc-icon svc-icon--orange">
-                    <i class="fa-solid fa-tv"></i>
-                  </div>
-                  <div>
-                    <div class="svc-name">TV</div>
-                    <div class="svc-name-plan">Plan contratado</div>
-                  </div>
-                </div>
-                <div class="svc-badge badge-orange">
-                  {{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio
-                </div>
-                <div class="svc-meta"></div>
-                <div class="svc-price-row">
-                  <span class="svc-price-label">Precio por cuenta</span>
-                  <span class="svc-price svc-price--orange">
-                    MXN {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
-                    }}/mes
-                  </span>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
+
+        <!-- Cámaras -->
+        <div class="col-12" [ngClass]="{
+            'col-md-12': contarServiciosActivos() === 1,
+            'col-md-6': contarServiciosActivos() === 2,
+            'col-md-4': contarServiciosActivos() === 3,
+            'col-md-3': contarServiciosActivos() === 4
+          }" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+          <div class="service-card-new">
+            <div class="service-card-top">
+              <div class="svc-icon svc-icon--green">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <div>
+                <div class="svc-name">Cámaras</div>
+                <div class="svc-name-plan">Plan contratado</div>
+              </div>
+            </div>
+            <div class="svc-badge badge-green">
+              {{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicios
+            </div>
+            <div class="svc-meta"></div>
+            <div class="svc-price-row">
+              <span class="svc-price-label">Precio por cámara</span>
+              <span class="svc-price svc-price--green">
+                MXN {{ (data.cliente?.servicios?.camaras?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                }}/mes
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telefonía -->
+        <div class="col-12" [ngClass]="{
+            'col-md-12': contarServiciosActivos() === 1,
+            'col-md-6': contarServiciosActivos() === 2,
+            'col-md-4': contarServiciosActivos() === 3,
+            'col-md-3': contarServiciosActivos() === 4
+          }" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+          <div class="service-card-new">
+            <div class="service-card-top">
+              <div class="svc-icon svc-icon--violet">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div>
+                <div class="svc-name">Telefonía</div>
+                <div class="svc-name-plan">Plan contratado</div>
+              </div>
+            </div>
+            <div class="svc-badge badge-violet">
+              {{ data.cliente?.servicios?.telefono?.canServicios || 0 }} servicio
+            </div>
+            <div class="svc-meta"></div>
+            <div class="svc-price-row">
+              <span class="svc-price-label">Precio por línea telefónica</span>
+              <span class="svc-price svc-price--violet">
+                MXN {{ (data.cliente?.servicios?.telefono?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                }}/mes
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TV -->
+        <div class="col-12" [ngClass]="{
+            'col-md-12': contarServiciosActivos() === 1,
+            'col-md-6': contarServiciosActivos() === 2,
+            'col-md-4': contarServiciosActivos() === 3,
+            'col-md-3': contarServiciosActivos() === 4
+          }" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+          <div class="service-card-new">
+            <div class="service-card-top">
+              <div class="svc-icon svc-icon--orange">
+                <i class="fa-solid fa-tv"></i>
+              </div>
+              <div>
+                <div class="svc-name">TV</div>
+                <div class="svc-name-plan">Plan contratado</div>
+              </div>
+            </div>
+            <div class="svc-badge badge-orange">
+              {{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio
+            </div>
+            <div class="svc-meta"></div>
+            <div class="svc-price-row">
+              <span class="svc-price-label">Precio por cuenta</span>
+              <span class="svc-price svc-price--orange">
+                MXN {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
+                }}/mes
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- HISTORIAL DE PAGOS -->

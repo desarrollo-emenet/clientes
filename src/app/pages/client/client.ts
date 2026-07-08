@@ -2,9 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CurrencyPipe, NgFor, NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
-import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { Subscription } from 'rxjs';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
@@ -22,9 +21,7 @@ export class Client implements OnInit {
   showDetails = false;
   loading = false;
   loadingPago = false;
-  showEstadoCuentaModal = false;
   showPagoModal = false;
-  private subs: Subscription[] = [];
 
 
   constructor(
@@ -35,23 +32,9 @@ export class Client implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-
     const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
     this.loadClientData(numeroCliente);
-
-    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
-      .subscribe({
-        next: (numeroCliente) => {
-          if (!numeroCliente) return;
-          this.loadClientData(numeroCliente);
-        },
-        error: (e) => {
-          console.error('Error al obtener usuario autenticado', e);
-          toast.error('Error al obtener información del usuario');
-        }
-      });
-    this.subs.push(sub);*/
   }
 
   loadClientData(numeroCliente: string) {
@@ -60,8 +43,8 @@ export class Client implements OnInit {
 
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
-        this.data = res,
-          this.loading = false;
+        this.data = res;
+        this.loading = false;
       },
       error: (e) => {
         this.loading = false;
@@ -79,13 +62,10 @@ export class Client implements OnInit {
           toast.error('Error inesperado');
         }
       }
-
     })
-
   }
 
   pagar(): void {
-    //window.open('https://emenet.mx/pagar-servicio', '_blank');
     const numeroCliente = this.user.obtenerServicioActivo() ?? '';
     this.loadingPago = true;
     this.paymentService.pagar(numeroCliente);
@@ -138,11 +118,6 @@ export class Client implements OnInit {
     //return 0;
   }
 
-  get latestPayments() {
-    const list = this.data?.servicios?.estadoCuenta || [];
-    return list.slice(0, 5);
-  }
-
   getMesPagoReciente(): string {
     const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
     if (!estadoCuenta || estadoCuenta.length === 0) {
@@ -157,14 +132,6 @@ export class Client implements OnInit {
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 
-  abrirEstadoCuentaModal() {
-    this.showEstadoCuentaModal = true;
-  }
-
-  cerrarEstadoCuentaModal() {
-    this.showEstadoCuentaModal = false;
-  }
-
   abrirPagoModal() {
     this.showPagoModal = true;
   }
@@ -175,10 +142,6 @@ export class Client implements OnInit {
 
   @HostListener('document:keydown.escape')
   manejarTeclaEscape(): void {
-    if (this.showEstadoCuentaModal) {
-      this.cerrarEstadoCuentaModal();
-      return;
-    }
     if (this.showPagoModal) {
       this.cerrarPagoModal();
     }
@@ -261,22 +224,15 @@ export class Client implements OnInit {
     doc: jsPDF, margen: number
   ): Promise<void> {
     try {
-      const resp = await fetch('assets/img/emenetLogo.webp');
+      const resp = await fetch('assets/img/emenetLogo.png');
       const blob = await resp.blob();
       const dataUrl = await this.blobToDataUrl(blob);
       doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
     } catch {
-      try {
-        const resp = await fetch('assets/img/emenetLogoB.webp');
-        const blob = await resp.blob();
-        const dataUrl = await this.blobToDataUrl(blob);
-        doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
-      } catch {
-        doc.setTextColor(51, 51, 51);
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'bold');
-        doc.text('emenet', margen, 17);
-      }
+      doc.setTextColor(51, 51, 51);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('emenet', margen, 17);
     }
   }
 
@@ -915,9 +871,9 @@ export class Client implements OnInit {
     doc.setFillColor(51, 51, 51);
     doc.rect(0, pageH - altoFoot, pageW, altoFoot, 'F');
 
-    // Logo en pie
+    // Logo en pie (blanco sobre fondo oscuro)
     try {
-      const logoResp = await fetch('assets/img/emenetLogoB.webp');
+      const logoResp = await fetch('assets/img/emenetLogoB.png');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(

@@ -23,6 +23,7 @@ export class Service implements OnInit, OnDestroy {
   tiempoRestante: number = 0;
   intervalo: any = null;
   numeroClienteTemp: string = '';
+  vistaActual: 'tarjetas' | 'lista' = 'tarjetas';
   showBannerModal: boolean = false;
   showAddServiceModal: boolean = false;
   showDeleteModal: boolean = false;
@@ -52,6 +53,15 @@ export class Service implements OnInit, OnDestroy {
         clase: 'status-badge--neutral'
       }
     );
+  }
+
+  obtenerIniciales(nombre: string): string {
+    if (!nombre) return '—';
+    const partes = nombre.trim().split(/\s+/);
+    if (partes.length === 1) {
+      return partes[0].substring(0, 2).toUpperCase();
+    }
+    return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
   }
 
 
