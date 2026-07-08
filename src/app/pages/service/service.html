@@ -46,10 +46,8 @@
 
           <!-- Zona izquierda: gradiente + orbes + ícono -->
           <div class="apl-row__left">
-            <div class="apl-orb apl-orb--1"></div>
-            <div class="apl-orb apl-orb--2"></div>
             <div class="apl-row__icon">
-              <i class="fa-solid fa-house-signal"></i>
+              <span>{{ obtenerIniciales(s.cliente?.nombre) }}</span>
             </div>
           </div>
 
@@ -111,7 +109,7 @@
             <div class="apc-orb apc-orb--1"></div>
             <div class="apc-orb apc-orb--2"></div>
             <div class="apc-icon">
-              <i class="fa-solid fa-house-signal"></i>
+              <span>{{ obtenerIniciales(s.cliente?.nombre) }}</span>
             </div>
           </div>
 
