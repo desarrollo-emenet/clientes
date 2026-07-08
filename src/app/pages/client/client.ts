@@ -261,22 +261,15 @@ export class Client implements OnInit {
     doc: jsPDF, margen: number
   ): Promise<void> {
     try {
-      const resp = await fetch('assets/img/emenetLogo.webp');
+      const resp = await fetch('assets/img/emenetLogo.png');
       const blob = await resp.blob();
       const dataUrl = await this.blobToDataUrl(blob);
       doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
     } catch {
-      try {
-        const resp = await fetch('assets/img/emenetLogoB.webp');
-        const blob = await resp.blob();
-        const dataUrl = await this.blobToDataUrl(blob);
-        doc.addImage(dataUrl, 'PNG', margen, 4, 30, 15, undefined, 'FAST');
-      } catch {
-        doc.setTextColor(51, 51, 51);
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'bold');
-        doc.text('emenet', margen, 17);
-      }
+      doc.setTextColor(51, 51, 51);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('emenet', margen, 17);
     }
   }
 
@@ -915,9 +908,9 @@ export class Client implements OnInit {
     doc.setFillColor(51, 51, 51);
     doc.rect(0, pageH - altoFoot, pageW, altoFoot, 'F');
 
-    // Logo en pie
+    // Logo en pie (blanco sobre fondo oscuro)
     try {
-      const logoResp = await fetch('assets/img/emenetLogoB.webp');
+      const logoResp = await fetch('assets/img/emenetLogoB.png');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(
