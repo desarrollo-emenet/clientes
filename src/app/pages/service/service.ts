@@ -23,6 +23,7 @@ export class Service implements OnInit, OnDestroy {
   tiempoRestante: number = 0;
   intervalo: any = null;
   numeroClienteTemp: string = '';
+  vistaActual: 'tarjetas' | 'lista' = 'tarjetas';
   showBannerModal: boolean = false;
   showAddServiceModal: boolean = false;
   showDeleteModal: boolean = false;
