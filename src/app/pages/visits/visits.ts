@@ -76,9 +76,6 @@ export class Visits {
     }
   };
 
-
-
-
   constructor(
     private user: UserService,
     private clientS: ClientService,
@@ -90,8 +87,8 @@ export class Visits {
     this.loadClientData(numeroCliente);
   }
 
-  loadClientData(numeroCliente : string): void {
-    this.loading = true;    
+  loadClientData(numeroCliente: string): void {
+    this.loading = true;
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: cliente => {
         this.obtenerVisitas(cliente.numero_cliente);
@@ -143,6 +140,21 @@ export class Visits {
       clase: 'desconocido',
       icono: 'fa-circle-question'
     };
+  }
+
+  getTecnicoAsignado(visita: any): string {
+    switch (visita.estado) {
+      case 0:
+        return visita.usarioAgendado || 'Sin asignar';
+      case 1:
+        return 'Sin asignar';
+      case 2:
+        return visita.usarioProceso || 'Sin asignar';
+      case 3:
+        return visita.usarioAtencion || 'Sin asignar';
+      default:
+        return 'Sin asignar';
+    }
   }
 
   abrirDetalle(visita: Visitas): void {

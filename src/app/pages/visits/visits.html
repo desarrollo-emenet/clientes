@@ -49,7 +49,7 @@
             </div>
 
             <p>
-              Técnico: {{ visita.usarioAtencion || 'sin asignar' }}
+              Tecnico: {{ getTecnicoAsignado(visita) }}
             </p>
           </div>
         </div>
@@ -136,7 +136,7 @@
                   <i class="fa-solid fa-user-gear"></i>
                 </div>
 
-                <p>{{ visitaSeleccionada.usarioAtencion || 'Sin asignar' }}</p>
+                <p>{{ getTecnicoAsignado(visitaSeleccionada) }}</p>
               </div>
             </div>
           </div>

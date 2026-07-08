@@ -10,5 +10,5 @@ export const onlyGuestsGuard: CanActivateFn = (route, state) => {
 };
 
 export function hasToken(): boolean {
-  return !!localStorage.getItem('authToken') || !!sessionStorage.getItem('authToken');;
+  return !!localStorage.getItem('authToken');
 }
