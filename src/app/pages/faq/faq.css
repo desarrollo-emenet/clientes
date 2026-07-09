@@ -449,10 +449,7 @@ details[open] .chevron {
   color: #6b7280;
 }
 
-/* ═══════════════════════════════════════════════════
-   FAQ SECTION
-═══════════════════════════════════════════════════ */
-
+/*Seccion faq*/
 .faq-section {
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -654,9 +651,7 @@ details.faq-item[open] .q-icon {
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   SUPPORT CTA - Modern, Minimal & Professional (Apple Style)
-═══════════════════════════════════════════════════ */
+/*Seccion CTA nuevo diseño*/
 .support-cta {
   margin-top: 48px;
   background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%);
@@ -752,8 +747,15 @@ details.faq-item[open] .q-icon {
 }
 
 @keyframes pulso-verde-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
-  50%       { box-shadow: 0 0 0 4px rgba(22, 163, 74, 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0);
+  }
 }
 
 .status-link {
@@ -851,11 +853,13 @@ details.faq-item[open] .q-icon {
   .support-cta {
     padding: 24px;
   }
+
   .support-header {
     flex-direction: column;
     align-items: center;
     gap: 16px;
   }
+
   .support-actions {
     justify-content: center !important;
     gap: 10px;
@@ -868,19 +872,18 @@ details.faq-item[open] .q-icon {
     align-items: center !important;
     gap: 8px;
   }
+
   .btn-contact {
     justify-content: center;
     width: 100% !important;
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   MODAL IMAGEN
-═══════════════════════════════════════════════════ */
+/*Seccion Modal*/
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.82);
+  background: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
@@ -891,8 +894,13 @@ details.faq-item[open] .q-icon {
 }
 
 @keyframes modal-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-contenedor {
@@ -901,21 +909,35 @@ details.faq-item[open] .q-icon {
   max-height: 80vh;
   overflow: auto;
   border-radius: 18px;
-  animation: modal-scale-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  animation: modal-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.3) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-.modal-contenedor::-webkit-scrollbar { width: 6px; height: 6px; }
-.modal-contenedor::-webkit-scrollbar-track { background: transparent; }
+.modal-contenedor::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.modal-contenedor::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .modal-contenedor::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 999px;
 }
 
 @keyframes modal-scale-in {
-  from { transform: scale(0.75); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-img {
@@ -923,9 +945,9 @@ details.faq-item[open] .q-icon {
   max-width: 88vw;
   max-height: 80vh;
   border-radius: 18px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  transition: width 0.22s cubic-bezier(0.4,0,0.2,1),
-              height 0.22s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
 }
 
@@ -936,8 +958,8 @@ details.faq-item[open] .q-icon {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 8px 14px;
@@ -951,7 +973,7 @@ details.faq-item[open] .q-icon {
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
   font-size: 17px;
   cursor: pointer;
@@ -962,11 +984,14 @@ details.faq-item[open] .q-icon {
 }
 
 .modal-btn:hover {
-  background: rgba(255,255,255,0.28);
+  background: rgba(255, 255, 255, 0.28);
   transform: scale(1.1);
 }
 
-.modal-btn:active { transform: scale(0.92); }
+.modal-btn:active {
+  transform: scale(0.92);
+}
 
-.modal-btn-cerrar { background: rgba(239,68,68,0.55); }
-
+.modal-btn-cerrar {
+  background: rgba(239, 68, 68, 0.55);
+}
