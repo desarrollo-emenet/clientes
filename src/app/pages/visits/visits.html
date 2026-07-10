@@ -21,13 +21,19 @@
       </button>
     </div>
 
-    <section class="empty-state" *ngIf="visitasFiltradas.length === 0">
+    <!-- DISEÑO DE CARGA (SPINNER) -->
+    <div class="loading-container" *ngIf="loading">
+      <div class="loading-spinner"></div>
+      <p>Cargando tus visitas...</p>
+    </div>
+
+    <section class="empty-state" *ngIf="visitasFiltradas.length === 0 && !loading">
       <i class="fa-solid fa-money-bill"></i>
       <h4>Sin resultados</h4>
       <p>{{ mensajeFiltro }}</p>
     </section>
 
-    <section class="visitas-list" *ngIf="visitasFiltradas.length > 0">
+    <section class="visitas-list" *ngIf="visitasFiltradas.length > 0 && !loading">
 
       <article class="visita-card" *ngFor="let visita of visitasPaginadas; trackBy: trackByVisitas"
         (click)="abrirDetalle(visita)" data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
