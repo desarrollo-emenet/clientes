@@ -28,6 +28,9 @@ export class Header implements OnInit, OnDestroy {
 
   isNotifOpen = false;
   notifications: Noti[] = [];
+  private ultimoNumeroCliente: string | null = null;
+  private ultimaConsulta = 0;
+  private cargandoNotificaciones = false;
 
   constructor(private router: Router, private clientS: ClientService, private user: UserService) {}
 
@@ -83,44 +86,56 @@ export class Header implements OnInit, OnDestroy {
   }
 
   private async loadNotificationData(): Promise<void> {
-    // Implementación para cargar datos de notificaciones
-    this.notifications = [];
-
-    //notificacion adeudo pendiente
-    const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) return;
-
-    try {
-      const data: any = await this.clientS.getClientePorNumero(numeroCliente).toPromise();
-      //console.log(data);
-      if (!data) return;
-      if (data.cliente?.cliente?.clasificacion === 'BAJA') return;
-
-      const today = new Date();
-      const day = today.getDate();
-      //notificacion fechas de pago
-
-      if (day >= 1 && day <= 5) {
-        this.notifications.push({
-          title: 'Recordatorio de pago',
-          text: 'Recuerda que tus fecha de pago son del 1 al 5 de cada mes. Evita cortes en tu servicio realizando tu pago a tiempo.',
-          time: 'Hoy',
-          unread: true
-        });
-      }
-
-       //notificacion adeudo pendiente
-      if (Number(data.cliente?.cliente?.deuda) > 0) {
-        this.notifications.push({
-          title: 'Adeudo pendiente',
-          text: `Tienes un adeudo pendiente de $${data.cliente?.cliente?.deuda}. Por favor realiza tu pago para evitar cortes en tu servicio.`,
-          time: 'Hoy',
-          unread: true
-        });
-      }
-    } catch (error) {
-      //console.error('Error al obtener datos del cliente para notificaciones', error);
+    const cliente = this.user.obtenerServicioActivo();
+    if (!cliente) {
+      this.notifications = [];
+      this.ultimoNumeroCliente = null;
+      return;
     }
+    const ahora = Date.now();
+    const esReciente = ahora - this.ultimaConsulta < 60000;
+    if (cliente === this.ultimoNumeroCliente && esReciente) return;
+    if (this.cargandoNotificaciones) return;
+    this.cargandoNotificaciones = true;
+    try {
+      const res = await this.clientS
+        .getClientePorNumero(cliente)
+        .toPromise();
+      this.notifications = this.construirNotificaciones(res);
+      this.ultimoNumeroCliente = cliente;
+      this.ultimaConsulta = ahora;
+    } catch {
+    } finally {
+      this.cargandoNotificaciones = false;
+    }
+  }
+
+  private construirNotificaciones(data: any): Noti[] {
+    const lista: Noti[] = [];
+    const cliente = data?.cliente?.cliente;
+    if (!cliente || cliente.clasificacion === 'BAJA') return lista;
+    const dia = new Date().getDate();
+    if (dia >= 1 && dia <= 5) {
+      lista.push({
+        title: 'Recordatorio de pago',
+        text: 'Recuerda que tus fecha de pago son del 1 al 5 de ' +
+          'cada mes. Evita cortes en tu servicio realizando tu ' +
+          'pago a tiempo.',
+        time: 'Hoy',
+        unread: true
+      });
+    }
+    if (Number(cliente.deuda) > 0) {
+      lista.push({
+        title: 'Adeudo pendiente',
+        text: `Tienes un adeudo pendiente de $${cliente.deuda}. ` +
+          'Por favor realiza tu pago para evitar cortes en tu ' +
+          'servicio.',
+        time: 'Hoy',
+        unread: true
+      });
+    }
+    return lista;
   }
 
   goNotificaciones(): void {
