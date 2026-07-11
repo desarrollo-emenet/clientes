@@ -48,7 +48,6 @@ export class Payment {
     this.loadClientData(numeroCliente);    
   }
 
-  //
   loadClientData(numeroCliente: string): void {
     this.loading = true;
     this.data = null;
@@ -81,7 +80,6 @@ export class Payment {
 
   }
 
-  // 
   pagar(): void {
     this.loadingPago = true;
     this.paymentService.pagar(this.data?.numero_cliente);
@@ -118,7 +116,7 @@ export class Payment {
 
 
 
-  // Modal para buscar invoice solo pruebas quitar posteriormetente
+  // Modal para buscar invoice solo pruebas, quitar posteriormente
   showInvoiceModal = false;
   invoiceInput = '';
   invoiceResult: any = null;

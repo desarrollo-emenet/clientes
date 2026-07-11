@@ -1,6 +1,6 @@
 
   <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
-    <main class=" page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
+    <main class="page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
 
       <div class="payments-wrapper">
 
@@ -24,7 +24,7 @@
                 <p>Activación automática</p>
               </div>
             </div>
- 
+
             <div class="payment-right">
               <span class="badge-recommended">
                 Recomendado
@@ -65,7 +65,7 @@
         <!-- HSBC -->
         <details class="payment-card" name="grupo-acordeon">
 
-          <summary class="payment-summary" >
+          <summary class="payment-summary">
             <div class="payment-left">
               <div class="icon-circle bank">
                 <i class="fa-solid fa-building-columns"></i>
@@ -101,7 +101,7 @@
 
         <!-- SPEI -->
         <details class="payment-card" name="grupo-acordeon">
-          <summary class="payment-summary" >
+          <summary class="payment-summary">
             <div class="payment-left">
               <div class="icon-circle transfer">
                 <i class="fa-solid fa-arrow-right-arrow-left"></i>
@@ -129,7 +129,7 @@
 
         <!-- OXXO -->
         <details class="payment-card" name="grupo-acordeon">
-          <summary class="payment-summary" >
+          <summary class="payment-summary">
             <div class="payment-left">
               <div class="icon-circle store">
                 <i class="fa-solid fa-store"></i>
@@ -186,14 +186,7 @@
         </div>
 
 
-        <!-- Descifrar invoice quitar boton y modal solo es para pruebas-->
-        <br>
-        <!--<div>
-          <!- - Descifrar invoice- ->
-          <button class="btn-invoice" (click)="openInvoiceModal()">
-            invoice
-          </button>
-        </div>-->
+        <!-- Botón de invoice eliminado (solo fue para pruebas) -->
 
         <!-- MODAL -->
         <div class="modal-overlay" *ngIf="showInvoiceModal">
@@ -212,7 +205,7 @@
             <div class="modal-footer">
               <button class="btn-outline" (click)="closeInvoiceModal()">Cancelar</button>
               <button class="btn-primary" (click)="buscarInvoice()">
-                descifrar
+                Descifrar
               </button>
             </div>
             <!-- RESULTADO -->

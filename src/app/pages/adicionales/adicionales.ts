@@ -270,7 +270,7 @@ export class Adicionales {
         ],
         caracteristicas: [
           'Categoría CAT5e',
-          'Conectores RJ45 también se venden por se parado'
+          'Conectores RJ45 también se venden por separado'
         ],
         descripcion: 'Costo adicional por ponchado de cables y conectores $15',
         especificaciones: [
@@ -296,7 +296,7 @@ export class Adicionales {
         descripcion: 'Protección eléctrica para tus equipos.',
         especificaciones: [
           { label: 'Potencia', value: '520VA' },
-          { label: 'Tiempo de respaldo', value: '8 min de autonomia' },
+          { label: 'Tiempo de respaldo', value: '8 min de autonomía' },
           { label: 'Salidas', value: '6 tomas de corriente' },
           { label: 'Voltaje', value: '120V' }
         ]
