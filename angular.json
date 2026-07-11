@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "my-first-angular-app": {
+    "front": {
       "projectType": "application",
       "schematics": {},
       "root": "",
