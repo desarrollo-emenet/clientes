@@ -25,8 +25,8 @@
                 "output": "assets"
               },
               {
-                "glob": "**/*",
-                "input": "src/.htaccess",
+                "glob": "htaccess",
+                "input": "src/",
                 "output": "/"
               },
               {
