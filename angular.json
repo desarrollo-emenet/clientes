@@ -26,9 +26,15 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/.htaccess",
+                "output": ".htaccess"
+              },
+              {
+                "glob": "**/*",
                 "input": "public"
               }
             ],
+
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.css"
