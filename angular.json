@@ -27,7 +27,7 @@
               {
                 "glob": "**/*",
                 "input": "src/.htaccess",
-                "output": ".htaccess"
+                "output": "/"
               },
               {
                 "glob": "**/*",
