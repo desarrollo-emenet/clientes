@@ -137,15 +137,4 @@ export class Header implements OnInit, OnDestroy {
     }
     return lista;
   }
-
-  goNotificaciones(): void {
-    this.isNotifOpen = false;
-    const numeroCliente = this.user.obtenerServicioActivo();
-    if (numeroCliente) {
-      this.router.navigate(['/notificaciones', numeroCliente]);
-      return;
-    }
-
-    this.router.navigate(['/notificaciones']);
-  }
 }
