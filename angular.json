@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "my-first-angular-app:build:production"
+              "buildTarget": "front:build:production"
             },
             "development": {
-              "buildTarget": "my-first-angular-app:build:development"
+              "buildTarget": "front:build:development"
             }
           },
           "defaultConfiguration": "development"
