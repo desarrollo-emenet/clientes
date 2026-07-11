@@ -3,8 +3,10 @@ import { LoginRequest, RegisterRequest, RecoverRequest } from './loginRequest';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from '../user/routeApi';
+// import { environment } from '../user/routeApi';
+// environment
 import { toast } from 'ngx-sonner';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
