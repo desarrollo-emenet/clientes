@@ -53,6 +53,10 @@ export class LoginS {
     return this.http.put<any>(`${this.apiLocalUrl}/auth/updatePassword`,data);
   }
 
+  verifyMail(data:any): Observable<{valid: boolean}>{
+    return this.http.post<{valid: boolean}>(`${this.apiLocalUrl}/verify-token`, data);
+  }
+
   
 
 

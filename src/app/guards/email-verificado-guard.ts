@@ -4,12 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
 import { toast } from 'ngx-sonner';
 //import { environment } from '../services/user/routeApi';
-import { environment } from '../../environments/environment';
+import { LoginS } from '../services/auth/login';
 
 export const emailVerificadoGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const http = inject(HttpClient);
-  const apiLocalUrl = environment.apiLocalUrl;
+  //const apiLocalUrl = environment.apiLocalUrl;
+  const loginS = inject(LoginS);
+
 
   const token = route.queryParams['token'];
 
@@ -20,9 +22,7 @@ export const emailVerificadoGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // Validar el token (`${apiLocalUrl}/api/verify-token`
-  
-  return http.post<{ valid: boolean }>(`${apiLocalUrl}/verify-token`, { token })
+  return loginS.verifyMail({token})
     .pipe(
       map(response => {
         if (response.valid) {
