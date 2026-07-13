@@ -3,7 +3,8 @@ import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
 import { toast } from 'ngx-sonner';
-import { environment } from '../services/user/routeApi';
+//import { environment } from '../services/user/routeApi';
+import { environment } from '../../environments/environment';
 
 export const emailVerificadoGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
