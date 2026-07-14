@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
@@ -13,14 +13,22 @@ import { NgxSonnerToaster } from 'ngx-sonner';
 export class EmailVerificado implements OnInit {
   countdown: number = 8;
   isFlipping: boolean = false;
+  yaVerificado: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    const interval = setInterval(() => {
+    this.yaVerificado = this.route.snapshot.queryParams['yaVerificado'] === 'true';
+
+    if (this.yaVerificado) return;
+
+    const intervalo = setInterval(() => {
       this.countdown--;
       if (this.countdown === 0) {
-        clearInterval(interval);
+        clearInterval(intervalo);
         if (!this.isFlipping) {
           this.goToUrl('/iniciar-sesion');
         }
@@ -35,3 +43,4 @@ export class EmailVerificado implements OnInit {
     }, 650);
   }
 }
+

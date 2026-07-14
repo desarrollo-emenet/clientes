@@ -1,33 +1,67 @@
 <div class="email-layout flip-in" [class.flip-out]="isFlipping">
 
   <main class="email-main d-flex flex-column align-items-center justify-content-center w-100">
-    <!-- Tarjeta de verificación -->
-    <div class="auth-card shadow-lg p-4 p-sm-5">
-      <div class="logo-wrapper text-center mb-4">
-        <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
-      </div>
 
-       <!-- HEADER -->
-      <div class="payment-header">
-        <div class="header-icon blue"><i class="fa-regular fa-circle-check"></i></div>
-        <div class="header-content">
-          <h2>¡Correo verificado!</h2>
-          <p>Tu cuenta ha sido activada. Ahora puedes iniciar sesión y comenzar a usar la plataforma.</p>
+    @if (!yaVerificado) {
+      <!-- Primera visita: correo verificado con éxito -->
+      <div class="auth-card shadow-lg p-4 p-sm-5">
+        <div class="logo-wrapper text-center mb-4">
+          <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
         </div>
+
+        <div class="payment-header">
+          <div class="header-icon blue"><i class="fa-regular fa-circle-check"></i></div>
+          <div class="header-content">
+            <h2>¡Correo verificado!</h2>
+            <p>Tu cuenta ha sido activada. Ahora puedes iniciar sesión y comenzar a usar la plataforma.</p>
+          </div>
+        </div>
+
+        <div class="submit-wrapper">
+          <button type="button" class="submit-btn" (click)="goToUrl('/iniciar-sesion')">
+            INICIAR SESIÓN
+          </button>
+        </div>
+
+        <p class="small-text text-center mt-3">
+          Serás redirigido automáticamente en <strong>{{ countdown }}</strong> segundos...
+        </p>
+
+        <ngx-sonner-toaster richColors closeButton position="top-center" />
       </div>
 
-      <div class="submit-wrapper">
-        <button type="button" class="submit-btn" (click)="goToUrl('/iniciar-sesion')">
-          INICIAR SESIÓN
-        </button>
+    } @else {
+      <!-- Visitas posteriores: correo ya verificado -->
+      <div class="auth-card auth-card--ya-verificado shadow-lg p-4 p-sm-5">
+        <div class="logo-wrapper text-center mb-4">
+          <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
+        </div>
+
+        <div class="payment-header">
+          <div class="header-icon header-icon--ya-verificado">
+            <i class="fa-solid fa-envelope-circle-check"></i>
+          </div>
+          <div class="header-content">
+            <h2 class="titulo--ya-verificado">Correo verificado</h2>
+            <p>Tu correo ya fue verificado anteriormente. Por favor inicia sesión para acceder a tu cuenta.</p>
+          </div>
+        </div>
+
+        <div class="submit-wrapper">
+          <button
+            id="btn-iniciar-sesion-ya-verificado"
+            type="button"
+            class="submit-btn submit-btn--ya-verificado"
+            (click)="goToUrl('/iniciar-sesion')"
+          >
+            INICIAR SESIÓN
+          </button>
+        </div>
+
+        <ngx-sonner-toaster richColors closeButton position="top-center" />
       </div>
+    }
 
-      <p class="small-text text-center mt-3">
-        Serás redirigido automáticamente en <strong>{{ countdown }}</strong> segundos...
-      </p>
-
-      <ngx-sonner-toaster richColors closeButton position="top-center" />
-    </div>
   </main>
 
-</div>
+</div>

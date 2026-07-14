@@ -1,4 +1,3 @@
-
 .email-layout {
   background-size: cover;
   background-position: center;
@@ -35,9 +34,6 @@
   }
 }
 
-/* ============================
-   Responsivo Móvil
-   =========================== */
 @media (max-width: 575px) {
   .email-layout {
     padding: 1.5rem 1rem;
@@ -63,9 +59,6 @@
 }
 
 
-/* =========================
-   HEADER
-========================= */
 
 .payment-header {
   display: flex;
@@ -79,13 +72,13 @@
   width: 100px;
   height: 60px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #0b4e94, rgba(24,106,206,0.75));
+  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 2rem;
-  box-shadow: 0 10px 25px rgba(37,99,235,.25);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, .25);
 }
 
 .header-content h2 {
@@ -100,9 +93,7 @@
   color: #64748b;
 }
 
-/* =========================
-   BOTON
-========================= */
+
 
 .submit-wrapper {
   margin-top: 24px;
@@ -118,26 +109,22 @@
   font-size: 1rem;
   font-weight: 700;
   transition: .25s ease;
-  box-shadow: 0 12px 30px rgba(37,99,235,.22);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, .22);
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 35px rgba(37,99,235,.28);
+  box-shadow: 0 16px 35px rgba(37, 99, 235, .28);
 }
 
-/* =========================
-   TEXTO PEQUEÑO
-========================= */
+
 
 .small-text {
   font-size: 0.85rem;
   color: #64748b;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+
 
 @media (max-width: 576px) {
   .payment-container {
@@ -227,3 +214,25 @@
   }
 }
 
+
+.auth-card--ya-verificado {
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+.header-icon--ya-verificado {
+  background: linear-gradient(135deg, #065f46, rgba(5, 150, 105, 0.8));
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.22);
+}
+
+.titulo--ya-verificado {
+  color: #064e3b;
+}
+
+.submit-btn--ya-verificado {
+  background: linear-gradient(135deg, #065f46, #059669);
+  box-shadow: 0 12px 30px rgba(5, 150, 105, 0.22);
+}
+
+.submit-btn--ya-verificado:hover {
+  box-shadow: 0 16px 35px rgba(5, 150, 105, 0.3);
+}

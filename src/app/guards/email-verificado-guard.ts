@@ -1,41 +1,42 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
 import { toast } from 'ngx-sonner';
-//import { environment } from '../services/user/routeApi';
 import { LoginS } from '../services/auth/login';
 
 export const emailVerificadoGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const http = inject(HttpClient);
-  //const apiLocalUrl = environment.apiLocalUrl;
   const loginS = inject(LoginS);
 
+  // Segunda visita: ya viene marcado, dejamos pasar sin llamar al backend
+  if (route.queryParams['yaVerificado'] === 'true') {
+    return true;
+  }
 
   const token = route.queryParams['token'];
 
-  //si no hay token redirige a vista de inicio de sesion
   if (!token) {
     router.navigate(['/iniciar-sesion']);
     setTimeout(() => toast.warning('Acceso denegado'), 0);
     return false;
   }
 
-  return loginS.verifyMail({token})
+  return loginS.verifyMail({ token })
     .pipe(
       map(response => {
         if (response.valid) {
           return true;
-        } else {
-          setTimeout(() => toast.warning('Acceso denegado'), 0);
-          router.navigate(['/']);
-          return false;
         }
+        // Token ya consumido → misma pantalla con estado "ya verificado"
+        router.navigate(['/email-verificado'], {
+          queryParams: { yaVerificado: 'true' }
+        });
+        return false;
       }),
       catchError(() => {
-        setTimeout(() => toast.warning('Acceso denegado'), 0);
-        router.navigate(['/']);
+        router.navigate(['/email-verificado'], {
+          queryParams: { yaVerificado: 'true' }
+        });
         return of(false);
       })
     );
