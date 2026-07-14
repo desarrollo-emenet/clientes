@@ -57,6 +57,10 @@ export class LoginS {
     return this.http.post<{valid: boolean}>(`${this.apiLocalUrl}/verify-token`, data);
   }
 
+  veryfyMailRecoverPassword(data:any): Observable<{valid: boolean}>{
+    return this.http.post<{valid: boolean}>(`${this.apiLocalUrl}/recoveryPassword/verify-token`, data);
+  }
+
   
 
 

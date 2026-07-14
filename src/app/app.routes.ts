@@ -19,6 +19,7 @@ import { serviceAccessGuard } from './guards/service-access-guard';
 import { FAQ } from './pages/faq/faq';
 import { FormPagos } from './pages/form-pagos/form-pagos';
 import { Adicionales } from './pages/adicionales/adicionales';
+import { recoverEmailGuard } from './guards/recover-email-guard';
 
 
 export const routes: Routes = [
@@ -27,7 +28,7 @@ export const routes: Routes = [
   { path: 'iniciar-sesion', component: Login },
   { path: 'crear-cuenta', component: CreateAccount },
   { path: 'recuperar-password', component: Recover },
-  { path: 'response-password', component: ResponseRecover},
+  { path: 'response-password', component: ResponseRecover, canActivate: [recoverEmailGuard]},
   { path: 'email-verificado', component: EmailVerificado, canActivate: [emailVerificadoGuard] },
 
 
