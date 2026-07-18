@@ -46,12 +46,15 @@
   /* Si la pantalla es muy pequeña, solo el formulario hará scroll */
 
   /* Ocultar barra de desplazamiento que genera la línea visual al animar en 3D en móviles */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE y Edge */
 }
 
 .login-main::-webkit-scrollbar {
-  display: none; /* Chrome, Safari y Opera */
+  display: none;
+  /* Chrome, Safari y Opera */
 }
 
 @media (min-width: 768px) {
@@ -203,6 +206,7 @@
 .ep-input.ng-dirty.ng-invalid {
   border-color: #e53e3e !important;
 }
+
 .ep-input.ng-touched.ng-invalid:focus,
 .ep-input.ng-dirty.ng-invalid:focus {
   box-shadow: 0 0 0 4px rgba(229, 62, 98, 0.15) !important;
@@ -212,6 +216,7 @@
 .ep-input.ng-dirty.ng-valid {
   border-color: #38a169 !important;
 }
+
 .ep-input.ng-touched.ng-valid:focus,
 .ep-input.ng-dirty.ng-valid:focus {
   box-shadow: 0 0 0 4px rgba(56, 161, 105, 0.15) !important;
@@ -238,6 +243,7 @@
 .ep-input-group:has(.ep-input.ng-dirty.ng-invalid) {
   border-color: #e53e3e !important;
 }
+
 .ep-input-group:has(.ep-input.ng-touched.ng-invalid):focus-within,
 .ep-input-group:has(.ep-input.ng-dirty.ng-invalid):focus-within {
   box-shadow: 0 0 0 4px rgba(229, 62, 98, 0.15) !important;
@@ -247,6 +253,7 @@
 .ep-input-group:has(.ep-input.ng-dirty.ng-valid) {
   border-color: #38a169 !important;
 }
+
 .ep-input-group:has(.ep-input.ng-touched.ng-valid):focus-within,
 .ep-input-group:has(.ep-input.ng-dirty.ng-valid):focus-within {
   box-shadow: 0 0 0 4px rgba(56, 161, 105, 0.15) !important;
@@ -418,6 +425,7 @@
     -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
     opacity: 0;
   }
+
   100% {
     -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
@@ -429,6 +437,7 @@
     transform: perspective(2500px) rotateY(-90deg) scale(0.92);
     opacity: 0;
   }
+
   100% {
     transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
@@ -440,6 +449,7 @@
     -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
+
   100% {
     -webkit-transform: perspective(2500px) rotateY(90deg) scale(0.92);
     opacity: 0;
@@ -451,8 +461,295 @@
     transform: perspective(2500px) rotateY(0deg) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: perspective(2500px) rotateY(90deg) scale(0.92);
     opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Burbuja Flotante de Ayuda
+   ========================================================================== */
+
+.help-bubble-wrap {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+/* Botón burbuja */
+.help-bubble__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #0b4e94, #1a6ed8);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.38);
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background 0.25s ease;
+  white-space: nowrap;
+  outline: none;
+}
+
+.help-bubble__btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(11, 78, 148, 0.46);
+}
+
+.help-bubble__btn:active {
+  transform: scale(0.96);
+}
+
+.help-bubble__btn--activo {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  box-shadow: 0 8px 24px rgba(229, 62, 62, 0.35);
+  padding: 0;
+  width: 50px;
+  justify-content: center;
+}
+
+.help-bubble__btn--activo:hover {
+  box-shadow: 0 12px 32px rgba(229, 62, 62, 0.45);
+}
+
+.help-bubble__label {
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+}
+
+/* Panel de ayuda */
+.help-panel {
+  width: 320px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16),
+    0 4px 16px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e2e8f0;
+  transform: translateY(12px);
+  transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.help-panel--open {
+  max-height: 600px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Header del panel */
+.help-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.help-panel__header-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, .75));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+.help-panel__titulo {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.help-panel__subtitulo {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Secciones internas */
+.help-panel__section {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.help-panel__section:last-child {
+  border-bottom: none;
+}
+
+.help-panel__section-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Pasos */
+.help-panel__pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.help-panel__pasos li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.86rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.help-panel__paso-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0b4e94, #1a6ed8);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* Botones de contacto */
+.help-panel__contactos {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+.help-panel__btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.help-panel__btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.22s ease;
+}
+
+.help-panel__btn-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.help-panel__btn-texto strong {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  display: block;
+}
+
+.help-panel__btn-texto small {
+  font-size: 0.68rem;
+  opacity: 0.85;
+  display: block;
+  line-height: 1.2;
+}
+
+.help-panel__btn:hover {
+  transform: translateY(-3px);
+}
+
+.help-panel__btn:hover .help-panel__btn-icon {
+  transform: scale(1.1);
+}
+
+.help-panel__btn--wa {
+  background: linear-gradient(145deg, #0ea74a, #06922f);
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(14, 167, 74, 0.28);
+}
+
+.help-panel__btn--wa .help-panel__btn-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.help-panel__btn--wa:hover {
+  box-shadow: 0 10px 28px rgba(14, 167, 74, 0.4);
+}
+
+.help-panel__btn--tel {
+  background: linear-gradient(145deg, #f0f7ff, #e0edff);
+  color: #0b4e94 !important;
+  border: 1.5px solid #bfdbfe;
+  box-shadow: 0 4px 14px rgba(11, 78, 148, 0.08);
+}
+
+.help-panel__btn--tel .help-panel__btn-icon {
+  background: rgba(11, 78, 148, 0.1);
+  color: #0b4e94;
+}
+
+.help-panel__btn--tel:hover {
+  background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+  box-shadow: 0 8px 22px rgba(11, 78, 148, 0.16);
+}
+
+@media (max-width: 420px) {
+  .help-bubble-wrap {
+    bottom: 18px;
+    right: 16px;
+  }
+
+  .help-panel {
+    width: calc(100vw - 32px);
   }
 }

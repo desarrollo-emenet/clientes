@@ -20,6 +20,11 @@ export class Login {
   loading = false;
   showPassword = false;
   isFlipping = false;
+  mostrarAyuda = false;
+
+  alternarAyuda(): void {
+    this.mostrarAyuda = !this.mostrarAyuda;
+  }
 
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS, private user: UserService) {
     this.loginForm = this.fb.group({

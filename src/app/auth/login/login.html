@@ -86,7 +86,100 @@
 
       </form>
 
+
       <ngx-sonner-toaster richColors position="top-center" />
+    </div>
+    <!-- Burbuja flotante de ayuda -->
+    <div class="help-bubble-wrap">
+
+      <!-- Panel Modal -->
+      <div class="help-panel" [class.help-panel--open]="mostrarAyuda">
+        <div class="help-panel__header">
+          <div class="help-panel__header-icon">
+            <i class="fa-solid fa-circle-question"></i>
+          </div>
+          <div>
+            <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
+            <p class="help-panel__subtitulo">
+              Te ayudamos a ingresar a tu cuenta
+            </p>
+          </div>
+        </div>
+
+        <!-- Pasos -->
+        <div class="help-panel__section">
+          <p class="help-panel__section-label">
+            <i class="fa-solid fa-list-check"></i>
+            Pasos para acceder
+          </p>
+          <ol class="help-panel__pasos">
+            <li>
+              <span class="help-panel__paso-num">1</span>
+              <span>Ingresa tu <strong>número de cliente</strong>
+                (lo encuentras en tu último ticket o recibo).
+              </span>
+            </li>
+            <li>
+              <span class="help-panel__paso-num">2</span>
+              <span>Ingresa tu <strong>contraseña</strong>.
+                Si es la primera vez, usa la temporal
+                que llegó a tu correo.
+              </span>
+            </li>
+            <li>
+              <span class="help-panel__paso-num">3</span>
+              <span>Si olvidaste tu contraseña,
+                usa <strong>¿Olvidaste tu contraseña?</strong>
+              </span>
+            </li>
+            <li>
+              <span class="help-panel__paso-num">4</span>
+              <span>Si no te llega tu contraseña a tu correo electronico
+                <strong>llama o mandanos un mensaje de whatsapp.</strong>
+              </span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Contacto -->
+        <div class="help-panel__section">
+          <p class="help-panel__section-label">
+            <i class="fa-solid fa-headset"></i>
+            ¿No conoces tu número de cliente?
+          </p>
+
+          <div class="help-panel__contactos">
+            <a class="help-panel__btn help-panel__btn--wa" target="_blank" [href]="'https://wa.me/7133475658?text=' +
+                'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
+              <span class="help-panel__btn-icon">
+                <i class="fa-brands fa-whatsapp"></i>
+              </span>
+              <span class="help-panel__btn-texto">
+                <strong>WhatsApp</strong>
+                <small>Chat en línea</small>
+              </span>
+            </a>
+            <a class="help-panel__btn help-panel__btn--tel" href="tel:7133475658">
+              <span class="help-panel__btn-icon">
+                <i class="fa-solid fa-phone"></i>
+              </span>
+              <span class="help-panel__btn-texto">
+                <strong>713 347 5658</strong>
+                <small>Llamar a soporte</small>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón burbuja -->
+      <button id="btnAyudaBurbuja" class="help-bubble__btn" [class.help-bubble__btn--activo]="mostrarAyuda"
+        (click)="alternarAyuda()" aria-label="Abrir panel de ayuda">
+        <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
+        <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
+        <span class="help-bubble__label" *ngIf="!mostrarAyuda">Ayuda</span>
+      </button>
+
     </div>
   </main>
 </div>

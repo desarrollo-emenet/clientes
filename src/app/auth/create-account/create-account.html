@@ -17,17 +17,17 @@
         </div>
 
         <form [formGroup]="createForm" (ngSubmit)="register()">
-
           <!-- Número de cliente -->
           <div class="form-card">
             <div class="card-title">
-
               <div class="icono-contenedor card-icon blue">
                 <i class="fa-regular fa-circle-question"></i>
-                <div class="mensaje">¿No conoces tu número de cliente? <br> Lo puedes encontrar en tu ultimo ticket
-                  recibido o <br> solicitalo por whatsapp</div>
+                <div class="mensaje">
+                  ¿No conoces tu número de cliente o correo vinculado? <br>
+                  Lo puedes encontrar en tu ultimo ticket recibido o <br>
+                  solicítalo por whatsapp
+                </div>
               </div>
-
               <h5>Datos de acceso</h5>
             </div>
             <div class="card-grid">
@@ -35,11 +35,36 @@
                 <label>Número de cliente</label>
                 <input type="text" formControlName="numero_cliente" class="form-control custom-input"
                   placeholder="######">
-                <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
-                  class="mt-2 text-danger small">
-                  <span *ngIf="numero_cliente.errors?.['required']">Número de cliente requerido.</span>
-                  <span *ngIf="numero_cliente.errors?.['maxlength']">No debe exceder 6 caracteres.</span>
-                  <span *ngIf="numero_cliente.errors?.['pattern']">Formato inválido.</span>
+                <div *ngIf="numero_cliente.invalid &&
+                  (numero_cliente.dirty || numero_cliente.touched)" class="mt-2 text-danger small">
+                  <span *ngIf="numero_cliente.errors?.['required']">
+                    Número de cliente requerido.
+                  </span>
+                  <span *ngIf="numero_cliente.errors?.['maxlength']">
+                    No debe exceder 6 caracteres.
+                  </span>
+                  <span *ngIf="numero_cliente.errors?.['pattern']">
+                    Formato inválido.
+                  </span>
+                </div>
+              </div>
+              <div class="instruccion-item support-section">
+                <span>
+                  ¿No sabes tu número de cliente o correo vinculado a tu
+                  cuenta? <em>¡Podemos ayudarte a encontrarlo!</em>
+                </span>
+                <div class="support-buttons">
+                  <a class="btn-soporte btn-whatsapp" target="_blank" [href]="'https://wa.me/7133475658?text=' +
+                      'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
+                    <i class="fa-brands fa-whatsapp fa-xl"
+                      style="color: rgb(255, 255, 255);"></i>
+                    Chat de WhatsApp
+                  </a>
+                  <a class="btn-soporte btn-telefono" href="tel:7133475658">
+                    <i class="fa-solid fa-phone fa-xl"
+                      style="color: rgb(23, 122, 196);"></i>
+                    Llamar a Soporte
+                  </a>
                 </div>
               </div>
             </div>
@@ -48,19 +73,26 @@
           <!-- Información adicional -->
           <div class="form-card">
             <div class="card-title">
-              <div class="card-icon green"><i class="fa-solid fa-info"></i></div>
+              <div class="card-icon green">
+                <i class="fa-solid fa-info"></i>
+              </div>
               <h5>Información adicional</h5>
             </div>
             <div class="card-grid">
               <div>Accede y gestiona tu cuenta en segundos.</div>
               <ul class="lista">
                 <li>Consulta tu saldo</li>
-                <li>Realiza pagos en línea</li>
-                <li>Administra tus servicios</li>
+                <li>
+                  Realiza pagos en línea, administra tus servicios y más!
+                </li>
               </ul>
-              <div class="">
-                1. Recibe tu contraseña temporal por correo <br>
-                2. Cámbiala después desde tu perfil
+              <div class="instrucciones-registro">
+                <div class="instruccion-item">
+                  <span>1. Recibe tu contraseña temporal por correo</span>
+                </div>
+                <div class="instruccion-item">
+                  <span>2. Cámbiala después desde tu perfil</span>
+                </div>
               </div>
             </div>
           </div>
