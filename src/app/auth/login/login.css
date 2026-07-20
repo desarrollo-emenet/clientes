@@ -753,3 +753,20 @@
     width: calc(100vw - 32px);
   }
 }
+
+/* ==========================================================================
+   Overlay: cierra el panel al tocar fuera (mobile tap / click fuera)
+   ========================================================================== */
+
+.help-panel__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: transparent;
+  pointer-events: none;
+  cursor: default;
+}
+
+.help-panel__overlay--visible {
+  pointer-events: all;
+}

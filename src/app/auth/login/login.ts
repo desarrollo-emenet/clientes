@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -21,6 +21,11 @@ export class Login {
   showPassword = false;
   isFlipping = false;
   mostrarAyuda = false;
+
+  @HostListener('document:keydown.escape')
+  cerrarAyuda(): void {
+    this.mostrarAyuda = false;
+  }
 
   alternarAyuda(): void {
     this.mostrarAyuda = !this.mostrarAyuda;

@@ -89,6 +89,11 @@
 
       <ngx-sonner-toaster richColors position="top-center" />
     </div>
+    <!-- Overlay: cierra el panel al pulsar fuera (mobile tap / click) -->
+    <div class="help-panel__overlay" [class.help-panel__overlay--visible]="mostrarAyuda" (click)="cerrarAyuda()"
+      aria-hidden="true">
+    </div>
+
     <!-- Burbuja flotante de ayuda -->
     <div class="help-bubble-wrap">
 
@@ -96,7 +101,7 @@
       <div class="help-panel" [class.help-panel--open]="mostrarAyuda">
         <div class="help-panel__header">
           <div class="help-panel__header-icon">
-            <i class="fa-solid fa-circle-question"></i>
+            <i class="fa-solid fa-headset"></i>
           </div>
           <div>
             <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
@@ -138,13 +143,21 @@
                 <strong>llama o mandanos un mensaje de whatsapp.</strong>
               </span>
             </li>
+            <li>
+              <span class="help-panel__paso-num">N</span>
+              <span><strong>Nota:</strong> La contraseña temporal será enviada al correo electrónico
+
+                <strong>asociado a tu cuenta.</strong>
+              </span>
+            </li>
           </ol>
         </div>
 
         <!-- Contacto -->
         <div class="help-panel__section">
           <p class="help-panel__section-label">
-            <i class="fa-solid fa-headset"></i>
+
+            <i class="fa-solid fa-circle-question"></i>
             ¿No conoces tu número de cliente?
           </p>
 
@@ -164,7 +177,7 @@
                 <i class="fa-solid fa-phone"></i>
               </span>
               <span class="help-panel__btn-texto">
-                <strong>713 347 5658</strong>
+                <strong>713 133 4557</strong>
                 <small>Llamar a soporte</small>
               </span>
             </a>
