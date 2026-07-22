@@ -4,8 +4,10 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-import { provideHttpClient /*, withInterceptors*/ } from '@angular/common/http';
+import { provideHttpClient, /*, withInterceptors*/ 
+withInterceptors} from '@angular/common/http';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { authInterceptor } from './guards/auth.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideNativeDateAdapter(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' }
 
 

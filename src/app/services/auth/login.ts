@@ -18,10 +18,10 @@ export class LoginS {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  private apiLocalUrl = environment.apiLocalUrl
+  private apiUrl = environment.apiUrl
 
   private getToken(): string | null {
-    return localStorage.getItem('authToken');
+    return sessionStorage.getItem('authToken');
   }
   getHeaders(): HttpHeaders {
     const token = this.getToken();
@@ -33,32 +33,32 @@ export class LoginS {
   //Login post
   login(credentials: LoginRequest): Observable<any> {
     //console.log(credentials);
-    return this.http.post<any>(`${this.apiLocalUrl}/auth/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials);
   }
 
   logout(): Observable<any> {
     const headers = this.getHeaders();
     //console.log('Headers que se enviarán:', headers.keys().map(k => `${k}: ${headers.get(k)}`));
-    return this.http.get(`${this.apiLocalUrl}/auth/logout`, { headers });
+    return this.http.get(`${this.apiUrl}/auth/logout`, { headers });
   }
 
   register(data: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiLocalUrl}/usuarios`, data);
+    return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
   }
 
   sendPasswordReset(data: RecoverRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiLocalUrl}/auth/recoverPassword`,data);
+    return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`,data);
   }
   sendPasswordUpdate(data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiLocalUrl}/auth/updatePassword`,data);
+    return this.http.put<any>(`${this.apiUrl}/auth/updatePassword`,data);
   }
 
   verifyMail(data:any): Observable<{valid: boolean}>{
-    return this.http.post<{valid: boolean}>(`${this.apiLocalUrl}/verify-token`, data);
+    return this.http.post<{valid: boolean}>(`${this.apiUrl}/verify-token`, data);
   }
 
   veryfyMailRecoverPassword(data:any): Observable<{valid: boolean}>{
-    return this.http.post<{valid: boolean}>(`${this.apiLocalUrl}/recoveryPassword/verify-token`, data);
+    return this.http.post<{valid: boolean}>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
   }
 
   
