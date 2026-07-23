@@ -62,7 +62,7 @@ export class Login {
         this.loading = false;
         const token = res?.token;
         if (token) {
-          localStorage.setItem('authToken', token);
+          sessionStorage.setItem('authToken', token);
         }
         //sessionStorage.setItem('authToken', res.token);
 
