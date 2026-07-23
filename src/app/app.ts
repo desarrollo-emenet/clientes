@@ -51,7 +51,11 @@ export class App implements OnDestroy {
     '/visitas',
     '/faq',
     '/formulario-pagos',
-    '/adicionales'
+    '/adicionales',
+    "/iniciar-sesion",
+    "/crear-cuenta",
+    "/recuperar-password"
+
   ];
 
   constructor(private router: Router) {

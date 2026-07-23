@@ -270,37 +270,28 @@
       <section class="history">
         <div class="section-header-accent">
           <div class="accent-bar"></div>
-          <h4>Descarga tu estado de cuenta</h4>
+          <h4>Descarga tus tickets mensuales</h4>
         </div>
 
         <!-- Historial + descarga de estado de cuenta integrado -->
         <div class="payment-list">
           <div *ngFor="let item of data?.cliente?.servicios?.estadoCuenta" class="payment-card"
             [class.payment-card--clickable]="
-                 (data.cliente?.cliente?.clasificacion) !== 'BAJA'" (click)="(data.cliente?.cliente?.clasificacion) !== 'BAJA'
-                 ? descargarEstadoCuentaPDF(item) : null" [title]="(data.cliente?.cliente?.clasificacion) !== 'BAJA'
-                 ? 'Descargar estado de cuenta PDF' : ''">
+                 (data.cliente?.cliente?.clasificacion) !== 'BAJA'" (click)="descargarTicket(item.VENTA)">
 
             <div class="payment-card-left">
               <div class="payment-icon payment-icon--blue">
                 <i class="fa-solid fa-file-arrow-down"></i>
               </div>
               <div class="payment-info">
-                <div class="payment-label">
-                  Venta #{{ item?.VENTA }}
-                </div>
-                <div class="payment-sub">
-                  <i class="fa-regular fa-calendar me-1"></i>
-                  {{ item?.fechaEmision }}
+                <div class="payment-card-center">
+                  <span class="payment-period-badge">
+                    <!--<i class="fa-solid fa-calendar-day me-1"></i>-->
+                    COMPROBANTE {{ item?.mensualidad }}
+                    <!--<a href="#"> COMPROBANTE {{ item?.mensualidad }}</a>-->
+                  </span>
                 </div>
               </div>
-            </div>
-
-            <div class="payment-card-center">
-              <span class="payment-period-badge">
-                <i class="fa-solid fa-calendar-day me-1"></i>
-                {{ item?.mensualidad }}
-              </span>
             </div>
 
             <div class="payment-card-right">

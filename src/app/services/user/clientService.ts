@@ -104,4 +104,9 @@ export class ClientService {
     return this.http.get<any>(`${this.apiUrl2}/reportes-clienteV2/${cliente}`, { headers: headers });
   }
 
+  //ticket
+  ticket(venta: string): Observable<any>{
+    const headers = this.getHeaders(true);
+    return this.http.get<any>(`${this.apiUrl2}/clientesV3-ticket/${venta}?tipo=comprobanteCobro`, { headers: headers });
+  }
 }
