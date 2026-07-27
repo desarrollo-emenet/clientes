@@ -112,18 +112,8 @@ export class FormPagos {
     private fb: FormBuilder,
     private router: Router,
     private clientS: ClientService,
-    private user: UserService) {
+    private user: UserService) { }
 
-    this.pagosForm = this.fb.nonNullable.group({
-      fechaPago: ['', [Validators.required]],
-      numOperacion: ['', [Validators.required, Validators.maxLength(30)]],
-      telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
-      clave: ['', [Validators.required]],
-      comprobante: [null, [Validators.required]],
-      monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
-
-    })
-  }
 
   showSection(id: string): void {
     this.activeSection = id;
@@ -143,9 +133,30 @@ export class FormPagos {
     return this.pagosForm.controls;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.crearFormulario();
     const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) return;
+    if (!numeroCliente) {
+      return;
+    }
+    this.cargarDatos(numeroCliente);
+  }
+
+  private crearFormulario(): void {
+    this.pagosForm = this.fb.nonNullable.group({
+      fechaPago: ['', [Validators.required]],
+      numOperacion: ['', [Validators.required, Validators.maxLength(30)]],
+      telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+      clave: ['', [Validators.required]],
+      comprobante: [null, [Validators.required]],
+      monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
+
+    })
+  }
+
+  
+  private cargarDatos(numeroCliente: string) {
+    this.loading = true;
     forkJoin({
       cliente: this.clientS.getClientePorNumero(numeroCliente),
       pagos: this.clientS.resBanco(numeroCliente)
@@ -153,15 +164,24 @@ export class FormPagos {
       next: ({ cliente, pagos }) => {
         this.data = cliente;
         this.pagos = pagos.pagos;
-        const telefono =
-          this.data?.cliente?.cliente?.telefono
-            ?.replace(/\s/g, '')
-            .substring(0, 10) ?? '';
-        this.pagosForm.patchValue({ telefono });
+        this.cargarTelefono();
+        this.loading = false;
+      },
+      error: (e) => {
+        this.manejoError(e);
       }
     });
   }
 
+  private cargarTelefono(): void {
+    const telefono =
+      this.data?.cliente?.cliente?.telefono
+        ?.replace(/\s/g, '')
+        .substring(0, 10) ?? '';
+    this.pagosForm.patchValue({
+      telefono
+    });
+  }
 
   private processFile(file: File) {
 
@@ -214,60 +234,18 @@ export class FormPagos {
 
 
 
-
-  loadClientData(numeroCliente: string): void {
-    this.loading = true;
-
-    this.clientS.getClientePorNumero(numeroCliente).subscribe({
-      next: res => {
-        this.data = res,
-          this.loading = false;
-        this.respuestaPago(this.data?.cliente?.cliente?.numero_cliente);
-      },
-      error: (e) => this.manejoError(e)
-    });
-  }
-
-
-  private respuestaPago(cliente: string) {
-    this.clientS.resBanco(cliente).subscribe({
-      next: ({ pagos }) => {
-        this.pagos = pagos ?? [];
-      },
-      error: e => this.manejoError(e)
-    });
-  }
-
   enviarPago() {
-    //enviar datos recolectados por formulario a backend
     if (this.pagosForm.invalid) {
       this.pagosForm.markAllAsTouched();
       toast.error("Completar los campos requeridos");
       return
     }
-
     this.loading = true;
-
-    //console.log("dataaaa", this.data);
-    const cliente = this.data?.numero_cliente ?? '';
-    const raw = this.pagosForm.value;
-    const fecha = new Date(raw.fechaPago);
-
-    const formData = new FormData();
-    formData.append('cliente', cliente);
-    formData.append('clave', raw.clave);
-    formData.append('fechaPago', fecha.toISOString().split('T')[0]);
-    formData.append('numOperacion', raw.numOperacion);
-    formData.append('telefono', raw.telefono);
-    formData.append('monto', raw.monto);
-    formData.append('comprobante', this.archivoSeleccionado);
-
-    this.clientS.pagosBanco(formData as any).subscribe({
+    this.clientS.pagosBanco(this.crearFormData).subscribe({
       next: () => {
-        toast.success('datos enviados')
+        toast.success('Datos enviados');
         this.pagosForm.reset()
         this.loading = false;
-
       },
       error: (e) => {
         this.loading = false;
@@ -277,6 +255,25 @@ export class FormPagos {
         toast.error('Ocurrió un error.');
       }
     });
+  }
+
+
+  private crearFormData(): FormData {
+    const raw = this.pagosForm.getRawValue();
+    const formData = new FormData();
+    const cliente = this.data?.numero_cliente ?? '';
+    const fecha = new Date(raw.fechaPago);
+
+    //const formData = new FormData();
+    formData.append('cliente', cliente);
+    formData.append('clave', raw.clave);
+    formData.append('fechaPago', fecha.toISOString().split('T')[0]);
+    formData.append('numOperacion', raw.numOperacion);
+    formData.append('telefono', raw.telefono);
+    formData.append('monto', raw.monto);
+    formData.append('comprobante', this.archivoSeleccionado);
+
+    return formData;
   }
 
   private asignarErrores(errors: any): void {
@@ -306,7 +303,7 @@ export class FormPagos {
       case 404:
         toast.error('Servicio no encontrado');
         break;
-        
+
       default:
         toast.error('Error inesperado');
     }
