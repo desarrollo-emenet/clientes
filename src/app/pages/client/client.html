@@ -286,7 +286,7 @@
               <div class="payment-amount">
                 MXN {{ calcularTotalMensual(data?.cliente?.servicios)
                 | currency:'MXN':'symbol-narrow':'1.0-0' }}
-              </div>              
+              </div>
             </div>
           </div>
 
@@ -306,7 +306,34 @@
             </span>
             <div class="summary-spacer"></div>
           </div>
+
         </div>
+
+
+      </section>
+      <section class="statement-section">
+        <div class="section-header-accent">
+          <div class="accent-bar"></div>
+          <h4>Estado de cuenta</h4>
+        </div>
+        <div class="payment-card payment-card--clickable" (click)="descargarEstadoCuentaPDF()">
+          <div class="payment-card-left">
+            <div class="payment-icon payment-icon--blue">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div class="payment-info">
+              <div class="payment-label">Descargar Estado de Cuenta</div>
+              <div class="payment-sub">Obtén un desglose detallado de tus servicios y saldo en PDF</div>
+            </div>
+          </div>
+
+          <div class="payment-card-right">
+            <button class="btn-download-pdf" (click)="$event.stopPropagation(); descargarEstadoCuentaPDF()">
+              <i class="fa-solid fa-download me-1"></i>Descargar PDF
+            </button>
+          </div>
+        </div>
+
       </section>
 
       <!--modal Pagos-->

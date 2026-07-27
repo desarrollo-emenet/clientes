@@ -156,7 +156,10 @@ export class Client implements OnInit {
     }
   }
 
-  async descargarEstadoCuentaPDF(item: any): Promise<void> {
+  async descargarEstadoCuentaPDF(item?: any): Promise<void> {
+    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    const itemData = item || (estadoCuenta && estadoCuenta.length > 0 ? estadoCuenta[0] : null);
+
     const doc = new jsPDF({
       orientation: 'portrait', unit: 'mm', format: 'letter'
     });
@@ -173,20 +176,20 @@ export class Client implements OnInit {
     const yMaxContenido = pageH - altoFooter - 3;
 
     await this.dibujarPiePDF(doc, pageW);
-    await this.dibujarEncabezadoPDF(doc, pageW, margen, item);
+    await this.dibujarEncabezadoPDF(doc, pageW, margen, itemData);
     let y = await this.dibujarBannerClientePDF(
-      doc, cliente, numeroCliente, item, totalServicios, margen, anchoUtil, pageW
+      doc, cliente, numeroCliente, itemData, totalServicios, margen, anchoUtil, pageW
     );
     y = this.dibujarTablaServiciosPDF(
       doc, servicios, cliente, y, margen, anchoUtil
     );
     y = this.dibujarResumenTotalPDF(
-      doc, cliente, item, totalServicios, y, margen, anchoUtil
+      doc, cliente, itemData, totalServicios, y, margen, anchoUtil
     );
     await this.dibujarSeccionPagoPDF(doc, y, margen, anchoUtil, yMaxContenido);
 
     const nombreArchivo =
-      `estado-cuenta-${numeroCliente}-${item?.mensualidad ?? 'periodo'}.pdf`;
+      `estado-cuenta-${numeroCliente}-${itemData?.mensualidad ?? 'periodo'}.pdf`;
     doc.save(nombreArchivo);
   }
 
