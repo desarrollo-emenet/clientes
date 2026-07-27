@@ -48,11 +48,6 @@
           *ngIf="(data.cliente?.cliente?.deuda ?? 0) > 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
           <button class="btn-pay" (click)="abrirPagoModal()" [disabled]="loadingPago || loading">
             <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora
-            <!--<ng-container *ngIf="!loadingPago">
-                <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
-
-              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
-                Procesando...</ng-container>-->
           </button>
 
           <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">
@@ -64,11 +59,6 @@
           *ngIf="(data.cliente?.cliente?.deuda ?? 0) === 0 && (data.cliente?.cliente?.clasificacion) !== 'BAJA'">
           <button class="btn-adelantar-pay" (click)="abrirPagoModal()" [disabled]="loadingPago || loading">
             <i class="fa-solid fa-credit-card me-2"></i>Adelantar pago
-            <!--<ng-container *ngIf="!loadingPago">
-                <i class="fa-solid fa-credit-card me-2"></i>Adelantar Pago</ng-container>
-
-              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
-                Procesando...</ng-container>-->
           </button>
 
           <a [routerLink]="['/formas-de-pago', data?.numero_cliente]" class="ver-formas">
@@ -286,9 +276,7 @@
               <div class="payment-info">
                 <div class="payment-card-center">
                   <span class="payment-period-badge">
-                    <!--<i class="fa-solid fa-calendar-day me-1"></i>-->
                     COMPROBANTE {{ item?.mensualidad }}
-                    <!--<a href="#"> COMPROBANTE {{ item?.mensualidad }}</a>-->
                   </span>
                 </div>
               </div>
@@ -298,10 +286,7 @@
               <div class="payment-amount">
                 MXN {{ calcularTotalMensual(data?.cliente?.servicios)
                 | currency:'MXN':'symbol-narrow':'1.0-0' }}
-              </div>
-              <div *ngIf="(data.cliente?.cliente?.clasificacion) !== 'BAJA'" class="payment-download-hint">
-                <i class="fa-solid fa-download"></i>
-              </div>
+              </div>              
             </div>
           </div>
 
@@ -326,36 +311,52 @@
 
       <!--modal Pagos-->
       <div class="modal-backdrop-custom" *ngIf="showPagoModal" (click)="cerrarPagoModal()">
-        <div class="modal-container" (click)="$event.stopPropagation()">
-          <div class="modal-card">
+        <div class="payment-modal" (click)="$event.stopPropagation()">
 
-            <button class="close-btn" (click)="cerrarPagoModal()">✕</button>
 
-            <h4 class="text fw-bold">Pago de servicio</h4>
-            <div class="alert-warning-soft">
-              <i class="fa-solid fa-circle-info"></i>
-              Al generar la orden de pago, serás redirigido a nuestra pasarela segura para completar tu pago.
-            </div>
-            <div class="text-muted">
-              <ul>
-                <li>Los pagos incluyen una comisión por procesamiento.</li>
-                <li>Una vez realizado el pago recibirás una confirmación automática.</li>
-              </ul>
-            </div>
-            <div class="modal-buttons">
-              <button class="btn btn-secondary mt-3" (click)="cerrarPagoModal()">Cancelar</button>
-              <button class="btn btn-secondary mt-3" (click)="pagar()" [disabled]="loadingPago || loading">
-                <ng-container *ngIf="!loadingPago">
-                  <i class="fa-solid fa-credit-card me-2"></i>Pagar</ng-container>
+          <button class="close-btn" (click)="cerrarPagoModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
 
-                <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
-                  Procesando...</ng-container>
-              </button>
+          <div class="modal-icon">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+
+          <h3>Pago de servicio</h3>
+
+          <p class="modal-description">
+            Serás redirigido a una pasarela de pago segura para completar tu
+            transacción.
+          </p>
+
+          <div class="pay-info">
+            <div class="info-item">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Pago 100% seguro y cifrado.</span>
             </div>
+            <div class="info-item">
+              <i class="fa-solid fa-receipt"></i>
+              <span>Incluye comisión por procesamiento.</span>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Recibirás una confirmación automática.</span>
+            </div>
+          </div>
+
+          <div class="modal-buttons">
+            <button class="btn btn-light" (click)="cerrarPagoModal()">Cancelar</button>
+            <button class="btn btn-primary-custom" (click)="pagar()" [disabled]="loadingPago || loading">
+              <ng-container *ngIf="!loadingPago">
+                <i class="fa-solid fa-credit-card me-2"></i>Continuar</ng-container>
+
+              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+                Procesando...</ng-container>
+            </button>
+
           </div>
         </div>
       </div>
-
     </div>
   </main>
 </div>
