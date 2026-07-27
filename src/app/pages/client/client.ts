@@ -45,8 +45,6 @@ export class Client implements OnInit {
     this.clientS.getClientePorNumero(numeroCliente).subscribe({
       next: res => {
         this.data = res;
-        //this.obtenerTickets(res.numero_cliente);
-        //console.log('clientes', res.cliente.servicios.estadoCuenta);
         this.loading = false;
       },
       error: (e) => {
@@ -56,12 +54,7 @@ export class Client implements OnInit {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {
           toast.error('Servicio no encontrado');
-        } else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
-        } else if (e?.status === 403) {
-          toast.error('No autorizado para eliminar este servicio');
-        } else {
+        }else {
           toast.error('Error inesperado');
         }
       }
@@ -80,24 +73,14 @@ export class Client implements OnInit {
   private obtenerTickets(venta: string): void {
     this.loading = true;
 
-    //console.log('Venta:', venta);
-
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
-        //console.log(response);
-
         if (response.url) {
           window.open(response.url, '_blank');
         } else {
           console.log('No se generó la URL');
         }
-
         this.loading = false;
-      },
-      error: e => {
-        this.loading = false;
-        //console.error(e);
-        this.manejoError(e);
       }
     });
   }
@@ -105,32 +88,6 @@ export class Client implements OnInit {
   descargarTicket(venta: string): void {
     //console.log(venta);
     this.obtenerTickets(venta);
-  }
-
-  private manejoError(e: any): void {
-    this.loading = false;
-    switch (e?.status) {
-      case 0:
-        toast.error('No se pudo conectar al servidor');
-        break;
-
-      case 401:
-        toast.error('No autorizado');
-        this.router.navigateByUrl('/iniciar-sesion');
-        break;
-
-      case 403:
-        toast.error('No autorizado');
-        break;
-
-      case 404:
-        toast.error('Servicio no encontrado');
-        break;
-
-      default:
-        toast.error('Error inesperado');
-    }
-    console.error(e);
   }
 
   toggleDetails() { this.showDetails = !this.showDetails; }
@@ -167,14 +124,7 @@ export class Client implements OnInit {
       cantidadServicios++;
 
     }
-
-
     return total;
-
-    //console.log("Total de servicios: ", cantidadServicios)
-    //console.log('Total servicio:', servicios.cuentasTv.precio);
-    //console.log('Total mesualidad:', total);
-    //return 0;
   }
 
   getMesPagoReciente(): string {
