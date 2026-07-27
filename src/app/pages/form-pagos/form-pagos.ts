@@ -105,6 +105,9 @@ export class FormPagos {
   pagosAbierto: string | null = null;
   formularioAbierto: string | null = null;
 
+  imagePreview: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -113,7 +116,7 @@ export class FormPagos {
 
     this.pagosForm = this.fb.nonNullable.group({
       fechaPago: ['', [Validators.required]],
-      numOperacion: ['', [Validators.required, Validators.maxLength(35)]],
+      numOperacion: ['', [Validators.required, Validators.maxLength(30)]],
       telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
       clave: ['', [Validators.required]],
       comprobante: [null, [Validators.required]],
@@ -160,26 +163,57 @@ export class FormPagos {
   }
 
 
-  onFileChange(event: any) {
-    const file = event.target.files[0]; //obtener archivo seleccionado
-    if (!file) {
-      return;
-    }
+  private processFile(file: File) {
 
     if (!this.TIPOS_PERMITIDOS.includes(file.type)) {
-      toast.error('Tipo de archivo no permitido. Por favor, selecciona un archivo de imagen o PDF.');
-      this.pagosForm.get('comprobante')?.setValue(null);
-
+      toast.error('Tipo de archivo no permitido.');
       return;
     }
 
     if (file.size > this.MAX_FILE_SIZE) {
       toast.error('El archivo no debe superar los 2 MB');
-      this.pagosForm.get('comprobante')?.setValue(null);
       return;
     }
+
     this.archivoSeleccionado = file;
+    this.selectedFile = file;
+
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => this.imagePreview = reader.result;
+      reader.readAsDataURL(file);
+    } else {
+      this.imagePreview = 'assets/img/pdf.webp';
+    }
+
+    this.pagosForm.patchValue({
+      comprobante: file
+    });
   }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) this.processFile(file);
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    const file = event.dataTransfer?.files[0];
+    if (file) this.processFile(file);
+  }
+
+
+
 
   loadClientData(numeroCliente: string): void {
     this.loading = true;
@@ -236,8 +270,23 @@ export class FormPagos {
 
       },
       error: (e) => {
-        this.manejoError(e);
-        toast.error('No se pudo enviar')
+        this.loading = false;
+        if (e.status === 422) {
+          this.asignarErrores(e.error.errors);
+        }
+        toast.error('Ocurrió un error.');
+      }
+    });
+  }
+
+  private asignarErrores(errors: any): void {
+    Object.keys(errors).forEach(campo => {
+      const control = this.pagosForm.get(campo);
+      if (control) {
+        control.setErrors({
+          backend: errors[campo][0]
+        });
+        control.markAsTouched();
       }
     });
   }
@@ -254,14 +303,10 @@ export class FormPagos {
         this.router.navigateByUrl('/iniciar-sesion');
         break;
 
-      case 403:
-        toast.error('No autorizado');
-        break;
-
       case 404:
         toast.error('Servicio no encontrado');
         break;
-
+        
       default:
         toast.error('Error inesperado');
     }
@@ -352,4 +397,6 @@ export class FormPagos {
       this.paginaActual = pagina;
     }
   }
+
+
 }

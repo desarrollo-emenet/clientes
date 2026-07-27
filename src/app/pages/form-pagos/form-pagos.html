@@ -113,28 +113,32 @@
         <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
 
           <!-- FORMA DE PAGO -->
-          <div class="payment-options">
-            <label class="payment-card">
-              <input type="radio" value="TRH" formControlName="clave" required>
-              <div class="card-content">
-                <i class="fa-solid fa-building-columns"></i>
-                <div>
-                  <h6>Transferencia</h6>
+          <div class="form-card">
+            <div class="payment-options">
+              <label class="payment-card">
+                <input type="radio" value="TRH" formControlName="clave" required>
+                <div class="card-content">
+                  <i class="fa-solid fa-building-columns"></i>
+                  <div>
+                    <h6>Transferencia</h6>
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
 
-            <label class="payment-card">
-              <input type="radio" value="DBH" formControlName="clave">
-              <div class="card-content">
-                <i class="fa-solid fa-money-bill-transfer"></i>
-                <div>
-                  <h6>Depósito</h6>
+              <label class="payment-card">
+                <input type="radio" value="DBH" formControlName="clave">
+                <div class="card-content">
+                  <i class="fa-solid fa-money-bill-transfer"></i>
+                  <div>
+                    <h6>Depósito</h6>
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
+            </div>
+            <div *ngIf="f['clave'].invalid && (f['clave'].dirty || f['clave'].touched)" class="mt-1 text-danger small">
+              <span *ngIf="f['clave'].errors?.['required']">Requerido.</span>
+            </div>
           </div>
-
 
 
           <div class="form-cards">
@@ -181,6 +185,10 @@
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
+                  <div *ngIf="f['fechaPago'].invalid && (f['fechaPago'].dirty || f['fechaPago'].touched)"
+                    class="mt-1 text-danger small">
+                    <span *ngIf="f['fechaPago'].errors?.['required']">Requerido.</span>
+                    </div>
                 </div>
 
                 <!-- NUMERO DE OPERACION -->
@@ -199,7 +207,10 @@
                   <div *ngIf="f['numOperacion'].invalid && (f['numOperacion'].dirty || f['numOperacion'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['numOperacion'].errors?.['required']">Requerido.</span>
-                    <span *ngIf="f['numOperacion'].errors?.['maxlength']">Máx 35 caracteres.</span>
+                    <span *ngIf="f['numOperacion'].errors?.['maxlength']">Máx 30 caracteres.</span>
+                    <span *ngIf="f['numOperacion'].errors?.['backend']">
+                      El valor ingresado ya esta en uso, revise que el dato introducido sea correcto
+                    </span>
                   </div>
                 </div>
 
@@ -229,14 +240,31 @@
             </div>
             <div class="card-body upload-body">
               <div class="upload-center">
-                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                <h6>Sube tu comprobante aquí</h6>
-                <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
-                  formControlName="comprobante" class="form-control upload-input">
-                <small>Formatos: JPEG, JPG, PNG, PDF · Máx. 2MB</small>
-                <div *ngIf="f['comprobante'].invalid && (f['comprobante'].dirty || f['comprobante'].touched)"
-                  class="mt-1 text-danger small">
-                  <span *ngIf="f['comprobante'].errors?.['required']">Requerido.</span>
+
+                <div class="drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+                  (drop)="onDrop($event)" (click)="fileInput.click()">
+
+                  <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
+                    formControlName="comprobante" class="form-control upload-input" style="display: none">
+
+                  <ng-container *ngIf="!imagePreview; else preview">
+                    <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h6>Sube tu comprobante aquí</h6>
+                    <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                    <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
+                  </ng-container>
+
+                  <ng-template #preview>
+                    <img [src]="imagePreview" class="preview" alt="Vista previa" width="100px" height="auto">
+                    <p class="mt-2 fw-bold">
+                      {{ selectedFile?.name }}
+                    </p>
+                  </ng-template>
+
+                  <div *ngIf="f['comprobante'].invalid && (f['comprobante'].dirty || f['comprobante'].touched)"
+                    class="mt-1 text-danger small">
+                    <span *ngIf="f['comprobante'].errors?.['required']">Requerido.</span>
+                  </div>
                 </div>
               </div>
             </div>
