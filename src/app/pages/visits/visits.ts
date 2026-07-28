@@ -131,7 +131,7 @@ export class Visits {
       default:
         toast.error('Error inesperado');
     }
-    console.error(e);
+    //console.error(e);
   }
 
   getEstadoConfig(estado: number) {

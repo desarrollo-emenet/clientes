@@ -75,7 +75,7 @@ export class LoginS {
         this.clearToken();
         this.router.navigate(['/iniciar-sesion']);
         if (err?.status !== 401) {
-          console.error('Error en logout:', err);
+          //console.error('Error en logout:', err);
           toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
         }
       }

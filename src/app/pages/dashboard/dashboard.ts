@@ -20,7 +20,6 @@ export class Dashboard implements OnInit, OnDestroy {
 
   data: any = null;
   loading = false;
-  private subs: Subscription[] = [];
 
   constructor(
     private clientS: ClientService,
@@ -45,30 +44,19 @@ export class Dashboard implements OnInit, OnDestroy {
 
   calcularTotalMensual(servicios: any): number {
     if (!servicios) return 0;
-    let total = 0;
+    const calcular = (servicio: any): number => {
+      if (!servicio) return 0;
 
-    if (servicios.internet && servicios.internet.precio) {
-      total += Number(servicios.internet.precio);
-    }
-
-    if (servicios.camaras && servicios.camaras.precio) {
-      const precio = Number(servicios.camaras.precio) || 0;
-      const noCamaras = Number(servicios.camaras.canServicios) || 0;
-      total += precio * noCamaras;
-    }
-
-    if (servicios.telefono) {
-      const precio = Number(servicios.telefono.precio) || 0;
-      const lineas = Number(servicios.telefono.canServicios) || 0;
-      total += precio * lineas;
-    }
-    if (servicios.cuentasTv) {
-      const precio = Number(servicios.cuentasTv.precio) || 0;
-      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
-      total += precio * canServicios;
-    }
-
-    return total;
+      const precio = Number(servicio.precio) || 0;
+      const cantidad = Number(servicio.canServicios ?? 1);
+      return precio * cantidad;
+    };
+    return (
+      calcular(servicios.internet) +
+      calcular(servicios.camaras) +
+      calcular(servicios.telefono) +
+      calcular(servicios.cuentasTv)
+    );
   }
 
   getMesPagoReciente(): string {
@@ -131,22 +119,19 @@ export class Dashboard implements OnInit, OnDestroy {
         const clasificacion = res?.cliente?.cliente?.clasificacion;
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
-        } 
+        }
       },
       error: (e) => {
         this.loading = false;
-        console.error('Error en servicio', e);
+        //console.error('Error en servicio', e);
         if (e?.status === 0) {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {
           toast.error('Servicio no encontrado');
-        } else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
         } else if (e?.status === 403) {
           this.mostrarMensaje = true;
         } else {
-          toast.error('Error inesperado');
+          //toast.error('Error inesperado');
         }
       }
     })
@@ -176,8 +161,6 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(sub => sub.unsubscribe());
     this.viewportListeners.forEach(removeListener => removeListener());
   }
-
 }

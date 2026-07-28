@@ -275,6 +275,7 @@ export class FormPagos {
 
     return formData;
   }
+  
 
   private asignarErrores(errors: any): void {
     Object.keys(errors).forEach(campo => {
@@ -307,7 +308,7 @@ export class FormPagos {
       default:
         toast.error('Error inesperado');
     }
-    console.error(e);
+    //console.error(e);
   }
 
   getEstadoConfig(estado: string) {
