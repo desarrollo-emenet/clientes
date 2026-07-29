@@ -178,10 +178,10 @@ export class Client implements OnInit {
     await this.dibujarPiePDF(doc, pageW);
     await this.dibujarEncabezadoPDF(doc, pageW, margen, itemData);
     let y = await this.dibujarBannerClientePDF(
-      doc, cliente, numeroCliente, itemData, totalServicios, margen, anchoUtil, pageW
+      doc, cliente, numeroCliente, itemData, totalServicios, margen, anchoUtil, pageW, servicios
     );
     y = this.dibujarTablaServiciosPDF(
-      doc, servicios, cliente, y, margen, anchoUtil
+      doc, servicios, cliente, estadoCuenta ?? [], y, margen, anchoUtil
     );
     y = this.dibujarResumenTotalPDF(
       doc, cliente, itemData, totalServicios, y, margen, anchoUtil
@@ -319,7 +319,8 @@ export class Client implements OnInit {
     totalServicios: number,
     margen: number,
     anchoUtil: number,
-    pageW: number
+    pageW: number,
+    servicios?: any
   ): Promise<number> {
     let y = 32;
     const pad = 3;
@@ -362,8 +363,13 @@ export class Client implements OnInit {
 
 
     // --- COLUMNA DERECHA: Importe destacado ---
-    const importe = this.formatearPesos(totalServicios);
+    const ultimos3 = (servicios?.estadoCuenta ?? []).slice(-3);
+    const numMeses = ultimos3.length > 0 ? ultimos3.length : 3;
+    const totalTrimestral = totalServicios * numMeses;
     const deuda = cliente?.deuda ?? 0;
+    const montoDestacado = deuda > 0 ? deuda : totalTrimestral;
+    const importe = this.formatearPesos(montoDestacado);
+
     const colorBordeCaja: [number, number, number] = deuda > 0
       ? [220, 53, 69] : [51, 51, 51];
     const colorTextoCaja: [number, number, number] = deuda > 0
@@ -382,7 +388,7 @@ export class Client implements OnInit {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
-    const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'CARGO MENSUAL';
+    const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'TOTAL TRIMESTRAL';
     doc.text(etiqCaja, xDer + colDer / 2, y + 7.5, { align: 'center' });
 
     doc.setFontSize(18);
@@ -403,48 +409,152 @@ export class Client implements OnInit {
     doc: jsPDF,
     servicios: any,
     cliente: any,
+    estadoCuenta: any[],
     yInicio: number,
     margen: number,
     anchoUtil: number
   ): number {
     let y = yInicio;
-    const pad = 4;
+    // const pad = 4;
 
+    // // --- Detalle de servicios contratados (deshabilitado) ---
+    // doc.setFontSize(10);
+    // doc.setFont('helvetica', 'bold');
+    // doc.setTextColor(51, 51, 51);
+    // doc.text('Detalle de servicios contratados', margen, y + 6);
+
+    // doc.setFillColor(51, 51, 51);
+    // doc.rect(margen, y + 8.5, 35, 1.2, 'F');
+
+    // doc.setDrawColor(220, 220, 220);
+    // doc.setLineWidth(0.3);
+    // doc.line(margen + 35, y + 9, margen + anchoUtil, y + 9);
+    // y += 13;
+
+    // const colServ = anchoUtil * 0.35;
+    // const colDet = anchoUtil * 0.40;
+
+    // // Encabezado tabla
+    // doc.setFillColor(51, 51, 51);
+    // doc.rect(margen, y, anchoUtil, 6, 'F');
+    // doc.setTextColor(255, 255, 255);
+    // doc.setFontSize(7);
+    // doc.setFont('helvetica', 'bold');
+    // doc.text('SERVICIO', margen + pad, y + 4.2);
+    // doc.text('PLAN / DETALLE', margen + colServ + pad, y + 4.2);
+    // doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 4.2, {
+    //   align: 'right'
+    // });
+    // y += 6;
+
+    // const filas = this.construirFilasServicios(servicios, cliente);
+    // let subtotal = 0;
+
+    // filas.forEach((fila, idx) => {
+    //   const bgRgb: [number, number, number] = idx % 2 === 0
+    //     ? [250, 250, 250] : [242, 242, 242];
+    //   doc.setFillColor(...bgRgb);
+    //   doc.rect(margen, y, anchoUtil, 7.5, 'F');
+
+    //   doc.setDrawColor(220, 220, 220);
+    //   doc.setLineWidth(0.2);
+    //   doc.line(margen, y + 7.5, margen + anchoUtil, y + 7.5);
+
+    //   doc.setTextColor(25, 40, 70);
+    //   doc.setFont('helvetica', 'bold');
+    //   doc.setFontSize(8);
+    //   doc.text(fila.servicio, margen + pad, y + 5.5);
+
+    //   doc.setFont('helvetica', 'normal');
+    //   doc.setFontSize(7);
+    //   doc.setTextColor(80, 100, 130);
+    //   const maxDet = colDet - 4;
+    //   const detT = this.truncarTextoPDF(doc, fila.detalle, maxDet);
+    //   doc.text(detT, margen + colServ + pad, y + 5.5);
+
+    //   doc.setFont('helvetica', 'bold');
+    //   doc.setFontSize(8);
+    //   doc.setTextColor(51, 51, 51);
+    //   doc.text(
+    //     `$ ${fila.precio}`,
+    //     margen + anchoUtil - pad, y + 5.5, { align: 'right' }
+    //   );
+
+    //   subtotal += parseFloat(fila.precio.replace(/,/g, ''));
+    //   y += 7.5;
+    // });
+
+    // // Subtotal
+    // doc.setFillColor(235, 235, 235);
+    // doc.rect(margen, y, anchoUtil, 7, 'F');
+    // doc.setTextColor(51, 51, 51);
+    // doc.setFont('helvetica', 'bold');
+    // doc.setFontSize(7.5);
+    // doc.text('Total', margen + pad, y + 4.8);
+    // doc.text(
+    //   `$ ${this.formatearPesos(subtotal)}`,
+    //   margen + anchoUtil - pad, y + 4.8, { align: 'right' }
+    // );
+    // y += 7;
+
+    const importeMensual = this.calcularTotalServicios(servicios);
+
+    y = this.dibujarVentasTrimestralesPDF(
+      doc, estadoCuenta, importeMensual, y, margen, anchoUtil
+    );
+
+    return y;
+  }
+
+  private dibujarVentasTrimestralesPDF(
+    doc: jsPDF,
+    estadoCuenta: any[],
+    importeMensual: number,
+    yInicio: number,
+    margen: number,
+    anchoUtil: number
+  ): number {
+    const pad = 4;
+    const ultimos3 = estadoCuenta.slice(-3);
+
+    if (ultimos3.length === 0) return yInicio;
+
+    let y = yInicio;
+
+    // --- Título de sección ---
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(51, 51, 51);
-    doc.text('Detalle de servicios contratados', margen, y + 6);
+    doc.text('Ventas trimestrales', margen, y + 6);
 
     doc.setFillColor(51, 51, 51);
-    doc.rect(margen, y + 8.5, 35, 1.2, 'F');
+    doc.rect(margen, y + 8.5, 28, 1.2, 'F');
 
     doc.setDrawColor(220, 220, 220);
     doc.setLineWidth(0.3);
-    doc.line(margen + 35, y + 9, margen + anchoUtil, y + 9);
+    doc.line(margen + 28, y + 9, margen + anchoUtil, y + 9);
     y += 13;
 
-    const colServ = anchoUtil * 0.35;
-    const colDet = anchoUtil * 0.40;
+    // --- Encabezado de tabla ---
+    const colVenta  = anchoUtil * 0.30;
 
-    // Encabezado tabla
     doc.setFillColor(51, 51, 51);
     doc.rect(margen, y, anchoUtil, 6, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
-    doc.text('SERVICIO', margen + pad, y + 4.2);
-    doc.text('PLAN / DETALLE', margen + colServ + pad, y + 4.2);
+    doc.text('# VENTA', margen + pad, y + 4.2);
+    doc.text('PERIODO', margen + colVenta + pad, y + 4.2);
     doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 4.2, {
       align: 'right'
     });
     y += 6;
 
-    const filas = this.construirFilasServicios(servicios, cliente);
-    let subtotal = 0;
-
-    filas.forEach((fila, idx) => {
+    // --- Filas ---
+    ultimos3.forEach((item, idx) => {
       const bgRgb: [number, number, number] = idx % 2 === 0
         ? [250, 250, 250] : [242, 242, 242];
+
       doc.setFillColor(...bgRgb);
       doc.rect(margen, y, anchoUtil, 7.5, 'F');
 
@@ -455,36 +565,35 @@ export class Client implements OnInit {
       doc.setTextColor(25, 40, 70);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.text(fila.servicio, margen + pad, y + 5.5);
+      doc.text(`#${item?.VENTA ?? 'N/A'}`, margen + pad, y + 5.5);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7);
       doc.setTextColor(80, 100, 130);
-      const maxDet = colDet - 4;
-      const detT = this.truncarTextoPDF(doc, fila.detalle, maxDet);
-      doc.text(detT, margen + colServ + pad, y + 5.5);
+      doc.text(item?.mensualidad ?? 'N/A', margen + colVenta + pad, y + 5.5);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
       doc.setTextColor(51, 51, 51);
       doc.text(
-        `$ ${fila.precio}`,
+        `$ ${this.formatearPesos(importeMensual)}`,
         margen + anchoUtil - pad, y + 5.5, { align: 'right' }
       );
 
-      subtotal += parseFloat(fila.precio.replace(/,/g, ''));
       y += 7.5;
     });
 
-    // Subtotal
+    // --- Total trimestral ---
+    const totalTrimestral = importeMensual * ultimos3.length;
+
     doc.setFillColor(235, 235, 235);
     doc.rect(margen, y, anchoUtil, 7, 'F');
     doc.setTextColor(51, 51, 51);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
-    doc.text('Total', margen + pad, y + 4.8);
+    doc.text('Total trimestral', margen + pad, y + 4.8);
     doc.text(
-      `$ ${this.formatearPesos(subtotal)}`,
+      `$ ${this.formatearPesos(totalTrimestral)}`,
       margen + anchoUtil - pad, y + 4.8, { align: 'right' }
     );
     y += 7;
