@@ -54,7 +54,7 @@ export class Client implements OnInit {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {
           toast.error('Servicio no encontrado');
-        }else {
+        } else {
           toast.error('Error inesperado');
         }
       }
@@ -156,9 +156,20 @@ export class Client implements OnInit {
     }
   }
 
+  obtenerPeriodoActual(): string {
+    const fecha = new Date();
+    const mes = fecha.toLocaleDateString('es-MX', { month: 'long' });
+    const mesCap = mes.charAt(0).toUpperCase() + mes.slice(1);
+    return `${mesCap} ${fecha.getFullYear()}`;
+  }
+
   async descargarEstadoCuentaPDF(item?: any): Promise<void> {
     const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
-    const itemData = item || (estadoCuenta && estadoCuenta.length > 0 ? estadoCuenta[0] : null);
+    const periodoActual = this.getMesPagoReciente() || this.obtenerPeriodoActual();
+    const itemData = item || {
+      ...(estadoCuenta && estadoCuenta.length > 0 ? estadoCuenta[0] : {}),
+      mensualidad: periodoActual,
+    };
 
     const doc = new jsPDF({
       orientation: 'portrait', unit: 'mm', format: 'letter'
@@ -189,7 +200,7 @@ export class Client implements OnInit {
     await this.dibujarSeccionPagoPDF(doc, y, margen, anchoUtil, yMaxContenido);
 
     const nombreArchivo =
-      `estado-cuenta-${numeroCliente}-${itemData?.mensualidad ?? 'periodo'}.pdf`;
+      `estado-cuenta-${numeroCliente}-${itemData.mensualidad}.pdf`;
     doc.save(nombreArchivo);
   }
 
@@ -255,17 +266,18 @@ export class Client implements OnInit {
       year: 'numeric', month: 'long', day: 'numeric'
     });
     const x = pageW - margen - 56;
+    const periodo = this.getMesPagoReciente() || this.obtenerPeriodoActual();
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(51, 51, 51);
-    doc.text('Estado de cuenta', x, 8, { align: 'right' });
+    doc.text('Informe trimestral', x, 8, { align: 'right' });
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(60, 75, 100);
-    doc.text(`Periodo: ${item?.mensualidad ?? 'N/A'}`, x, 13, { align: 'right' });
+    doc.text(`Periodo: ${periodo}`, x, 13, { align: 'right' });
     doc.text(`Emitido: ${hoy}`, x, 18, { align: 'right' });
     doc.setFont('helvetica', 'bold');
-    doc.text(`Venta: #${item?.VENTA ?? 'N/A'}`, x, 23, { align: 'right' });
+    //doc.text(`Venta: #${item?.VENTA ?? 'N/A'}`, x, 23, { align: 'right' });
   }
 
   private async dibujarCodigoBarrasEncabezado(
@@ -399,7 +411,7 @@ export class Client implements OnInit {
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(120, 140, 170);
-    doc.text('MXN · Incluye todos los servicios',
+    doc.text('MXN · Incluye los ultimos 3 meses',
       xDer + colDer / 2, y + 29, { align: 'center' });
 
     return y + altoBloque + 4;
@@ -525,7 +537,7 @@ export class Client implements OnInit {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(51, 51, 51);
-    doc.text('Ventas trimestrales', margen, y + 6);
+    doc.text('Informe de ventas por trimestre', margen, y + 6);
 
     doc.setFillColor(51, 51, 51);
     doc.rect(margen, y + 8.5, 28, 1.2, 'F');
@@ -536,7 +548,7 @@ export class Client implements OnInit {
     y += 13;
 
     // --- Encabezado de tabla ---
-    const colVenta  = anchoUtil * 0.30;
+    const colVenta = anchoUtil * 0.30;
 
     doc.setFillColor(51, 51, 51);
     doc.rect(margen, y, anchoUtil, 6, 'F');
@@ -544,7 +556,7 @@ export class Client implements OnInit {
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
     doc.text('# VENTA', margen + pad, y + 4.2);
-    doc.text('PERIODO', margen + colVenta + pad, y + 4.2);
+    doc.text('PERIODO PAGADO', margen + colVenta + pad, y + 4.2);
     doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 4.2, {
       align: 'right'
     });
@@ -719,7 +731,7 @@ export class Client implements OnInit {
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(110, 120, 130);
-    const sub = `Periodo: ${mensualidad}  ·  Límite: del 1 al 5 de cada mes`;
+    const sub = `Ultimo pago: ${mensualidad}  ·  Límite: del 1 al 5 de cada mes`;
     doc.text(sub, x, y + 9.5);
   }
 
@@ -756,7 +768,7 @@ export class Client implements OnInit {
   ): number {
     const deudor = (cliente?.deuda ?? 0) > 0;
     const imp = deudor ? cliente.deuda : totalServicios;
-    const mes = item?.mensualidad ?? 'N/A';
+    const mes = item?.mensualidad || this.getMesPagoReciente() || this.obtenerPeriodoActual();
 
     doc.setDrawColor(220, 220, 220);
     doc.setLineWidth(0.3);
