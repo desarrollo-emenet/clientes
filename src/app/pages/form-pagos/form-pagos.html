@@ -154,7 +154,7 @@
                 <!-- TELEFONO -->
                 <div class="field">
                   <label>Teléfono</label>
-                  <input type="text" formControlName="telefono" class="form-control custom-input"
+                  <input type="number" formControlName="telefono" class="form-control custom-input"
                     placeholder="Número de teléfono">
                   <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)"
                     class="mt-1 text-danger small">
@@ -188,7 +188,7 @@
                   <div *ngIf="f['fechaPago'].invalid && (f['fechaPago'].dirty || f['fechaPago'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['fechaPago'].errors?.['required']">Requerido.</span>
-                    </div>
+                  </div>
                 </div>
 
                 <!-- NUMERO DE OPERACION -->
@@ -217,8 +217,13 @@
                 <!-- MONTO -->
                 <div class="field">
                   <label>Monto a pagar</label>
-                  <input type="text" formControlName="monto" class="form-control custom-input"
-                    placeholder="Monto a pagar">
+
+                  <div class="input-money">
+                    <span class="currency">$</span>
+                    <input type="number" formControlName="monto" class="form-control custom-input"
+                      placeholder="Monto a pagar">
+                  </div>
+
                   <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['monto'].errors?.['required']">Requerido.</span>
@@ -264,6 +269,9 @@
                   <div *ngIf="f['comprobante'].invalid && (f['comprobante'].dirty || f['comprobante'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['comprobante'].errors?.['required']">Requerido.</span>
+                    <span *ngIf="f['comprobante'].errors?.['backend']">
+                      error imagen
+                    </span>
                   </div>
                 </div>
               </div>

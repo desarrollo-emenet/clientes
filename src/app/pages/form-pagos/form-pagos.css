@@ -1,3 +1,5 @@
+
+
 /* =========================
    PAGE
 ========================= */
@@ -547,6 +549,25 @@
   border-color: #0b4e94 !important;
   box-shadow:
     0 0 0 4px rgba(59, 130, 246, .10);
+}
+
+.input-money {
+  position: relative;
+}
+
+.input-money .currency {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.input-money input {
+  padding-left: 28px; /* Espacio para el $ */
 }
 
 /* =========================

@@ -154,7 +154,7 @@ export class FormPagos {
     })
   }
 
-  
+
   private cargarDatos(numeroCliente: string) {
     this.loading = true;
     forkJoin({
@@ -235,16 +235,23 @@ export class FormPagos {
 
 
   enviarPago() {
+    Object.keys(this.pagosForm.controls).forEach(key => {
+      const controlErrors = this.pagosForm.get(key)?.errors;
+
+      if (controlErrors) {
+        console.log('Campo:', key, 'Errores:', controlErrors);
+      }
+    });
     if (this.pagosForm.invalid) {
       this.pagosForm.markAllAsTouched();
       toast.error("Completar los campos requeridos");
       return
     }
     this.loading = true;
-    this.clientS.pagosBanco(this.crearFormData).subscribe({
+    this.clientS.pagosBanco(this.crearFormData()).subscribe({
       next: () => {
         toast.success('Datos enviados');
-        this.pagosForm.reset()
+        this.pagosForm.reset();
         this.loading = false;
       },
       error: (e) => {
@@ -275,12 +282,14 @@ export class FormPagos {
 
     return formData;
   }
-  
+
 
   private asignarErrores(errors: any): void {
     Object.keys(errors).forEach(campo => {
+
       const control = this.pagosForm.get(campo);
       if (control) {
+        console.log(control);
         control.setErrors({
           backend: errors[campo][0]
         });
@@ -288,6 +297,8 @@ export class FormPagos {
       }
     });
   }
+
+
 
   private manejoError(e: any): void {
     this.loading = false;
@@ -305,10 +316,14 @@ export class FormPagos {
         toast.error('Servicio no encontrado');
         break;
 
+      case 422:
+        toast.error('No se pudo conectar al servidor');
+        break;
+
       default:
         toast.error('Error inesperado');
     }
-    //console.error(e);
+    console.error(e);
   }
 
   getEstadoConfig(estado: string) {
