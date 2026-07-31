@@ -160,7 +160,7 @@ export class Service implements OnInit, OnDestroy {
       },
       error: (e) => {
         this.adding = false;
-        //console.error('Error al agregar servicio', e);
+        console.error('Error al agregar servicio', e);
         if (e?.status === 0) {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {

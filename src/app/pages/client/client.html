@@ -258,7 +258,7 @@
       <section class="statement-section">
         <div class="section-header-accent">
           <div class="accent-bar"></div>
-          <h4>Estado de cuenta</h4>
+          <h4>Descarga tu informe</h4>
         </div>
         <div class="payment-card payment-card--clickable" (click)="descargarEstadoCuentaPDF()">
           <div class="payment-card-left">
@@ -266,13 +266,13 @@
               <i class="fa-solid fa-file-pdf"></i>
             </div>
             <div class="payment-info">
-              <div class="payment-label">Descargar Informe Trimestral</div>
-              <div class="payment-sub">Obtén tu estado de cuenta trimestral</div>
+              <div class="payment-label">Informe Trimestral</div>
+              <div class="payment-sub">Obtén tu informe de los últimos 3 meses</div>
             </div>
           </div>
 
           <div class="payment-card-right">
-            <h3>PDF</h3>
+
             <i class="fa-solid fa-chevron-down" style="color: #3777c0;" size="10px"></i>
           </div>
         </div>
@@ -298,7 +298,7 @@
               <div class="payment-info">
                 <div class="payment-card-center">
                   <span class="payment-period-badge">
-                    COMPROBANTE {{ item?.mensualidad }}
+                    {{ item?.mensualidad }}
                   </span>
                 </div>
               </div>
