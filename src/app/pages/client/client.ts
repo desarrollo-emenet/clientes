@@ -274,7 +274,7 @@ export class Client implements OnInit {
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(110, 110, 110);
-    doc.text(`Periodo: ${periodo}`, x, 13, { align: 'right' });
+    doc.text(`Ultimo pago: ${periodo}`, x, 13, { align: 'right' });
     doc.text(`Emitido: ${hoy}`, x, 18, { align: 'right' });
   }
 
@@ -402,7 +402,7 @@ export class Client implements OnInit {
     const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'TOTAL TRIMESTRAL';
     doc.text(etiqCaja, xDer + colDer / 2, y + 7.5, { align: 'center' });
 
-    // Importe: rojo elegante si debe, verde elegante si al corriente
+    // Importe: rojo y verde
     const colorImporte: [number, number, number] = deuda > 0
       ? [210, 45, 45] : [22, 140, 75];
     doc.setFontSize(18);
@@ -1073,12 +1073,12 @@ export class Client implements OnInit {
 
     // Logo en pie (versión oscura sobre fondo blanco)
     try {
-      const logoResp = await fetch('assets/img/emenetLogo.png');
+      const logoResp = await fetch('assets/img/logo.png');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(
         logoDataUrl, 'PNG',
-        12, pageH - altoFoot + 2, 20, 9, undefined, 'FAST'
+        12, pageH - altoFoot + 2, 13, 9, undefined, 'FAST'
       );
     } catch {
       // Sin logo de respaldo
