@@ -92,6 +92,7 @@
   align-items: center;
   gap: 18px;
   margin-bottom: 28px;
+  position: relative;
 }
 
 .ep-header-icon {
@@ -106,6 +107,43 @@
   color: white;
   font-size: 2rem;
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.ep-header-icon:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
+}
+
+.ep-header-icon:active {
+  transform: scale(0.95);
+}
+
+.ep-header-icon.help-header-btn--activo {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.35);
+}
+
+.ep-header-help-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(11, 78, 148, 0.08);
+  color: #0b4e94;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(11, 78, 148, 0.18);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ep-header-help-tag:hover {
+  background: #0b4e94;
+  color: #ffffff;
 }
 
 .ep-header-content h2 {
@@ -473,31 +511,31 @@
    ========================================================================== */
 
 .help-bubble-wrap {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 1000;
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 14px;
+  align-items: center;
+  z-index: 1000;
+  margin-top: 12px;
 }
 
 /* Botón burbuja */
 .help-bubble__btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 0 20px;
-  height: 50px;
+  padding: 0 24px;
+  height: 46px;
   border-radius: 50px;
   border: none;
   background: linear-gradient(135deg, #0b4e94, #1a6ed8);
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.38);
+  box-shadow: 0 6px 20px rgba(11, 78, 148, 0.28);
   transition: transform 0.2s ease, box-shadow 0.2s ease,
     background 0.25s ease;
   white-space: nowrap;
@@ -505,8 +543,8 @@
 }
 
 .help-bubble__btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 12px 32px rgba(11, 78, 148, 0.46);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(11, 78, 148, 0.36);
 }
 
 .help-bubble__btn:active {
@@ -517,12 +555,12 @@
   background: linear-gradient(135deg, #e53e3e, #c53030);
   box-shadow: 0 8px 24px rgba(229, 62, 62, 0.35);
   padding: 0;
-  width: 50px;
+  width: 46px;
   justify-content: center;
 }
 
 .help-bubble__btn--activo:hover {
-  box-shadow: 0 12px 32px rgba(229, 62, 62, 0.45);
+  box-shadow: 0 10px 26px rgba(229, 62, 62, 0.45);
 }
 
 .help-bubble__label {
@@ -530,9 +568,13 @@
   letter-spacing: 0.02em;
 }
 
-/* Panel de ayuda */
+/* Panel de ayuda flotante (no desplaza el formulario) */
 .help-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
   width: 320px;
+  max-width: calc(100vw - 48px);
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -541,7 +583,8 @@
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16),
     0 4px 16px rgba(15, 23, 42, 0.06);
   border: 1px solid #e2e8f0;
-  transform: translateY(12px);
+  z-index: 500;
+  transform: translateY(-8px);
   transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.3s ease,
     transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -549,7 +592,7 @@
 }
 
 .help-panel--open {
-  max-height: 600px;
+  max-height: 650px;
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -743,16 +786,7 @@
   box-shadow: 0 8px 22px rgba(11, 78, 148, 0.16);
 }
 
-@media (max-width: 420px) {
-  .help-bubble-wrap {
-    bottom: 18px;
-    right: 16px;
-  }
 
-  .help-panel {
-    width: calc(100vw - 32px);
-  }
-}
 
 /* ==========================================================================
    Overlay: cierra el panel al tocar fuera (mobile tap / click fuera)
