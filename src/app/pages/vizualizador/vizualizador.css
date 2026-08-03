@@ -1,0 +1,82 @@
+.pantalla-visualizador {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: rgb(40, 40, 40);
+}
+
+/* Barra superior */
+.barra-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: rgb(40, 40, 40);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+/* Botón Regresar elegante */
+.btn-regresar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background-color: #d8cdcd;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-regresar:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.btn-regresar .icono {
+  font-size: 16px;
+}
+
+/* Mensaje del temporizador */
+.contenedor-alerta {
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.texto-alerta {
+  color: #991b1b;
+  font-size: 13px;
+}
+
+/* Barra de progreso animada */
+.linea-progreso {
+  height: 4px;
+  background-color: #ef4444;
+  transition: width 1s linear; /* Hace que el decremento visual sea fluido */
+  z-index: 10;
+}
+
+/* Iframe ocupando el resto de la pantalla */
+.contenedor-pdf {
+  flex-grow: 1;
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

@@ -7,7 +7,7 @@ import { toast } from 'ngx-sonner';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-client',
@@ -30,7 +30,8 @@ export class Client implements OnInit {
     private route: ActivatedRoute,
     private user: UserService,
     private paymentService: PaymentService,
-    private router: Router) { }
+    private router: Router,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -76,12 +77,15 @@ export class Client implements OnInit {
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
         if (response.url) {
-          window.open(response.url, '_blank');
+          this.router.navigate(['/ver-ticket'], {
+            state: { pdfUrl: response.url }
+          });
         } else {
           console.log('No se generó la URL');
         }
         this.loading = false;
-      }
+      },
+      error: () => this.loading = false
     });
   }
 
