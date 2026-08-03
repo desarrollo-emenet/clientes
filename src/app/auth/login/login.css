@@ -99,7 +99,7 @@
   width: 74px;
   height: 74px;
   flex-shrink: 0;
-  border-radius: 24px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
   display: flex;
   align-items: center;
@@ -107,24 +107,6 @@
   color: white;
   font-size: 2rem;
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.25s ease;
-}
-
-.ep-header-icon:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
-}
-
-.ep-header-icon:active {
-  transform: scale(0.95);
-}
-
-.ep-header-icon.help-header-btn--activo {
-  background: linear-gradient(135deg, #e53e3e, #c53030);
-  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.35);
 }
 
 .ep-header-help-tag {
@@ -383,11 +365,14 @@
    ================== */
 
 .ep-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
   margin-top: 24px;
+}
+
+.ep-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .ep-submit-btn {
@@ -430,6 +415,48 @@
   border-radius: 12px;
   padding: 10px 14px;
   font-size: 0.85rem;
+}
+
+/* ========================
+   PILL BOTON AYUDA
+   ====================== */
+
+.ep-help-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0b4e94, #0d5db4);
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.22);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.ep-help-pill i {
+  font-size: 1rem;
+}
+
+.ep-help-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.32);
+}
+
+.ep-help-pill:active {
+  transform: scale(0.95);
+}
+
+.ep-help-pill.ep-help-pill--activo {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.35);
 }
 
 /* =========================

@@ -15,11 +15,9 @@
 
       <!-- ENCABEZADO -->
       <div class="ep-header" style="position: relative;">
-        <button type="button" class="ep-header-icon help-header-btn" [class.help-header-btn--activo]="mostrarAyuda"
-          (click)="alternarAyuda()" aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
-          <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
-          <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
-        </button>
+        <div class="ep-header-icon">
+          <i class="fa-solid fa-right-to-bracket"></i>
+        </div>
         <div class="ep-header-content">
           <h2>¡Bienvenido!</h2>
           <p>Inicia sesión para continuar</p>
@@ -163,12 +161,20 @@
           {{ error }}
         </div>
 
-        <!-- Botón Iniciar Sesión -->
+        <!-- Botón Iniciar Sesión + Ayuda -->
         <div class="ep-actions">
-          <button type="submit" class="ep-submit-btn" [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
-          </button>
+          <div class="ep-actions-row">
+            <button type="submit" class="ep-submit-btn" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
+            </button>
+            <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda"
+              (click)="alternarAyuda()" aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
+              <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
+              <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
+              <span>{{ mostrarAyuda ? 'Cerrar' : 'Ayuda' }}</span>
+            </button>
+          </div>
         </div>
 
       </form>
