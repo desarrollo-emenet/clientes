@@ -22,91 +22,6 @@
           <h2>¡Bienvenido!</h2>
           <p>Inicia sesión para continuar</p>
         </div>
-
-        <!-- Panel de Ayuda flotante anclado al encabezado -->
-        <div class="help-panel" [class.help-panel--open]="mostrarAyuda" role="dialog" aria-modal="true">
-          <div class="help-panel__header">
-            <div class="help-panel__header-icon">
-              <i class="fa-solid fa-headset"></i>
-            </div>
-            <div>
-              <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
-              <p class="help-panel__subtitulo">
-                Te ayudamos a ingresar a tu cuenta
-              </p>
-            </div>
-          </div>
-
-          <!-- Pasos -->
-          <div class="help-panel__section">
-            <p class="help-panel__section-label">
-              <i class="fa-solid fa-list-check"></i>
-              Pasos para acceder
-            </p>
-            <ol class="help-panel__pasos">
-              <li>
-                <span class="help-panel__paso-num">1</span>
-                <span>Ingresa tu <strong>número de cliente</strong>
-                  (lo encuentras en tu último ticket o recibo).
-                </span>
-              </li>
-              <li>
-                <span class="help-panel__paso-num">2</span>
-                <span>Ingresa tu <strong>contraseña</strong>.
-                  Si es la primera vez, usa la temporal que llegó a tu correo.
-                </span>
-              </li>
-              <li>
-                <span class="help-panel__paso-num">3</span>
-                <span>Si olvidaste tu contraseña,
-                  usa <strong>¿Olvidaste tu contraseña?</strong>
-                </span>
-              </li>
-              <li>
-                <span class="help-panel__paso-num">4</span>
-                <span>Si no te llega tu contraseña a tu correo electronico
-                  <strong>llama o mandanos un mensaje de whatsapp.</strong>
-                </span>
-              </li>
-              <li>
-                <span class="help-panel__paso-num">N</span>
-                <span><strong>Nota:</strong> La contraseña temporal será enviada al correo electrónico
-                  <strong>asociado a tu cuenta.</strong>
-                </span>
-              </li>
-            </ol>
-          </div>
-
-          <!-- Contacto -->
-          <div class="help-panel__section">
-            <p class="help-panel__section-label">
-              <i class="fa-solid fa-circle-question"></i>
-              ¿No conoces tu número de cliente?
-            </p>
-
-            <div class="help-panel__contactos">
-              <a class="help-panel__btn help-panel__btn--wa" target="_blank" [href]="'https://wa.me/7133475658?text=' +
-                  'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
-                <span class="help-panel__btn-icon">
-                  <i class="fa-brands fa-whatsapp"></i>
-                </span>
-                <span class="help-panel__btn-texto">
-                  <strong>WhatsApp</strong>
-                  <small>Chat en línea</small>
-                </span>
-              </a>
-              <a class="help-panel__btn help-panel__btn--tel" href="tel:7133475658">
-                <span class="help-panel__btn-icon">
-                  <i class="fa-solid fa-phone"></i>
-                </span>
-                <span class="help-panel__btn-texto">
-                  <strong>713 133 4557</strong>
-                  <small>Llamar a soporte</small>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- FORMULARIO -->
@@ -161,20 +76,12 @@
           {{ error }}
         </div>
 
-        <!-- Botón Iniciar Sesión + Ayuda -->
+        <!-- Botón Iniciar Sesión -->
         <div class="ep-actions">
-          <div class="ep-actions-row">
-            <button type="submit" class="ep-submit-btn" [disabled]="loading">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-              {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
-            </button>
-            <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda"
-              (click)="alternarAyuda()" aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
-              <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
-              <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
-              <span>{{ mostrarAyuda ? 'Cerrar' : 'Ayuda' }}</span>
-            </button>
-          </div>
+          <button type="submit" class="ep-submit-btn" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
+          </button>
         </div>
 
       </form>
@@ -187,4 +94,97 @@
       aria-hidden="true">
     </div>
   </main>
+  <!-- Panel de Ayuda flotante anclado al encabezado -->
+  <div class="help-panel" [class.help-panel--open]="mostrarAyuda" role="dialog" aria-modal="true">
+    <div class="help-panel__header">
+      <div class="help-panel__header-icon">
+        <i class="fa-solid fa-headset"></i>
+      </div>
+      <div>
+        <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
+        <p class="help-panel__subtitulo">
+          Te ayudamos a ingresar a tu cuenta
+        </p>
+      </div>
+    </div>
+
+    <!-- Pasos -->
+    <div class="help-panel__section">
+      <p class="help-panel__section-label">
+        <i class="fa-solid fa-list-check"></i>
+        Pasos para acceder
+      </p>
+      <ol class="help-panel__pasos">
+        <li>
+          <span class="help-panel__paso-num">1</span>
+          <span>Ingresa tu <strong>número de cliente</strong>
+            (lo encuentras en tu último ticket o recibo).
+          </span>
+        </li>
+        <li>
+          <span class="help-panel__paso-num">2</span>
+          <span>Ingresa tu <strong>contraseña</strong>.
+            Si es la primera vez, usa la temporal que llegó a tu correo.
+          </span>
+        </li>
+        <li>
+          <span class="help-panel__paso-num">3</span>
+          <span>Si olvidaste tu contraseña,
+            usa <strong>¿Olvidaste tu contraseña?</strong>
+          </span>
+        </li>
+        <li>
+          <span class="help-panel__paso-num">4</span>
+          <span>Si no te llega tu contraseña a tu correo electronico
+            <strong>llama o mandanos un mensaje de whatsapp.</strong>
+          </span>
+        </li>
+        <li>
+          <span class="help-panel__paso-num">N</span>
+          <span><strong>Nota:</strong> La contraseña temporal será enviada al correo electrónico
+            <strong>asociado a tu cuenta.</strong>
+          </span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Contacto -->
+    <div class="help-panel__section">
+      <p class="help-panel__section-label">
+        <i class="fa-solid fa-circle-question"></i>
+        ¿No conoces tu número de cliente?
+      </p>
+
+      <div class="help-panel__contactos">
+        <a class="help-panel__btn help-panel__btn--wa" target="_blank" [href]="'https://wa.me/7133475658?text=' +
+                  'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
+          <span class="help-panel__btn-icon">
+            <i class="fa-brands fa-whatsapp"></i>
+          </span>
+          <span class="help-panel__btn-texto">
+            <strong>WhatsApp</strong>
+            <small>Chat en línea</small>
+          </span>
+        </a>
+        <a class="help-panel__btn help-panel__btn--tel" href="tel:7133475658">
+          <span class="help-panel__btn-icon">
+            <i class="fa-solid fa-phone"></i>
+          </span>
+          <span class="help-panel__btn-texto">
+            <strong>713 133 4557</strong>
+            <small>Llamar a soporte</small>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón flotante de Ayuda -->
+  <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda" (click)="alternarAyuda()"
+    aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
+    <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
+    <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
+    <span>{{ mostrarAyuda ? 'Cerrar' : 'Ayuda' }}</span>
+  </button>
+
 </div>
