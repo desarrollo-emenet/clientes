@@ -418,25 +418,28 @@
 }
 
 /* ========================
-   PILL BOTON AYUDA
+   PILL BOTON AYUDA (flotante fijo)
    ====================== */
 
 .ep-help-pill {
-  flex-shrink: 0;
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 18px;
-  height: 56px;
-  border-radius: 18px;
+  gap: 8px;
+  padding: 0 20px;
+  height: 48px;
+  border-radius: 50px;
   background: linear-gradient(135deg, #0b4e94, #0d5db4);
   color: white;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.22);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
@@ -446,8 +449,8 @@
 }
 
 .ep-help-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.32);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
 }
 
 .ep-help-pill:active {
@@ -456,7 +459,7 @@
 
 .ep-help-pill.ep-help-pill--activo {
   background: linear-gradient(135deg, #e53e3e, #c53030);
-  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.35);
+  box-shadow: 0 8px 24px rgba(229, 62, 62, 0.40);
 }
 
 /* =========================
@@ -595,11 +598,11 @@
   letter-spacing: 0.02em;
 }
 
-/* Panel de ayuda flotante (no desplaza el formulario) */
+/* Panel de ayuda flotante (sube desde el botón) */
 .help-panel {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
+  position: fixed;
+  bottom: 96px;
+  right: 28px;
   width: 320px;
   max-width: calc(100vw - 48px);
   max-height: 0;
@@ -610,8 +613,8 @@
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16),
     0 4px 16px rgba(15, 23, 42, 0.06);
   border: 1px solid #e2e8f0;
-  z-index: 500;
-  transform: translateY(-8px);
+  z-index: 999;
+  transform: translateY(16px);
   transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.3s ease,
     transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -822,7 +825,7 @@
 .help-panel__overlay {
   position: fixed;
   inset: 0;
-  z-index: 99;
+  z-index: 998;
   background: transparent;
   pointer-events: none;
   cursor: default;
