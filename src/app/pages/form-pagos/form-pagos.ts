@@ -146,10 +146,10 @@ export class FormPagos {
     this.pagosForm = this.fb.nonNullable.group({
       fechaPago: ['', [Validators.required]],
       numOperacion: ['', [Validators.required, Validators.maxLength(30)]],
-      telefono: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       clave: ['', [Validators.required]],
       comprobante: [null, [Validators.required]],
-      monto: ['', [Validators.required, Validators.maxLength(5), Validators.pattern('^[0-9]+$')]],
+      monto: ['', [Validators.required, Validators.pattern(/^\d{1,5}$/)]],
 
     })
   }
@@ -235,19 +235,24 @@ export class FormPagos {
 
 
   enviarPago() {
-    Object.keys(this.pagosForm.controls).forEach(key => {
+   /* Object.keys(this.pagosForm.controls).forEach(key => {
       const controlErrors = this.pagosForm.get(key)?.errors;
 
       if (controlErrors) {
         console.log('Campo:', key, 'Errores:', controlErrors);
       }
-    });
+    });*/
+
+
     if (this.pagosForm.invalid) {
       this.pagosForm.markAllAsTouched();
       toast.error("Completar los campos requeridos");
       return
     }
     this.loading = true;
+
+    this.limpiarErroresBackend();
+
     this.clientS.pagosBanco(this.crearFormData()).subscribe({
       next: () => {
         toast.success('Datos enviados');
@@ -257,6 +262,8 @@ export class FormPagos {
       error: (e) => {
         this.loading = false;
         if (e.status === 422) {
+              console.log(e.error.errors);
+
           this.asignarErrores(e.error.errors);
         }
         toast.error('Ocurrió un error.');
@@ -298,6 +305,17 @@ export class FormPagos {
     });
   }
 
+  private limpiarErroresBackend(): void {
+  Object.keys(this.pagosForm.controls).forEach(key => {
+    const control = this.pagosForm.get(key);
+    if (control && control.hasError('backend')) {
+      const errors = { ...control.errors };
+      delete errors['backend'];
+      control.setErrors(Object.keys(errors).length > 0 ? errors : null);
+    }
+  });
+}
+
 
 
   private manejoError(e: any): void {
@@ -316,7 +334,7 @@ export class FormPagos {
         toast.error('Servicio no encontrado');
         break;
 
-      case 422:
+      case 500:
         toast.error('No se pudo conectar al servidor');
         break;
 
@@ -410,6 +428,18 @@ export class FormPagos {
       this.paginaActual = pagina;
     }
   }
+
+soloNumeros(event: Event, controlName: string, maxLength: number): void {
+  const input = event.target as HTMLInputElement;
+
+  const valor = input.value
+    .replace(/\D/g, '')      
+    .slice(0, maxLength);    
+
+  input.value = valor;
+
+  this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
+}
 
 
 }

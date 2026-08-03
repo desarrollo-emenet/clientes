@@ -154,12 +154,11 @@
                 <!-- TELEFONO -->
                 <div class="field">
                   <label>Teléfono</label>
-                  <input type="number" formControlName="telefono" class="form-control custom-input"
-                    placeholder="Número de teléfono">
+                  <input type="text" formControlName="telefono" class="form-control custom-input"
+                    placeholder="Número de teléfono"   (input)="soloNumeros($event, 'telefono', 10)">
                   <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['telefono'].errors?.['required']">Requerido.</span>
-                    <span *ngIf="f['telefono'].errors?.['maxlength']">Máx 10 caracteres.</span>
                     <span *ngIf="f['telefono'].errors?.['pattern']"> Formato inválido.</span>
                   </div>
                 </div>
@@ -220,8 +219,8 @@
 
                   <div class="input-money">
                     <span class="currency">$</span>
-                    <input type="number" formControlName="monto" class="form-control custom-input"
-                      placeholder="Monto a pagar">
+                    <input type="text" formControlName="monto" class="form-control custom-input"
+                      placeholder="Monto a pagar"   (input)="soloNumeros($event, 'monto', 5)">
                   </div>
 
                   <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)"
