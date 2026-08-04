@@ -118,13 +118,13 @@
         <li>
           <span class="help-panel__paso-num">1</span>
           <span>Ingresa tu <strong>número de cliente</strong>
-            (lo encuentras en tu último ticket o recibo).
+            y crea tu cuenta (lo encuentras en tu último ticket o recibo).
           </span>
         </li>
         <li>
           <span class="help-panel__paso-num">2</span>
           <span>Ingresa tu <strong>contraseña</strong>.
-            Si es la primera vez, usa la temporal que llegó a tu correo.
+            Si es la primera vez, usa la temporal que llegó a tu correo cuando creaste tu cuenta.
           </span>
         </li>
         <li>
@@ -178,13 +178,11 @@
       </div>
     </div>
   </div>
-
-  <!-- Botón flotante de Ayuda -->
+  <!-- Burbuja flotante de Ayuda -->
   <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda" (click)="alternarAyuda()"
     aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
-    <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
+    <i class="fa-solid fa-question" *ngIf="!mostrarAyuda"></i>
     <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
-    <span>{{ mostrarAyuda ? 'Cerrar' : 'Ayuda' }}</span>
   </button>
 
 </div>

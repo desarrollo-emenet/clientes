@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Estructura Principal (Split Screen)
-   ========================================================================== */
-
 .login-layout {
   display: flex;
   height: 100dvh;
@@ -83,9 +79,7 @@
   box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
 }
 
-/*===========================
-   HEADER
-   ======================== */
+
 
 .ep-header {
   display: flex;
@@ -140,9 +134,6 @@
   color: #64748b;
 }
 
-/* ========================
-   CARD
-   ======================= */
 
 .ep-card {
   background: rgba(255, 255, 255, 0.55);
@@ -189,9 +180,7 @@
   gap: 18px;
 }
 
-/* ========================
-   FIELDS
-   ====================== */
+
 
 .ep-field label {
   display: block;
@@ -335,9 +324,7 @@
   color: #e53e3e;
 }
 
-/* ======================
-   LINKS
-   ====================== */
+
 
 .ep-links-row {
   display: flex;
@@ -360,9 +347,7 @@
   color: #3472df;
 }
 
-/* =====================
-   ACCIONES / BOTONES
-   ================== */
+
 
 .ep-actions {
   margin-top: 24px;
@@ -417,9 +402,7 @@
   font-size: 0.85rem;
 }
 
-/* ========================
-   PILL BOTON AYUDA (flotante fijo)
-   ====================== */
+
 
 .ep-help-pill {
   position: fixed;
@@ -428,29 +411,28 @@
   z-index: 1000;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 20px;
-  height: 48px;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #0b4e94, #0d5db4);
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e7e5fd, #e7e5fd);
+  color: #4728ae;
   border: none;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
-  transition: all 0.25s ease;
-  white-space: nowrap;
+  box-shadow: 0 10px 25px rgba(11, 78, 148, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ep-help-pill i {
-  font-size: 1rem;
+  font-size: 1.3rem;
+  line-height: 1;
 }
 
 .ep-help-pill:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 14px 30px rgba(11, 78, 148, 0.45);
 }
 
 .ep-help-pill:active {
@@ -459,15 +441,12 @@
 
 .ep-help-pill.ep-help-pill--activo {
   background: linear-gradient(135deg, #e53e3e, #c53030);
-  box-shadow: 0 8px 24px rgba(229, 62, 62, 0.40);
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(229, 62, 62, 0.40);
 }
 
-/* =========================
-   Efecto Voltear Pantalla Completa
-   ===================== */
+
 .login-layout {
-  /* Al eliminar perspective general y transform-style: preserve-3d
-     evitamos por completo bugs de Z-index o clips en Safari/iOS y móviles. */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform, opacity;
@@ -484,10 +463,7 @@
   pointer-events: none;
 }
 
-/* 
-  Optimizamos inyectando perspective en la propiedad transform.
-  Esto asegura un renderizado plano sin bugs en WebKit. 
-*/
+
 @-webkit-keyframes flipScreenIn {
   0% {
     -webkit-transform: perspective(2500px) rotateY(-90deg) scale(0.92);
@@ -536,9 +512,7 @@
   }
 }
 
-/* ==========================================================================
-   Burbuja Flotante de Ayuda
-   ========================================================================== */
+
 
 .help-bubble-wrap {
   position: relative;
@@ -601,10 +575,10 @@
 /* Panel de ayuda flotante (sube desde el botón) */
 .help-panel {
   position: fixed;
-  bottom: 96px;
   right: 28px;
+  bottom: 96px;
   width: 320px;
-  max-width: calc(100vw - 48px);
+  max-width: calc(100vw - 56px);
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -818,9 +792,6 @@
 
 
 
-/* ==========================================================================
-   Overlay: cierra el panel al tocar fuera (mobile tap / click fuera)
-   ========================================================================== */
 
 .help-panel__overlay {
   position: fixed;
@@ -833,4 +804,4 @@
 
 .help-panel__overlay--visible {
   pointer-events: all;
-}
+}
