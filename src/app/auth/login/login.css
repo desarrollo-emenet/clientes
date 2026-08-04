@@ -30,17 +30,93 @@
 .login-main {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1rem;
+  justify-content: flex-start;
+  padding: 1rem;
   background-color: #ffffff;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .login-main::-webkit-scrollbar {
   display: none;
+}
+
+.ep-login-wrapper {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0;
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.login-logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.login-logo {
+  height: 70px;
+  max-height: 70px;
+  width: auto;
+  object-fit: contain;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 576px) {
+  .login-main {
+    padding: 0.75rem 0.75rem 2rem;
+  }
+
+  .login-logo {
+    height: 70px;
+    max-height: 70px;
+  }
+
+  .ep-container {
+    padding: 20px 16px;
+    border-radius: 24px;
+  }
+
+  .ep-header {
+    margin-bottom: 18px;
+    gap: 14px;
+  }
+
+  .ep-header-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.6rem;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.65rem;
+  }
+
+  .ep-card {
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .ep-card-title {
+    margin-bottom: 14px;
+  }
+
+  .ep-card-grid {
+    gap: 14px;
+  }
+
+  .ep-input {
+    height: 48px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -54,7 +130,6 @@
     display: block;
   }
 }
-
 
 .ep-container {
   width: 100%;
@@ -404,8 +479,8 @@
   height: 40px;
   padding: 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e7e5fd, #e7e5fd);
-  color: #4728ae;
+  background: linear-gradient(135deg, #198880, #134E4A);
+  color: #ffffff;
   border: none;
   cursor: pointer;
   outline: none;
