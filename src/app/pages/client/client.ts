@@ -7,7 +7,7 @@ import { toast } from 'ngx-sonner';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-client',
@@ -30,7 +30,8 @@ export class Client implements OnInit {
     private route: ActivatedRoute,
     private user: UserService,
     private paymentService: PaymentService,
-    private router: Router) { }
+    private router: Router,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -76,12 +77,15 @@ export class Client implements OnInit {
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
         if (response.url) {
-          window.open(response.url, '_blank');
+          this.router.navigate(['/ver-ticket'], {
+            state: { pdfUrl: response.url }
+          });
         } else {
           console.log('No se generó la URL');
         }
         this.loading = false;
-      }
+      },
+      error: () => this.loading = false
     });
   }
 
@@ -93,38 +97,20 @@ export class Client implements OnInit {
   toggleDetails() { this.showDetails = !this.showDetails; }
 
   calcularTotalMensual(servicios: any): number {
-
     if (!servicios) return 0;
-    let total = 0;
-    let cantidadServicios = 0;
+    const calcular = (servicio: any): number => {
+      if (!servicio) return 0;
 
-    if (servicios.internet && servicios.internet.precio) {
-      total += Number(servicios.internet.precio);
-      cantidadServicios++;
-    }
-
-    if (servicios.camaras && servicios.camaras.precio) {
-      const precio = Number(servicios.camaras.precio) || 0;
-      const noCamaras = Number(servicios.camaras.canServicios) || 0;
-      total += precio * noCamaras;
-      cantidadServicios++;
-    }
-
-    if (servicios.telefono) {
-      const precio = Number(servicios.telefono.precio) || 0;
-      const lineas = Number(servicios.telefono.canServicios) || 0;
-      total += precio * lineas;
-      cantidadServicios++;
-
-    }
-    if (servicios.cuentasTv) {
-      const precio = Number(servicios.cuentasTv.precio) || 0;
-      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
-      total += precio * canServicios;
-      cantidadServicios++;
-
-    }
-    return total;
+      const precio = Number(servicio.precio) || 0;
+      const cantidad = Number(servicio.canServicios ?? 1);
+      return precio * cantidad;
+    };
+    return (
+      calcular(servicios.internet) +
+      calcular(servicios.camaras) +
+      calcular(servicios.telefono) +
+      calcular(servicios.cuentasTv)
+    );
   }
 
   getMesPagoReciente(): string {

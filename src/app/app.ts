@@ -37,6 +37,7 @@ export class App implements OnDestroy {
     '/email-verificado',
     '/servicios',
     '/formulario',
+    '/ver-ticket',
     '/404',
     '/'
   ];
