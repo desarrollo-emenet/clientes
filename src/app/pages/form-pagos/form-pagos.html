@@ -198,7 +198,7 @@
                     : 'Número de operación'}}
                   </label>
 
-                  <input type="text" formControlName="numOperacion" class="form-control custom-input" [placeholder]="
+                  <input type="text" formControlName="numOperacion"  maxlength="30" class="form-control custom-input" [placeholder]="
                   pagosForm.get('clave')?.value === 'TRH'? 'Ingresa la clave de rastreo'
                   : pagosForm.get('clave')?.value === 'DBH'? 'Ingresa el número de operacion, autorizacion o folio de venta'
                   : 'Número de operación'">
@@ -279,9 +279,9 @@
 
           <!-- BOTON -->
           <div class="actions-container">
-            <button type="submit" class="btn-primary" [disabled]="loading">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-              {{ loading ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
+            <button type="submit" class="btn-primary" [disabled]="loading1">
+              <span *ngIf="loading1" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading1 ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
             </button>
           </div>
 

@@ -49,6 +49,7 @@ interface EstadoConfig {
 export class FormPagos {
 
   loading = false;
+  loading1 = false;
   archivoSeleccionado!: File;
   pagosForm!: FormGroup;
   data: any;
@@ -249,7 +250,7 @@ export class FormPagos {
       toast.error("Completar los campos requeridos");
       return
     }
-    this.loading = true;
+    this.loading1 = true;
 
     this.limpiarErroresBackend();
 
@@ -257,10 +258,10 @@ export class FormPagos {
       next: () => {
         toast.success('Datos enviados');
         this.pagosForm.reset();
-        this.loading = false;
+        this.loading1 = false;
       },
       error: (e) => {
-        this.loading = false;
+        this.loading1 = false;
         if (e.status === 422) {
               console.log(e.error.errors);
 
