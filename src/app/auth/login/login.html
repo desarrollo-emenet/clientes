@@ -4,195 +4,202 @@
       loading="lazy">
   </aside>
 
-  <main class="login-main flex-column">
+  <main class="login-main">
+    <div class="ep-login-wrapper">
 
-    <!-- Logo -->
-    <div class="text-center mb-4 mt-n4">
-      <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" height="70">
-    </div>
-
-    <div class="ep-container">
-
-      <!-- ENCABEZADO -->
-      <div class="ep-header">
-        <div class="ep-header-icon">
-          <i class="fa-solid fa-right-to-bracket"></i>
-        </div>
-        <div class="ep-header-content">
-          <h2>¡Bienvenido!</h2>
-          <p>Inicia sesión para continuar</p>
-        </div>
+      <!-- Logo -->
+      <div class="login-logo-container text-center mb-3">
+        <img src="assets/img/emenetLogo.webp" alt="Emenet Logo" class="login-logo img-fluid">
       </div>
 
-      <!-- FORMULARIO -->
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="ep-container">
 
-        <div class="ep-card">
-          <div class="ep-card-title">
-            <div class="ep-card-icon blue">
-              <i class="fa-solid fa-key"></i>
-            </div>
-            <h5>Datos de acceso</h5>
+        <!-- ENCABEZADO -->
+        <div class="ep-header" style="position: relative;">
+          <div class="ep-header-icon">
+            <i class="fa-solid fa-right-to-bracket"></i>
           </div>
-
-          <div class="ep-card-grid">
-
-            <!-- Campo: Número de cliente -->
-            <div class="ep-field">
-              <label for="inputUsuario">Número de cliente</label>
-              <input id="inputUsuario" type="text" formControlName="usuario" class="ep-input" placeholder="#####" />
-              <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
-                <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
-                <span *ngIf="usuario.errors?.['maxLength']"> El número de cliente es demasiado largo. </span>
-              </div>
-            </div>
-
-            <!-- Campo: Contraseña -->
-            <div class="ep-field">
-              <label for="inputPassword">Contraseña</label>
-              <div class="ep-input-group">
-                <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                  class="ep-input" autocomplete="current-password" placeholder="••••••••" />
-                <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()"
-                  title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
-                  <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" width="20" />
-                </button>
-              </div>
-              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="ep-error">
-                <span *ngIf="password.errors?.['required']"> La contraseña es requerida. </span>
-              </div><br>
-              <!-- Enlaces: Crear cuenta y Recuperar password -->
-              <div class="ep-links-row">
-                <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')" class="ep-link">Crear cuenta</a>
-                <a routerLink="/recuperar-password" class="ep-link">¿Olvidaste tu contraseña?</a>
-              </div>
-            </div>
-
+          <div class="ep-header-content">
+            <h2>¡Bienvenido!</h2>
+            <p>Inicia sesión para continuar</p>
           </div>
         </div>
 
-        <!-- Mensaje de error global -->
-        <div *ngIf="error" class="alert alert-danger text-center error-global">
-          {{ error }}
-        </div>
+        <!-- FORMULARIO -->
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-        <!-- Botón Iniciar Sesión -->
-        <div class="ep-actions">
-          <button type="submit" class="ep-submit-btn" [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
-          </button>
-        </div>
+          <div class="ep-card">
+            <div class="ep-card-title">
+              <div class="ep-card-icon blue">
+                <i class="fa-solid fa-key"></i>
+              </div>
+              <h5>Datos de acceso</h5>
+            </div>
 
-      </form>
+            <div class="ep-card-grid">
+
+              <!-- Campo: Número de cliente -->
+              <div class="ep-field">
+                <label for="inputUsuario">Número de cliente</label>
+                <input id="inputUsuario" type="text" formControlName="usuario" class="ep-input" placeholder="#####" />
+                <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
+                  <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
+                  <span *ngIf="usuario.errors?.['maxLength']"> El número de cliente es demasiado largo. </span>
+                </div>
+              </div>
+
+              <!-- Campo: Contraseña -->
+              <div class="ep-field">
+                <label for="inputPassword">Contraseña</label>
+                <div class="ep-input-group">
+                  <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                    class="ep-input" autocomplete="current-password" placeholder="••••••••" />
+                  <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()"
+                    title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
+                    <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" width="20" />
+                  </button>
+                </div>
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="ep-error">
+                  <span *ngIf="password.errors?.['required']"> La contraseña es requerida. </span>
+                </div><br>
+                <!-- Enlaces: Crear cuenta y Recuperar password -->
+                <div class="ep-links-row">
+                  <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')" class="ep-link">Crear cuenta</a>
+                  <a routerLink="/recuperar-password" class="ep-link">¿Olvidaste tu contraseña?</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mensaje de error global -->
+          <div *ngIf="error" class="alert alert-danger text-center error-global">
+            {{ error }}
+          </div>
+
+          <!-- Botón Iniciar Sesión -->
+          <div class="ep-actions">
+            <button type="submit" class="ep-submit-btn" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
+            </button>
+          </div>
+
+        </form>
 
 
-      <ngx-sonner-toaster richColors position="top-center" />
+        <ngx-sonner-toaster richColors position="top-center" />
+      </div>
     </div>
     <!-- Overlay: cierra el panel al pulsar fuera (mobile tap / click) -->
     <div class="help-panel__overlay" [class.help-panel__overlay--visible]="mostrarAyuda" (click)="cerrarAyuda()"
       aria-hidden="true">
     </div>
-
-    <!-- Burbuja flotante de ayuda -->
-    <div class="help-bubble-wrap">
-
-      <!-- Panel Modal -->
-      <div class="help-panel" [class.help-panel--open]="mostrarAyuda">
-        <div class="help-panel__header">
-          <div class="help-panel__header-icon">
-            <i class="fa-solid fa-headset"></i>
-          </div>
-          <div>
-            <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
-            <p class="help-panel__subtitulo">
-              Te ayudamos a ingresar a tu cuenta
-            </p>
-          </div>
+  </main>
+  <!-- Panel de Ayuda flotante / Modal adaptable -->
+  <div class="help-panel" [class.help-panel--open]="mostrarAyuda" role="dialog" aria-modal="true">
+    <div class="help-panel__header">
+      <div class="help-panel__header-main">
+        <div class="help-panel__header-icon">
+          <i class="fa-solid fa-headset"></i>
         </div>
-
-        <!-- Pasos -->
-        <div class="help-panel__section">
-          <p class="help-panel__section-label">
-            <i class="fa-solid fa-list-check"></i>
-            Pasos para acceder
+        <div>
+          <h3 class="help-panel__titulo">¿Necesitas ayuda?</h3>
+          <p class="help-panel__subtitulo">
+            Te ayudamos a ingresar a tu cuenta
           </p>
-          <ol class="help-panel__pasos">
-            <li>
-              <span class="help-panel__paso-num">1</span>
-              <span>Ingresa tu <strong>número de cliente</strong>
-                (lo encuentras en tu último ticket o recibo).
-              </span>
-            </li>
-            <li>
-              <span class="help-panel__paso-num">2</span>
-              <span>Ingresa tu <strong>contraseña</strong>.
-                Si es la primera vez, usa la temporal
-                que llegó a tu correo.
-              </span>
-            </li>
-            <li>
-              <span class="help-panel__paso-num">3</span>
-              <span>Si olvidaste tu contraseña,
-                usa <strong>¿Olvidaste tu contraseña?</strong>
-              </span>
-            </li>
-            <li>
-              <span class="help-panel__paso-num">4</span>
-              <span>Si no te llega tu contraseña a tu correo electronico
-                <strong>llama o mandanos un mensaje de whatsapp.</strong>
-              </span>
-            </li>
-            <li>
-              <span class="help-panel__paso-num">N</span>
-              <span><strong>Nota:</strong> La contraseña temporal será enviada al correo electrónico
-
-                <strong>asociado a tu cuenta.</strong>
-              </span>
-            </li>
-          </ol>
-        </div>
-
-        <!-- Contacto -->
-        <div class="help-panel__section">
-          <p class="help-panel__section-label">
-
-            <i class="fa-solid fa-circle-question"></i>
-            ¿No conoces tu número de cliente?
-          </p>
-
-          <div class="help-panel__contactos">
-            <a class="help-panel__btn help-panel__btn--wa" target="_blank" [href]="'https://wa.me/7133475658?text=' +
-                'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
-              <span class="help-panel__btn-icon">
-                <i class="fa-brands fa-whatsapp"></i>
-              </span>
-              <span class="help-panel__btn-texto">
-                <strong>WhatsApp</strong>
-                <small>Chat en línea</small>
-              </span>
-            </a>
-            <a class="help-panel__btn help-panel__btn--tel" href="tel:7133475658">
-              <span class="help-panel__btn-icon">
-                <i class="fa-solid fa-phone"></i>
-              </span>
-              <span class="help-panel__btn-texto">
-                <strong>713 133 4557</strong>
-                <small>Llamar a soporte</small>
-              </span>
-            </a>
-          </div>
         </div>
       </div>
-
-      <!-- Botón burbuja -->
-      <button id="btnAyudaBurbuja" class="help-bubble__btn" [class.help-bubble__btn--activo]="mostrarAyuda"
-        (click)="alternarAyuda()" aria-label="Abrir panel de ayuda">
-        <i class="fa-solid fa-circle-question" *ngIf="!mostrarAyuda"></i>
-        <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
-        <span class="help-bubble__label" *ngIf="!mostrarAyuda">Ayuda</span>
+      <button type="button" class="help-panel__close-btn" (click)="cerrarAyuda()" aria-label="Cerrar ayuda"
+        title="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
       </button>
-
     </div>
-  </main>
+
+    <div class="help-panel__content">
+      <!-- Pasos -->
+      <div class="help-panel__section">
+        <p class="help-panel__section-label">
+          <i class="fa-solid fa-list-check"></i>
+          Pasos para acceder
+        </p>
+        <ol class="help-panel__pasos">
+          <li>
+            <span class="help-panel__paso-num">1</span>
+            <span>Si ya está registrado, introduzca su <strong>número de cliente</strong> y <strong>contraseña</strong>
+              para acceder.
+            </span>
+          </li>
+
+          <li>
+            <span class="help-panel__paso-num">2</span>
+            <span>Si aún no tienes cuenta, crea una en el enlace <strong>Crear cuenta</strong> e ingresa tu
+              <strong>número de cliente</strong> (lo encuentras en tu último ticket o recibo).
+            </span>
+          </li>
+          <li>
+            <span class="help-panel__paso-num">3</span>
+            <span>Una vez creada la cuenta, ingresa tu número de cliente y tu <strong>contraseña</strong>.
+              Si es la primera vez, usa la temporal que llegó a tu correo cuando creaste tu cuenta.
+            </span>
+          </li>
+          <li>
+            <span class="help-panel__paso-num">4</span>
+            <span>Si olvidaste tu contraseña,
+              usa <strong>¿Olvidaste tu contraseña?</strong>
+            </span>
+          </li>
+          <li>
+            <span class="help-panel__paso-num">5</span>
+            <span>Si no te llega tu contraseña a tu correo electrónico,
+              <strong>llama o mándanos un mensaje de WhatsApp.</strong>
+            </span>
+          </li>
+          <li>
+            <span class="help-panel__paso-num">N</span>
+            <span><strong>Nota:</strong> La contraseña temporal será enviada al correo electrónico
+              <strong>asociado a tu cuenta.</strong>
+            </span>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Contacto -->
+      <div class="help-panel__section">
+        <p class="help-panel__section-label">
+          <i class="fa-solid fa-circle-question"></i>
+          ¿Aún no has vinculado tu correo o no conoces tu número de cliente?
+        </p>
+
+        <div class="help-panel__contactos">
+          <a class="help-panel__btn help-panel__btn--wa" target="_blank" [href]="'https://wa.me/7133475658?text=' +
+                    'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
+            <span class="help-panel__btn-icon">
+              <i class="fa-brands fa-whatsapp"></i>
+            </span>
+            <span class="help-panel__btn-texto">
+              <strong>WhatsApp</strong>
+              <small>Chat en línea</small>
+            </span>
+          </a>
+          <a class="help-panel__btn help-panel__btn--tel" href="tel:7133475658">
+            <span class="help-panel__btn-icon">
+              <i class="fa-solid fa-phone"></i>
+            </span>
+            <span class="help-panel__btn-texto">
+              <strong>713 133 4557</strong>
+              <small>Llamar a soporte</small>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Burbuja flotante de Ayuda -->
+  <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda" (click)="alternarAyuda()"
+    aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
+    <i class="fa-solid fa-question" *ngIf="!mostrarAyuda"></i>
+    <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
+  </button>
+
 </div>

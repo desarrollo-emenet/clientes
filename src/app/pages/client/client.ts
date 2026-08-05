@@ -7,7 +7,7 @@ import { toast } from 'ngx-sonner';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-client',
@@ -30,7 +30,8 @@ export class Client implements OnInit {
     private route: ActivatedRoute,
     private user: UserService,
     private paymentService: PaymentService,
-    private router: Router) { }
+    private router: Router,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -54,7 +55,7 @@ export class Client implements OnInit {
           toast.error('No se pudo conectar al servidor');
         } else if (e?.status === 404) {
           toast.error('Servicio no encontrado');
-        }else {
+        } else {
           toast.error('Error inesperado');
         }
       }
@@ -76,12 +77,15 @@ export class Client implements OnInit {
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
         if (response.url) {
-          window.open(response.url, '_blank');
+          this.router.navigate(['/ver-ticket'], {
+            state: { pdfUrl: response.url }
+          });
         } else {
           console.log('No se generó la URL');
         }
         this.loading = false;
-      }
+      },
+      error: () => this.loading = false
     });
   }
 
@@ -93,38 +97,20 @@ export class Client implements OnInit {
   toggleDetails() { this.showDetails = !this.showDetails; }
 
   calcularTotalMensual(servicios: any): number {
-
     if (!servicios) return 0;
-    let total = 0;
-    let cantidadServicios = 0;
+    const calcular = (servicio: any): number => {
+      if (!servicio) return 0;
 
-    if (servicios.internet && servicios.internet.precio) {
-      total += Number(servicios.internet.precio);
-      cantidadServicios++;
-    }
-
-    if (servicios.camaras && servicios.camaras.precio) {
-      const precio = Number(servicios.camaras.precio) || 0;
-      const noCamaras = Number(servicios.camaras.canServicios) || 0;
-      total += precio * noCamaras;
-      cantidadServicios++;
-    }
-
-    if (servicios.telefono) {
-      const precio = Number(servicios.telefono.precio) || 0;
-      const lineas = Number(servicios.telefono.canServicios) || 0;
-      total += precio * lineas;
-      cantidadServicios++;
-
-    }
-    if (servicios.cuentasTv) {
-      const precio = Number(servicios.cuentasTv.precio) || 0;
-      const canServicios = Number(servicios.cuentasTv.canServicios) || 0;
-      total += precio * canServicios;
-      cantidadServicios++;
-
-    }
-    return total;
+      const precio = Number(servicio.precio) || 0;
+      const cantidad = Number(servicio.canServicios ?? 1);
+      return precio * cantidad;
+    };
+    return (
+      calcular(servicios.internet) +
+      calcular(servicios.camaras) +
+      calcular(servicios.telefono) +
+      calcular(servicios.cuentasTv)
+    );
   }
 
   getMesPagoReciente(): string {
@@ -156,7 +142,21 @@ export class Client implements OnInit {
     }
   }
 
-  async descargarEstadoCuentaPDF(item: any): Promise<void> {
+  obtenerPeriodoActual(): string {
+    const fecha = new Date();
+    const mes = fecha.toLocaleDateString('es-MX', { month: 'long' });
+    const mesCap = mes.charAt(0).toUpperCase() + mes.slice(1);
+    return `${mesCap} ${fecha.getFullYear()}`;
+  }
+
+  async descargarEstadoCuentaPDF(item?: any): Promise<void> {
+    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    const periodoActual = this.getMesPagoReciente() || this.obtenerPeriodoActual();
+    const itemData = item || {
+      ...(estadoCuenta && estadoCuenta.length > 0 ? estadoCuenta[0] : {}),
+      mensualidad: periodoActual,
+    };
+
     const doc = new jsPDF({
       orientation: 'portrait', unit: 'mm', format: 'letter'
     });
@@ -173,20 +173,20 @@ export class Client implements OnInit {
     const yMaxContenido = pageH - altoFooter - 3;
 
     await this.dibujarPiePDF(doc, pageW);
-    await this.dibujarEncabezadoPDF(doc, pageW, margen, item);
+    await this.dibujarEncabezadoPDF(doc, pageW, margen, itemData);
     let y = await this.dibujarBannerClientePDF(
-      doc, cliente, numeroCliente, item, totalServicios, margen, anchoUtil, pageW
+      doc, cliente, numeroCliente, itemData, totalServicios, margen, anchoUtil, pageW, servicios
     );
     y = this.dibujarTablaServiciosPDF(
-      doc, servicios, cliente, y, margen, anchoUtil
+      doc, servicios, cliente, estadoCuenta ?? [], y, margen, anchoUtil
     );
     y = this.dibujarResumenTotalPDF(
-      doc, cliente, item, totalServicios, y, margen, anchoUtil
+      doc, cliente, itemData, totalServicios, y, margen, anchoUtil
     );
     await this.dibujarSeccionPagoPDF(doc, y, margen, anchoUtil, yMaxContenido);
 
     const nombreArchivo =
-      `estado-cuenta-${numeroCliente}-${item?.mensualidad ?? 'periodo'}.pdf`;
+      `estado-cuenta-${numeroCliente}-${itemData.mensualidad}.pdf`;
     doc.save(nombreArchivo);
   }
 
@@ -252,17 +252,16 @@ export class Client implements OnInit {
       year: 'numeric', month: 'long', day: 'numeric'
     });
     const x = pageW - margen - 56;
+    const periodo = this.getMesPagoReciente() || this.obtenerPeriodoActual();
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
-    doc.text('Estado de cuenta', x, 8, { align: 'right' });
+    doc.setTextColor(30, 30, 30);
+    doc.text('Informe trimestral', x, 8, { align: 'right' });
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(60, 75, 100);
-    doc.text(`Periodo: ${item?.mensualidad ?? 'N/A'}`, x, 13, { align: 'right' });
+    doc.setTextColor(110, 110, 110);
+    doc.text(`Ultimo pago: ${periodo}`, x, 13, { align: 'right' });
     doc.text(`Emitido: ${hoy}`, x, 18, { align: 'right' });
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Venta: #${item?.VENTA ?? 'N/A'}`, x, 23, { align: 'right' });
   }
 
   private async dibujarCodigoBarrasEncabezado(
@@ -274,12 +273,12 @@ export class Client implements OnInit {
 
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
+    doc.setTextColor(30, 30, 30);
     doc.text('4741  7640  0198  2278', x + 25, 19, { align: 'center' });
 
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(110, 120, 130);
+    doc.setTextColor(140, 140, 140);
     doc.text('Ref. OXXO / Ahorro / Bienestar', x + 25, 24, { align: 'center' });
   }
 
@@ -289,8 +288,9 @@ export class Client implements OnInit {
     const altoHeader = 28;
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, pageW, altoHeader, 'F');
-    doc.setFillColor(51, 51, 51);
-    doc.rect(0, altoHeader, pageW, 1.2, 'F');
+    doc.setDrawColor(210, 210, 210);
+    doc.setLineWidth(0.4);
+    doc.line(0, altoHeader, pageW, altoHeader);
 
     await this.dibujarLogoEncabezado(doc, margen);
     this.dibujarInfoEncabezado(doc, pageW, margen, item);
@@ -316,7 +316,8 @@ export class Client implements OnInit {
     totalServicios: number,
     margen: number,
     anchoUtil: number,
-    pageW: number
+    pageW: number,
+    servicios?: any
   ): Promise<number> {
     let y = 32;
     const pad = 3;
@@ -325,9 +326,10 @@ export class Client implements OnInit {
     const xDer = margen + anchoUtil - colDer;
     const altoBloque = 36;
 
-    doc.setFillColor(250, 250, 250);
+    // Fondo blanco puro, sin color
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, y, pageW, altoBloque, 'F');
-    doc.setDrawColor(225, 225, 225);
+    doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.3);
     doc.line(0, y + altoBloque, pageW, y + altoBloque);
 
@@ -335,7 +337,7 @@ export class Client implements OnInit {
     const nombre = (cliente?.nombre ?? 'N/A').toUpperCase();
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
+    doc.setTextColor(20, 20, 20);
     doc.text(nombre, margen, y + 8);
 
     const direccionParts = [
@@ -346,51 +348,58 @@ export class Client implements OnInit {
     const dirLines = doc.splitTextToSize(direccion, colIzq - pad);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(70, 85, 110);
+    doc.setTextColor(100, 100, 100);
     doc.text(dirLines, margen, y + 14);
 
     doc.setFontSize(7);
-    doc.setTextColor(120, 135, 160);
+    doc.setTextColor(150, 150, 150);
     doc.text(`No. Cliente:`, margen, y + 27);
-    doc.text(`Documento informativo. No válido como comprobante de domicilio.`, margen, y + 32);
+    doc.text(
+      `Documento informativo. No válido como comprobante de domicilio.`,
+      margen, y + 32
+    );
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
+    doc.setTextColor(30, 30, 30);
     doc.text(`${numeroCliente ?? 'N/A'}`, margen + 20, y + 27);
 
-
-    // --- COLUMNA DERECHA: Importe destacado ---
-    const importe = this.formatearPesos(totalServicios);
+    // --- COLUMNA DERECHA: Importe destacado (solo borde, sin color) ---
+    const ultimos3 = (servicios?.estadoCuenta ?? []).slice(-3);
+    const numMeses = ultimos3.length > 0 ? ultimos3.length : 3;
+    const totalTrimestral = totalServicios * numMeses;
     const deuda = cliente?.deuda ?? 0;
-    const colorBordeCaja: [number, number, number] = deuda > 0
-      ? [220, 53, 69] : [51, 51, 51];
-    const colorTextoCaja: [number, number, number] = deuda > 0
-      ? [180, 30, 50] : [51, 51, 51];
+    const montoDestacado = deuda > 0 ? deuda : totalTrimestral;
+    const importe = this.formatearPesos(montoDestacado);
 
-    doc.setFillColor(252, 252, 252);
-    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 5, 3, 3, 'F');
-    doc.setDrawColor(...colorBordeCaja);
-    doc.setLineWidth(1);
-    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 5, 3, 3, 'D');
+    // Caja minimalista: fondo blanco, borde gris, acento solo en texto
+    doc.setFillColor(250, 250, 250);
+    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 5, 2, 2, 'F');
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(xDer, y + 2, colDer, altoBloque - 5, 2, 2, 'D');
 
-    doc.setFillColor(...colorBordeCaja);
-    doc.roundedRect(xDer, y + 2, colDer, 7, 3, 3, 'F');
-    doc.rect(xDer, y + 5, colDer, 4, 'F');
+    // Línea divisora inferior del título (sin fondo de color)
+    doc.setDrawColor(210, 210, 210);
+    doc.setLineWidth(0.3);
+    doc.line(xDer + 4, y + 9, xDer + colDer - 4, y + 9);
 
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(7);
+    doc.setFontSize(6.5);
     doc.setFont('helvetica', 'bold');
-    const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'CARGO MENSUAL';
+    doc.setTextColor(100, 100, 100);
+    const etiqCaja = deuda > 0 ? 'IMPORTE DEL PERIODO' : 'TOTAL TRIMESTRAL';
     doc.text(etiqCaja, xDer + colDer / 2, y + 7.5, { align: 'center' });
 
+    // Importe: rojo y verde
+    const colorImporte: [number, number, number] = deuda > 0
+      ? [210, 45, 45] : [22, 140, 75];
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...colorTextoCaja);
+    doc.setTextColor(...colorImporte);
     doc.text(`$${importe}`, xDer + colDer / 2, y + 23, { align: 'center' });
 
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(120, 140, 170);
-    doc.text('MXN · Incluye todos los servicios',
+    doc.setTextColor(160, 160, 160);
+    doc.text('MXN · Límite: del 1 al 5 de cada mes',
       xDer + colDer / 2, y + 29, { align: 'center' });
 
     return y + altoBloque + 4;
@@ -400,48 +409,154 @@ export class Client implements OnInit {
     doc: jsPDF,
     servicios: any,
     cliente: any,
+    estadoCuenta: any[],
     yInicio: number,
     margen: number,
     anchoUtil: number
   ): number {
     let y = yInicio;
-    const pad = 4;
+    // const pad = 4;
 
+    // // --- Detalle de servicios contratados (deshabilitado) ---
+    // doc.setFontSize(10);
+    // doc.setFont('helvetica', 'bold');
+    // doc.setTextColor(51, 51, 51);
+    // doc.text('Detalle de servicios contratados', margen, y + 6);
+
+    // doc.setFillColor(51, 51, 51);
+    // doc.rect(margen, y + 8.5, 35, 1.2, 'F');
+
+    // doc.setDrawColor(220, 220, 220);
+    // doc.setLineWidth(0.3);
+    // doc.line(margen + 35, y + 9, margen + anchoUtil, y + 9);
+    // y += 13;
+
+    // const colServ = anchoUtil * 0.35;
+    // const colDet = anchoUtil * 0.40;
+
+    // // Encabezado tabla
+    // doc.setFillColor(51, 51, 51);
+    // doc.rect(margen, y, anchoUtil, 6, 'F');
+    // doc.setTextColor(255, 255, 255);
+    // doc.setFontSize(7);
+    // doc.setFont('helvetica', 'bold');
+    // doc.text('SERVICIO', margen + pad, y + 4.2);
+    // doc.text('PLAN / DETALLE', margen + colServ + pad, y + 4.2);
+    // doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 4.2, {
+    //   align: 'right'
+    // });
+    // y += 6;
+
+    // const filas = this.construirFilasServicios(servicios, cliente);
+    // let subtotal = 0;
+
+    // filas.forEach((fila, idx) => {
+    //   const bgRgb: [number, number, number] = idx % 2 === 0
+    //     ? [250, 250, 250] : [242, 242, 242];
+    //   doc.setFillColor(...bgRgb);
+    //   doc.rect(margen, y, anchoUtil, 7.5, 'F');
+
+    //   doc.setDrawColor(220, 220, 220);
+    //   doc.setLineWidth(0.2);
+    //   doc.line(margen, y + 7.5, margen + anchoUtil, y + 7.5);
+
+    //   doc.setTextColor(25, 40, 70);
+    //   doc.setFont('helvetica', 'bold');
+    //   doc.setFontSize(8);
+    //   doc.text(fila.servicio, margen + pad, y + 5.5);
+
+    //   doc.setFont('helvetica', 'normal');
+    //   doc.setFontSize(7);
+    //   doc.setTextColor(80, 100, 130);
+    //   const maxDet = colDet - 4;
+    //   const detT = this.truncarTextoPDF(doc, fila.detalle, maxDet);
+    //   doc.text(detT, margen + colServ + pad, y + 5.5);
+
+    //   doc.setFont('helvetica', 'bold');
+    //   doc.setFontSize(8);
+    //   doc.setTextColor(51, 51, 51);
+    //   doc.text(
+    //     `$ ${fila.precio}`,
+    //     margen + anchoUtil - pad, y + 5.5, { align: 'right' }
+    //   );
+
+    //   subtotal += parseFloat(fila.precio.replace(/,/g, ''));
+    //   y += 7.5;
+    // });
+
+    // // Subtotal
+    // doc.setFillColor(235, 235, 235);
+    // doc.rect(margen, y, anchoUtil, 7, 'F');
+    // doc.setTextColor(51, 51, 51);
+    // doc.setFont('helvetica', 'bold');
+    // doc.setFontSize(7.5);
+    // doc.text('Total', margen + pad, y + 4.8);
+    // doc.text(
+    //   `$ ${this.formatearPesos(subtotal)}`,
+    //   margen + anchoUtil - pad, y + 4.8, { align: 'right' }
+    // );
+    // y += 7;
+
+    const importeMensual = this.calcularTotalServicios(servicios);
+
+    const deudaCliente = this.data?.cliente?.cliente?.deuda ?? 0;
+    y = this.dibujarVentasTrimestralesPDF(
+      doc, estadoCuenta, importeMensual, deudaCliente, y, margen, anchoUtil
+    );
+
+    return y;
+  }
+
+  private dibujarVentasTrimestralesPDF(
+    doc: jsPDF,
+    estadoCuenta: any[],
+    importeMensual: number,
+    deuda: number,
+    yInicio: number,
+    margen: number,
+    anchoUtil: number
+  ): number {
+    const pad = 4;
+    const ultimos3 = estadoCuenta.slice(-3);
+
+    if (ultimos3.length === 0) return yInicio;
+
+    let y = yInicio;
+
+    // --- Título de sección ---
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
-    doc.text('Detalle de servicios contratados', margen, y + 6);
+    doc.setTextColor(20, 20, 20);
+    doc.text('Informe de ventas por trimestre', margen, y + 6);
 
-    doc.setFillColor(51, 51, 51);
-    doc.rect(margen, y + 8.5, 35, 1.2, 'F');
-
-    doc.setDrawColor(220, 220, 220);
+    doc.setDrawColor(180, 180, 180);
     doc.setLineWidth(0.3);
-    doc.line(margen + 35, y + 9, margen + anchoUtil, y + 9);
+    doc.line(margen, y + 9, margen + anchoUtil, y + 9);
     y += 13;
 
-    const colServ = anchoUtil * 0.35;
-    const colDet = anchoUtil * 0.40;
+    // --- Encabezado de tabla minimalista (sin fondo de color) ---
+    const colEstado = anchoUtil * 0.30;
 
-    // Encabezado tabla
-    doc.setFillColor(51, 51, 51);
+    doc.setFillColor(245, 245, 245);
     doc.rect(margen, y, anchoUtil, 6, 'F');
-    doc.setTextColor(255, 255, 255);
+    doc.setDrawColor(210, 210, 210);
+    doc.setLineWidth(0.3);
+    doc.line(margen, y + 6, margen + anchoUtil, y + 6);
+    doc.setTextColor(90, 90, 90);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
-    doc.text('SERVICIO', margen + pad, y + 4.2);
-    doc.text('PLAN / DETALLE', margen + colServ + pad, y + 4.2);
+    doc.text('ESTADO', margen + pad, y + 4.2);
+    doc.text('PERIODO PAGADO', margen + colEstado + pad, y + 4.2);
     doc.text('IMPORTE/MES', margen + anchoUtil - pad, y + 4.2, {
       align: 'right'
     });
     y += 6;
 
-    const filas = this.construirFilasServicios(servicios, cliente);
-    let subtotal = 0;
-
-    filas.forEach((fila, idx) => {
+    // --- Filas ---
+    ultimos3.forEach((item, idx) => {
       const bgRgb: [number, number, number] = idx % 2 === 0
-        ? [250, 250, 250] : [242, 242, 242];
+        ? [255, 255, 255] : [248, 248, 248];
+
       doc.setFillColor(...bgRgb);
       doc.rect(margen, y, anchoUtil, 7.5, 'F');
 
@@ -449,44 +564,95 @@ export class Client implements OnInit {
       doc.setLineWidth(0.2);
       doc.line(margen, y + 7.5, margen + anchoUtil, y + 7.5);
 
-      doc.setTextColor(25, 40, 70);
+      this.dibujarBadgeEstadoPDF(doc, 'PAGADO', margen + pad, y + 1.5);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text(item?.mensualidad ?? 'N/A', margen + colEstado + pad, y + 5.5);
+
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.text(fila.servicio, margen + pad, y + 5.5);
+      doc.setTextColor(20, 20, 20);
+      doc.text(
+        `$ ${this.formatearPesos(importeMensual)}`,
+        margen + anchoUtil - pad, y + 5.5, { align: 'right' }
+      );
+
+      y += 7.5;
+    });
+
+    // --- Fila deuda (si aplica) deshabilitada ---
+    /*
+    if (deuda > 0) {
+      const bgDeuda: [number, number, number] = [255, 245, 245];
+      doc.setFillColor(...bgDeuda);
+      doc.rect(margen, y, anchoUtil, 7.5, 'F');
+
+      doc.setDrawColor(220, 220, 220);
+      doc.setLineWidth(0.2);
+      doc.line(margen, y + 7.5, margen + anchoUtil, y + 7.5);
+
+      this.dibujarBadgeEstadoPDF(doc, 'DEUDA', margen + pad, y + 1.5);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7);
       doc.setTextColor(80, 100, 130);
-      const maxDet = colDet - 4;
-      const detT = this.truncarTextoPDF(doc, fila.detalle, maxDet);
-      doc.text(detT, margen + colServ + pad, y + 5.5);
+      doc.text('Mes pendiente', margen + colEstado + pad, y + 5.5);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.setTextColor(51, 51, 51);
+      doc.setTextColor(180, 30, 50);
       doc.text(
-        `$ ${fila.precio}`,
+        `$ ${this.formatearPesos(deuda)}`,
         margen + anchoUtil - pad, y + 5.5, { align: 'right' }
       );
 
-      subtotal += parseFloat(fila.precio.replace(/,/g, ''));
       y += 7.5;
-    });
+    }
+    */
 
-    // Subtotal
-    doc.setFillColor(235, 235, 235);
+    // --- Total trimestral ---
+    const totalTrimestral = importeMensual * ultimos3.length;
+
+    doc.setFillColor(240, 240, 240);
     doc.rect(margen, y, anchoUtil, 7, 'F');
-    doc.setTextColor(51, 51, 51);
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.3);
+    doc.line(margen, y, margen + anchoUtil, y);
+    doc.setTextColor(30, 30, 30);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
-    doc.text('Total', margen + pad, y + 4.8);
+    doc.text('Total trimestral', margen + pad, y + 4.8);
     doc.text(
-      `$ ${this.formatearPesos(subtotal)}`,
+      `$ ${this.formatearPesos(totalTrimestral)}`,
       margen + anchoUtil - pad, y + 4.8, { align: 'right' }
     );
     y += 7;
 
     return y + 4;
+  }
+
+  private dibujarBadgeEstadoPDF(
+    doc: jsPDF,
+    estado: 'PAGADO' | 'DEUDA',
+    x: number,
+    y: number
+  ): void {
+    const anchoBadge = 18;
+    const altoBadge = 4.5;
+
+    // Badge minimalista: solo borde y texto, sin fondo de color
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(x, y, anchoBadge, altoBadge, 1.2, 1.2, 'F');
+    doc.setDrawColor(180, 180, 180);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x, y, anchoBadge, altoBadge, 1.2, 1.2, 'D');
+
+    doc.setTextColor(80, 80, 80);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(6);
+    doc.text(estado, x + anchoBadge / 2, y + 3.1, { align: 'center' });
   }
 
   private truncarTextoPDF(
@@ -598,17 +764,19 @@ export class Client implements OnInit {
   ): void {
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
+    doc.setTextColor(30, 30, 30);
     const msg = deudor
       ? 'SALDO ANTERIOR PENDIENTE'
       : 'TU CUENTA SE ENCUENTRA AL CORRIENTE';
     doc.text(msg, x, y + 5);
 
-    doc.setFontSize(6.5);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(110, 120, 130);
-    const sub = `Periodo: ${mensualidad}  ·  Límite: del 1 al 5 de cada mes`;
-    doc.text(sub, x, y + 9.5);
+    if (deudor) {
+      doc.setFontSize(6.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(130, 130, 130);
+      const sub = `Ultimo pago: ${mensualidad}  ·  Tienes meses pendientes de pago`;
+      doc.text(sub, x, y + 9.5);
+    }
   }
 
   private dibujarValoresDerecha(
@@ -621,14 +789,16 @@ export class Client implements OnInit {
   ): void {
     doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(120, 130, 140);
+    doc.setTextColor(150, 150, 150);
     const etiqueta = deudor ? 'TOTAL A PAGAR' : 'ESTADO';
     doc.text(etiqueta, x, y + 5, { align: 'right' });
 
     const tSize = deudor ? 11 : 9;
     doc.setFontSize(tSize);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(colorAcento[0], colorAcento[1], colorAcento[2]);
+    const colorValor: [number, number, number] = deudor
+      ? [210, 45, 45] : [22, 140, 75];
+    doc.setTextColor(...colorValor);
     const valor = deudor ? `$ ${importeText}` : 'SIN ADEUDO';
     doc.text(valor, x, y + 9.5, { align: 'right' });
   }
@@ -644,19 +814,25 @@ export class Client implements OnInit {
   ): number {
     const deudor = (cliente?.deuda ?? 0) > 0;
     const imp = deudor ? cliente.deuda : totalServicios;
-    const mes = item?.mensualidad ?? 'N/A';
+    const mes = item?.mensualidad
+      || this.getMesPagoReciente()
+      || this.obtenerPeriodoActual();
 
-    doc.setDrawColor(220, 220, 220);
+    doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.3);
     doc.line(margen, y, margen + anchoUtil, y);
     y += 3;
 
     const alto = 13;
-    const col = this.obtenerColoresEstado(deudor);
-    this.dibujarCajaEstado(doc, margen, y, anchoUtil, alto, col);
+    // Usar colores neutros para la caja de estado
+    const colNeutro = {
+      acento: [50, 50, 50] as [number, number, number],
+      fondo: [250, 250, 250] as [number, number, number]
+    };
+    this.dibujarCajaEstado(doc, margen, y, anchoUtil, alto, colNeutro);
     this.dibujarTextosIzquierda(doc, deudor, mes, margen + 5, y);
     this.dibujarValoresDerecha(
-      doc, deudor, this.formatearPesos(imp), col.acento,
+      doc, deudor, this.formatearPesos(imp), colNeutro.acento,
       margen + anchoUtil - 5, y
     );
 
@@ -676,15 +852,12 @@ export class Client implements OnInit {
     // Título sección
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(51, 51, 51);
+    doc.setTextColor(20, 20, 20);
     doc.text('Formas de pago disponibles', margen, y + 6);
 
-    doc.setFillColor(51, 51, 51);
-    doc.rect(margen, y + 8.5, 35, 1.2, 'F');
-
-    doc.setDrawColor(220, 220, 220);
+    doc.setDrawColor(180, 180, 180);
     doc.setLineWidth(0.3);
-    doc.line(margen + 35, y + 9, margen + anchoUtil, y + 9);
+    doc.line(margen, y + 9, margen + anchoUtil, y + 9);
     y += 13;
 
     const colW = (anchoUtil - 6) / 2;
@@ -769,18 +942,21 @@ export class Client implements OnInit {
     const altoContenidoNatural = lineas.length * 8 + 4;
     const altoTotal = altoForzado ?? (altoHeader + altoContenidoNatural);
 
-    // Fondo de la caja (Blanco)
+    // Fondo de la caja (Blanco puro, minimalista)
     doc.setFillColor(255, 255, 255);
-    doc.roundedRect(x, y, w, altoTotal, 3, 3, 'F');
+    doc.roundedRect(x, y, w, altoTotal, 2, 2, 'F');
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.35);
+    doc.roundedRect(x, y, w, altoTotal, 2, 2, 'D');
+
+    // Encabezado minimalista: fondo gris muy claro con texto oscuro
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(x, y, w, altoHeader, 2, 2, 'F');
+    doc.rect(x, y + altoHeader - 3, w, 3, 'F');
     doc.setDrawColor(210, 210, 210);
     doc.setLineWidth(0.3);
-    doc.roundedRect(x, y, w, altoTotal, 3, 3, 'D');
-
-    // Encabezado color #333333
-    doc.setFillColor(51, 51, 51);
-    doc.roundedRect(x, y, w, altoHeader, 3, 3, 'F');
-    doc.rect(x, y + altoHeader - 3, w, 3, 'F');
-    doc.setTextColor(255, 255, 255);
+    doc.line(x, y + altoHeader, x + w, y + altoHeader);
+    doc.setTextColor(40, 40, 40);
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'bold');
     doc.text(titulo, x + pad, y + 5.5);
@@ -795,16 +971,16 @@ export class Client implements OnInit {
     lineas.forEach((linea, idx) => {
       const lineY = N > 1 ? startY + idx * dY : startY;
       if (linea.valor) {
-        doc.setTextColor(80, 100, 130);
+        doc.setTextColor(120, 120, 120);
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(fontSize);
         doc.text(linea.label, x + pad, lineY);
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(51, 51, 51);
+        doc.setTextColor(30, 30, 30);
         const labelW = doc.getTextWidth(linea.label + ' ');
         doc.text(linea.valor, x + pad + labelW, lineY);
       } else {
-        doc.setTextColor(90, 110, 140);
+        doc.setTextColor(120, 120, 120);
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(fontSize);
         const maxW = w - pad * 2 - (wLogo + 4);
@@ -872,33 +1048,34 @@ export class Client implements OnInit {
     const pageH = doc.internal.pageSize.getHeight();
     const altoFoot = 13;
 
-    // Franja fina de acento gris oscuro sobre el pie
-    doc.setFillColor(80, 80, 80);
-    doc.rect(0, pageH - altoFoot - 1, pageW, 1, 'F');
+    // Línea separadora superior del pie (minimalista)
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.4);
+    doc.line(0, pageH - altoFoot - 0.5, pageW, pageH - altoFoot - 0.5);
 
-    // Fondo gris #333333 del pie
-    doc.setFillColor(51, 51, 51);
+    // Fondo blanco del pie
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, pageH - altoFoot, pageW, altoFoot, 'F');
 
-    // Logo en pie (blanco sobre fondo oscuro)
+    // Logo en pie (versión oscura sobre fondo blanco)
     try {
-      const logoResp = await fetch('assets/img/emenetLogoB.png');
+      const logoResp = await fetch('assets/img/logo.png');
       const logoBlob = await logoResp.blob();
       const logoDataUrl = await this.blobToDataUrl(logoBlob);
       doc.addImage(
         logoDataUrl, 'PNG',
-        12, pageH - altoFoot + 2, 20, 9, undefined, 'FAST'
+        12, pageH - altoFoot + 2, 13, 9, undefined, 'FAST'
       );
     } catch {
       // Sin logo de respaldo
     }
 
     // Texto central
-    doc.setTextColor(220, 220, 220);
+    doc.setTextColor(140, 140, 140);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.text(
-      'IPTVTEL Comunicaciones S. DE R.L. DE C.V. ·  713 133 4557 Ext 1 · clientes@emenet.mx',
+      'IPTVTEL Comunicaciones S. DE R.L. DE C.V. · 713 133 4557 Ext 1 · clientes@emenet.mx',
       pageW / 2, pageH - 5.5, { align: 'center' }
     );
 
