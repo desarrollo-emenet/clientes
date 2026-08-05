@@ -120,7 +120,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
           this.avatarUrl = '';
         },
         error: (err) => {
-          console.error('Error loading client details:', err);
+          //console.error('Error loading client details:', err);
           this.user = {
             nombre: 'Cliente',
             numeroCliente: clienteNumero,

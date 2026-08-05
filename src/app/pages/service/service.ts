@@ -119,7 +119,7 @@ export class Service implements OnInit, OnDestroy {
       },
       error: (e) => {
         this.loading = false;
-        console.error('Error cargando servicios', e);
+        //console.error('Error cargando servicios', e);
         toast.error('No se pudo obtener servicios');
       }
     });
@@ -205,10 +205,10 @@ export class Service implements OnInit, OnDestroy {
         } if (e?.status === 400) {
           toast.error('Codigo incorrecto');
         }
-        else if (e?.status === 401) {
+        /*else if (e?.status === 401) {
           toast.error('No autorizado');
           this.router.navigateByUrl('/iniciar-sesion');
-        } else {
+        }*/ else {
           toast.error('Error inesperado');
         }
       }

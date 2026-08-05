@@ -44,7 +44,7 @@ export class Recover implements OnInit {
       next: (res) => {
         this.loading = false;
         toast.success('Correo de recuperación enviado correctamente');
-        console.log(res);
+        //console.log(res);
       },
       error: (e) => {
         this.loading = false;
