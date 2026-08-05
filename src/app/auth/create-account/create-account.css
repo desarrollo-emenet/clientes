@@ -424,26 +424,28 @@
 }
 
 .support-section {
-  margin-top: 6px;
+  margin-top: 4px;
+  font-size: 0.84rem;
 }
 
 .support-buttons {
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 6px;
   flex-wrap: wrap;
 }
 
 .btn-soporte {
   flex: 1;
-  min-width: 160px;
-  height: 48px;
-  border-radius: 14px;
+  min-width: 130px;
+  height: 38px;
+  border-radius: 10px;
+  padding: 0 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none !important;
   transition: all 0.25s ease;
@@ -454,27 +456,27 @@
   background: #0ea74a;
   color: #ffffff !important;
   border: none;
-  box-shadow: 0 4px 12px rgba(14, 167, 74, 0.2);
+  box-shadow: 0 3px 8px rgba(14, 167, 74, 0.2);
 }
 
 .btn-whatsapp:hover {
   background: #0d9642;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(14, 167, 74, 0.3);
+  box-shadow: 0 4px 12px rgba(14, 167, 74, 0.3);
 }
 
 .btn-telefono {
   background: #ffffff;
   color: #1e293b !important;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 .btn-telefono:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
 }
 
 .btn-soporte svg {
