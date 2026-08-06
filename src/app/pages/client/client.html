@@ -2,11 +2,20 @@
 <div class="row g-0 min-vh-100">
   <main class="main-container px-3 px-lg-4 py-4">
 
-    <!-- Loading con logo -->
-    <div *ngIf="!data || loading" class="loading-container">
+    <!-- 1. LOADING INICIAL: Solo se muestra cuando la página abre por primera vez y no hay datos -->
+    <div *ngIf="!data" class="loading-container">
       <img src="assets/img/logo.png" alt="Cargando..." class="loading-logo">
       <div class="loading-spinner"></div>
       <p class="loading-text">Cargando...</p>
+    </div>
+
+    <!-- 2. LOADING FLOTANTE: Se muestra encima de la interfaz al generar la URL del ticket -->
+    <div *ngIf="data && loading" class="loading-overlay-fixed">
+      <div class="loading-card-box">
+        <img src="assets/img/logo.png" alt="Generando..." class="loading-logo logo-animated">
+        <div class="loading-spinner border-primary-color"></div>
+        <p class="loading-text-white">Generando ticket...</p>
+      </div>
     </div>
 
     <div *ngIf="data" class="content-wrapper">

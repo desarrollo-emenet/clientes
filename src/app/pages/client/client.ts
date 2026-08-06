@@ -77,7 +77,7 @@ export class Client implements OnInit {
 
 
   private obtenerTickets(venta: string): void {
-    //this.loading = true;
+    this.loading = true;
 
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
@@ -92,12 +92,12 @@ export class Client implements OnInit {
           console.log('No se generó la URL');
           toast.error('Error al descargar el ticket');
         }
-        //this.loading = false;
+        this.loading = false;
       },
       error: (e) => {
         toast.error('Error al descargar el ticket');
+        this.loading = false;
       }
-      //error: () => this.loading = false
     });
   }
 
