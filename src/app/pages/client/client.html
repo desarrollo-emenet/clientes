@@ -386,3 +386,11 @@
     </div>
   </main>
 </div>
+
+ <div class="contenedor-pdf">
+    <iframe 
+      *ngIf="urlNueva" 
+      [src]="urlNueva" 
+      type="application/pdf">
+    </iframe>
+  </div>

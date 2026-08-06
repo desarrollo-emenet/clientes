@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
 import { HttpClient } from '@angular/common/http'
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-client',
@@ -23,6 +24,7 @@ export class Client implements OnInit {
   loadingPago = false;
   showPagoModal = false;
   ticket: any;
+  urlNueva!: any;
 
 
   constructor(
@@ -31,7 +33,8 @@ export class Client implements OnInit {
     private user: UserService,
     private paymentService: PaymentService,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient,
+  private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -71,21 +74,30 @@ export class Client implements OnInit {
     }, 3600);
   }
 
+
+
   private obtenerTickets(venta: string): void {
-    this.loading = true;
+    //this.loading = true;
 
     this.clientS.ticket(venta).subscribe({
       next: (response) => {
         if (response.url) {
-          this.router.navigate(['/ver-ticket'], {
-            state: { pdfUrl: response.url }
-          });
+
+          const urlApi = response.url;
+          if (urlApi) {
+            this.urlNueva = this.sanitizer.bypassSecurityTrustResourceUrl(urlApi);
+          }
+
         } else {
           console.log('No se generó la URL');
+          toast.error('Error al descargar el ticket');
         }
-        this.loading = false;
+        //this.loading = false;
       },
-      error: () => this.loading = false
+      error: (e) => {
+        toast.error('Error al descargar el ticket');
+      }
+      //error: () => this.loading = false
     });
   }
 
