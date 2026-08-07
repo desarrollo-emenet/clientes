@@ -710,7 +710,7 @@
                             <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]"
                                 [alt]="productoSeleccionado.nombre" class="carousel-main-img"
                                 (click)="abrirZoom(productoSeleccionado.imagenActual)" title="Click para ampliar" />
-                            <div class="carousel-zoom-hint">
+                            <div class="carousel-zoom-hint" (click)="abrirZoom(productoSeleccionado.imagenActual)">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i>
                             </div>
                         </div>
@@ -774,23 +774,23 @@
     <!-- ZOOM LIGHTBOX -->
     <div class="zoom-overlay" [class.zoom-open]="zoomIndex !== null" (click)="cerrarZoom($event)">
 
-        <button class="zoom-close" (click)="cerrarZoom()">
-            &#x2715;
-        </button>
-
-        <button class="zoom-nav zoom-nav-prev" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
-            (click)="zoomAnterior($event)">
-            &#8249;
+        <button class="zoom-close" (click)="cerrarZoom()" aria-label="Cerrar">
+            <i class="fa-solid fa-xmark"></i>
         </button>
 
         <div class="zoom-container">
-            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual" alt="Imagen ampliada" class="zoom-img" />
-        </div>
+            <button class="zoom-nav zoom-nav-prev" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+                (click)="zoomAnterior($event)" aria-label="Anterior">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
-        <button class="zoom-nav zoom-nav-next" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
-            (click)="zoomSiguiente($event)">
-            &#8250;
-        </button>
+            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual" alt="Imagen ampliada" class="zoom-img" />
+
+            <button class="zoom-nav zoom-nav-next" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+                (click)="zoomSiguiente($event)" aria-label="Siguiente">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
 
         <div class="zoom-counter" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
             {{ (zoomIndex ?? 0) + 1 }} / {{ productoSeleccionado.imagenes.length }}

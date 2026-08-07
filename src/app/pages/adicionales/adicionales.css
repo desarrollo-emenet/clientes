@@ -1494,7 +1494,45 @@
 
 .carousel-main:hover .carousel-main-img {
   transform: scale(1.03);
-  filter: brightness(0.92);
+  filter: brightness(0.95);
+}
+
+/* Botones de navegación en carrusel principal */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b4e94;
+  border: 1px solid rgba(11, 78, 148, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+  opacity: 0.85;
+}
+
+.carousel-arrow:hover {
+  opacity: 1;
+  background: #0b4e94;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(11, 78, 148, 0.35);
+}
+
+.carousel-arrow-prev {
+  left: 10px;
+}
+
+.carousel-arrow-next {
+  right: 10px;
 }
 
 .carousel-zoom-hint {
@@ -1527,16 +1565,17 @@
 .zoom-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
   padding: 20px;
-  z-index: 2000;
+  z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s ease;
 }
 
 .zoom-overlay.zoom-open {
@@ -1547,72 +1586,82 @@
 /* Botón de cierre — esquina superior derecha del viewport */
 .zoom-close {
   position: fixed;
-  top: 18px;
-  right: 18px;
-  width: 38px;
-  height: 38px;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
   border: none;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
   color: #0f172a;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-  z-index: 2010;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s ease;
+  z-index: 10010;
 }
 
 .zoom-close:hover {
-  background: #f1f5f9;
-  transform: scale(1.1);
+  background: #e53935;
+  color: #ffffff;
+  transform: scale(1.1) rotate(90deg);
 }
 
-/* Flechas de navegación laterales */
+/* Flechas de navegación dentro de la tarjeta zoom-container */
 .zoom-nav {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  font-size: 2rem;
-  line-height: 1;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0b4e94;
+  font-size: 0.95rem;
+  border: 1px solid rgba(11, 78, 148, 0.15);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-  z-index: 2005;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
   user-select: none;
 }
 
 .zoom-nav:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
+  background: #0b4e94;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 18px rgba(11, 78, 148, 0.4);
+}
+
+.zoom-nav-prev {
+  left: 12px;
+}
+
+.zoom-nav-next {
+  right: 12px;
 }
 
 /* Contenedor de la imagen (tarjeta blanca) */
 .zoom-container {
-  background: #fff;
-  border-radius: 16px;
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
   padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: min(600px, 80vw);
+  max-width: min(650px, 85vw);
   max-height: 80vh;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-  transform: scale(0.9);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  transform: scale(0.92);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10000;
 }
 
 .zoom-overlay.zoom-open .zoom-container {
@@ -1635,13 +1684,16 @@
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 8px 20px;
   border-radius: 999px;
-  backdrop-filter: blur(6px);
-  letter-spacing: 0.04em;
-  z-index: 2005;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 10005;
 }
