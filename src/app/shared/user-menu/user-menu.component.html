@@ -41,34 +41,34 @@
         <i class="fa-solid fa-lock"></i>
         <span>Cambiar contraseña</span>
       </button>
-       
+
       <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
         <i class="fa-solid fa-credit-card"></i>
         <span>Formas de pago</span>
       </button>
-       <button class="dropdown-item" (click)="navigateTo('/formulario-pagos')">
+      <button class="dropdown-item" (click)="navigateTo('/formulario-pagos')">
         <i class="fa-solid fa-list-check"></i>
         <span>Registrar pago</span>
       </button>
-      
-      <button class="dropdown-item" (click)="navigateTo('/adicionales')">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span>Adicionales</span>
+
+      <button class="dropdown-item" (click)="navigateTo('/faq')">
+        <i class="fa-solid fa-headset"></i>
+        <span>Soporte</span>
       </button>
 
       <button class="dropdown-item" (click)="navigateTo('/visitas')">
         <i class="fa-solid fa-wrench"></i>
         <span>Visitas</span>
       </button>
-       
+
       <div class="section-divider"></div>
       <button routerLink="/servicios" (click)="navigateTo('/servicios')" class="dropdown-item" title="Servicios">
         <i class="fa-solid fa-wifi"></i>
         <span>Servicios</span>
       </button>
-     
+
     </div>
-    
+
 
     <div class="dropdown-footer">
       <button class="dropdown-item logout-item" (click)="handleLogout()">
