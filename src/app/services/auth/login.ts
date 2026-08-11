@@ -18,7 +18,7 @@ export class LoginS {
   constructor(private http: HttpClient, private router: Router) { }
   private apiUrl = environment.apiUrl
 
-  private getToken(): string | null {
+  public getToken(): string | null {
     return sessionStorage.getItem('authToken');
   }
   getHeaders(): HttpHeaders {
@@ -31,12 +31,13 @@ export class LoginS {
   register(data: RegisterRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
   }
-
   //Login post
   login(credentials: LoginRequest): Observable<any> {
     //console.log(credentials);
     return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials);
   }
+
+
 
   logout(): Observable<any> {
     const headers = this.getHeaders();

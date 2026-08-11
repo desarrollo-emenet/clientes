@@ -6,6 +6,7 @@ import { LoginS } from '../../services/auth/login';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 @Component({
   selector: 'app-create-account',
   imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
@@ -17,7 +18,9 @@ export class CreateAccount {
   createForm: FormGroup;
   loading!: boolean;
   isFlipping!: boolean;
-  constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
+  constructor(private fb: FormBuilder, private router: Router, private api: LoginS,
+    protected http: HttpService
+  ) {
     this.createForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
     });
@@ -33,16 +36,11 @@ export class CreateAccount {
       this.loading = true;
       await firstValueFrom(this.api.register(this.createForm.value));
       this.router.navigate(['/iniciar-sesion'], {state: { success: true },});
-    }catch(e){
-      const error = e as HttpErrorResponse;
-      toast.error(error.error.message || 'Error al registrar la cuenta');
+    }catch(error){
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al registrar la cuenta');
     }finally{
       this.loading = false;
     }
-  }
-  protected goToUrl(url: string) {
-    this.isFlipping = true;
-    setTimeout(() => this.router.navigateByUrl(url), 550); // Tiempo óptimo para evitar trabas en el DOM
   }
   get numero_cliente() { return this.createForm.controls['numero_cliente']; }
 }

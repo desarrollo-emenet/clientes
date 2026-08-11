@@ -4,7 +4,9 @@ import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
-import { UserService } from '../../services/user/user-service';
+import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 @Component({
   selector: 'app-login',
@@ -15,106 +17,59 @@ import { UserService } from '../../services/user/user-service';
 })
 
 export class Login implements OnInit {
-  loginForm!: FormGroup;
-  error: string | null = null;
-  loading = false;
-  showPassword = false;
-  isFlipping = false;
-  mostrarAyuda = false;
+  mostrarAyuda!: boolean;
+  loginForm: FormGroup;
+  loading!: boolean;
+  showPassword!: boolean;
+  isFlipping!: boolean;
   messaggeSuccess!: boolean;
 
-  @HostListener('document:keydown.escape')
-  cerrarAyuda(): void {
-    this.mostrarAyuda = false;
-  }
-
-  alternarAyuda(): void {
-    this.mostrarAyuda = !this.mostrarAyuda;
-  }
-
-  constructor(private fb: FormBuilder, private router: Router, private api: LoginS, private user: UserService, private anrouter: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private api: LoginS,
+    protected http: HttpService) {
     this.loginForm = this.fb.group({
-      usuario: ['', [Validators.required, Validators.maxLength(6)]],
+      cliente: ['', [Validators.required, Validators.maxLength(6)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     })
+
     const stateNav = this.router.getCurrentNavigation();
     if (stateNav?.extras.state) {
       const state = stateNav.extras.state;
-      console.log(state)
       this.messaggeSuccess = state ? true : false;
       window.history.replaceState({}, document.title);
     }
   }
+  @HostListener('document:keydown.escape')
+
   ngOnInit() {
-    if(this.messaggeSuccess){
-      toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
-      this.messaggeSuccess = false;
-    }
+    if(this.messaggeSuccess) toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
+    const sesion = this.api.getToken();
+    if (sesion) this.router.navigate(['/servicios']);
   }
 
-
-  get usuario() {
-    return this.loginForm.controls['usuario'];
-  }
-  get password() {
-    return this.loginForm.controls['password'];
-  }
-
-  login() {
-    if (this.usuario.invalid || this.password.invalid) {
+  protected async login(): Promise<void> {
+    if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
-      toast.error("Completar los camposo requeridos");
+      toast.error("Completa los campos requeridos.");
       return;
     }
 
-    this.loading = true;
-    const { usuario, password } = this.loginForm.value;
-
-    const payload = { cliente: usuario, password };
-
-    this.api.login(payload as any).subscribe({
-      next: (res) => {
-        this.loading = false;
-        const token = res?.token;
-        if (token) {
-          sessionStorage.setItem('authToken', token);
-        }
-        //sessionStorage.setItem('authToken', res.token);
-
-        //navegamos al dashboard
-        toast.success('Sesión iniciada correctamente');
-        //this.router.navigateByUrl('/servicios');
-        this.navigateTo('/dashboard');
-      },
-      error: (e) => {
-        this.loading = false;
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 401) {
-          toast.error('Credenciales inválidas');
-        } else if (e?.status === 404) {
-          toast.error('Usuario no encontrado');
-        } else if (e?.status === 403) {
-          toast.error('Correo no verificado');
-        } else {
-          toast.error('Error al iniciar sesión');
-        }
-      }
-    });
+    try{
+      this.loading = true;
+      const { token } = await firstValueFrom(this.api.login(this.loginForm.value));
+      if (token) sessionStorage.setItem('authToken', token);
+      toast.success('Sesión iniciada correctamente');
+      this.router.navigate(['/dashboard', this.usuario.value]);
+    }catch(error){
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al iniciar sesión');
+    }finally{
+      this.loading = false;
+    }
   }
 
-  navigateTo(route: string): void {
-    this.router.navigate([route, this.loginForm.value.usuario]);
+  get usuario() {
+    return this.loginForm.controls['cliente'];
   }
-
-  viewPassword() {
-    this.showPassword = !this.showPassword;
-  }
-
-  goToUrl(url: string) {
-    this.isFlipping = true;
-    setTimeout(() => {
-      this.router.navigateByUrl(url);
-    }, 550); // Tiempo óptimo para evitar trabas en el DOM
+  get password() {
+    return this.loginForm.controls['password'];
   }
 }

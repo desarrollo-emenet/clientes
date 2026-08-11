@@ -41,7 +41,7 @@
               <!-- Campo: Número de cliente -->
               <div class="ep-field">
                 <label for="inputUsuario">Número de cliente</label>
-                <input id="inputUsuario" type="text" formControlName="usuario" class="ep-input" placeholder="#####" />
+                <input id="inputUsuario" type="text" formControlName="cliente" class="ep-input" placeholder="#####" />
                 <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
                   <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
                   <span *ngIf="usuario.errors?.['maxLength']"> El número de cliente es demasiado largo. </span>
@@ -54,7 +54,7 @@
                 <div class="ep-input-group">
                   <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
                     class="ep-input" autocomplete="current-password" placeholder="••••••••" />
-                  <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()"
+                  <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="showPassword=!showPassword"
                     title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
                     <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" width="20" />
                   </button>
@@ -64,17 +64,12 @@
                 </div><br>
                 <!-- Enlaces: Crear cuenta y Recuperar password -->
                 <div class="ep-links-row">
-                  <a href="javascript:void(0)" (click)="goToUrl('/crear-cuenta')" class="ep-link">Crear cuenta</a>
+                  <a href="javascript:void(0)" (click)="isFlipping = http.goToUrl('/crear-cuenta')" class="ep-link">Crear cuenta</a>
                   <a routerLink="/recuperar-password" class="ep-link">¿Olvidaste tu contraseña?</a>
                 </div>
               </div>
 
             </div>
-          </div>
-
-          <!-- Mensaje de error global -->
-          <div *ngIf="error" class="alert alert-danger text-center error-global">
-            {{ error }}
           </div>
 
           <!-- Botón Iniciar Sesión -->
@@ -92,7 +87,7 @@
       </div>
     </div>
     <!-- Overlay: cierra el panel al pulsar fuera (mobile tap / click) -->
-    <div class="help-panel__overlay" [class.help-panel__overlay--visible]="mostrarAyuda" (click)="cerrarAyuda()"
+    <div class="help-panel__overlay" [class.help-panel__overlay--visible]="mostrarAyuda" (click)="mostrarAyuda = false"
       aria-hidden="true">
     </div>
   </main>
@@ -110,7 +105,7 @@
           </p>
         </div>
       </div>
-      <button type="button" class="help-panel__close-btn" (click)="cerrarAyuda()" aria-label="Cerrar ayuda"
+      <button type="button" class="help-panel__close-btn" (click)="mostrarAyuda = false" aria-label="Cerrar ayuda"
         title="Cerrar">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -196,7 +191,7 @@
     </div>
   </div>
   <!-- Burbuja flotante de Ayuda -->
-  <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda" (click)="alternarAyuda()"
+  <button type="button" class="ep-help-pill" [class.ep-help-pill--activo]="mostrarAyuda" (click)="mostrarAyuda = !mostrarAyuda"
     aria-label="Abrir panel de ayuda" title="¿Necesitas ayuda?">
     <i class="fa-solid fa-question" *ngIf="!mostrarAyuda"></i>
     <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
