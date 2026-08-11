@@ -15,9 +15,7 @@ import { environment } from '../../../environments/environment';
 //servicio crea un observable que escucha la api rest
 export class LoginS {
   @Output() linkClick = new EventEmitter<void>();
-
   constructor(private http: HttpClient, private router: Router) { }
-
   private apiUrl = environment.apiUrl
 
   private getToken(): string | null {
@@ -28,6 +26,10 @@ export class LoginS {
     let headers = new HttpHeaders().set('Accept', 'application/json');
     if (token) headers = headers.set('Authorization', `Bearer ${token}`);
     return headers;
+  }
+
+  register(data: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
   }
 
   //Login post
@@ -42,9 +44,7 @@ export class LoginS {
     return this.http.get(`${this.apiUrl}/auth/logout`, { headers });
   }
 
-  register(data: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
-  }
+
 
   sendPasswordReset(data: RecoverRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`,data);
@@ -61,7 +61,7 @@ export class LoginS {
     return this.http.post<{valid: boolean}>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
   }
 
-  
+
 
 
   logoutAndRedirect() {

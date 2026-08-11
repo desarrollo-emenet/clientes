@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
-
+import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-create-account',
   imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
@@ -13,78 +14,35 @@ import { toast, NgxSonnerToaster } from 'ngx-sonner';
 })
 
 export class CreateAccount {
-  createForm!: FormGroup;
-  error = ('');
-  showPassword = false;
-  loading = false;
-  isFlipping = false;
-
+  createForm: FormGroup;
+  loading!: boolean;
+  isFlipping!: boolean;
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS) {
     this.createForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
-    }, 
-    );
-  }
-
-  passwordMatchValidator(group: FormGroup) {
-    const pass = group.get('password')?.value;
-    const confirm = group.get('password_confirmation')?.value;
-    if (pass && confirm && pass !== confirm) {
-      return { passwordMissMatch: true };
-    }
-    return null;
-  }
-
-  get numero_cliente() { return this.createForm.controls['numero_cliente']; }
-
-  register() {
-    if (this.loading) return;
-    if (this.createForm.invalid) { this.createForm.markAllAsTouched(); return; }
-    this.loading = true;
-    const raw = this.createForm.value;
-
-    //normalizar numero de cliente
-    const codigoNormalizado = raw.numero_cliente.trim().toUpperCase();
-
-    const payload1: any = {
-      numero_cliente: codigoNormalizado,
-    };
-
-    this.api.register(payload1 as any).subscribe({
-      next: () => {
-        toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
-        this.createForm.reset();
-        setTimeout(() => {
-          this.router.navigateByUrl('/iniciar-sesion');
-        }, 2000);
-        //
-        this.loading = false;
-      },
-      error: (e) => {
-        this.loading = false;
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servido')
-        } else if (e?.status === 409) {
-          toast.error('El correo de este cliente ya ha sido registrado. Contacta a soporte')
-        } else if (e?.status === 422) {
-          toast.error('El correo del cliente no es valido o no esta registrado. Contacta a soporte')
-        } else if (e?.status === 404) {
-          toast.error('Este servicio está dado de baja y no puede registrarse')
-        } else {
-          toast.error('Error')
-        }
-      }
     });
   }
+  protected async register() {
+    if (this.loading) return;
+    if (this.createForm.invalid) { this.createForm.markAllAsTouched(); return; }
+    this.createForm.patchValue({
+      numero_cliente: this.createForm.value.numero_cliente.trim()
+    });
 
-  viewPassword() {
-    this.showPassword = !this.showPassword;
+    try{
+      this.loading = true;
+      await firstValueFrom(this.api.register(this.createForm.value));
+      this.router.navigate(['/iniciar-sesion'], {state: { success: true },});
+    }catch(e){
+      const error = e as HttpErrorResponse;
+      toast.error(error.error.message || 'Error al registrar la cuenta');
+    }finally{
+      this.loading = false;
+    }
   }
-
-  goToUrl(url: string) {
+  protected goToUrl(url: string) {
     this.isFlipping = true;
-    setTimeout(() => {
-      this.router.navigateByUrl(url);
-    }, 550); // Tiempo óptimo para evitar trabas en el DOM
+    setTimeout(() => this.router.navigateByUrl(url), 550); // Tiempo óptimo para evitar trabas en el DOM
   }
+  get numero_cliente() { return this.createForm.controls['numero_cliente']; }
 }

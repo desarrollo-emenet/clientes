@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -14,13 +14,14 @@ import { UserService } from '../../services/user/user-service';
   styleUrl: './login.css'
 })
 
-export class Login {
+export class Login implements OnInit {
   loginForm!: FormGroup;
   error: string | null = null;
   loading = false;
   showPassword = false;
   isFlipping = false;
   mostrarAyuda = false;
+  messaggeSuccess!: boolean;
 
   @HostListener('document:keydown.escape')
   cerrarAyuda(): void {
@@ -31,12 +32,26 @@ export class Login {
     this.mostrarAyuda = !this.mostrarAyuda;
   }
 
-  constructor(private fb: FormBuilder, private router: Router, private api: LoginS, private user: UserService) {
+  constructor(private fb: FormBuilder, private router: Router, private api: LoginS, private user: UserService, private anrouter: Router) {
     this.loginForm = this.fb.group({
       usuario: ['', [Validators.required, Validators.maxLength(6)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     })
+    const stateNav = this.router.getCurrentNavigation();
+    if (stateNav?.extras.state) {
+      const state = stateNav.extras.state;
+      console.log(state)
+      this.messaggeSuccess = state ? true : false;
+      window.history.replaceState({}, document.title);
+    }
   }
+  ngOnInit() {
+    if(this.messaggeSuccess){
+      toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
+      this.messaggeSuccess = false;
+    }
+  }
+
 
   get usuario() {
     return this.loginForm.controls['usuario'];
