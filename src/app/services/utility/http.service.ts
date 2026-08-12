@@ -9,6 +9,7 @@ export class HttpService {
   constructor(private router: Router) {}
 
   public errorHttp(e: HttpErrorResponse, mensajeAlt: string): void {
+    toast.dismiss();
     toast.error(e.error?.message || mensajeAlt);
     if (e.status === 500) console.error('Error al procesar la solicitud:', e.error.error);
   }

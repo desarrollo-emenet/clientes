@@ -3,9 +3,9 @@ import { CanActivateFn, Router } from '@angular/router';
 import { LoginS } from '../services/auth/login';
 import { inject } from '@angular/core';
 import { toast } from 'ngx-sonner';
-import { catchError, map, of } from 'rxjs';
+import { catchError, firstValueFrom, map, of } from 'rxjs';
 
-export const recoverEmailGuard: CanActivateFn = (route, state) => {
+export const recoverEmailGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const loginS = inject(LoginS);
 
@@ -18,23 +18,17 @@ export const recoverEmailGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  return loginS.veryfyMailRecoverPassword({ token }).pipe(
-    map((response: any) => {
-
-      if (response.status) {
-        return true;
-      }
-
-      setTimeout(() => toast.warning(response.message), 0);
-      router.navigate(['/recuperar-password']);
-      return false;
-
-    }),
-    catchError(() => {
-      setTimeout(() => toast.warning('Acceso denegado'), 0);
-      router.navigate(['/recuperar-password']);
-      return of(false);
-    })
-
-  );
+  try {
+    const response: any = await firstValueFrom(loginS.veryfyMailRecoverPassword({ token }));
+    if (response.status) {
+      return true;
+    }
+    setTimeout(() => toast.warning(response.message), 0);
+    router.navigate(['/recuperar-password']);
+    return false;
+  } catch (e) {
+    setTimeout(() => toast.warning('Acceso denegado'), 0);
+    router.navigate(['/recuperar-password']);
+    return false;
+  }
 };

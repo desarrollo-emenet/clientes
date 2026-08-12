@@ -37,6 +37,17 @@ export class LoginS {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials);
   }
 
+  sendPasswordReset(data: RecoverRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`,data);
+  }
+
+  veryfyMailRecoverPassword(data:any): Observable<{valid: boolean}>{
+    return this.http.post<{valid: boolean}>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
+  }
+
+  sendPasswordUpdate(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/auth/updatePassword`,data);
+  }
 
 
   logout(): Observable<any> {
@@ -47,20 +58,14 @@ export class LoginS {
 
 
 
-  sendPasswordReset(data: RecoverRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`,data);
-  }
-  sendPasswordUpdate(data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/auth/updatePassword`,data);
-  }
+
+
 
   verifyMail(data:any): Observable<{valid: boolean}>{
     return this.http.post<{valid: boolean}>(`${this.apiUrl}/verify-token`, data);
   }
 
-  veryfyMailRecoverPassword(data:any): Observable<{valid: boolean}>{
-    return this.http.post<{valid: boolean}>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
-  }
+
 
 
 

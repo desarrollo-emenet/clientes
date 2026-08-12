@@ -32,7 +32,7 @@ export const routes: Routes = [
   { path: 'email-verificado', component: EmailVerificado, canActivate: [emailVerificadoGuard] },
 
 
-  // Requieren login   
+  // Requieren login
   { path: 'dashboard/:numero_cliente', component: Dashboard, canActivate: [requireAuthGuard, serviceAccessGuard] },
   { path: 'servicios', component: Service, canActivate: [requireAuthGuard] },
   { path: 'estadoCuenta/:numero_cliente', component: Client, canActivate: [requireAuthGuard] },
@@ -43,7 +43,7 @@ export const routes: Routes = [
   { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
 
-  
+
   { path: '**', redirectTo: '/iniciar-sesion' }
 
 ];

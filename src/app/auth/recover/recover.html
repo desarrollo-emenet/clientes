@@ -45,16 +45,11 @@
 
           <!-- Enlaces: Regresar -->
           <div class="ep-links-row">
-            <a (click)="goToUrl('/iniciar-sesion')" class="ep-link" style="cursor: pointer;">
+            <a (click)="isFlipping = http.goToUrl('/iniciar-sesion')" class="ep-link" style="cursor: pointer;">
               Regresar a inicio de sesión
             </a>
           </div>
         </div>
-      </div>
-
-      <!-- Mensaje de error global -->
-      <div *ngIf="error" class="alert alert-danger text-center error-global">
-        {{ error }}
       </div>
 
       <!-- Botón Recuperar -->
