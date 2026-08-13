@@ -43,7 +43,8 @@ export class Login implements OnInit {
   ngOnInit() {
     if(this.messaggeSuccess) toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
     const sesion = this.api.getToken();
-    if (sesion) this.router.navigate(['/servicios']);
+    const servicio = localStorage.getItem('servicio_activo');
+    this.router.navigate(sesion && servicio ? ['/dashboard', servicio] : ['/servicios']);    
   }
 
   protected async login(): Promise<void> {
