@@ -122,6 +122,24 @@ export class Adicionales {
     }
   }
 
+  imagenAnterior(evento?: MouseEvent): void {
+    if (evento) evento.stopPropagation();
+    if (this.productoSeleccionado && this.productoSeleccionado.imagenes?.length > 1) {
+      const total = this.productoSeleccionado.imagenes.length;
+      this.productoSeleccionado.imagenActual =
+        (this.productoSeleccionado.imagenActual - 1 + total) % total;
+    }
+  }
+
+  imagenSiguiente(evento?: MouseEvent): void {
+    if (evento) evento.stopPropagation();
+    if (this.productoSeleccionado && this.productoSeleccionado.imagenes?.length > 1) {
+      const total = this.productoSeleccionado.imagenes.length;
+      this.productoSeleccionado.imagenActual =
+        (this.productoSeleccionado.imagenActual + 1) % total;
+    }
+  }
+
   abrirZoom(index: number): void {
     this.zoomIndex = index;
   }
