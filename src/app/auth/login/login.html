@@ -44,7 +44,6 @@
                 <input id="inputUsuario" type="text" formControlName="cliente" class="ep-input" placeholder="#####" />
                 <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
                   <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
-                  <span *ngIf="usuario.errors?.['maxLength']"> El número de cliente es demasiado largo. </span>
                 </div>
               </div>
 

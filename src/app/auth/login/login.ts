@@ -27,7 +27,7 @@ export class Login implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS,
     protected http: HttpService) {
     this.loginForm = this.fb.group({
-      cliente: ['', [Validators.required, Validators.maxLength(6)]],
+      cliente: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     })
 
@@ -55,10 +55,10 @@ export class Login implements OnInit {
 
     try{
       this.loading = true;
-      const { token } = await firstValueFrom(this.api.login(this.loginForm.value));
+      const { token, numero_cliente } = await firstValueFrom(this.api.login(this.loginForm.value));
       if (token) sessionStorage.setItem('authToken', token);
       toast.success('Sesión iniciada correctamente');
-      this.router.navigate(['/dashboard', this.usuario.value]);
+      this.router.navigate(['/dashboard', numero_cliente]);
     }catch(error){
       this.http.errorHttp(error as HttpErrorResponse, 'Error al iniciar sesión');
     }finally{
