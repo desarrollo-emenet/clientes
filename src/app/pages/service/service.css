@@ -4,7 +4,7 @@
 
 .service-page {
   background: linear-gradient(135deg, #edf4fb 0%, #fefeff 100%);
-  min-height: calc(100vh - 140px);
+  min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
     'Segoe UI', sans-serif;
   padding: 3.5rem 0 4rem;

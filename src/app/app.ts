@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Footer, Header, ReactiveFormsModule],
+  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
