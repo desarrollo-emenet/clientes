@@ -386,9 +386,7 @@
   }
 
   .ep-header-icon {
-    width: 64px;
-    height: 64px;
-    font-size: 1.7rem;
+    display: none;
   }
 
   .ep-header-content h2 {
