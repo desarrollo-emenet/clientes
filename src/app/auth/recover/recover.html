@@ -54,9 +54,16 @@
 
       <!-- Botón Recuperar -->
       <div class="ep-actions">
-        <button type="submit" class="ep-submit-btn" [disabled]="loading">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-          {{ loading ? 'RECUPERANDO...' : 'RECUPERAR' }}
+
+        <div *ngIf="countdown > 0" class="countdown-container">
+          <span class="countdown-text">
+            Reintentar en <strong>{{ Math.floor(countdown / 60) }}:{{ (countdown % 60) | number:'2.0-0' }}</strong>
+          </span>
+        </div>
+
+        <button type="submit" class="ep-submit-btn" [disabled]="loading || countdown > 0">
+          <span *ngIf="loading && countdown > 0" class="spinner-border spinner-border-sm me-2"></span>
+          <span *ngIf="!loading && countdown === 0">RECUPERAR</span>
         </button>
       </div>
 

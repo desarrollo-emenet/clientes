@@ -7,7 +7,7 @@ export const requireAuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   if (hasToken()) return true;
   //alert("No puede acceder");
-  setTimeout(() => toast.error('No tienes acceso'), 0);
+  //setTimeout(() => toast.error('No tienes acceso'), 0);
   router.navigate(['/iniciar-sesion']);
   return false;
 };
