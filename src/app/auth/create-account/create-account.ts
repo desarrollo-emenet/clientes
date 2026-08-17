@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { DatePipe, DecimalPipe, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
@@ -10,7 +10,7 @@ import { HttpService } from '../../services/utility/http.service';
 import { UserService } from '../../services/user/user-service';
 @Component({
   selector: 'app-create-account',
-  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster],
+  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster, DecimalPipe],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css'
 })

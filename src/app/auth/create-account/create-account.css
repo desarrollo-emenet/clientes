@@ -300,6 +300,33 @@
   box-shadow: 0 16px 35px rgba(37, 99, 235, .28);
 }
 
+.submit-btn:disabled {
+  display:none
+}
+
+.countdown-container {
+  background-color: #0b4d9400; /* Fondo sutil amarillo de advertencia */
+  border: 1px solid #0b4d9400;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Estilo del texto del temporizador */
+.countdown-text {
+  color: linear-gradient(135deg, #0b4e94, #1a6ace); 
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.countdown-text strong {
+  font-weight: 700;
+  display: inline-block;
+  min-width: 28px; /* Evita que el texto parpadee o se mueva cuando cambian los números */
+}
+
 .link-subtle {
   color: #0f172a !important;
   text-decoration: none !important;
@@ -307,6 +334,7 @@
   font-weight: 500;
   transition: color 0.3s ease;
 }
+
 
 .link-subtle:hover {
   color: #3472df !important;
