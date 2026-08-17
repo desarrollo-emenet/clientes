@@ -1,8 +1,6 @@
 import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user/user-service';
-import { toast } from 'ngx-sonner';
-import { Router } from '@angular/router';
 import { ClientService } from '../../services/user/clientService';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,6 +27,11 @@ interface EstadoConfig {
   icono: string;
 }
 
+interface FiltroEstado {
+  value: number;
+  label: string;
+}
+
 
 @Component({
   selector: 'app-visits',
@@ -39,7 +42,7 @@ interface EstadoConfig {
 export class Visits {
 
   loading = false;
-  data: any;
+  //data: any;
   visitas: Visitas[] = [];
   visitaSeleccionada: Visitas | null = null;
 
@@ -103,9 +106,9 @@ export class Visits {
 
   }
 
-  protected async obtenerVisitas(cliente: string): Promise<void> {
+  protected async obtenerVisitas(numeroCliente: string): Promise<void> {
     try {
-      const { visitas } = await firstValueFrom(this.clientS.visitas(cliente));
+      const { visitas } = await firstValueFrom(this.clientS.visitas(numeroCliente));
       this. visitas = visitas ?? [];
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener visitas')      
@@ -121,19 +124,13 @@ export class Visits {
   }
 
   getTecnicoAsignado(visita: any): string {
-    switch (visita.estado) {
-      case 0:
-        return visita.usarioAgendado || 'Sin asignar';
-      case 1:
-        return 'Sin asignar';
-      case 2:
-        return visita.usarioProceso || 'Sin asignar';
-      case 3:
-        return visita.usarioAtencion || 'Sin asignar';
-      default:
-        return 'Sin asignar';
-    }
-  }
+  const tecnicos: Record<number, string | undefined> = {
+    0: visita.usarioAgendado,
+    2: visita.usarioProceso,
+    3: visita.usarioAtencion
+  };  
+  return tecnicos[visita.estado] || 'Sin asignar';
+}
 
   abrirDetalle(visita: Visitas): void {
     this.visitaSeleccionada = visita;
@@ -143,7 +140,6 @@ export class Visits {
   trackByVisitas(index: number, visita: Visitas): number {
     return visita.id;
   }
-
 
   cambiarFiltro(estado: number): void {
     this.filtroEstado = estado;

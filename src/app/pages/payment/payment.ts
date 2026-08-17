@@ -46,7 +46,6 @@ export class Payment {
     } finally {
       this.loading = false;
     }
-
   }
 
   protected async pagar(): Promise<void> {
@@ -58,10 +57,10 @@ export class Payment {
       const res = await firstValueFrom(this.paymentService.pagar(numeroCliente));
 
       if (res.status && res.redirectUrl) {
-      window.open(res.redirectUrl, '_blank');
-    } else {
-      toast.error('No se pudo generar la orden');
-    }
+        window.open(res.redirectUrl, '_blank');
+      } else {
+        toast.error('No se pudo generar la orden');
+      }
 
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
@@ -86,48 +85,4 @@ export class Payment {
     const text = encodeURIComponent('Hola, necesito ayuda con mi pago.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
-
-  // Modal para buscar invoice solo pruebas, quitar posteriormente
-  showInvoiceModal = false;
-  invoiceInput = '';
-  invoiceResult: any = null;
-  invoiceError: string | null = null;
-
-  openInvoiceModal(): void {
-    this.showInvoiceModal = true;
-  }
-
-  closeInvoiceModal(): void {
-    this.showInvoiceModal = false;
-    this.invoiceInput = '';
-    this.invoiceResult = null;
-    this.invoiceError = null;
-  }
-
-  /*buscarInvoice(): void {
-    const invoice = this.invoiceInput.trim();
-
-    if (!invoice) {
-      this.invoiceError = 'Ingresa un invoice válido';
-      return;
-    }
-
-    this.invoiceResult = null;
-    this.invoiceError = null;
-
-    this.paymentService.invoice(invoice).subscribe({
-      next: (res: any) => {
-
-        if (res.success && res.data) {
-          this.invoiceResult = res.data;
-        } else {
-          this.invoiceError = 'No se pudo obtener información';
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.invoiceError = 'Error al consultar el invoice';
-      }
-    });
-  }*/
 }

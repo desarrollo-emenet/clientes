@@ -184,52 +184,6 @@
             Hablar con Embot
           </button>
         </div>
-
-
-        <!-- Botón de invoice eliminado (solo fue para pruebas) -->
-
-        <!-- MODAL -->
-        <!--<div class="modal-overlay" *ngIf="showInvoiceModal">
-          <div class="modal-box">
-
-            <div class="modal-header">
-              <h3>Invoice</h3>
-              <button class="close-btn" (click)="closeInvoiceModal()">✕</button>
-            </div>
-
-            <div class="modal-body">
-              <label>Ingresa tu invoice</label>
-              <input type="text" [(ngModel)]="invoiceInput" placeholder="Ej: 01804-KHhggO" />
-            </div>
-
-            <div class="modal-footer">
-              <button class="btn-outline" (click)="closeInvoiceModal()">Cancelar</button>
-              <button class="btn-primary" (click)="buscarInvoice()">
-                Descifrar
-              </button>
-            </div>
-            <!- - RESULTADO - ->
-            <div *ngIf="invoiceResult" class="invoice-result">
-              <h4>Resultado</h4>
-
-              <div class="result-item">
-                <span>Cliente</span>
-                <strong>{{ invoiceResult.cliente }}</strong>
-              </div>
-
-              <div class="result-item">
-                <span>Fecha</span>
-                <strong>{{ invoiceResult.fecha }}</strong>
-              </div>
-            </div>
-
-            <!- - ERROR - ->
-            <div *ngIf="invoiceError" class="invoice-error">
-              {{ invoiceError }}
-            </div>
-
-          </div>
-        </div>-->
       </div>
     </main>
     <ngx-sonner-toaster richColors position="top-center" />

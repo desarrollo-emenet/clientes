@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {  RouterLink } from '@angular/router';
 import { CurrencyPipe, NgIf, DOCUMENT } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
-import { Subscription } from 'rxjs';
-import { LoginS } from '../../services/auth/login';
+import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user/user-service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,9 +24,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   constructor(
     private clientS: ClientService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private auth: LoginS,
+    private http: HttpService,
     private user: UserService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
@@ -33,12 +32,8 @@ export class Dashboard implements OnInit, OnDestroy {
 
   getSaludo(): string {
     const hour = new Date().getHours();
-    if (hour >= 6 && hour < 12) {
-      return 'Buenos días';
-    }
-    if (hour >= 12 && hour < 19) {
-      return 'Buenas tardes';
-    }
+    if (hour >= 6 && hour < 12) {return 'Buenos días';}
+    if (hour >= 12 && hour < 19) {return 'Buenas tardes';}
     return 'Buenas noches';
   }
 
@@ -107,34 +102,21 @@ export class Dashboard implements OnInit, OnDestroy {
     this.loadClientData(numeroCliente);
   }
 
-  loadClientData(numeroCliente: string) {
-    this.loading = true;
-    this.data = null;
-
-    const sub = this.clientS.getClientePorNumero(numeroCliente).subscribe({
-      next: res => {
-        this.data = res;
-        this.loading = false;
-
-        const clasificacion = res?.cliente?.cliente?.clasificacion;
+    protected async loadClientData(numeroCliente: string): Promise<void> {
+    try {
+      this.loading = true;
+      const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.data = res;
+      const clasificacion = res?.cliente?.cliente?.clasificacion;
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
         }
-      },
-      error: (e) => {
-        this.loading = false;
-        //console.error('Error en servicio', e);
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 404) {
-          toast.error('Servicio no encontrado');
-        } else if (e?.status === 403) {
-          this.mostrarMensaje = true;
-        } else {
-          //toast.error('Error inesperado');
-        }
-      }
-    })
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    }finally{
+      this.loading = false;
+    }
+
   }
 
   contactSupport() {
@@ -163,4 +145,5 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.viewportListeners.forEach(removeListener => removeListener());
   }
+  
 }
