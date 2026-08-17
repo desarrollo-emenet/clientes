@@ -40,9 +40,7 @@
 
       <!-- ══ VISTA LISTA: filas Apple-style ══ -->
       <ng-container *ngIf="vistaActual === 'lista'">
-        <div *ngFor="let s of servicios; let i = index"
-             class="apl-row"
-             [style.animation-delay]="i * 80 + 'ms'">
+        <div *ngFor="let s of servicios; let i = index" class="apl-row" [style.animation-delay]="i * 80 + 'ms'">
 
           <!-- Zona izquierda: gradiente + orbes + ícono -->
           <div class="apl-row__left">
@@ -57,8 +55,7 @@
               <span class="apl-row__name" [title]="s.cliente?.nombre">
                 {{ s.cliente?.nombre || 'Sin nombre' }}
               </span>
-              <span class="apc-status-badge"
-                    [ngClass]="obtenerDetalleClasificacion(s.cliente?.clasificacion).clase">
+              <span class="apc-status-badge" [ngClass]="obtenerDetalleClasificacion(s.cliente?.clasificacion).clase">
                 <i class="fa-solid fa-circle"></i>
                 {{ obtenerDetalleClasificacion(s.cliente?.clasificacion).texto }}
               </span>
@@ -83,13 +80,12 @@
 
           <!-- Acciones al extremo derecho -->
           <div class="apl-row__actions">
-            <button class="apc-btn apc-btn--primary" type="button"
-                    (click)="verDetalles(s.cliente?.cliente)">
+            <button class="apc-btn apc-btn--primary" type="button" (click)="verDetalles(s.cliente?.cliente)">
               <i class="fa-solid fa-circle-info"></i>
               <span>Ver detalles</span>
             </button>
             <button class="apc-btn apc-btn--danger apc-btn--icon" type="button"
-                    (click)="abrirConfirmacionEliminar(s.idServicio)">
+              (click)="abrirConfirmacionEliminar(s.idServicio)">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -100,9 +96,7 @@
 
       <!-- ══ VISTA TARJETAS: grid Apple-style ══ -->
       <ng-container *ngIf="vistaActual === 'tarjetas'">
-        <div *ngFor="let s of servicios; let i = index"
-             class="apc-card"
-             [style.animation-delay]="i * 80 + 'ms'">
+        <div *ngFor="let s of servicios; let i = index" class="apc-card" [style.animation-delay]="i * 80 + 'ms'">
 
           <!-- Zona superior con gradiente + icono centrado -->
           <div class="apc-card__top">
@@ -122,8 +116,7 @@
               <span class="apc-hash">#</span>
               <span>{{ s.cliente?.cliente || '—' }}</span>
             </div>
-            <span class="apc-status-badge"
-                  [ngClass]="obtenerDetalleClasificacion(s.cliente?.clasificacion).clase">
+            <span class="apc-status-badge" [ngClass]="obtenerDetalleClasificacion(s.cliente?.clasificacion).clase">
               <i class="fa-solid fa-circle"></i>
               {{ obtenerDetalleClasificacion(s.cliente?.clasificacion).texto }}
             </span>
@@ -144,13 +137,11 @@
 
           <!-- Acciones -->
           <div class="apc-actions">
-            <button class="apc-btn apc-btn--primary" type="button"
-                    (click)="verDetalles(s.cliente?.cliente)">
+            <button class="apc-btn apc-btn--primary" type="button" (click)="verDetalles(s.cliente?.cliente)">
               <i class="fa-solid fa-circle-info"></i>
               <span>Ver detalles</span>
             </button>
-            <button class="apc-btn apc-btn--danger" type="button"
-                    (click)="abrirConfirmacionEliminar(s.idServicio)">
+            <button class="apc-btn apc-btn--danger" type="button" (click)="abrirConfirmacionEliminar(s.idServicio)">
               <i class="fa-solid fa-trash-can"></i>
               <span>Eliminar</span>
             </button>
@@ -198,8 +189,14 @@
                         formControlName="numero_cliente"
                         [class.is-invalid]="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)" />
                     </div>
-                    <button class="btn-water btn-water-inline" type="submit" [disabled]="adding"
-                      [class.loading]="adding">
+
+                    <div *ngIf="countdown > 0" class="countdown-container">
+                      <span class="countdown-text">
+                        Reintentar en <strong>{{ Math.floor(countdown / 60) }}:{{ (countdown % 60) | number:'2.0-0' }}</strong>
+                      </span>
+                    </div>
+
+                    <button *ngIf="countdown === 0" class="btn-water btn-water-inline" type="submit" [disabled]="adding" [class.loading]="adding">
                       <span class="water-fill"></span>
                       <span class="btn-water-content">
                         <span *ngIf="adding" class="spinner-border spinner-border-sm" role="status"></span>
@@ -208,6 +205,7 @@
                       </span>
                     </button>
                   </div>
+
                   <div *ngIf="numero_cliente.invalid && (numero_cliente.dirty || numero_cliente.touched)"
                     class="apple-error mt-2">
                     <span *ngIf="numero_cliente.errors?.['required']">

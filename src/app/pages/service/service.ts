@@ -1,4 +1,4 @@
-import { NgFor, NgIf, NgClass } from '@angular/common';
+import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,11 +6,13 @@ import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { Header } from '../../shared/header/header';
-import { Footer } from '../../shared/footer/footer';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-service',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header, DecimalPipe],
   templateUrl: './service.html',
   styleUrl: './service.css'
 })
@@ -28,6 +30,10 @@ export class Service implements OnInit, OnDestroy {
   showAddServiceModal: boolean = false;
   showDeleteModal: boolean = false;
   idParaEliminar: number | null = null;
+
+  countdown = 0;
+  protected Math = Math;
+  private timerInterval: any;
 
   //servicios es un array de cualquier tipo
   servicios: any[] = [];
@@ -65,7 +71,7 @@ export class Service implements OnInit, OnDestroy {
   }
 
 
-  constructor(private fb: FormBuilder, private router: Router, private api: ClientService) {
+  constructor(private fb: FormBuilder, private router: Router, private api: ClientService, protected http: HttpService, private rateLimit: UserService) {
     this.serviceForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
     });
@@ -74,6 +80,14 @@ export class Service implements OnInit, OnDestroy {
   ngOnInit() {
     this.load();
     this.showBannerModal = true;
+
+    const id = 'add_service';
+    const faltante = this.rateLimit.getFaltante(id);
+
+    if (faltante > 0) {
+      this.countdown = faltante;
+      this.startCountdown();
+    }
   }
 
   cerrarModal() {
@@ -104,82 +118,87 @@ export class Service implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());
-  }
-  
-  load() {
-    this.loading = true;
-    const s = this.api.getService().subscribe({
-      next: (data) => {
-        this.servicios = Array.isArray(data) ? data : (data?.servicios ?? []);
-        this.cliente = data?.cliente ?? [];
+    clearInterval(this.timerInterval);
 
-        this.loading = false;
-        //LOg desde consola
-        //console.log(data);
-      },
-      error: (e) => {
-        this.loading = false;
-        //console.error('Error cargando servicios', e);
-        toast.error('No se pudo obtener servicios');
-      }
-    });
-    this.subs.push(s);
+  }
+
+  protected async load() {
+    if (this.loading) return;
+
+    try {
+      this.loading = true;
+      const data = await firstValueFrom(this.api.getService());
+      this.servicios = Array.isArray(data) ? data : (data?.servicios ?? []);
+      this.cliente = data?.cliente ?? [];
+    } catch (e) {
+      console.error('Error cargando servicios', e);
+      toast.error('No se pudo obtener servicios');
+    } finally {
+      this.loading = false;
+    }
   }
 
   get numero_cliente() {
     return this.serviceForm.controls['numero_cliente'];
   }
 
-  service() {
-    if (this.serviceForm.invalid) {
-      this.serviceForm.markAllAsTouched();
-      toast.error('Completar los campos requeridos');
+  protected async service() {
+
+    if (this.adding) return;
+    if (this.serviceForm.invalid) { this.serviceForm.markAllAsTouched(); return; }
+    const numeroCliente = this.serviceForm.value.numero_cliente?.trim();
+
+    this.serviceForm.patchValue({
+      numero_cliente: numeroCliente
+    })
+
+    const id = 'add_service';
+    if (!this.rateLimit.enviarCorreo(id)) {
+
+      const intentos = this.rateLimit.getIntentos(id);
+      const faltante = this.rateLimit.getFaltante(id);
+      if (intentos >= 3 && faltante === 0) {
+        toast.warning('Has alcanzado el límite de 3 intentos. Intenta nuevamente mañana.');
+        return;
+      }
+      this.countdown = faltante;
+      this.startCountdown();
       return;
     }
 
-    const raw = this.serviceForm.value;
+    this.countdown = this.rateLimit.registrarIntentos(id);
+    this.startCountdown();
 
-    //normalizar numero de cliente
-    const codigoNormalizado = raw.numero_cliente.trim();
-    const payload = {
-      numero_cliente: codigoNormalizado,
-    };
+    try {
+      this.adding = true;
 
+      await firstValueFrom(this.api.addService(this.serviceForm.value));
+      this.numeroClienteTemp = numeroCliente;
 
-    this.adding = true;
+      this.mostrarConfirmacion = true;
+      this.iniciarContador(600);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al registrar la cuenta');
+    } finally {
+      this.adding = false;
+    }
 
-    const s = this.api.addService(payload).subscribe({
-      next: (res) => {
-        toast.success('Se envio un correo de verificacion, revisa tu bandeja de entrada');
-        //this.serviceForm.reset();
-        this.adding = false;
-        //this.load();
-        this.numeroClienteTemp = payload.numero_cliente;
-        this.mostrarConfirmacion = true;
-        this.iniciarContador(600);
-      },
-      error: (e) => {
-        this.adding = false;
-        console.error('Error al agregar servicio', e);
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 404) {
-          toast.error('Cliente no encontrado o dado de baja');
-        } else if (e?.status === 422) {
-          toast.error('Número de cliente inválido');
-        } else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
-        } else {
-          toast.error('Error inesperado');
-        }
-      }
-    });
-
-    this.subs.push(s);
   }
 
-  confirmarCodigo() {
+  private startCountdown(): void {
+    clearInterval(this.timerInterval);
+
+    this.timerInterval = setInterval(() => {
+      this.countdown--;
+
+      if (this.countdown <= 0) {
+        clearInterval(this.timerInterval);
+        this.countdown = 0;
+      }
+    }, 1000);
+  }
+
+  protected async confirmarCodigo() {
     if (!this.codigo || this.codigo.length < 6) {
       toast.error('Codigo de verificacion invalido');
       return;
@@ -189,33 +208,19 @@ export class Service implements OnInit, OnDestroy {
       codigo: this.codigo
     };
 
-    const s = this.api.confirmarServicio(payload).subscribe({
-      next: (res) => {
-        toast.success('Servicio agregado correctamente');
-        this.mostrarConfirmacion = false;
-        this.codigo = '';
-        this.numeroClienteTemp = '';
-        this.serviceForm.controls['numero_cliente'].reset();
-        this.cerrarAddServiceModal();
-        this.load();
-      },
-      error: (e) => {
-        if (e?.status === 422) {
-          toast.error('Codigo de verificacion invalido o expirado');
-        } if (e?.status === 400) {
-          toast.error('Codigo incorrecto');
-        }
-        /*else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
-        }*/ else {
-          toast.error('Error inesperado');
-        }
-      }
-    });
-    this.subs.push(s);
+    try {
+      await firstValueFrom(this.api.confirmarServicio(payload));
+      toast.success('Servicio agregado correctamente');
+      this.mostrarConfirmacion = false;
+      this.codigo = '';
+      this.numeroClienteTemp = '';
+      this.serviceForm.controls['numero_cliente'].reset();
+      this.cerrarAddServiceModal();
+      this.load();
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al confirmar el servicio');
+    }
   }
-
 
   iniciarContador(segundos: number) {
     this.tiempoRestante = segundos;
@@ -250,25 +255,18 @@ export class Service implements OnInit, OnDestroy {
     this.idParaEliminar = null;
   }
 
-  confirmarEliminar() {
+  protected async confirmarEliminar() {
     if (this.idParaEliminar === null) return;
     const id = this.idParaEliminar;
     this.cerrarConfirmacionEliminar();
 
-    const s = this.api.deleteService(id).subscribe({
-      next: () => {
-        toast.success('Servicio eliminado');
-        this.load();
-      },
-      error: (e) => {
-        if (e?.status === 409) {
-          toast.error('Debes tener mínimo un servicio');
-        } else {
-          toast.error('No se pudo eliminar');
-        }
-      }
-    });
-    this.subs.push(s);
+    try {
+      await firstValueFrom(this.api.deleteService(id));
+      toast.success('Servicio eliminado');
+      this.load();
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al eliminar el servicio');
+    }
   }
 
   verDetalles(numero: string) {
