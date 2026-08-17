@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ClientService } from '../user/clientService';
 import { toast } from 'ngx-sonner';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,46 +13,21 @@ export class PaymentService {
   constructor(private clientS: ClientService) { }
 
 
-  pagar(numeroCliente: string) {
+  pagar(numeroCliente: string): Observable<any> {
     const numero = String(numeroCliente || '').trim();
 
     if (!numero) {
-      toast.error('No se encontró el número de cliente');
-      return;
+      throw new Error('No se encontró el número de cliente');
     }
 
-    if (this.loading) return;
-
-    this.loading = true;
-
-    this.clientS.crearOrdenPagoralia({
+    return this.clientS.crearOrdenPagoralia({
       numero_cliente: numero
-    }).subscribe({
-      next: (res) => {
-        this.loading = false;
-
-        if (res.status && res.redirectUrl) {
-          window.open(res.redirectUrl, '_blank');
-        } else {
-          toast.error('No se pudo generar la orden');
-          //console.error('Respuesta inesperada:', res);
-        }
-      },
-      error: (err) => {
-        this.loading = false;
-        console.error('Error:', err);
-        console.error('descripción del error:', err.error);
-        toast.error('Error al procesar el pago');
-      }
     });
   }
-
-
+  
 
   invoice(invoice: string) {
     return this.clientS.desencriptarInvoice({ invoice });
   }
-
-
 
 }

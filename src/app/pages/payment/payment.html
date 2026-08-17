@@ -52,7 +52,7 @@
               <div class="note">Confirmación automática del pago</div>
             </div>
 
-            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago || loading">
+            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago ">
               <ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 
@@ -189,7 +189,7 @@
         <!-- Botón de invoice eliminado (solo fue para pruebas) -->
 
         <!-- MODAL -->
-        <div class="modal-overlay" *ngIf="showInvoiceModal">
+        <!--<div class="modal-overlay" *ngIf="showInvoiceModal">
           <div class="modal-box">
 
             <div class="modal-header">
@@ -208,7 +208,7 @@
                 Descifrar
               </button>
             </div>
-            <!-- RESULTADO -->
+            <!- - RESULTADO - ->
             <div *ngIf="invoiceResult" class="invoice-result">
               <h4>Resultado</h4>
 
@@ -223,13 +223,13 @@
               </div>
             </div>
 
-            <!-- ERROR -->
+            <!- - ERROR - ->
             <div *ngIf="invoiceError" class="invoice-error">
               {{ invoiceError }}
             </div>
 
           </div>
-        </div>
+        </div>-->
       </div>
     </main>
     <ngx-sonner-toaster richColors position="top-center" />

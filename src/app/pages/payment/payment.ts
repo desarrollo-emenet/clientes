@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 @Component({
   selector: 'app-payment',
@@ -21,79 +22,53 @@ export class Payment {
   loading = false;
   loadingPago = false;
 
-  private subs: Subscription[] = [];
 
   constructor(
     private clientS: ClientService,
     private paymentService: PaymentService,
-    private router: Router,
     private user: UserService,
-    private route: ActivatedRoute,) { }
+    protected http: HttpService) { }
 
   ngOnInit(): void {
-    /*const sub = this.user.obtenerUsuarioAutenticado(this.route)
-      .subscribe({
-        next: (numeroCliente) => {
-          if (!numeroCliente) return;
-          this.loadClientData(numeroCliente);
-        },
-        error: (e) => {
-          console.error('Error al obtener usuario autenticado', e);
-          toast.error('Error al obtener información del usuario');
-        }
-      });
-    this.subs.push(sub);*/
     const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
-    this.loadClientData(numeroCliente);    
+    this.loadClientData(numeroCliente);
   }
 
-  loadClientData(numeroCliente: string): void {
+  protected async loadClientData(numeroCliente: string): Promise<void> {
     this.loading = true;
     this.data = null;
-
-    this.clientS.getClientePorNumero(numeroCliente).subscribe({
-      next: res => {
-        this.data = {
-          numero_cliente: res?.cliente?.cliente?.cliente ?? ''
-        };
-        this.loading = false;
-      },
-      error: (e) => {
-        this.loading = false;
-        console.error('Error en servicio', e);
-
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 404) {
-          toast.error('Servicio no encontrado');
-        } else if (e?.status === 401) {
-          toast.error('No autorizado');
-          this.router.navigateByUrl('/iniciar-sesion');
-        } else if (e?.status === 403) {
-          toast.error('No autorizado');
-        } else {
-          toast.error('Error inesperado');
-        }
-      }
-    });
+    try {
+      const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.data = { numeroCliente: res?.cliente?.cliente?.cliente ?? '' };
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+      this.loading = false;
+    }
 
   }
 
-  pagar(): void {
-    this.loadingPago = true;
-    this.paymentService.pagar(this.data?.numero_cliente);
-    setTimeout(() => {
+  protected async pagar(): Promise<void> {
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+
+    try {
+      this.loadingPago = true;
+      const res = await firstValueFrom(this.paymentService.pagar(numeroCliente));
+
+      if (res.status && res.redirectUrl) {
+      window.open(res.redirectUrl, '_blank');
+    } else {
+      toast.error('No se pudo generar la orden');
+    }
+
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
       this.loadingPago = false;
-    }, 3600);
+    }
   }
-
-
-
-  ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
-  }
-
 
   copy(dato: string) {
     navigator.clipboard.writeText(dato)
@@ -106,15 +81,11 @@ export class Payment {
       });
   }
 
-
-
   contactSupport() {
     const phone = '7133475658';
     const text = encodeURIComponent('Hola, necesito ayuda con mi pago.');
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
-
-
 
   // Modal para buscar invoice solo pruebas, quitar posteriormente
   showInvoiceModal = false;
@@ -133,7 +104,7 @@ export class Payment {
     this.invoiceError = null;
   }
 
-  buscarInvoice(): void {
+  /*buscarInvoice(): void {
     const invoice = this.invoiceInput.trim();
 
     if (!invoice) {
@@ -158,5 +129,5 @@ export class Payment {
         this.invoiceError = 'Error al consultar el invoice';
       }
     });
-  }
+  }*/
 }
