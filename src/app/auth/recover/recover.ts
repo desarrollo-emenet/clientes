@@ -73,7 +73,6 @@ export class Recover {
 
     try {
       this.loading = true;
-
       const { message } = await firstValueFrom(this.api.sendPasswordReset(this.recoverForm.value));
       toast.success(message);
     } catch (e) {

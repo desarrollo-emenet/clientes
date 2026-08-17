@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormsModule } 
 import { Router } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Header } from '../../shared/header/header';
 import { Footer } from '../../shared/footer/footer';
 
@@ -105,7 +105,7 @@ export class Service implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());
   }
-
+  
   load() {
     this.loading = true;
     const s = this.api.getService().subscribe({

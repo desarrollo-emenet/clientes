@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { LoginS } from '../../services/auth/login';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
@@ -28,7 +28,6 @@ export class ResponseRecover implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router,
     private api: LoginS,
     protected http: HttpService,
     protected passwordService: PasswordService,

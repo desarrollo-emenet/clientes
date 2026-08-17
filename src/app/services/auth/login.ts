@@ -38,17 +38,16 @@ export class LoginS {
   }
 
   sendPasswordReset(data: RecoverRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`,data);
+    return this.http.post<any>(`${this.apiUrl}/auth/recoverPassword`, data);
   }
 
-  veryfyMailRecoverPassword(data:any): Observable<{valid: boolean}>{
-    return this.http.post<{valid: boolean}>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
+  veryfyMailRecoverPassword(data: any): Observable<{ valid: boolean }> {
+    return this.http.post<{ valid: boolean }>(`${this.apiUrl}/recoveryPassword/verify-token`, data);
   }
 
   sendPasswordUpdate(data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/auth/updatePassword`,data);
+    return this.http.put<any>(`${this.apiUrl}/auth/updatePassword`, data);
   }
-
 
   logout(): Observable<any> {
     const headers = this.getHeaders();
@@ -56,18 +55,9 @@ export class LoginS {
     return this.http.get(`${this.apiUrl}/auth/logout`, { headers });
   }
 
-
-
-
-
-
-  verifyMail(data:any): Observable<{valid: boolean}>{
-    return this.http.post<{valid: boolean}>(`${this.apiUrl}/verify-token`, data);
+  verifyMail(data: any): Observable<{ valid: boolean }> {
+    return this.http.post<{ valid: boolean }>(`${this.apiUrl}/verify-token`, data);
   }
-
-
-
-
 
 
   logoutAndRedirect() {
@@ -88,11 +78,10 @@ export class LoginS {
     });
   }
 
-
-    goNavigate(ruta: string) {
+  goNavigate(ruta: string) {
     const numero = localStorage.getItem('servicio_activo');
 
-    if (!numero){
+    if (!numero) {
       toast.error('Seleeciona un servicio primero');
       this.router.navigate(['/servicios']);
       return;
@@ -110,7 +99,7 @@ export class LoginS {
     localStorage.removeItem('servicio_activo');
     sessionStorage.removeItem('servicio_activo');
     //borrar tambien al usuario
-     // localStorage.removeItem('savedUsuario');
+    // localStorage.removeItem('savedUsuario');
   }
 }
 
