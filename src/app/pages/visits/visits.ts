@@ -4,6 +4,9 @@ import { UserService } from '../../services/user/user-service';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { ClientService } from '../../services/user/clientService';
+import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 interface Visitas {
   id: number;
@@ -79,7 +82,7 @@ export class Visits {
   constructor(
     private user: UserService,
     private clientS: ClientService,
-    private router: Router) { }
+   protected http: HttpService) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -87,51 +90,26 @@ export class Visits {
     this.loadClientData(numeroCliente);
   }
 
-  loadClientData(numeroCliente: string): void {
-    this.loading = true;
-    this.clientS.getClientePorNumero(numeroCliente).subscribe({
-      next: cliente => {
-        this.obtenerVisitas(cliente.numero_cliente);
-      },
-      error: (e) => this.manejoError(e)
-    });
-  }
-
-  private obtenerVisitas(cliente: string): void {
-    this.clientS.visitas(cliente).subscribe({
-      next: ({ visitas }) => {
-        this.visitas = visitas ?? [];
-        this.loading = false;
-      },
-      error: e => this.manejoError(e)
-    });
-  }
-
-
-  private manejoError(e: any): void {
-    this.loading = false;
-    switch (e?.status) {
-      case 0:
-        toast.error('No se pudo conectar al servidor');
-        break;
-
-      case 401:
-        toast.error('No autorizado');
-        this.router.navigateByUrl('/iniciar-sesion');
-        break;
-
-      case 403:
-        toast.error('No autorizado');
-        break;
-
-      case 404:
-        toast.error('Servicio no encontrado');
-        break;
-
-      default:
-        toast.error('Error inesperado');
+  protected async loadClientData(numeroCliente: string): Promise<void> {
+    try {
+      this.loading = true;
+      const cliente = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.obtenerVisitas(cliente.numero_cliente);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    }finally{
+      this.loading = false;
     }
-    //console.error(e);
+
+  }
+
+  protected async obtenerVisitas(cliente: string): Promise<void> {
+    try {
+      const { visitas } = await firstValueFrom(this.clientS.visitas(cliente));
+      this. visitas = visitas ?? [];
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener visitas')      
+    }
   }
 
   getEstadoConfig(estado: number) {
