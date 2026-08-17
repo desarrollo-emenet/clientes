@@ -11,7 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 interface Pago {
   id: number;
@@ -70,7 +72,6 @@ export class FormPagos {
 
 
   private readonly estados: Record<string, EstadoConfig> = {
-
     '1': {
       texto: 'Pendiente',
       clase: 'pendiente',
@@ -93,6 +94,13 @@ export class FormPagos {
     }
   };
 
+  private readonly mensajesFiltro: Record<string, string> = {
+    '1': 'No hay pagos pendientes.',
+    registrado: 'No hay pagos registrados.',
+    '4': 'No hay pagos declinados.',
+    todos: 'No se encontraron pagos.'
+  };
+
   private readonly TIPOS_PERMITIDOS = [
     'image/jpeg',
     'image/jpg',
@@ -113,7 +121,8 @@ export class FormPagos {
     private fb: FormBuilder,
     private router: Router,
     private clientS: ClientService,
-    private user: UserService) { }
+    private user: UserService,
+    private http: HttpService) { }
 
 
   showSection(id: string): void {
@@ -155,23 +164,24 @@ export class FormPagos {
     })
   }
 
+  private async cargarDatos(numeroCliente: string): Promise<void> {
+    try {
+      this.loading = true;
+      const { cliente, pagos } = await firstValueFrom(
+        forkJoin({
+          cliente: this.clientS.getClientePorNumero(numeroCliente),
+          pagos: this.clientS.resBanco(numeroCliente)
+        })
+      );
+      this.data = cliente;
+      this.pagos = pagos.pagos;
 
-  private cargarDatos(numeroCliente: string) {
-    this.loading = true;
-    forkJoin({
-      cliente: this.clientS.getClientePorNumero(numeroCliente),
-      pagos: this.clientS.resBanco(numeroCliente)
-    }).subscribe({
-      next: ({ cliente, pagos }) => {
-        this.data = cliente;
-        this.pagos = pagos.pagos;
-        this.cargarTelefono();
-        this.loading = false;
-      },
-      error: (e) => {
-        this.manejoError(e);
-      }
-    });
+      this.cargarTelefono();
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+      this.loading = false;
+    }
   }
 
   private cargarTelefono(): void {
@@ -179,9 +189,7 @@ export class FormPagos {
       this.data?.cliente?.cliente?.telefono
         ?.replace(/\s/g, '')
         .substring(0, 10) ?? '';
-    this.pagosForm.patchValue({
-      telefono
-    });
+    this.pagosForm.patchValue({ telefono });
   }
 
   private processFile(file: File) {
@@ -234,9 +242,9 @@ export class FormPagos {
   }
 
 
+  protected async enviarPago(): Promise<void> {
 
-  enviarPago() {
-   /* Object.keys(this.pagosForm.controls).forEach(key => {
+    /*Object.keys(this.pagosForm.controls).forEach(key => {
       const controlErrors = this.pagosForm.get(key)?.errors;
 
       if (controlErrors) {
@@ -244,32 +252,26 @@ export class FormPagos {
       }
     });*/
 
-
-    if (this.pagosForm.invalid) {
-      this.pagosForm.markAllAsTouched();
-      toast.error("Completar los campos requeridos");
-      return
-    }
+    if (this.pagosForm.invalid) { this.pagosForm.markAllAsDirty(); return; }
     this.loading1 = true;
-
     this.limpiarErroresBackend();
 
-    this.clientS.pagosBanco(this.crearFormData()).subscribe({
-      next: () => {
-        toast.success('Datos enviados');
-        this.pagosForm.reset();
-        this.loading1 = false;
-      },
-      error: (e) => {
-        this.loading1 = false;
-        if (e.status === 422) {
-              console.log(e.error.errors);
+    try {
+      await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
+      toast.success('Datos enviados');
+      this.pagosForm.reset();
+    } catch (error) {
+      const httpError = error as HttpErrorResponse;
 
-          this.asignarErrores(e.error.errors);
-        }
-        toast.error('Ocurrió un error.');
+      if (httpError.status === 422 && httpError.error?.errors) {
+        this.asignarErrores(httpError.error.errors);
       }
-    });
+
+      this.http.errorHttp(httpError, 'Error al enviar los datos');
+    } finally {
+      this.loading1 = false;
+    }
+
   }
 
 
@@ -297,7 +299,7 @@ export class FormPagos {
 
       const control = this.pagosForm.get(campo);
       if (control) {
-        console.log(control);
+        //console.log(control);
         control.setErrors({
           backend: errors[campo][0]
         });
@@ -307,42 +309,14 @@ export class FormPagos {
   }
 
   private limpiarErroresBackend(): void {
-  Object.keys(this.pagosForm.controls).forEach(key => {
-    const control = this.pagosForm.get(key);
-    if (control && control.hasError('backend')) {
-      const errors = { ...control.errors };
-      delete errors['backend'];
-      control.setErrors(Object.keys(errors).length > 0 ? errors : null);
-    }
-  });
-}
-
-
-
-  private manejoError(e: any): void {
-    this.loading = false;
-    switch (e?.status) {
-      case 0:
-        toast.error('No se pudo conectar al servidor');
-        break;
-
-      case 401:
-        toast.error('No autorizado');
-        this.router.navigateByUrl('/iniciar-sesion');
-        break;
-
-      case 404:
-        toast.error('Servicio no encontrado');
-        break;
-
-      case 500:
-        toast.error('No se pudo conectar al servidor');
-        break;
-
-      default:
-        toast.error('Error inesperado');
-    }
-    console.error(e);
+    Object.keys(this.pagosForm.controls).forEach(key => {
+      const control = this.pagosForm.get(key);
+      if (control && control.hasError('backend')) {
+        const errors = { ...control.errors };
+        delete errors['backend'];
+        control.setErrors(Object.keys(errors).length > 0 ? errors : null);
+      }
+    });
   }
 
   getEstadoConfig(estado: string) {
@@ -383,22 +357,15 @@ export class FormPagos {
     if (estado === 'todos') {
       return this.pagos.length;
     }
-    if (estado === 'registrado') {
-      return this.pagos.filter(p => ['2', '3'].includes(p.estado)).length;
-    }
-    return this.pagos.filter(p => p.estado === estado).length;
+    const estadosRegistrados = ['2', '3'];
+
+    return this.pagos.filter(p => estado === 'registrado'
+      ? estadosRegistrados.includes(p.estado)
+      : p.estado === estado).length;
   }
 
   get mensajeFiltro(): string {
-
-    const mensajes: Record<string, string> = {
-      '1': 'No hay pagos pendientes.',
-      'registrado': 'No hay pagos registrados.',
-      '4': 'No hay pagos declinados.',
-      'todos': 'No se encontraron pagos.'
-    };
-
-    return mensajes[this.filtroEstado] ?? 'No se encontraron pagos.';
+    return this.mensajesFiltro[this.filtroEstado] ?? 'No se encontraron pagos.';
   }
 
   //paginacion
@@ -430,17 +397,15 @@ export class FormPagos {
     }
   }
 
-soloNumeros(event: Event, controlName: string, maxLength: number): void {
-  const input = event.target as HTMLInputElement;
+  soloNumeros(event: Event, controlName: string, maxLength: number): void {
+    const input = event.target as HTMLInputElement;
 
-  const valor = input.value
-    .replace(/\D/g, '')      
-    .slice(0, maxLength);    
+    const valor = input.value
+      .replace(/\D/g, '')
+      .slice(0, maxLength);
 
-  input.value = valor;
+    input.value = valor;
 
-  this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
-}
-
-
+    this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
+  }
 }
