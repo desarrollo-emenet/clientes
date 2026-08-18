@@ -5,12 +5,10 @@
     <nav class="page-nav">
       <button class="nav-btn" [ngClass]="{ active: activeSection === 'formulario' }"
         (click)="showSection('formulario')">
-        <i class="fa-solid fa-question"></i>
         Formulario de pago
       </button>
       <p></p>
       <button class="nav-btn" [ngClass]="{ active: activeSection === 'pagos' }" (click)="showSection('pagos')">
-        <i class="fi fi-rr-info"></i>
         Estatus de pagos
       </button>
 
@@ -112,35 +110,6 @@
         <!-- FORMULARIO -->
         <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
 
-          <!-- FORMA DE PAGO -->
-          <div class="form-card">
-            <div class="payment-options">
-              <label class="payment-card">
-                <input type="radio" value="TRH" formControlName="clave" required>
-                <div class="card-content">
-                  <i class="fa-solid fa-building-columns"></i>
-                  <div>
-                    <h6>Transferencia</h6>
-                  </div>
-                </div>
-              </label>
-
-              <label class="payment-card">
-                <input type="radio" value="DBH" formControlName="clave">
-                <div class="card-content">
-                  <i class="fa-solid fa-money-bill-transfer"></i>
-                  <div>
-                    <h6>Depósito</h6>
-                  </div>
-                </div>
-              </label>
-            </div>
-            <div *ngIf="f['clave'].invalid && (f['clave'].dirty || f['clave'].touched)" class="mt-1 text-danger small">
-              <span *ngIf="f['clave'].errors?.['required']">Requerido.</span>
-            </div>
-          </div>
-
-
           <div class="form-cards">
 
             <div class="form-card">
@@ -155,7 +124,7 @@
                 <div class="field">
                   <label>Teléfono</label>
                   <input type="text" formControlName="telefono" class="form-control custom-input"
-                    placeholder="Número de teléfono"   (input)="soloNumeros($event, 'telefono', 10)">
+                    placeholder="Número de teléfono" (input)="soloNumeros($event, 'telefono', 10)">
                   <div *ngIf="f['telefono'].invalid && (f['telefono'].dirty || f['telefono'].touched)"
                     class="mt-1 text-danger small">
                     <span *ngIf="f['telefono'].errors?.['required']">Requerido.</span>
@@ -172,6 +141,38 @@
                 <div class="card-icon green"><i class="fa-solid fa-credit-card"></i></div>
                 <h5>Información del pago</h5>
               </div>
+
+              <!-- FORMA DE PAGO -->
+
+              <div class="field">
+                <label>Forma de pago</label>
+                <div class="payment-options">
+                  <label class="payment-card">
+                    <input type="radio" value="TRH" formControlName="clave" required>
+                    <div class="card-content">
+                      <i class="fa-solid fa-building-columns"></i>
+                      <div>
+                        <h6>Transferencia</h6>
+                      </div>
+                    </div>
+                  </label>
+
+                  <label class="payment-card">
+                    <input type="radio" value="DBH" formControlName="clave">
+                    <div class="card-content">
+                      <i class="fa-solid fa-money-bill-transfer"></i>
+                      <div>
+                        <h6>Depósito</h6>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div *ngIf="f['clave'].invalid && (f['clave'].dirty || f['clave'].touched)"
+                  class="mt-1 text-danger small">
+                  <span *ngIf="f['clave'].errors?.['required']">Requerido.</span>
+                </div>
+              </div>
+
               <div class="card-body grid-2">
 
                 <!-- FECHA DE PAGO -->
@@ -198,7 +199,8 @@
                     : 'Número de operación'}}
                   </label>
 
-                  <input type="text" formControlName="numOperacion"  maxlength="30" class="form-control custom-input" [placeholder]="
+                  <input type="text" formControlName="numOperacion" maxlength="30" class="form-control custom-input"
+                    [placeholder]="
                   pagosForm.get('clave')?.value === 'TRH'? 'Ingresa la clave de rastreo'
                   : pagosForm.get('clave')?.value === 'DBH'? 'Ingresa el número de operacion, autorizacion o folio de venta'
                   : 'Número de operación'">
@@ -220,7 +222,7 @@
                   <div class="input-money">
                     <span class="currency">$</span>
                     <input type="text" formControlName="monto" class="form-control custom-input"
-                      placeholder="Monto a pagar"   (input)="soloNumeros($event, 'monto', 5)">
+                      placeholder="Monto a pagar" (input)="soloNumeros($event, 'monto', 5)">
                   </div>
 
                   <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)"

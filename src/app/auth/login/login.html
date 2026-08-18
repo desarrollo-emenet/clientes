@@ -28,7 +28,7 @@
         <!-- FORMULARIO -->
         <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-          <div class="ep-card">
+          <div>
             <div class="ep-card-title">
               <div class="ep-card-icon blue">
                 <i class="fa-solid fa-key"></i>
@@ -40,7 +40,7 @@
 
               <!-- Campo: Número de cliente -->
               <div class="ep-field">
-                <label for="inputUsuario">Número de cliente</label>
+                <label for="inputUsuario">Número de cliente o correo</label>
                 <input id="inputUsuario" type="text" formControlName="cliente" class="ep-input" placeholder="#####" />
                 <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="ep-error">
                   <span *ngIf="usuario.errors?.['required']"> El campo es requerido. </span>
@@ -52,7 +52,7 @@
                 <label for="inputPassword">Contraseña</label>
                 <div class="ep-input-group">
                   <input id="inputPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                    class="ep-input" autocomplete="current-password" placeholder="••••••••" />
+                    class="ep-input" autocomplete="current-password" placeholder="Contraseña" />
                   <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="showPassword=!showPassword"
                     title="Mostrar/ocultar contraseña" aria-label="Alternar visibilidad de contraseña">
                     <img [src]="showPassword ? 'assets/img/invisible.png' : 'assets/img/ojo.png'" width="20" />

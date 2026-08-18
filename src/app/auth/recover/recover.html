@@ -12,26 +12,18 @@
       </div>
       <div class="ep-header-content">
         <h2>Recuperar contraseña</h2>
-        <p>Ingresa tu correo para buscar tu cuenta</p>
       </div>
     </div>
 
     <!-- FORMULARIO -->
     <form [formGroup]="recoverForm" (ngSubmit)="recover()">
 
-      <div class="ep-card">
-        <div class="ep-card-title">
-          <div class="ep-card-icon blue">
-            <i class="fa-solid fa-envelope"></i>
-          </div>
-          <h5>Correo electrónico</h5>
-        </div>
-
+        
         <div class="ep-card-grid">
 
           <!-- Campo: Correo electrónico -->
           <div class="ep-field">
-            <label for="exampleInputEmail1">Correo electrónico</label>
+            <label for="exampleInputEmail1">Ingrese su correo electrónico</label>
             <input formControlName="email" type="email" class="ep-input" id="exampleInputEmail1"
               placeholder="correo@dominio.com" aria-describedby="emailHelp" />
 
@@ -50,7 +42,6 @@
             </a>
           </div>
         </div>
-      </div>
 
       <!-- Botón Recuperar -->
       <div class="ep-actions">

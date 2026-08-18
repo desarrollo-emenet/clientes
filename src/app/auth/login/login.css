@@ -93,17 +93,11 @@
   .ep-header-icon {
     width: 60px;
     height: 60px;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .ep-header-content h2 {
     font-size: 1.65rem;
-  }
-
-  .ep-card {
-    padding: 16px;
-    margin-bottom: 16px;
-    border-radius: 20px;
   }
 
   .ep-card-title {
