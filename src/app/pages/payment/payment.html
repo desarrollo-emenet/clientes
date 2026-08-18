@@ -52,7 +52,7 @@
               <div class="note">Confirmación automática del pago</div>
             </div>
 
-            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago ">
+            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago" *ngIf="baja === false">
               <ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 

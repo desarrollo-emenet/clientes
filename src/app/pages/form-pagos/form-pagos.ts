@@ -57,6 +57,7 @@ export class FormPagos {
   data: any;
   maxDate = new Date();
   pagos: Pago[] = [];
+  baja = false;
 
 
   filtroEstado = 'todos';
@@ -176,6 +177,13 @@ export class FormPagos {
       this.data = cliente;
       this.pagos = pagos.pagos;
 
+      if (this.data?.cliente?.cliente?.clasificacion === 'BAJA') {
+        this.baja = true;
+        this.pagosForm.disable();
+      } else {
+        this.baja = false;
+        this.pagosForm.enable();
+      }
       this.cargarTelefono();
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
@@ -407,5 +415,14 @@ export class FormPagos {
     input.value = valor;
 
     this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
+  }
+
+  contactarSoporte(): void {
+    const numeroWhatsApp = '5217131334557';
+    const mensaje = encodeURIComponent(
+      'Hola, mi servicio se encuentra dado de baja y quisiera recibir información para reactivarlo.'
+    );
+    const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensaje}`;
+    window.open(url, '_blank');
   }
 }

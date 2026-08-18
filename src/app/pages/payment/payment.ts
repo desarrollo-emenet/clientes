@@ -19,6 +19,7 @@ import { HttpService } from '../../services/utility/http.service';
 export class Payment {
   mensajeCopiado: boolean = false;
   data: any;
+  baja: boolean = false;
   loading = false;
   loadingPago = false;
 
@@ -40,6 +41,8 @@ export class Payment {
     try {
       const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
       this.data = { numeroCliente: res?.cliente?.cliente?.cliente ?? '' };
+      this.baja = res?.cliente?.cliente?.clasificacion === 'BAJA';
+
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     } finally {

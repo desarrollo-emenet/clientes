@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <div class="client-actions">
+        <div class="client-actions" *ngIf="data.cliente?.cliente?.clasificacion !== 'BAJA'">
           <button class="action-item" [routerLink]="['/formas-de-pago', data?.numero_cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
@@ -86,7 +86,9 @@
             <span class="action-label">Registrar<br>pago</span>
           </button>
         </div>
+
       </div>
+
       <!--Info Cliente-->
       <div class="contact-section">
         <div class="section-header-accent">

@@ -108,7 +108,7 @@
         </div>
 
         <!-- FORMULARIO -->
-        <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()">
+        <form [formGroup]="pagosForm" (ngSubmit)="enviarPago()" *ngIf="!baja">
 
           <div class="form-cards">
 
@@ -281,13 +281,50 @@
 
           <!-- BOTON -->
           <div class="actions-container">
-            <button type="submit" class="btn-primary" [disabled]="loading1">
+            <button type="submit" class="btn-primary" [disabled]="loading1 || pagosForm.disabled">
               <span *ngIf="loading1" class="spinner-border spinner-border-sm me-2"></span>
               {{ loading1 ? 'ENVIANDO...' : 'ENVIAR DATOS' }}
             </button>
           </div>
 
         </form>
+
+        <div *ngIf="baja" class="service-disabled">
+
+          <div class="disabled-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+
+          <div class="disabled-content">
+
+            <span class="disabled-label">
+              SERVICIO NO DISPONIBLE
+            </span>
+
+            <h3>Tu servicio se encuentra dado de baja</h3>
+
+            <p>
+              Actualmente no puedes registrar un pago porque tu servicio
+              se encuentra en estado de baja.
+            </p>
+
+            <div class="disabled-info">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>
+                Si deseas reactivar tu servicio, contacta con nuestro equipo de soporte.
+              </span>
+            </div>
+
+            <button type="button" class="disabled-btn" (click)="contactarSoporte()">
+
+              <i class="fa-brands fa-whatsapp"></i>
+              Contactar con soporte
+
+            </button>
+
+          </div>
+
+        </div>
 
       </div>
 
