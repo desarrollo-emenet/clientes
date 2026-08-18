@@ -2,13 +2,15 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CurrencyPipe, NgFor, NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { DomSanitizer } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
+import { HttpService } from '../../services/utility/http.service';
 
 @Component({
   selector: 'app-client',
@@ -29,12 +31,10 @@ export class Client implements OnInit {
 
   constructor(
     private clientS: ClientService,
-    private route: ActivatedRoute,
     private user: UserService,
     private paymentService: PaymentService,
-    private router: Router,
-    private http: HttpClient,
-  private sanitizer: DomSanitizer) { }
+    private http: HttpService,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     const numeroCliente = this.user.obtenerServicioActivo();
@@ -42,64 +42,58 @@ export class Client implements OnInit {
     this.loadClientData(numeroCliente);
   }
 
-  loadClientData(numeroCliente: string) {
+  protected async loadClientData(numeroCliente: string): Promise<void> {
     this.loading = true;
     this.data = null;
-
-    this.clientS.getClientePorNumero(numeroCliente).subscribe({
-      next: res => {
-        this.data = res;
-        this.loading = false;
-      },
-      error: (e) => {
-        this.loading = false;
-        //console.error('Error en servicio', e);
-        if (e?.status === 0) {
-          toast.error('No se pudo conectar al servidor');
-        } else if (e?.status === 404) {
-          toast.error('Servicio no encontrado');
-        } else {
-          toast.error('Error inesperado');
-        }
-      }
-    })
+    try {
+      const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.data = res;
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+      this.loading = false;
+    }
   }
 
-  pagar(): void {
-    const numeroCliente = this.user.obtenerServicioActivo() ?? '';
-    this.loadingPago = true;
-    this.paymentService.pagar(numeroCliente);
-    setTimeout(() => {
+  protected async pagar(): Promise<void> {
+    const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+
+    try {
+      this.loadingPago = true;
+      const res = await firstValueFrom(this.paymentService.pagar(numeroCliente));
+
+      if (res.status && res.redirectUrl) {
+        window.open(res.redirectUrl, '_blank');
+      } else {
+        toast.error('No se pudo generar la orden');
+      }
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
+    } finally {
       this.loadingPago = false;
-    }, 3600);
+    }
   }
 
 
-
-  private obtenerTickets(venta: string): void {
+  protected async obtenerTickets(venta: string): Promise<void> {
     this.loading = true;
-
-    this.clientS.ticket(venta).subscribe({
-      next: (response) => {
-        if (response.url) {
-
-          const urlApi = response.url;
-          if (urlApi) {
-            this.urlNueva = this.sanitizer.bypassSecurityTrustResourceUrl(urlApi);
-          }
-
-        } else {
-          console.log('No se generó la URL');
-          toast.error('Error al descargar el ticket');
-        }
-        this.loading = false;
-      },
-      error: (e) => {
+    try {
+      const response = await firstValueFrom(this.clientS.ticket(venta));
+      if (response.url) {
+        this.urlNueva = this.sanitizer.bypassSecurityTrustResourceUrl(response.url);
+      } else {
+        //console.log('No se generó la URL');
         toast.error('Error al descargar el ticket');
-        this.loading = false;
       }
-    });
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener el ticket');
+      toast.error('Error al descargar el ticket');
+    } finally {
+      this.loading = false;
+    }
   }
+
 
   descargarTicket(venta: string): void {
     //console.log(venta);
