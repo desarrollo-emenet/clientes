@@ -44,13 +44,11 @@
   height: 74px;
   flex-shrink: 0;
   border-radius: 24px;
-  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(11, 78, 148);
   font-size: 2rem;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
 }
 
 .ep-header-content h2 {
@@ -68,17 +66,6 @@
 /* ==================
    CARD
    ================ */
-
-.ep-card {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 24px;
-  padding: 22px;
-  border: 1px solid #e2e8f0;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 4px 14px rgba(15, 23, 42, 0.04);
-  margin-bottom: 20px;
-}
 
 .ep-card-title {
   display: flex;
@@ -330,5 +317,240 @@
   100% {
     transform: perspective(2500px) rotateY(90deg) scale(0.92);
     opacity: 0;
+  }
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+/* TABLET */
+@media (max-width: 768px) {
+
+  .recover-layout {
+    padding: 1.5rem 1rem;
+  }
+
+  .ep-container {
+    max-width: 480px;
+    padding: 24px;
+    border-radius: 26px;
+  }
+
+  /* HEADER */
+  .ep-header {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .ep-header-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
+    font-size: 1.7rem;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.65rem;
+  }
+
+  .ep-header-content p {
+    font-size: .9rem;
+  }
+
+  /* CARD */
+  .ep-card-title {
+    margin-bottom: 20px;
+  }
+
+  /* INPUTS */
+  .ep-input {
+    height: 50px;
+  }
+
+  /* BOTÓN */
+  .ep-submit-btn {
+    height: 54px;
+  }
+}
+
+
+/* MÓVIL */
+@media (max-width: 576px) {
+
+  .recover-layout {
+    min-height: 100vh;
+    padding: 1rem .75rem;
+    justify-content: center;
+  }
+
+  .ep-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+
+  /* =========================
+     HEADER
+  ========================= */
+
+  .ep-header {
+    margin-bottom: 22px;
+    gap: 0;
+  }
+
+  /* Ocultar icono en móvil */
+  .ep-header-icon {
+    display: none;
+  }
+
+  .ep-header-content {
+    width: 100%;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .ep-header-content p {
+    margin-top: 5px;
+    font-size: .84rem;
+    line-height: 1.4;
+  }
+
+
+  /* =========================
+     CARD
+  ========================= */
+
+  .ep-card-title {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .ep-card-title h5 {
+    font-size: 1rem;
+  }
+
+  .ep-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: .9rem;
+  }
+
+
+  /* =========================
+     CAMPOS
+  ========================= */
+
+  .ep-field label {
+    margin-bottom: 8px;
+    font-size: .88rem;
+  }
+
+  .ep-input {
+    height: 50px;
+    border-radius: 14px;
+    font-size: .9rem;
+  }
+
+
+  /* =========================
+     LINKS
+  ========================= */
+
+  .ep-links-row {
+    margin-top: 2px;
+  }
+
+  .ep-link {
+    font-size: .82rem;
+  }
+
+
+  /* =========================
+     BOTÓN
+  ========================= */
+
+  .ep-actions {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .ep-submit-btn {
+    height: 52px;
+    border-radius: 16px;
+    font-size: .9rem;
+  }
+
+
+  /* =========================
+     COUNTDOWN
+  ========================= */
+
+  .countdown-container {
+    padding: 6px 12px;
+  }
+
+  .countdown-text {
+    font-size: .84rem;
+  }
+
+
+  /* =========================
+     ERRORES
+  ========================= */
+
+  .ep-error {
+    font-size: .78rem;
+  }
+
+  .error-global {
+    margin-top: 14px;
+    padding: 9px 12px;
+    font-size: .82rem;
+  }
+}
+
+
+/* MÓVIL PEQUEÑO */
+@media (max-width: 380px) {
+
+  .recover-layout {
+    padding: .75rem .6rem;
+  }
+
+  .ep-container {
+    padding: 20px 15px;
+    border-radius: 20px;
+  }
+
+  .ep-header {
+    margin-bottom: 20px;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .ep-header-content p {
+    font-size: .78rem;
+  }
+
+  .ep-card-title {
+    margin-bottom: 16px;
+  }
+
+  .ep-input {
+    height: 48px;
+  }
+
+  .ep-submit-btn {
+    height: 50px;
+    border-radius: 15px;
   }
 }

@@ -104,13 +104,11 @@
   width: 70px;
   height: 70px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(11, 78, 148);
   font-size: 2rem;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, .25);
 }
 
 .header-content h2 {
@@ -357,8 +355,17 @@
     padding: 18px;
   }
 
+  .payment-header {
+    gap: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
   .header-content h2 {
     font-size: 1.5rem;
+  }
+  .header-icon{
+    display: none;
   }
 }
 

@@ -28,7 +28,7 @@ export const routes: Routes = [
   { path: 'iniciar-sesion', component: Login },
   { path: 'crear-cuenta', component: CreateAccount },
   { path: 'recuperar-password', component: Recover },
-  { path: 'response-password', component: ResponseRecover, canActivate: [recoverEmailGuard]},
+  { path: 'response-password', component: ResponseRecover, },
   { path: 'email-verificado', component: EmailVerificado, canActivate: [emailVerificadoGuard] },
 
 

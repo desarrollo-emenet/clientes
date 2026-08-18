@@ -38,13 +38,11 @@
   height: 74px;
   flex-shrink: 0;
   border-radius: 24px;
-  background: linear-gradient(135deg, #0b4e94, rgba(24, 106, 206, 0.75));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(11, 78, 148);
   font-size: 2rem;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
 }
 
 .ep-header-content h2 {
@@ -352,8 +350,6 @@
   }
 
   .ep-header-icon {
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
+    display: none;
   }
 }
