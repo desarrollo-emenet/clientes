@@ -311,13 +311,55 @@ details[open] .chevron {
 }
 
 .img-clickable {
+  display: block;
+  width: 450px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
   cursor: zoom-in;
-  transition: opacity 0.2s ease, transform 0.25s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease;
 }
 
 .img-clickable:hover {
   opacity: 0.9;
   transform: scale(1.015);
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .ont-img-placeholder {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .img-clickable {
+    width: 100%;
+    max-width: 450px;
+  }
+
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+
+  .ont-img-placeholder {
+    padding: 0;
+  }
+
+  .img-clickable {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
 }
 
 /* ─── ONT GRID ──────────────────────────────────── */

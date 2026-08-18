@@ -209,7 +209,7 @@
 
 .pagos-info {
   flex: 1;
-   min-width: 0;
+  min-width: 0;
 }
 
 .pagos-info h4 {
@@ -799,12 +799,7 @@
    RESPONSIVE - PAGOS
 ========================================================== */
 
-@media (max-width: 900px){
-  .pagos-icon{
-        display: none;
 
-  }
-}
 @media (max-width: 768px) {
 
   .pagos-list {
@@ -856,6 +851,14 @@
 
 @media (max-width: 576px) {
 
+  .pagos-icon {
+    display: none;
+  }
+
+  .header-icon {
+    display: none;
+  }
+
   .page {
     padding: 8px;
   }
@@ -876,7 +879,7 @@
   }
 
   .pagos-icon {
-        display: none;
+    display: none;
 
   }
 
