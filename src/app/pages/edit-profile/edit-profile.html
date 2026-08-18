@@ -16,19 +16,12 @@
     <form [formGroup]="updateForm" (ngSubmit)="update()">
 
       <div class="ep-card">
-        <div class="ep-card-title">
-          <div class="ep-card-icon blue">
-            <i class="fa-solid fa-lock"></i>
-          </div>
-          <h5>Cambio de contraseña</h5>
-        </div>
 
         <div class="ep-card-grid">
 
           <!-- Contraseña actual -->
           <div class="ep-field">
             <label>
-
               Contraseña actual
             </label>
             <div class="ep-input-group">
@@ -72,11 +65,12 @@
             <!-- Indicador de fortaleza -->
             <div class="ep-strength" *ngIf="password.value">
               <div class="ep-strength-track">
-                <div class="ep-strength-bar" [ngClass]="strengthColor" [style.width.%]="passwordStrength * 25"></div>
+                <div class="ep-strength-bar" [ngClass]="passwordService.feddback(passwordStrength).class"
+                  [style.width.%]="passwordStrength * 25"></div>
               </div>
               <div class="ep-strength-labels">
-                <span class="ep-strength-text" [ngClass]="strengthColor">
-                  {{ strengthText }}
+                <span class="ep-strength-text" [ngClass]="passwordService.feddback(passwordStrength).class">
+                  {{ passwordService.feddback(passwordStrength).text }}
                 </span>
                 <span class="ep-strength-hint" *ngIf="passwordStrength < 3">
                   Usa símbolos y números

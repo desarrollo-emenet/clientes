@@ -1,11 +1,13 @@
 import { NgIf, NgClass } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ClientService } from '../../services/user/clientService';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { LoginS } from '../../services/auth/login';
-import { Subscription, switchMap } from 'rxjs';
+import { firstValueFrom, Subscription, switchMap } from 'rxjs';
+import { PasswordService } from '../../services/utility/password.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../services/utility/http.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,18 +25,21 @@ export class EditProfile {
   private passwordSub!: Subscription;
 
 
-  constructor(private fb: FormBuilder, private clientS: ClientService, private auth: LoginS) {
-  }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder,
+    private clientS: ClientService,
+    private auth: LoginS,
+    protected http: HttpService,
+    protected passwordService: PasswordService) {
     this.updateForm = this.fb.group({
       old_password: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.minLength(8)]],
       password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
-    }, { validators: this.passwordMatchValidator });
+    }, { validators: this.passwordService.matchValidator });
+  }
 
-    this.passwordSub = this.password.valueChanges.subscribe(val => {
-      this.calculatePasswordStrength(val);
+  ngOnInit(): void {
+    this.passwordSub = this.password.valueChanges.subscribe((val) => {
+      this.passwordStrength = this.passwordService.calculateStrength(val);
     });
   }
 
@@ -44,39 +49,38 @@ export class EditProfile {
     }
   }
 
-  private passwordMatchValidator(group: FormGroup) {
-    return group.get('password')?.value ===
-      group.get('password_confirmation')?.value
-      ? null
-      : { passwordMissMatch: true };
-  }
 
   get old_password() { return this.updateForm.controls['old_password']!; }
   get password() { return this.updateForm.controls['password']!; }
   get passwordConfirmation() { return this.updateForm.controls['password_confirmation']; }
 
 
-  update() {
+  protected async update(): Promise<void> {
     if (this.updateForm.invalid) { this.updateForm.markAllAsTouched(); return; }
-
     this.loading = true;
 
-    const raw = this.updateForm.value;
-    const payload: any = {
-      old_password: raw.old_password,
-      password: raw.password,
-      password_confirmation: raw.password_confirmation
-    };
-    this.clientS.getAuthenticatedUser().pipe(
-      switchMap(user =>
-        this.clientS.updateUser(user.id, payload)
-      )
-    ).subscribe({
-      next: () => this.onUpdateSuccess(),
-      error: e => this.handleUpdateError(e)
+    try {
+      const raw = this.updateForm.getRawValue();
+      const payload = {
+        old_password: raw.old_password,
+        password: raw.password,
+        password_confirmation: raw.password_confirmation
+      };
 
-    });
+      const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
+      await firstValueFrom(this.clientS.updateUser(user.id, payload));
+
+      this.onUpdateSuccess();
+
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar la contraseña.")
+      //this.handleUpdateError(error);
+    }finally{
+      this.loading = false;
+    }
+
   }
+
 
   private onUpdateSuccess(): void {
     this.loading = false;
@@ -85,26 +89,6 @@ export class EditProfile {
     setTimeout(() => {
       this.auth.goNavigate('/dashboard');
     }, 1500);
-  }
-
-  private handleUpdateError(error: any): void {
-    this.loading = false;
-    switch (error?.status) {
-      case 0:
-        toast.error('No se pudo conectar al servidor');
-        break;
-
-      case 403:
-        toast.error('Contraseña actual incorrecta');
-        break;
-
-      case 422:
-        toast.error('Datos inválidos. Revisa el formulario.');
-        break;
-
-      default:
-        toast.error(error?.error?.message ?? 'No se pudo actualizar');
-    }
   }
 
   cancel() {
@@ -118,40 +102,4 @@ export class EditProfile {
     this.showOldPassword = !this.showOldPassword;
   }
 
-  calculatePasswordStrength(password: string): void {
-    if (!password) {
-      this.passwordStrength = 0;
-      return;
-    }
-
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
-
-    this.passwordStrength = strength;
-  }
-
-  get strengthText(): string {
-    if (!this.password.value) return 'Seguridad de la contraseña';
-    switch (this.passwordStrength) {
-      case 0:
-      case 1: return 'Débil';
-      case 2: return 'Moderada';
-      case 3: return 'Buena';
-      case 4: return 'Fuerte';
-      default: return 'Muy débil';
-    }
-  }
-
-  get strengthColor(): string {
-    switch (this.passwordStrength) {
-      case 1: return 'strength-weak';
-      case 2: return 'strength-medium';
-      case 3: return 'strength-good';
-      case 4: return 'strength-strong';
-      default: return 'strength-none';
-    }
-  }
 }
