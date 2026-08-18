@@ -5,32 +5,7 @@ import { ClientService } from '../../services/user/clientService';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
-
-interface Visitas {
-  id: number;
-  problema: string;
-  detalle: string;
-  diagnostico: string;
-  solucion: string;
-  estado: number;
-  created_at: string;
-  agendaFecha: string;
-  atencionFecha: string;
-  usuarioAgendado: string;
-  usuarioProceso: string;
-  usarioAtencion: string;
-}
-
-interface EstadoConfig {
-  texto: string;
-  clase: string;
-  icono: string;
-}
-
-interface FiltroEstado {
-  value: number;
-  label: string;
-}
+import { EstadoConfig, Visitas, estado_visitas, filtros_visitas } from './serviceVisit';
 
 
 @Component({
@@ -42,7 +17,6 @@ interface FiltroEstado {
 export class Visits {
 
   loading = false;
-  //data: any;
   visitas: Visitas[] = [];
   visitaSeleccionada: Visitas | null = null;
 
@@ -50,37 +24,8 @@ export class Visits {
   elementosPorPagina = 10;
   paginaActual = 1;
 
-  readonly filtros = [
-    { value: -1, label: 'Todas' },
-    { value: 0, label: 'Agendadas' },
-    { value: 1, label: 'Pendientes' },
-    { value: 2, label: 'En atención' },
-    { value: 3, label: 'Finalizadas' }
-  ];
-
-  private readonly estados: Record<number, EstadoConfig> = {
-
-    0: {
-      texto: 'Agendado',
-      clase: 'agendado',
-      icono: 'fa-calendar-check'
-    },
-    1: {
-      texto: 'Pendiente',
-      clase: 'pendiente',
-      icono: 'fa-clock'
-    },
-    2: {
-      texto: 'En atención',
-      clase: 'proceso',
-      icono: 'fa-screwdriver-wrench'
-    },
-    3: {
-      texto: 'Finalizado',
-      clase: 'finalizado',
-      icono: 'fa-check'
-    }
-  };
+  readonly filtros = filtros_visitas;
+  private readonly estados = estado_visitas;
 
   constructor(
     private user: UserService,
@@ -115,7 +60,7 @@ export class Visits {
     }
   }
 
-  getEstadoConfig(estado: number) {
+  getEstadoConfig(estado: number): EstadoConfig {
     return this.estados[estado] ?? {
       texto: 'Desconocido',
       clase: 'desconocido',

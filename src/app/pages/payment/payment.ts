@@ -22,7 +22,6 @@ export class Payment {
   loading = false;
   loadingPago = false;
 
-
   constructor(
     private clientS: ClientService,
     private paymentService: PaymentService,
