@@ -305,8 +305,8 @@
          MODALES DE SERVICIOS
     ========================================== -->
     <!-- MODAL: INTERNET -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'internet'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'internet'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header internet">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="32" height="32">
                     <path d="M288 96c-90.9 0-173.2 36-233.7 94.6-12.7 12.3-33 12-45.2-.7s-12-33
@@ -374,8 +374,8 @@
     </div>
 
     <!-- MODAL: TELEFONÍA -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'telefonia'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'telefonia'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header telefonia">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
                     <path
@@ -427,8 +427,8 @@
     </div>
 
     <!-- MODAL: CÁMARAS -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'camaras'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'camaras'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header camaras">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="32" height="32">
                     <path d="M96 64c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64l256
@@ -496,8 +496,8 @@
     </div>
 
     <!-- MODAL: PUNTOS DE VENTA -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'puntos'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'puntos'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header puntos">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
                     <path d="M0 128l0 32 512 0 0-32c0-35.3-28.7-64-64-64L64 64C28.7 64 0 92.7 0 128zm0 80L0
@@ -560,8 +560,8 @@
     </div>
 
     <!-- MODAL: GPS -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'gps'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'gps'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header gps">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="32" height="32">
                     <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4
@@ -618,8 +618,8 @@
     </div>
 
     <!-- MODAL: PÁGINAS WEB -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'web'" (click)="cerrarModal($event)">
-        <div class="modal-panel">
+    <div class="modal-overlay" *ngIf="modalActivo === 'web'" (click)="cerrarModal($event)">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
             <div class="modal-header web">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
                     <path d="M351.9 280l-190.9 0c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1
@@ -697,8 +697,8 @@
     </div>
 
     <!-- MODAL: PRODUCTO DETALLE -->
-    <div class="modal-overlay" [class.modal-open]="modalActivo === 'producto'" (click)="cerrarModal($event)">
-        <div class="modal-panel modal-panel-product">
+    <div class="modal-overlay" *ngIf="modalActivo === 'producto'" (click)="cerrarModal($event)">
+        <div class="modal-panel modal-panel-product" (click)="$event.stopPropagation()">
             <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
 
             <div class="product-modal-content" *ngIf="productoSeleccionado">

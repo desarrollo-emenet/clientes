@@ -1,13 +1,12 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { CurrencyPipe, NgFor, NgClass } from '@angular/common';
-import { NgIf } from '@angular/common';
+import { CurrencyPipe, NgFor, NgClass, NgIf } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpErrorResponse } from '@angular/common/http'
 import { DomSanitizer } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '../../services/utility/http.service';
