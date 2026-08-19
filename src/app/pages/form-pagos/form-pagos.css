@@ -956,6 +956,8 @@
   .payment-header {
     gap: 6px;
     padding: 16px 12px;
+    text-align: center;
+    flex-direction: column;
   }
 
   .pagos-icon {

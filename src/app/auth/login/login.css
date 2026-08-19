@@ -667,6 +667,15 @@
   .ep-header-icon {
     display: none;
   }
+  .ep-header {
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .ep-header-content h2 {
+    font-size: 1.7rem;
+  }
+
 
   .help-panel--open {
     transform: translateY(0);

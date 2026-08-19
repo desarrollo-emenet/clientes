@@ -391,6 +391,7 @@
     border-radius: 22px;
   }
 
+  
 
   /* =========================
      HEADER
@@ -399,6 +400,8 @@
   .ep-header {
     margin-bottom: 22px;
     gap: 0;
+    text-align: center;
+    flex-direction: column;
   }
 
   /* Ocultar icono en móvil */

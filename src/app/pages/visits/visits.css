@@ -685,25 +685,6 @@ body {
      HEADER
   ========================= */
 
-  .visitas-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-
-    padding: 20px 18px;
-
-    width: 100%;
-    box-sizing: border-box;
-
-    flex-direction: row;
-    text-align: left;
-  }
-
-  .header-icon {
-    display: none;
-
-  }
-
   .header-content {
     min-width: 0;
   }
@@ -747,6 +728,22 @@ body {
 /* ==========================================================
    MÓVIL
 ========================================================== */
+@media (max-width: 576px) {
+
+  
+  .visitas-header {
+    gap: 6px;
+    padding: 16px 12px;
+    
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .header-icon {
+    display: none;
+
+  }
+}
 
 @media (max-width: 480px) {
 
