@@ -18,32 +18,32 @@
           </div>
           <div class="client-info">
             <h4 class="hero-title">{{ getSaludo() }}</h4>
-            <h3 class="client-name"> {{ data.cliente?.cliente?.nombre }}</h3>
+            <h3 class="client-name"> {{ data.nombre }}</h3>
             <div class="client-id-pill">
               <i class="fa-regular fa-id-card"></i>
-              <span>Cliente #{{ data.numero_cliente }}</span>
-              <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.numero_cliente)"
-                *ngIf="data.numero_cliente">
+              <span>Cliente #{{ data.cliente }}</span>
+              <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.cliente)"
+                *ngIf="data.cliente">
                 <i class="fa-regular fa-copy"></i>
               </button>
             </div>
             <div class="client-badges">
 
               <span class="badge badge-success"
-                *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'activo'"><i
+                *ngIf="data.infoRed?.estado?.toLowerCase() === 'activo'"><i
                   class="fa-solid fa-signal"></i> Conectado</span>
               <span class="badge badge-danger"
-                *ngIf="data.cliente?.cliente?.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
+                *ngIf="data.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
                   class="fa-solid fa-signal"></i> Suspendido</span>
-              <span class="badge badge-secondary" *ngIf="!data.cliente?.cliente?.infoRed?.estado"><i
+              <span class="badge badge-secondary" *ngIf="!data.infoRed?.estado"><i
                   class="fa-solid fa-signal"></i> Conectando...</span>
               <span class="badge badge-purple"><i class="fa-solid fa-house-signal"></i> {{
-                data.cliente?.cliente?.tipoServicio || 'N/A' }}</span>
+                data.tipoServicio || 'N/A' }}</span>
             </div>
           </div>
         </div>
 
-        <div class="client-actions" *ngIf="data.cliente?.cliente?.clasificacion !== 'BAJA'">
+        <div class="client-actions" *ngIf="data.clasificacion !== 'BAJA'">
           <button class="action-item" [routerLink]="['/formas-de-pago', data?.numero_cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
@@ -103,7 +103,7 @@
             </div>
             <div class="contact-content">
               <div class="contact-label">Teléfono</div>
-              <div class="contact-value">{{ data.cliente?.cliente?.telefono || '—' }}</div>
+              <div class="contact-value">{{ data.telefono || '—' }}</div>
             </div>
           </div>
 
@@ -113,7 +113,7 @@
             </div>
             <div class="contact-content">
               <div class="contact-label">Correo Electrónico</div>
-              <div class="contact-value">{{ data.cliente?.cliente?.correo || '—' }}</div>
+              <div class="contact-value">{{ data.correo || '—' }}</div>
             </div>
           </div>
 
@@ -124,11 +124,11 @@
             <div class="contact-content">
               <div class="contact-label">Dirección</div>
               <div class="contact-value">
-                {{ data?.cliente?.cliente?.direccion }}
-                <span *ngIf="data?.cliente?.cliente?.colonia">, {{ data?.cliente?.cliente?.colonia }}</span>
-                <span *ngIf="data?.cliente?.cliente?.municipio">, {{ data?.cliente?.cliente?.municipio }}</span>
-                <span *ngIf="data?.cliente?.cliente?.estado">, {{ data?.cliente?.cliente?.estado }}</span>
-                <span *ngIf="data?.cliente?.cliente?.pais">, {{ data?.cliente?.cliente?.pais }}</span>
+                {{ data.direccion }}
+                <span *ngIf="data.colonia">, {{ data.colonia }}</span>
+                <span *ngIf="data.municipio">, {{ data.municipio }}</span>
+                <span *ngIf="data.estado">, {{ data.estado }}</span>
+                <span *ngIf="data.pais">, {{ data.pais }}</span>
               </div>
             </div>
           </div>
@@ -151,8 +151,8 @@
           </div>
           <div class="service-content">
             <div class="service-label">Internet</div>
-            <div class="service-value">{{ data.cliente?.cliente?.planInternet || 0 }} Megas Fibra</div>
-            <div class="service-sub">MXN {{ (data.cliente?.servicios?.internet?.precio || 0) |
+            <div class="service-value">{{ data.planInternet || 0 }} Megas Fibra</div>
+            <div class="service-sub">MXN {{ (servicios.internet?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }} / mes</div>
           </div>
         </div>
@@ -164,46 +164,46 @@
           </div>
           <div class="service-content">
             <div class="service-label">Estado de Cuenta</div>
-            <div class="service-value">MXN {{ calcularTotalMensual(data.cliente.servicios) |
+            <div class="service-value">MXN {{ calcularTotalMensual(servicios) |
               currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
             <div class="service-sub">Último pago: {{ getMesPagoReciente() }} Pendiente: MXN {{
-              (data.cliente?.pagos?.[0]?.monto || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
+              (data.deuda || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
           </div>
         </div>
 
         <!-- Telefonía -->
-        <div class="service-item" *ngIf="(data.cliente?.servicios?.telefono?.canServicios ?? 0) > 0">
+        <div class="service-item" *ngIf="(servicios.telefono?.canServicios ?? 0) > 0">
           <div class="service-icon service-icon-purple">
             <i class="fa-solid fa-tty"></i>
           </div>
           <div class="service-content">
             <div class="service-label">Telefonía</div>
-            <div class="service-value">{{ data.cliente?.servicios?.telefono?.canServicios || 0 }} línea(s)</div>
-            <div class="service-sub">MXN {{ (data.cliente?.servicios?.telefono?.precio || 0) |
+            <div class="service-value">{{ servicios.telefono?.canServicios || 0 }} línea(s)</div>
+            <div class="service-sub">MXN {{ (servicios.telefono?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }} / mes por línea</div>
           </div>
         </div>
         <!-- Camaras -->
-        <div class="service-item" *ngIf="(data.cliente?.servicios?.camaras?.canServicios ?? 0) > 0">
+        <div class="service-item" *ngIf="(servicios.camaras?.canServicios ?? 0) > 0">
           <div class="service-icon service-icon-green">
             <i class="fa-solid fa-camera"></i>
           </div>
           <div class="service-content">
             <div class="service-label">Cámaras</div>
-            <div class="service-value">{{ data.cliente?.servicios?.camaras?.canServicios || 0 }} servicio(s)</div>
-            <div class="service-sub">MXN {{ (data.cliente?.servicios?.camaras?.precio || 0) |
+            <div class="service-value">{{ servicios.camaras?.canServicios || 0 }} servicio(s)</div>
+            <div class="service-sub">MXN {{ (servicios.camaras?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }} / mes por cámara</div>
           </div>
         </div>
         <!-- Televisión -->
-        <div class="service-item" *ngIf="(data.cliente?.servicios?.cuentasTv?.canServicios ?? 0) > 0">
+        <div class="service-item" *ngIf="(servicios.cuentasTv?.canServicios ?? 0) > 0">
           <div class="service-icon service-icon-orange">
             <i class="fa-solid fa-tv"></i>
           </div>
           <div class="service-content">
             <div class="service-label">TV</div>
-            <div class="service-value">{{ data.cliente?.servicios?.cuentasTv?.canServicios || 0 }} servicio(s)</div>
-            <div class="service-sub">MXN {{ (data.cliente?.servicios?.cuentasTv?.precio || 0) |
+            <div class="service-value">{{ servicios.cuentasTv?.canServicios || 0 }} servicio(s)</div>
+            <div class="service-sub">MXN {{ (servicios.cuentasTv?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }}/mes por cuenta</div>
           </div>
         </div>

@@ -55,7 +55,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   getMesPagoReciente(): string {
-    const estadoCuenta = this.data?.cliente?.servicios?.estadoCuenta;
+    const estadoCuenta = this.servicios.estadoCuenta;
     if (estadoCuenta && estadoCuenta.length > 0) {
       return estadoCuenta[estadoCuenta.length - 1].mensualidad;
     }
@@ -102,12 +102,15 @@ export class Dashboard implements OnInit, OnDestroy {
     this.loadClientData(numeroCliente);
   }
 
+    servicios: any;
     protected async loadClientData(numeroCliente: string): Promise<void> {
     try {
       this.loading = true;
-      const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
-      this.data = res;
-      const clasificacion = res?.cliente?.cliente?.clasificacion;
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.data = cliente;
+      this.servicios = servicios;
+      // console.log(res);
+      const clasificacion = this.data.clasificacion;
         if (clasificacion === 'BAJA') {
           this.mostrarMensaje = true;
         }
@@ -145,5 +148,5 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.viewportListeners.forEach(removeListener => removeListener());
   }
-  
+
 }
