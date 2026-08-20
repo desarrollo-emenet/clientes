@@ -2,12 +2,12 @@
   <main class=" page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
 
     <!-- Loading con logo -->
-    <div *ngIf="!data || loading" class="loading-container">
+    <div *ngIf="!infoCliente || loading" class="loading-container">
       <img src="assets/img/logo.png" alt="Cargando..." class="loading-logo">
       <div class="loading-spinner"></div>
       <p class="loading-text">Cargando...</p>
     </div>
-    <section class="client-details-section" *ngIf="data">
+    <section class="client-details-section" *ngIf="infoCliente">
       <h2 class="client-details-title">Detalles del Cliente</h2>
 
 
@@ -18,33 +18,33 @@
           </div>
           <div class="client-info">
             <h4 class="hero-title">{{ getSaludo() }}</h4>
-            <h3 class="client-name"> {{ data.nombre }}</h3>
+            <h3 class="client-name"> {{ infoCliente.nombre }}</h3>
             <div class="client-id-pill">
               <i class="fa-regular fa-id-card"></i>
-              <span>Cliente #{{ data.cliente }}</span>
-              <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(data.cliente)"
-                *ngIf="data.cliente">
+              <span>Cliente #{{ infoCliente.cliente }}</span>
+              <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(infoCliente.cliente)"
+                *ngIf="infoCliente.cliente">
                 <i class="fa-regular fa-copy"></i>
               </button>
             </div>
             <div class="client-badges">
 
               <span class="badge badge-success"
-                *ngIf="data.infoRed?.estado?.toLowerCase() === 'activo'"><i
+                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
                   class="fa-solid fa-signal"></i> Conectado</span>
               <span class="badge badge-danger"
-                *ngIf="data.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
+                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
                   class="fa-solid fa-signal"></i> Suspendido</span>
-              <span class="badge badge-secondary" *ngIf="!data.infoRed?.estado"><i
+              <span class="badge badge-secondary" *ngIf="!infoCliente.infoRed?.estado"><i
                   class="fa-solid fa-signal"></i> Conectando...</span>
               <span class="badge badge-purple"><i class="fa-solid fa-house-signal"></i> {{
-                data.tipoServicio || 'N/A' }}</span>
+                infoCliente.tipoServicio || 'N/A' }}</span>
             </div>
           </div>
         </div>
 
-        <div class="client-actions" *ngIf="data.clasificacion !== 'BAJA'">
-          <button class="action-item" [routerLink]="['/formas-de-pago', data?.numero_cliente]">
+        <div class="client-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
+          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente?.numero_cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
             </div>
@@ -62,7 +62,7 @@
             </div>
             <span class="action-label">Probar<br>velocidad</span>
           </a>
-          <button class="action-item" type="button" (click)="contactSupport()">
+          <button class="action-item" type="button" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">
             <div class="action-icon action-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
@@ -79,7 +79,7 @@
             <span class="action-label">Hablar con<br>Embot</span>
           </button>
 
-          <button class="action-item" [routerLink]="['/formulario-pagos', data?.numero_cliente]">
+          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente?.numero_cliente]">
             <div class="action-icon action-icon-orange">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="contact-content">
               <div class="contact-label">Teléfono</div>
-              <div class="contact-value">{{ data.telefono || '—' }}</div>
+              <div class="contact-value">{{ infoCliente.telefono || '—' }}</div>
             </div>
           </div>
 
@@ -113,7 +113,7 @@
             </div>
             <div class="contact-content">
               <div class="contact-label">Correo Electrónico</div>
-              <div class="contact-value">{{ data.correo || '—' }}</div>
+              <div class="contact-value">{{ infoCliente.correo || '—' }}</div>
             </div>
           </div>
 
@@ -124,11 +124,11 @@
             <div class="contact-content">
               <div class="contact-label">Dirección</div>
               <div class="contact-value">
-                {{ data.direccion }}
-                <span *ngIf="data.colonia">, {{ data.colonia }}</span>
-                <span *ngIf="data.municipio">, {{ data.municipio }}</span>
-                <span *ngIf="data.estado">, {{ data.estado }}</span>
-                <span *ngIf="data.pais">, {{ data.pais }}</span>
+                {{ infoCliente.direccion }}
+                <span *ngIf="infoCliente.colonia">, {{ infoCliente.colonia }}</span>
+                <span *ngIf="infoCliente.municipio">, {{ infoCliente.municipio }}</span>
+                <span *ngIf="infoCliente.estado">, {{ infoCliente.estado }}</span>
+                <span *ngIf="infoCliente.pais">, {{ infoCliente.pais }}</span>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@
     </section>
 
     <!-- Detalles del Servicio -->
-    <div class="service-details-section" *ngIf="data">
+    <div class="service-details-section" *ngIf="infoCliente">
       <div class="section-header-accent">
         <div class="accent-bar"></div>
         <h4>Detalles del Servicio</h4>
@@ -151,7 +151,7 @@
           </div>
           <div class="service-content">
             <div class="service-label">Internet</div>
-            <div class="service-value">{{ data.planInternet || 0 }} Megas Fibra</div>
+            <div class="service-value">{{ infoCliente.planInternet || 0 }} Megas Fibra</div>
             <div class="service-sub">MXN {{ (servicios.internet?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }} / mes</div>
           </div>
@@ -164,10 +164,10 @@
           </div>
           <div class="service-content">
             <div class="service-label">Estado de Cuenta</div>
-            <div class="service-value">MXN {{ calcularTotalMensual(servicios) |
+            <div class="service-value">MXN {{ calculo.calcularTotalMensual(servicios) |
               currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
             <div class="service-sub">Último pago: {{ getMesPagoReciente() }} Pendiente: MXN {{
-              (data.deuda || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
+              (infoCliente.deuda || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
           </div>
         </div>
 
@@ -229,11 +229,11 @@
 <!-- SERVICIO BAJA -->
 <div class="modal-backdrop-custom" *ngIf="mostrarMensaje">
   <div class="modal-card">
-    <button class="close-btn" (click)="cerrarModal()">✕</button>
+    <button class="close-btn" (click)="mostrarMensaje = false;">✕</button>
 
     <h4 class="text fw-bold">Servicio cancelado</h4>
     <p class="mt-2">
-      Tu servicio <strong class="text-danger">{{ data.numero_cliente }}</strong> se encuentra dado de baja.
+      Tu servicio <strong class="text-danger">{{ infoCliente.numero_cliente }}</strong> se encuentra dado de baja.
     </p>
     <p class="text-muted">
       Para continuar disfrutando de nuestros servicios de internet, es necesario contratar nuevamente.
@@ -243,7 +243,7 @@
       <button class="btn btn-secondary mt-3" (click)="irAContratar()">
         Contratar servicio
       </button>
-      <button class="btn btn-secondary mt-3" (click)="contactSupport()">Soporte WhatsApp</button>
+      <button class="btn btn-secondary mt-3" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">Soporte WhatsApp</button>
     </div>
   </div>
 </div>
