@@ -42,8 +42,8 @@
             </div>
           </div>
         </div>
-
-        <div class="client-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
+<!-- client-actions -->
+        <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
           <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente?.numero_cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
@@ -51,7 +51,7 @@
             <span class="action-label">Formas de<br>pago</span>
           </button>
 
-          <a class="action-item" href="https://emenet.mx/test-velocidad" target="_blank">
+          <button class="action-item">
             <div class="action-icon action-icon-kingblue">
               <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="speedtest-icon"
                 fill="currentColor">
@@ -61,7 +61,7 @@
               </svg>
             </div>
             <span class="action-label">Probar<br>velocidad</span>
-          </a>
+          </button>
           <button class="action-item" type="button" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">
             <div class="action-icon action-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"

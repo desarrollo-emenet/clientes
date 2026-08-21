@@ -1287,3 +1287,8 @@
     transform: scale(1.05);
   }
 }
+.flex-actions{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
