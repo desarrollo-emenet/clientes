@@ -3,6 +3,7 @@ import { ClientService } from './clientService';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
 import { toast } from 'ngx-sonner';
+import { ObservableService } from '../utility/observable.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class UserService {
   private readonly maxIntentos = 3;
   private readonly penalizacion = [30, 60, /*2 * 60 * 60*/ 90];
 
-  constructor(private clientS: ClientService) { }
+  constructor(private clientS: ClientService, private ObservableService: ObservableService) { }
 
   enviarCorreo(id: string): boolean {
     this.resetDiario(id);
@@ -93,6 +94,16 @@ export class UserService {
   }
 
   eliminarServicioActivo(): void {
+    this.ObservableService.actualizarCliente({})
     localStorage.removeItem('servicio_activo');
+  }
+
+  setInfoCliente(cliente: any): void{
+    localStorage.setItem("cliente", JSON.stringify(cliente));
+  }
+  getInfoCliente(){
+    const informacion = localStorage.getItem('cliente');
+    const roles = informacion ? JSON.parse(informacion) : [];
+    return roles;
   }
 }

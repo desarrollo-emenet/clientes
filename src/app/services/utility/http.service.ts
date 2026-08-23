@@ -18,4 +18,13 @@ export class HttpService {
     setTimeout(() => this.router.navigateByUrl(url), 550);
     return true;
   }
+
+  public obtenerIniciales(nombre: string): string {
+    if (!nombre) return '—';
+    const partes = nombre.trim().split(/\s+/);
+    if (partes.length === 1) {
+      return partes[0].substring(0, 2).toUpperCase();
+    }
+    return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
+  }
 }

@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
 import { ContactoService } from '../../services/utility/contacto.service';
 import { CalculoService } from '../../services/utility/calculo.service';
+import { ObservableService } from '../../services/utility/observable.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ export class Dashboard implements OnInit {
     private user: UserService,
     protected contactoService: ContactoService,
     protected calculo: CalculoService,
+    private ObservableService: ObservableService,
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +45,9 @@ export class Dashboard implements OnInit {
       this.infoCliente = cliente;
       this.servicios = servicios;
       if (this.infoCliente.clasificacion === 'BAJA') this.mostrarMensaje = true;
+      this.user.setInfoCliente(cliente);
+      this.ObservableService.actualizarCliente(cliente)
+      this.ObservableService.actualizarNotificacion(this.calculo.construirNotificaciones(cliente))
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     }finally{
