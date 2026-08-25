@@ -5,6 +5,9 @@ import { LoginS } from '../../services/auth/login';
 import { UserService } from '../../services/user/user-service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { HttpService } from '../../services/utility/http.service';
+import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-menu',
@@ -47,9 +50,20 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  handleLogout(): void {
-    this.isDropdownOpen = false;
-    this.loginS.logoutAndRedirect();
+  protected async handleLogout(): Promise<void> {
+  this.isDropdownOpen = false;
+    try{
+      await firstValueFrom(this.loginS.logout());
+      this.loginS.clearToken();
+      this.router.navigate(['/iniciar-sesion']);
+    }catch(e){
+      const error = e as HttpErrorResponse;
+      this.loginS.clearToken();
+      this.router.navigate(['/iniciar-sesion']);
+      if (error?.status !== 401) {
+        toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
+      }
+    }
   }
 
   @HostListener('document:click', ['$event'])

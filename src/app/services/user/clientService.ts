@@ -30,7 +30,7 @@ export class ClientService {
   }
 
 
-  
+
   //peticiones para usuarios
   getAuthenticatedUser(): Observable<any> {
     const headers = this.getHeaders();
@@ -54,7 +54,7 @@ export class ClientService {
     return this.http.post<any>(`${this.apiUrl}/servicios/verificar`, data, { headers });
   }
 
-  //metodo index 
+  //metodo index
   getService(): Observable<any> {
     const headers = this.getHeaders();
     return this.http.get<any>(`${this.apiUrl}/servicios`, { headers });
@@ -75,13 +75,6 @@ export class ClientService {
     const headers = this.getHeaders();
     return this.http.get<{ has_access: boolean, servicio?: any }>(`${this.apiUrl}/verify-access-service/${cliente}`, { headers });
   }
-
-  //pagoralia
-  crearOrdenPagoralia(data: any): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiUrl}/pagoralia/orden-pago`, data, { headers });
-  }
-
   desencriptarInvoice(data: { invoice: string }): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.apiUrl}/pagoralia/invoice`, data, { headers });
@@ -89,12 +82,12 @@ export class ClientService {
 
   //formulario para pagos
   pagosBanco(data: any): Observable<any> {
-    const headers = this.getHeaders(true); 
+    const headers = this.getHeaders(true);
     return this.http.post<any>(`${this.apiUrl2}/pagos-bancoV2`, data, { headers: headers });
   }
-  
+
   resBanco(cliente: string): Observable<any> {
-    const headers = this.getHeaders(true); 
+    const headers = this.getHeaders(true);
     return this.http.get<any>(`${this.apiUrl2}/pagos-bancoV2/${cliente}`, { headers: headers });
   }
 

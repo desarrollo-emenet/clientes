@@ -56,7 +56,7 @@ export class Payment {
 
     try {
       this.loadingPago = true;
-      const res = await firstValueFrom(this.paymentService.pagar(numeroCliente));
+      const res = await firstValueFrom(this.paymentService.crearOrdenPagoralia(numeroCliente));
 
       if (res.status && res.redirectUrl) {
         window.open(res.redirectUrl, '_blank');

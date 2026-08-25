@@ -10,7 +10,7 @@
 
 /* El main se expande para empujar el footer hacia abajo */
 .app-wrapper main {
-  flex: 1 0 auto; 
+  flex: 1 0 auto;
   min-width: 0;
   width: 100%;
 }
@@ -126,7 +126,7 @@
 @media (max-width: 767.98px) {
   /* Espacio extra en el footer para que el bottom-nav no lo tape */
   .footer {
-    padding-bottom: 80px; 
+    padding-bottom: 80px;
   }
 
   .footer-main {

@@ -94,16 +94,7 @@ export class UserService {
   }
 
   eliminarServicioActivo(): void {
-    this.ObservableService.actualizarCliente({})
+    this.ObservableService.actualizarObs({}, [])
     localStorage.removeItem('servicio_activo');
-  }
-
-  setInfoCliente(cliente: any): void{
-    localStorage.setItem("cliente", JSON.stringify(cliente));
-  }
-  getInfoCliente(){
-    const informacion = localStorage.getItem('cliente');
-    const roles = informacion ? JSON.parse(informacion) : [];
-    return roles;
   }
 }
