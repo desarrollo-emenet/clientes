@@ -10,6 +10,7 @@ import { HttpService } from '../../services/utility/http.service';
 import { ContactoService } from '../../services/utility/contacto.service';
 import { CalculoService } from '../../services/utility/calculo.service';
 import { ObservableService } from '../../services/utility/observable.service';
+import { infoCliente } from '../../models/info-cliente';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,9 +20,10 @@ import { ObservableService } from '../../services/utility/observable.service';
 })
 export class Dashboard implements OnInit {
   mostrarMensaje!: boolean;
-  infoCliente: any;
+  infoCliente!: infoCliente;
   loading!: boolean;
-  servicios: any;
+  servicios: any = { internet: [] };
+  totalMensual: number = 0;
 
   constructor(
     private clientS: ClientService,
@@ -45,9 +47,8 @@ export class Dashboard implements OnInit {
       this.infoCliente = cliente;
       this.servicios = servicios;
       if (this.infoCliente.clasificacion === 'BAJA') this.mostrarMensaje = true;
-      this.user.setInfoCliente(cliente);
-      this.ObservableService.actualizarCliente(cliente)
-      this.ObservableService.actualizarNotificacion(this.calculo.construirNotificaciones(cliente))
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente))
+      this.totalMensual = this.calculo.calcularTotalMensual(servicios)
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     }finally{
@@ -75,13 +76,5 @@ export class Dashboard implements OnInit {
     if (hour >= 6 && hour < 12) {return 'Buenos días';}
     if (hour >= 12 && hour < 19) {return 'Buenas tardes';}
     return 'Buenas noches';
-  }
-
-  protected getMesPagoReciente(): string {
-    const estadoCuenta = this.servicios.estadoCuenta;
-    if (estadoCuenta && estadoCuenta.length > 0) {
-      return estadoCuenta[estadoCuenta.length - 1].mensualidad;
-    }
-    return 'N/A';
   }
 }

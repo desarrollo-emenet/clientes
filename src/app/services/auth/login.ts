@@ -59,25 +59,6 @@ export class LoginS {
     return this.http.post<{ valid: boolean }>(`${this.apiUrl}/verify-token`, data);
   }
 
-
-  logoutAndRedirect() {
-    this.logout().subscribe({
-      next: () => {
-        //console.log('Logout exitoso');
-        this.clearToken();
-        this.router.navigate(['/iniciar-sesion']);
-      },
-      error: (err) => {
-        this.clearToken();
-        this.router.navigate(['/iniciar-sesion']);
-        if (err?.status !== 401) {
-          //console.error('Error en logout:', err);
-          toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
-        }
-      }
-    });
-  }
-
   goNavigate(ruta: string) {
     const numero = localStorage.getItem('servicio_activo');
 

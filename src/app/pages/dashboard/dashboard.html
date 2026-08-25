@@ -44,7 +44,7 @@
         </div>
 <!-- client-actions -->
         <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
-          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente?.numero_cliente]">
+          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
             </div>
@@ -79,7 +79,7 @@
             <span class="action-label">Hablar con<br>Embot</span>
           </button>
 
-          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente?.numero_cliente]">
+          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
             <div class="action-icon action-icon-orange">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </div>
@@ -151,25 +151,28 @@
           </div>
           <div class="service-content">
             <div class="service-label">Internet</div>
-            <div class="service-value">{{ infoCliente.planInternet || 0 }} Megas Fibra</div>
+            <div class="service-value">{{ infoCliente.nombrePlan || 0 }}</div>
             <div class="service-sub">MXN {{ (servicios.internet?.precio || 0) |
               currency:'MXN':'symbol-narrow':'1.0-0' }} / mes</div>
           </div>
         </div>
 
         <!-- Estado de Cuenta -->
-        <div class="service-item">
+        <!-- <div class="service-item">
           <div class="service-icon service-icon-blue-light">
             <i class="fa-regular fa-file-lines"></i>
           </div>
           <div class="service-content">
             <div class="service-label">Estado de Cuenta</div>
-            <div class="service-value">MXN {{ calculo.calcularTotalMensual(servicios) |
+            <div class="service-value">MXN {{ calculo.calcularTotalMensual(servicios) || 0 |
               currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
-            <div class="service-sub">Último pago: {{ getMesPagoReciente() }} Pendiente: MXN {{
-              (infoCliente.deuda || 0) | currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
+            <div class="service-sub">Último pago: {{ calculo.getMesPagoReciente(servicios) || 'N/A' }}
+              <ng-container *ngIf="calculo.deudaValida(infoCliente.deuda) !== null;">
+                Pendiente: MXN {{ infoCliente.deuda | currency:'':'symbol':'1.2-2' }}
+              </ng-container>
+            </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Telefonía -->
         <div class="service-item" *ngIf="(servicios.telefono?.canServicios ?? 0) > 0">
@@ -233,7 +236,7 @@
 
     <h4 class="text fw-bold">Servicio cancelado</h4>
     <p class="mt-2">
-      Tu servicio <strong class="text-danger">{{ infoCliente.numero_cliente }}</strong> se encuentra dado de baja.
+      Tu servicio <strong class="text-danger">{{ infoCliente.cliente }}</strong> se encuentra dado de baja.
     </p>
     <p class="text-muted">
       Para continuar disfrutando de nuestros servicios de internet, es necesario contratar nuevamente.

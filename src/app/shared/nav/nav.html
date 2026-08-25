@@ -3,13 +3,13 @@
   <nav class="list-group list-group-flush">
 
     <button routerLink="/dashboard" routerLinkActive="active" class="list-group-item list-group-item-action"
-      title="Inicio" (click)="goDashboard()">
+      title="Inicio" (click)="auth.goNavigate('/dashboard')">
       <i class="fa-solid fa-house"></i>
       <span class="nav-label">Inicio</span>
     </button>
 
     <button routerLink="/estadoCuenta" routerLinkActive="active" class="list-group-item list-group-item-action"
-      title="Estado de cuenta" (click)="goEstadoCuenta()">
+      title="Estado de cuenta" (click)="auth.goNavigate('/estadoCuenta')">
       <i class="fi fi-bs-file-invoice-dollar"></i>
       <span class="nav-label">Estado de cuenta</span>
     </button>

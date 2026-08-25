@@ -335,7 +335,7 @@ export class FormPagos {
     };
   }
 
-  //evitar recarga de elementos repetidos 
+  //evitar recarga de elementos repetidos
   trackByPago(index: number, pago: any): number {
     return pago.id;
   }

@@ -10,28 +10,6 @@ import { LoginS } from '../../services/auth/login';
   styleUrl: './nav.css'
 })
 export class NavComponent {
-  constructor(private auth: LoginS, ) {}
-
-
-  logout() {
-    this.auth.logoutAndRedirect();
-  }
-
-  goDashboard(){
-    this.auth.goNavigate('/dashboard')
-  }
-
-  goNotification(){
-    this.auth.goNavigate('/notificaciones')
-  }
- 
-  goEstadoCuenta(){
-    this.auth.goNavigate('/estadoCuenta')
-  }
- 
-  goPerfil(){
-    this.auth.goNavigate('/perfil')
-  }
+  constructor(protected auth: LoginS, ) {}
 
 }
- 
