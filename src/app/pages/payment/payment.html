@@ -1,8 +1,8 @@
 
   <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
     <main class="page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
-
-      <div class="payments-wrapper">
+      <app-preloader *ngIf="loading"></app-preloader>
+      <div class="payments-wrapper" *ngIf="!loading">
 
         <!-- HEADER -->
         <div class="payments-header">
@@ -52,7 +52,7 @@
               <div class="note">Confirmación automática del pago</div>
             </div>
 
-            <button class="btn-primary" (click)="pagar()" [disabled]="loadingPago" *ngIf="baja === false">
+            <button class="btn-primary" (click)="generarPago()" [disabled]="loadingPago" *ngIf="infoCliente.clasificacion != 'BAJA'">
               <ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 
@@ -169,7 +169,7 @@
               nuestro equipo puede ayudarte.</p>
           </div>
 
-          <button class="btn-whatsapp" (click)="contactSupport()">
+          <button class="btn-whatsapp" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda con mi pago.')">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
                   <g>

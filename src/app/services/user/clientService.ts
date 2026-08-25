@@ -62,6 +62,7 @@ export class ClientService {
 
   // servicios.service.ts
   getClientePorNumero(numero: string): Observable<any> {
+    console.log("se hace una vez");
     const headers = this.getHeaders();
     return this.http.get(`${this.apiUrl}/cliente/${numero}`, { headers });
   }

@@ -30,13 +30,22 @@ export class Header implements OnInit {
   private ultimoNumeroCliente: string | null = null;
   private cargandoNotificaciones!: boolean;
 
-  constructor(private clientS: ClientService, private user: UserService,
+  constructor(private clientS: ClientService, private user: UserService, private router: Router,
     private ObservableService: ObservableService, private calculo: CalculoService,
   ) {}
 
   ngOnInit(): void {
     this.verificarRuta(window.location.pathname);
     this.ObservableService.notificacion$.subscribe(notify => this.notifications = notify);
+  }
+
+  private previousUrl: string = '';
+  private currentUrl: string = '';
+
+
+
+  public getPreviousUrl(): string {
+    return this.previousUrl;
   }
 
   private verificarRuta(url: string): void {
@@ -61,9 +70,10 @@ export class Header implements OnInit {
     if (clienteActivo === this.ultimoNumeroCliente || this.cargandoNotificaciones) return;
     try {
       this.cargandoNotificaciones = true;
-      const { cliente } = await firstValueFrom(this.clientS.getClientePorNumero(clienteActivo));
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(clienteActivo));
       this.notifications = this.calculo.construirNotificaciones(cliente);
       this.ultimoNumeroCliente = clienteActivo;
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios)
     } catch {
     } finally {
       this.cargandoNotificaciones = false;

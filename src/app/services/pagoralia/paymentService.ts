@@ -10,20 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class PaymentService {
-  formInfo: FormGroup;
-
 
   private apiUrl = environment.apiUrl
   constructor(private clientS: ClientService, private http: HttpClient, private fb: FormBuilder) {
-    this.formInfo = fb.group({
-      isUnique: [1, [Validators.required]],
-      invoice: [null, [Validators.required]],
-      cliente: [null, [Validators.required]],
-      nombre: [null, [Validators.required]],
-      apellido: [null, [Validators.required]],
-      monto: [null, [Validators.required]],
-      moneda: [null, [Validators.required]],
-    });
   }
 
   crearOrdenPagoralia(data: any): Observable<any> {
@@ -34,8 +23,4 @@ export class PaymentService {
   invoice(invoice: string) {
     return this.clientS.desencriptarInvoice({ invoice });
   }
-
-
-
-
 }

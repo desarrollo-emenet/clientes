@@ -47,7 +47,7 @@ export class Dashboard implements OnInit {
       this.infoCliente = cliente;
       this.servicios = servicios;
       if (this.infoCliente.clasificacion === 'BAJA') this.mostrarMensaje = true;
-      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente))
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios)
       this.totalMensual = this.calculo.calcularTotalMensual(servicios)
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');

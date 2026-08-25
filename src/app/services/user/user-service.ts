@@ -94,7 +94,7 @@ export class UserService {
   }
 
   eliminarServicioActivo(): void {
-    this.ObservableService.actualizarObs({}, [])
+    this.ObservableService.actualizarObs({}, [], [])
     localStorage.removeItem('servicio_activo');
   }
 }

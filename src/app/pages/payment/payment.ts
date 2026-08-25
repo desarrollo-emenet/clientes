@@ -9,40 +9,49 @@ import { UserService } from '../../services/user/user-service';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
+import { FormService } from '../../services/pagoralia/form.service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { CalculoService } from '../../services/utility/calculo.service';
+import { ContactoService } from '../../services/utility/contacto.service';
+import { Preloader } from '../../shared/preloader/preloader';
 
 @Component({
   selector: 'app-payment',
-  imports: [ClipboardModule, NgxSonnerToaster, NgIf, FormsModule],
+  imports: [ClipboardModule, NgxSonnerToaster, NgIf, FormsModule, Preloader],
   templateUrl: './payment.html',
   styleUrl: './payment.css'
 })
 export class Payment {
   mensajeCopiado: boolean = false;
-  data: any;
-  baja: boolean = false;
-  loading = false;
-  loadingPago = false;
+  loading!: boolean;
+  loadingPago!: boolean;
+
+  infoCliente: any;
+  servicios: any;
 
   constructor(
     private clientS: ClientService,
-    private paymentService: PaymentService,
+    protected contactoService: ContactoService,
     private user: UserService,
-    protected http: HttpService) { }
+    private ObservableService: ObservableService,
+    private paymentService: PaymentService,
+    private calculo: CalculoService,
+    protected http: HttpService, private formPago: FormService) { }
 
   ngOnInit(): void {
-    const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) return;
-    this.loadClientData(numeroCliente);
+    const clienteActivo = this.user.obtenerServicioActivo();
+    this.ObservableService.cliente$.subscribe(info => this.infoCliente = info)
+    this.ObservableService.servicios$.subscribe(info => this.servicios = info)
+    if(!this.infoCliente.cliente) this.loadClientData(clienteActivo ?? '');
   }
 
   protected async loadClientData(numeroCliente: string): Promise<void> {
     this.loading = true;
-    this.data = null;
     try {
-      const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
-      this.data = { numeroCliente: res?.cliente?.cliente?.cliente ?? '' };
-      this.baja = res?.cliente?.cliente?.clasificacion === 'BAJA';
-
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios);
+      this.infoCliente = cliente;
+      this.servicios = servicios;
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     } finally {
@@ -50,22 +59,15 @@ export class Payment {
     }
   }
 
-  protected async pagar(): Promise<void> {
-    const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) return;
-
+  protected async generarPago(): Promise<void>{
+    const formPago = this.formPago.generarDatos(this.infoCliente, this.servicios);
+    if (!formPago.valid) return console.log("no se pudo generar la orden");
     try {
       this.loadingPago = true;
-      const res = await firstValueFrom(this.paymentService.crearOrdenPagoralia(numeroCliente));
-
-      if (res.status && res.redirectUrl) {
-        window.open(res.redirectUrl, '_blank');
-      } else {
-        toast.error('No se pudo generar la orden');
-      }
-
+      const {data} = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
+      window.open(data.redirect_url, '_blank');
     } catch (error) {
-      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
       this.loadingPago = false;
     }
@@ -80,11 +82,5 @@ export class Payment {
       .catch(err => {
         toast.error('Error al copiar');
       });
-  }
-
-  contactSupport() {
-    const phone = '7133475658';
-    const text = encodeURIComponent('Hola, necesito ayuda con mi pago.');
-    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 }

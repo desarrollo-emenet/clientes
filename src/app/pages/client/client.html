@@ -247,7 +247,7 @@
 
           <div class="modal-buttons">
             <button class="btn btn-light" (click)="this.showPagoModal = false;">Cancelar</button>
-            <button class="btn btn-primary-custom" (click)="pagar()" [disabled]="loadingPago || loading">
+            <button class="btn btn-primary-custom" (click)="generarPago()" [disabled]="loadingPago || loading">
               <ng-container *ngIf="!loadingPago">
                 <i class="fa-solid fa-credit-card me-2"></i>Continuar</ng-container>
               <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>

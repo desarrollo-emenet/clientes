@@ -14,6 +14,7 @@ import { CalculoService } from '../../services/utility/calculo.service';
 import { DocPdfService } from '../../services/utility/doc-pdf.service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { infoCliente } from '../../models/info-cliente';
+import { FormService } from '../../services/pagoralia/form.service';
 
 @Component({
   selector: 'app-client',
@@ -34,8 +35,6 @@ export class Client implements OnInit {
   urlNueva!: any;
   contratados: any;
 
-
-
   constructor(
     private clientS: ClientService,
     private user: UserService,
@@ -44,6 +43,7 @@ export class Client implements OnInit {
     protected calculo: CalculoService,
     private sanitizer: DomSanitizer,
     public doc: DocPdfService,
+    protected FormPago: FormService,
     private observable: ObservableService) { }
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class Client implements OnInit {
       const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
       this.infoCliente = cliente;
       this.servicios = servicios;
-      this.observable.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente))
+      this.observable.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios)
       this.contratados = this.calculo.serviciosContratados(servicios, cliente);
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
@@ -69,7 +69,7 @@ export class Client implements OnInit {
      const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
 
-    this.loading = true 
+    this.loading = true
 
     try {
       const blob = await firstValueFrom(this.clientS.informePdf(numeroCliente));
@@ -82,7 +82,6 @@ export class Client implements OnInit {
 
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
@@ -90,23 +89,22 @@ export class Client implements OnInit {
     }
   }
 
-  protected async pagar(): Promise<void> {
-    const numeroCliente = this.infoCliente.cliente;
-    if (!numeroCliente) return;
+  protected async generarPago(): Promise<void>{
+    const formPago = this.FormPago.generarDatos(this.infoCliente, this.servicios);
+    if (!formPago.valid) return console.log("no se pudo generar la orden");
     try {
       this.loadingPago = true;
-      const res = await firstValueFrom(this.paymentService.crearOrdenPagoralia(numeroCliente));
-      if (res.status && res.redirectUrl) {
-        window.open(res.redirectUrl, '_blank');
-      } else {
-        toast.error('No se pudo generar la orden');
-      }
+      const {data} = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
+      window.open(data.redirect_url, '_blank');
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
       this.loadingPago = false;
     }
   }
+
+
+
 
   protected async obtenerTickets(venta: string): Promise<void> {
     this.loading = true;
