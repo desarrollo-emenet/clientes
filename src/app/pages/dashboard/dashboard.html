@@ -167,9 +167,7 @@
             <div class="service-value">MXN {{ calculo.calcularTotalMensual(servicios) || 0 |
               currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
             <div class="service-sub">Último pago: {{ calculo.getMesPagoReciente(servicios) || 'N/A' }}
-              <ng-container *ngIf="calculo.deudaValida(infoCliente.deuda) !== null;">
-                Pendiente: MXN {{ infoCliente.deuda | currency:'':'symbol':'1.2-2' }}
-              </ng-container>
+              git c
             </div>
           </div>
         </div> -->
