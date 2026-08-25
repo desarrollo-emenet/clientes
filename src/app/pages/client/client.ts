@@ -3,7 +3,6 @@ import { CurrencyPipe, NgClass, CommonModule } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import jsPDF from 'jspdf';
 import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
 import { HttpErrorResponse } from '@angular/common/http'
@@ -61,6 +60,31 @@ export class Client implements OnInit {
       this.contratados = this.calculo.serviciosContratados(servicios, cliente);
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  protected async informePdf() {
+     const numeroCliente = this.user.obtenerServicioActivo();
+    if (!numeroCliente) return;
+
+    this.loading = true 
+
+    try {
+      const blob = await firstValueFrom(this.clientS.informePdf(numeroCliente));
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `informe_${numeroCliente}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
       this.loading = false;
     }

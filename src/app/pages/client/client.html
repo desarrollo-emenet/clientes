@@ -7,7 +7,7 @@
       <div class="loading-card-box">
         <img src="assets/img/logo.png" alt="Generando..." class="loading-logo logo-animated">
         <div class="loading-spinner border-primary-color"></div>
-        <p class="loading-text-white">Generando ticket...</p>
+        <p class="loading-text-white">Generando ...</p>
       </div>
     </div>
     <div *ngIf="infoCliente" class="content-wrapper">
@@ -190,7 +190,7 @@
           <div class="accent-bar"></div>
           <h4>Descarga tu informe</h4>
         </div>
-        <div class="payment-card payment-card--clickable" (click)="doc.descargarEstadoCuentaPDF(servicios, infoCliente)">
+        <div class="payment-card payment-card--clickable" (click)="doc.informePdf()">
           <div class="payment-card-left">
             <div class="payment-icon payment-icon--blue">
               <i class="fa-solid fa-file-pdf"></i>
