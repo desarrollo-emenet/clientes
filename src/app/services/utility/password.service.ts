@@ -8,10 +8,12 @@ export class PasswordService {
   matchValidator(group: FormGroup) {
     const pass = group.get('password')?.value;
     const confirm = group.get('password_confirmation')?.value;
-    if (pass && confirm && pass !== confirm) {
-      return { passwordMissMatch: true };
-    }
-    return null;
+
+    // Si ambos están vacíos, no hay error
+    if (!pass && !confirm) return null;
+
+    // Si no son exactamente iguales (cubre incompletos y los que no coinciden)
+    return pass === confirm ? null : { passwordMissMatch: true };
   }
 
   calculateStrength(password: string): number {
@@ -27,7 +29,7 @@ export class PasswordService {
     return strength;
   }
 
-  public feddback(passwordStrength: number): any{
+  public feddback(passwordStrength: number): any {
     switch (passwordStrength) {
       case 1:
         return { class: 'strength-weak', text: 'Débil' }

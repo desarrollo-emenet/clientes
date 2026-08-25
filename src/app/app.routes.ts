@@ -20,6 +20,7 @@ import { FAQ } from './pages/faq/faq';
 import { FormPagos } from './pages/form-pagos/form-pagos';
 import { Adicionales } from './pages/adicionales/adicionales';
 import { recoverEmailGuard } from './guards/recover-email-guard';
+import { SpeedTest } from './pages/speed-test/speed-test';
 
 
 export const routes: Routes = [
@@ -42,6 +43,7 @@ export const routes: Routes = [
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
   { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
+  { path: 'speedtest', component: SpeedTest, canActivate: [requireAuthGuard]},
 
 
   { path: '**', redirectTo: '/iniciar-sesion' }

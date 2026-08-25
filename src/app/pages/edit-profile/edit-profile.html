@@ -7,7 +7,7 @@
         <i class="fa-solid fa-user-pen"></i>
       </div>
       <div class="ep-header-content">
-        <h2>Actualiza tu contraseña</h2>
+        <h2>Actualiza tu Perfil</h2>
         <p>Por seguridad, confirma tu contraseña actual</p>
       </div>
     </div>
@@ -39,85 +39,97 @@
             </div>
           </div>
 
-          <!-- Nueva contraseña -->
+          <!-- Nuevo correo -->
           <div class="ep-field">
-            <label>
-
-              Nueva contraseña
-            </label>
+            <label>Correo nuevo</label>
             <div class="ep-input-group">
-              <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="ep-input"
-                placeholder="Mínimo 8 caracteres" />
-              <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()">
-                <img [src]="showPassword
+              <input type="email" formControlName="email" class="ep-input" placeholder="correo@dominio.com" />
+            </div>
+            <div *ngIf="email.invalid &&(email.touched || email.dirty)" class="ep-error">
+              <span *ngIf="email.errors?.['required']">Requerida.</span>
+              <span *ngIf="email.errors?.['email']">Formato incorrecto</span>
+            </div>
+          </div>
+
+            <!-- Nueva contraseña -->
+            <div class="ep-field">
+              <label>
+
+                Nueva contraseña
+              </label>
+              <div class="ep-input-group">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="ep-input"
+                  placeholder="Mínimo 8 caracteres" />
+                <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()">
+                  <img [src]="showPassword
                     ? 'assets/img/invisible.png'
                     : 'assets/img/ojo.png'" width="20" />
-              </button>
-            </div>
-            <div *ngIf="password.invalid &&
+                </button>
+              </div>
+              <div *ngIf="password.invalid &&
                 (password.touched || password.dirty)" class="ep-error">
-              <span *ngIf="password.errors?.['required']">Requerida.</span>
-              <span *ngIf="password.errors?.['minlength']">
-                Mínimo 8 caracteres.
+                <span *ngIf="password.errors?.['required']">Requerida.</span>
+                <span *ngIf="password.errors?.['minlength']">
+                  Mínimo 8 caracteres.
+                </span>
+              </div>
+
+              <!-- Indicador de fortaleza -->
+              <div class="ep-strength" *ngIf="password.value">
+                <div class="ep-strength-track">
+                  <div class="ep-strength-bar" [ngClass]="passwordService.feddback(passwordStrength).class"
+                    [style.width.%]="passwordStrength * 25"></div>
+                </div>
+                <div class="ep-strength-labels">
+                  <span class="ep-strength-text" [ngClass]="passwordService.feddback(passwordStrength).class">
+                    {{ passwordService.feddback(passwordStrength).text }}
+                  </span>
+                  <span class="ep-strength-hint" *ngIf="passwordStrength < 3">
+                    Usa símbolos y números
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="ep-field">
+              <label>
+                <i class="fa-solid fa-check" style="color:#0b4e94;"></i>
+                Confirmar contraseña
+              </label>
+              <div class="ep-input-group">
+                <input type="password" formControlName="password_confirmation" class="ep-input"
+                  placeholder="Repite la contraseña" />
+              </div>
+              <div class="ep-error" *ngIf="updateForm.hasError('passwordMissMatch') &&
+                (passwordConfirmation.touched || updateForm.touched)">
+                Las contraseñas no coinciden.
+              </div>
+            </div>
+
+            <!-- Recomendaciones -->
+            <div class="ep-tips">
+              <i class="fa-solid fa-thumbs-up" style="color:#0b4e94;"></i>
+              <span>
+                <strong>Recomendaciones:</strong>
+                Evita palabras comunes · Usa números y símbolos
               </span>
             </div>
 
-            <!-- Indicador de fortaleza -->
-            <div class="ep-strength" *ngIf="password.value">
-              <div class="ep-strength-track">
-                <div class="ep-strength-bar" [ngClass]="passwordService.feddback(passwordStrength).class"
-                  [style.width.%]="passwordStrength * 25"></div>
-              </div>
-              <div class="ep-strength-labels">
-                <span class="ep-strength-text" [ngClass]="passwordService.feddback(passwordStrength).class">
-                  {{ passwordService.feddback(passwordStrength).text }}
-                </span>
-                <span class="ep-strength-hint" *ngIf="passwordStrength < 3">
-                  Usa símbolos y números
-                </span>
-              </div>
-            </div>
           </div>
-
-          <!-- Confirmar contraseña -->
-          <div class="ep-field">
-            <label>
-              <i class="fa-solid fa-check" style="color:#0b4e94;"></i>
-              Confirmar contraseña
-            </label>
-            <div class="ep-input-group">
-              <input type="password" formControlName="password_confirmation" class="ep-input"
-                placeholder="Repite la contraseña" />
-            </div>
-            <div class="ep-error" *ngIf="updateForm.hasError('passwordMissMatch') &&
-                (passwordConfirmation.touched || updateForm.touched)">
-              Las contraseñas no coinciden.
-            </div>
-          </div>
-
-          <!-- Recomendaciones -->
-          <div class="ep-tips">
-            <i class="fa-solid fa-thumbs-up" style="color:#0b4e94;"></i>
-            <span>
-              <strong>Recomendaciones:</strong>
-              Evita palabras comunes · Usa números y símbolos
-            </span>
-          </div>
-
         </div>
-      </div>
 
-      <!-- ACCIONES -->
-      <div class="ep-actions">
-        <button type="submit" class="ep-submit-btn" [disabled]="loading">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-          {{ loading ? 'GUARDANDO...' : 'GUARDAR CAMBIOS' }}
-        </button>
+        <!-- ACCIONES -->
+        <div class="ep-actions">
+          <button type="submit" class="ep-submit-btn" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ loading ? 'GUARDANDO...' : 'GUARDAR CAMBIOS' }}
+          </button>
 
-        <a (click)="cancel()" class="ep-cancel-link">
-          Cancelar y regresar
-        </a>
-      </div>
+          <a (click)="cancel()" class="ep-cancel-link">
+            Cancelar y regresar
+          </a>
+        </div>
 
     </form>
 
