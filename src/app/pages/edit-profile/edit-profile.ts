@@ -111,9 +111,9 @@ export class EditProfile {
     this.updateForm.reset();
 
     setTimeout(() => {
-      //this.auth.logoutAndRedirect();
-       this.auth.goNavigate('/dashboard');
-    }, 1500);
+      this.auth.logout()
+      //this.auth.goNavigate('/dashboard');
+    }, 3500);
   }
 
   cancel() {

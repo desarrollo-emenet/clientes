@@ -8,5 +8,10 @@ import { Component } from '@angular/core';
 })
 export class SpeedTest {
 
+  recommendationsOpen = false;
+
+toggleRecommendations(): void {
+    this.recommendationsOpen = !this.recommendationsOpen;
+}
 
 }

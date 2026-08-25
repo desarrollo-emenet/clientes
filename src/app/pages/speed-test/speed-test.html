@@ -1,63 +1,84 @@
 <section class="speedtest-section">
-    <!-- Encabezado -->
-    <div class="speedtest-header">
-        <span class="section-tag">
-            <i class="pi pi-gauge"></i>
-            Diagnóstico de conexión
-        </span>
-        <h1>Realiza una prueba de velocidad</h1>
-        <p>Comprueba la velocidad de tu conexión a Internet de forma rápida y sencilla.</p>
-    </div>
+    <div class="speedtest-container">
 
-    <div class="speedtest-content">
-        <div class="recommendations-card">
-            <div class="card-icon"><i class="fa-solid fa-wifi"></i></div>
-            <h2>Antes de comenzar</h2>
-            <p class="recommendations-description">
-                Para obtener un resultado más preciso, te recomendamos:
-            </p>
-
-            <ul class="recommendations-list">
-                <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>
-                    <span>Cierra las aplicaciones o programas que utilicen Internet.</span>
-                </li>
-
-                <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>
-                    <span>Evita que otros dispositivos estén utilizando la red durante la prueba.</span>
-                </li>
-
-                <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>
-                    <span>Si es posible, conecta tu equipo mediante cable Ethernet.</span>
-                </li>
-
-                <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>
-                    <span>Si utilizas Wi-Fi, colócate cerca del módem.</span>
-                </li>
-
-                <li><span class="check-icon"><i class="fa-solid fa-check"></i></span>
-                    <span>Realiza la prueba en diferentes horarios si notas variaciones.</span>
-                </li>
-            </ul>
+        <div class="speedtest-header">
+            <span class="section-tag">
+                <i class="pi pi-gauge"></i>Diagnóstico de conexión
+            </span>
+            <h1>Realiza una prueba de velocidad</h1>
+            <p>Comprueba la velocidad de tu conexión a Internet de forma rápida y sencilla.</p>
         </div>
 
+        <div class="recommendations-accordion">
 
-        <!-- Speedtest -->
+            <button type="button"class="accordion-header"(click)="toggleRecommendations()"
+                [attr.aria-expanded]="recommendationsOpen">
+                <div class="accordion-title">
+                    <span class="accordion-icon"><i class="fa-solid fa-lightbulb"></i></span>
+                    <div>
+                        <strong>Consejos para obtener un resultado más preciso</strong>
+                        <span>Antes de iniciar la prueba</span>
+                    </div>
+                </div>
+                <span class="accordion-arrow" [class.open]="recommendationsOpen">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+            </button>
+
+            <div class="accordion-content" [class.open]="recommendationsOpen">
+                <div class="recommendations-list">
+
+                    <div class="recommendation-item">
+                        <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Cierra las aplicaciones o programas que utilicen Internet.</span>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Evita que otros dispositivos estén utilizando la red durante la prueba.</span>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Si es posible, conecta tu equipo mediante cable Ethernet. </span>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Si utilizas Wi-Fi, colócate cerca del módem.</span>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        <span>Realiza la prueba en diferentes horarios si notas variaciones.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
         <div class="speedtest-card">
             <div class="speedtest-card-header">
-                <div><span class="speedtest-label"><i class="fa-solid fa-chart-line"></i>
-                        Prueba de conexión
+                <div class="speedtest-title">
+                    <span class="speedtest-label">
+                        <i class="fa-solid fa-chart-line"></i>Prueba de conexión
                     </span>
-                    <p><img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/speedtest-light.svg" alt="" width="20px" height="auto">SPEEDTEST</p>
+                    <p>
+                        <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/svg/speedtest-light.svg" alt="Speedtest"
+                            width="20" height="20" > SPEEDTEST
+                    </p>
                 </div>
+
                 <div class="connection-status">
-                    <img src="assets/img/emenetLogoB.webp" alt="Emenet Comunicaciones" loading="lazy" width="90px" height="auto">
+                    <img src="assets/img/emenetLogoB.webp" alt="Emenet Comunicaciones" loading="lazy" width="90">
                 </div>
             </div>
 
             <div class="speedtest-frame">
-
+                <iframe src="" title="Prueba de velocidad" allow="fullscreen"> </iframe>
             </div>
-
         </div>
+
+        
     </div>
 </section>
