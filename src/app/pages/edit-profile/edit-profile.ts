@@ -86,14 +86,14 @@ export class EditProfile {
       if (cambiarEmail) { payload.email = raw.email; }
       if (cambiarPassword) { payload.password = raw.password; }
 
-      console.log(payload);
+      //console.log(payload);
 
       const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
       const response = await firstValueFrom(this.clientS.updateUser(user.id, payload));
 
-      console.log(response);
+      //console.log(response);
 
-      this.onUpdateSuccess();
+      this.onUpdateSuccess(response);
 
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar los datos.")
@@ -104,12 +104,15 @@ export class EditProfile {
   }
 
 
-  private onUpdateSuccess(): void {
+  private onUpdateSuccess(response:any): void {
+
     this.loading = false;
-    //toast.success('Perfil actualizado');
+    toast.success(response.mensaje);
     this.updateForm.reset();
+
     setTimeout(() => {
-      this.auth.goNavigate('/dashboard');
+      //this.auth.logoutAndRedirect();
+       this.auth.goNavigate('/dashboard');
     }, 1500);
   }
 

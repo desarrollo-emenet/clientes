@@ -109,4 +109,9 @@ export class ClientService {
     const headers = this.getHeaders(true);
     return this.http.get<any>(`${this.apiUrl2}/clientesV3-ticket/${venta}?tipo=comprobanteCobro`, { headers: headers });
   }
+
+  //pdf informe blob datos binarios
+  informePdf(cliente: string): Observable<Blob>{
+    return this.http.get(`${this.apiUrl}/informe-pdf/${cliente}`,{ responseType: 'blob' });
+  }
 }
