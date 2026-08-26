@@ -10,6 +10,7 @@
     <div class="user-info">
       <div class="user-name">{{ cliente.nombre || 'Cliente' }}</div>
       <div class="user-role">{{ cliente.cliente }}</div>
+      <div class="user-role">{{ user?.email }}</div>
     </div>
     <i class="bi bi-chevron-down dropdown-arrow" [class.rotate-icon]="isDropdownOpen"></i>
   </button>
