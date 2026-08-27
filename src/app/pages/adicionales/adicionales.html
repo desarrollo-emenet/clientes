@@ -6,14 +6,12 @@
             <button class="nav-btn" [ngClass]="{ active: activeSection === 'servicios' }"
                 (click)="showSection('servicios')">
                 <i class="fa-solid fa-wifi"></i>
-
                 Servicios
             </button>
             <button class="nav-btn" [ngClass]="{ active: activeSection === 'productos' }"
                 (click)="showSection('productos')">
                 <i class="fa-solid fa-computer"></i>
                 Productos
-
             </button>
         </nav>
 
@@ -25,14 +23,12 @@
 
             <div class="services-list">
 
-
                 <div class="service-card" *ngFor="let servicio of servicios">
                     <div class="service-image" [ngClass]="servicio.clase">
                         <i class="fa-solid" [ngClass]="servicio.icono"></i>
                     </div>
 
                     <div class="service-content">
-
                         <div class="service-info">
                             <h2>{{ servicio.titulo }}</h2>
                             <p class="service-desc">{{ servicio.descripcion }}</p>
@@ -42,7 +38,6 @@
                                 </li>
                             </ul>
                         </div>
-
                         <div class="service-action">
                             <span class="price"></span>
                             <button type="button" (click)="abrirModal(servicio.id)">
@@ -62,8 +57,6 @@
             <p class="page-sub">Lo que necesites nosotros lo tenemos.</p>
 
             <div class="products-grid">
-
-
 
                 <div class="product-card" *ngFor="let producto of productos" (click)="abrirModalProducto(producto.id)">
                     <div class="product-img-wrap">
@@ -89,22 +82,18 @@
             subtitulo="Elige el plan ideal para ti" icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 
             <div class="plan-grid-internet">
-                <div class="plan-card-internet" *ngFor="let plan of planesInternet"
-                    [class.plan-card-popular]="plan.popular">
+                <div class="plan-card-internet" *ngFor="let plan of planesInternet" [class.plan-card-popular]="plan.popular">
 
                     <div class="plan-card-top">
                         <h3 class="plan-nombre">{{ plan.nombre }}</h3>
                         <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
                         <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
                     </div>
-                    <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">
-                        Más información
-                    </a>
+                    <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Más información</a>
                 </div>
             </div>
 
         </app-modal-base>
-
 
         <!-- MODAL: TELEFONÍA -->
         <app-modal-base *ngIf="modalActivo === 'telefonia'" titulo="Telefonía fija y móvil"
@@ -137,9 +126,7 @@
                     </ul>
 
                     <div class="modal-cta">
-                        <a href="https://mobile.emenet.mx/" class="modal-btn-wp" target="_blank">
-                            Más información
-                        </a>
+                        <a href="https://mobile.emenet.mx/" class="modal-btn-wp" target="_blank">Más información</a>
                     </div>
                 </div>
             </div>
@@ -203,10 +190,7 @@
                 <div class="opcion-card">
                     <div class="opcion-icon"><i class="fa-solid fa-credit-card"></i></div>
                     <h3>Kit Básico MyBusinessPos</h3>
-                    <p>
-                        Ideal para pequeños y grandes negocios.
-                        Incluye equipo básico y 2 horas de capacitación incluidas.
-                    </p>
+                    <p>Ideal para pequeños y grandes negocios. Incluye equipo básico y 2 horas de capacitación incluidas.</p>
 
                     <ul class="plan-features">
                         <li>Equipo básico completo.</li>
@@ -239,17 +223,13 @@
                     </ul>
 
                     <div class="modal-cta">
-                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">
-                            Más información
-                        </a>
+                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">Más información</a>
                     </div>
                 </div>
             </div>
 
             <div class="modal-cta">
-                <button type="button" class="plan-btn" (click)="solicitarOpcion('sistema-completo')">
-                    Asesoría por WhatsApp
-                </button>
+                <button type="button" class="plan-btn" (click)="solicitarOpcion('sistema-completo')">Asesoría por WhatsApp</button>
             </div>
         </app-modal-base>
 
@@ -262,22 +242,15 @@
                     <div class="gps-detalle-icon"><i class="fa-solid fa-location-dot"></i></div>
                     <div>
                         <h4>Ubicación en tiempo real</h4>
-                        <p>
-                            Rastrea la posición exacta de tus vehículos
-                            desde cualquier dispositivo con conexión a internet.
-                        </p>
+                        <p>Rastrea la posición exacta de tus vehículos desde cualquier dispositivo con conexión a internet.</p>
                     </div>
                 </div>
-
 
                 <div class="gps-detalle-item">
                     <div class="gps-detalle-icon"><i class="fa-solid fa-bell"></i></div>
                     <div>
                         <h4>Alertas inteligentes</h4>
-                        <p>
-                            Recibe notificaciones de exceso de velocidad,
-                            salida de zona y movimiento fuera de horario.
-                        </p>
+                        <p>Recibe notificaciones de exceso de velocidad, salida de zona y movimiento fuera de horario.</p>
                     </div>
                 </div>
 
@@ -285,20 +258,14 @@
                     <div class="gps-detalle-icon"><i class="fa-solid fa-chart-column"></i></div>
                     <div>
                         <h4>Historial de recorridos</h4>
-                        <p>
-                            Consulta rutas, paradas y tiempos de los últimos
-                            90 días para optimizar tus operaciones.
-                        </p>
+                        <p>Consulta rutas, paradas y tiempos de los últimos 90 días para optimizar tus operaciones.</p>
                     </div>
                 </div>
                 <div class="gps-detalle-item">
                     <div class="gps-detalle-icon"><i class="fa-solid fa-car"></i></div>
                     <div>
                         <h4>Control de flotillas</h4>
-                        <p>
-                            Gestiona múltiples unidades desde un solo panel.
-                            Compatible con cualquier tipo de vehículo.
-                        </p>
+                        <p>Gestiona múltiples unidades desde un solo panel. Compatible con cualquier tipo de vehículo.</p>
                     </div>
                 </div>
             </div>

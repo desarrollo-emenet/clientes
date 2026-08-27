@@ -35,6 +35,7 @@ export const PRODUCTOS: Record<string, Producto> = {
     imagenActual: 0,
 
     imagenes: [
+      '../../../assets/img/productos/router/r3.webp',
       '../../../assets/img/productos/router/r1.webp',
       '../../../assets/img/productos/router/r2.webp'
     ],
@@ -75,8 +76,8 @@ export const PRODUCTOS: Record<string, Producto> = {
     imagenActual: 0,
 
     imagenes: [
-      '../../../assets/img/productos/switch/s1.webp',
-      '../../../assets/img/productos/switch/s2.webp'
+      '../../../assets/img/productos/switch/s2.webp',
+      '../../../assets/img/productos/switch/s1.webp'
     ],
 
     caracteristicas: [
@@ -115,8 +116,8 @@ export const PRODUCTOS: Record<string, Producto> = {
     imagenActual: 0,
 
     imagenes: [
-      '../../../assets/img/productos/switch8/s1.webp',
-      '../../../assets/img/productos/switch8/s2.webp'
+      '../../../assets/img/productos/switch8/s2.webp',
+      '../../../assets/img/productos/switch8/s1.webp'
     ],
 
     caracteristicas: [
@@ -155,6 +156,7 @@ export const PRODUCTOS: Record<string, Producto> = {
     imagenActual: 0,
 
     imagenes: [
+      '../../../assets/img/productos/wifi/e1.webp',
       '../../../assets/img/productos/wifi/e2.webp',
       '../../../assets/img/productos/wifi/e3.webp'
     ],
@@ -276,6 +278,7 @@ export const PRODUCTOS: Record<string, Producto> = {
     imagenActual: 0,
 
     imagenes: [
+      '../../../assets/img/productos/break/b2.webp',
       '../../../assets/img/productos/break/b1.webp',
       '../../../assets/img/productos/break/b3.webp'
     ],

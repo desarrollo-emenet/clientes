@@ -1,4 +1,3 @@
-
 /* RESET */
 * {
   margin: 0;
@@ -172,7 +171,6 @@
 
 .service-content {
   flex: 1;
-
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -181,19 +179,14 @@
 .service-info h2 {
   font-size: 1.2rem;
   font-weight: 700;
-
   color: #0f172a;
-
   margin-bottom: 6px;
 }
 
 .service-desc {
   color: #64748b;
-
   font-size: .95rem;
-
   line-height: 1.5;
-
   margin-bottom: 12px;
 }
 
@@ -205,29 +198,20 @@
 
 .service-info ul li {
   position: relative;
-
   padding-left: 18px;
-
   margin-bottom: 8px;
-
   color: #334155;
-
   font-size: .92rem;
 }
 
 .service-info ul li::before {
   content: "";
-
   position: absolute;
-
   left: 0;
   top: 8px;
-
   width: 7px;
   height: 7px;
-
   border-radius: 50%;
-
   background: #2563eb;
 }
 
@@ -235,7 +219,6 @@
 
 .service-action {
   min-width: 130px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -245,38 +228,29 @@
 .price {
   font-size: 1.4rem;
   font-weight: 800;
-
   color: #0b4e94;
 }
 
 .price span {
   font-size: .85rem;
   font-weight: 500;
-
   color: #64748b;
 }
 
 .service-action button {
   border: none;
-
   height: 44px;
-
+  width: 10rem;
   padding: 0 18px;
-
   border-radius: 14px;
-
   background:
     linear-gradient(135deg,
       #0b4e94,
       #2563eb);
-
   color: white;
-
   font-size: .9rem;
   font-weight: 600;
-
   cursor: pointer;
-
   transition:
     transform .2s ease,
     box-shadow .2s ease;
@@ -284,7 +258,6 @@
 
 .service-action button:hover {
   transform: translateY(-2px);
-
   box-shadow:
     0 10px 20px rgba(37, 99, 235, .22);
 }
@@ -420,6 +393,7 @@
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .service-image {
     display: none;
   }
@@ -428,7 +402,6 @@
 /* =========================================
    MODALES
 ========================================= */
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -532,30 +505,6 @@
   margin: 0;
 }
 
-.modal-header.internet {
-  background: linear-gradient(135deg, #2563eb, #0b4e94);
-}
-
-.modal-header.telefonia {
-  background: linear-gradient(135deg, #0ea5e9, #0284c7);
-}
-
-.modal-header.camaras {
-  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-}
-
-.modal-header.puntos {
-  background: linear-gradient(135deg, #10b981, #059669);
-}
-
-.modal-header.gps {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.modal-header.web {
-  background: linear-gradient(135deg, #ec4899, #be185d);
-}
-
 /* BODY */
 
 .modal-body {
@@ -570,12 +519,6 @@
 }
 
 /* PLANES DE INTERNET */
-
-.plan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
 
 .plan-card {
   border: 2px solid #e2e8f0;
@@ -722,25 +665,7 @@
   margin-top: 22px;
 }
 
-.modal-btn-wp {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 26px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
-  color: #fff;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 18px rgba(27, 172, 80, 0.3);
-}
 
-.modal-btn-wp:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(27, 172, 80, 0.38);
-}
 
 /* COTIZAR CÁMARAS */
 
@@ -1176,6 +1101,27 @@
   border-top: 1px solid #f1f5f9;
   padding-top: 10px;
 }
+
+.modal-btn-wp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 18px rgba(27, 172, 80, 0.3);
+}
+
+.modal-btn-wp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(27, 172, 80, 0.38);
+}
+
 
 /* Botón contratar */
 
