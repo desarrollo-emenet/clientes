@@ -15,6 +15,16 @@ export interface Producto {
   especificaciones: Especificacion[];
 }
 
+export interface ServicioAdicional {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  icono: string;
+  clase: string;
+  caracteristicas: string[];
+  accion: string;
+}
+
 export const PRODUCTOS: Record<string, Producto> = {
 
   router: {
@@ -339,3 +349,119 @@ export const PRODUCTOS: Record<string, Producto> = {
   }
 
 };
+
+
+
+export const SERVICIOS_ADICIONALES: ServicioAdicional[] = [
+  {
+    id: 'internet',
+    titulo: 'Internet',
+    descripcion: 'Planes desde 100 Mbps hasta 500 Mbps para hogar y negocio.',
+    icono: 'fa-wifi',
+    clase: 'internet',
+    caracteristicas: [
+      'Fibra óptica de alta velocidad',
+      'Instalación rápida',
+      'Soporte 24/7'
+    ],
+    accion: 'Ver planes'
+  },
+
+  {
+    id: 'telefonia',
+    titulo: 'Telefonía fija y móvil',
+    descripcion: 'Comunicación estable para hogar y empresas.',
+    icono: 'fa-phone',
+    clase: 'telefonia',
+    caracteristicas: [
+      'Líneas fijas limitadas',
+      'Chips con datos y llamadas',
+      'Cobertura nacional'
+    ],
+    accion: 'Más información'
+  },
+
+  {
+    id: 'camaras',
+    titulo: 'Cámaras de seguridad',
+    descripcion: 'Sistemas de videovigilancia para proteger tu hogar y negocio.',
+    icono: 'fa-video',
+    clase: 'camaras',
+    caracteristicas: [
+      'DVR',
+      'Visión nocturna',
+      'Instalación profesional'
+    ],
+    accion: 'Cotizar'
+  },
+
+  {
+    id: 'puntos',
+    titulo: 'Puntos de venta',
+    descripcion: 'Soluciones de cobro modernas para tu negocio.',
+    icono: 'fa-cash-register',
+    clase: 'puntos',
+    caracteristicas: [
+      'Control de inventario',
+      'Control de ventas',
+      'Recargas de tiempo aire'
+    ],
+    accion: 'Ver opciones'
+  },
+
+  {
+    id: 'gps',
+    titulo: 'GPS para vehículos',
+    descripcion: 'Monitoreo en tiempo real para vehículos y flotillas.',
+    icono: 'fa-location-dot',
+    clase: 'gps',
+    caracteristicas: [
+      'Ubicación en vivo',
+      'Alertas inteligentes',
+      'Historial de recorridos'
+    ],
+    accion: 'Ver detalles'
+  },
+
+  {
+    id: 'web',
+    titulo: 'Páginas web con dominio',
+    descripcion: 'Diseño web profesional para impulsar tu negocio.',
+    icono: 'fa-globe',
+    clase: 'web',
+    caracteristicas: [
+      'Dominio propio',
+      'Hosting incluido',
+      'Diseño adaptable'
+    ],
+    accion: 'Solicitar'
+  }
+];
+
+
+export const planesInternet = [
+  {
+    nombre: 'Plan 100 Megas',
+    velocidad: 100,
+    precio: 300,
+    popular: false
+  },
+  {
+    nombre: 'Plan 200 Megas',
+    velocidad: 200,
+    precio: 400,
+    popular: true
+  },
+  {
+    nombre: 'Plan 300 Megas',
+    velocidad: 300,
+    precio: 500,
+    popular: false
+  },
+  {
+    nombre: 'Plan 500 Megas',
+    velocidad: 500,
+    precio: 600,
+    popular: false
+  }
+];

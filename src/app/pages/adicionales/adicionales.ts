@@ -1,12 +1,13 @@
 import { Component, HostListener } from '@angular/core';
-import { NgClass, CommonModule } from '@angular/common';
+import { NgClass, CommonModule, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { PRODUCTOS, Producto } from './serviceAdicional';
+import { PRODUCTOS, Producto, SERVICIOS_ADICIONALES, planesInternet } from './serviceAdicional';
+import { ModalBase } from './modal-base/modal-base';
 
 
 @Component({
   selector: 'app-adicionales',
-  imports: [NgClass, CommonModule, MatIconModule],
+  imports: [NgClass, CommonModule, MatIconModule, ModalBase, NgFor],
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
@@ -16,6 +17,10 @@ export class Adicionales {
   modalActivo: string | null = null;
   productoSeleccionado: Producto | null = null;
   zoomIndex: number | null = null;
+
+  servicios = SERVICIOS_ADICIONALES;
+  planesInternet = planesInternet;
+
 
 
   @HostListener('window:keydown.escape')

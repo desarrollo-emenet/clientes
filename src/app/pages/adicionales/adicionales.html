@@ -23,178 +23,36 @@
             <h1 class="page-heading">Servicios para ti</h1>
             <p class="page-sub">Soluciones tecnológicas que se adaptan a tus necesidades.</p>
 
-            <!-- INTERNET -->
-            <div class="service-card">
-                <div class="service-image internet">
-                    <i class="fa-solid fa-wifi"></i>
-                    <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" weight="40px" height="40px">
-                        <path d="M288 96c-90.9 0-173.2 36-233.7 94.6-12.7 12.3-33 12-45.2-.7s-12-33 
-                    .7-45.2C81.7 74.9 179.9 32 288 32S494.3 74.9 566.3 144.7c12.7 12.3 13 32.6 .7
-                     45.2s-32.6 13-45.2 .7C461.2 132 378.9 96 288 96zM240 432a48 48 0 1 1 96 0 48
-                      48 0 1 1 -96 0zM168 326.2c-11.7 13.3-31.9 14.5-45.2 2.8s-14.5-31.9-2.8-45.2C161
-                       237.4 221.1 208 288 208s127 29.4 168 75.8c11.7 13.3 10.4 33.5-2.8 45.2s-33.5 
-                       10.4-45.2-2.8C378.6 292.9 335.8 272 288 272s-90.6 20.9-120 54.2z" />
-                    </svg>-->
-                </div>
+            <div class="services-list">
 
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>Internet</h2>
-                        <p class="service-desc">
-                            Planes desde 100 Mbps hasta 500 Mbps para hogar y negocio.
-                        </p>
 
-                        <ul>
-                            <li>Fibra óptica de alta velocidad</li>
-                            <li>Instalación rápida</li>
-                            <li>Soporte 24/7</li>
-                        </ul>
+                <div class="service-card" *ngFor="let servicio of servicios">
+                    <div class="service-image" [ngClass]="servicio.clase">
+                        <i class="fa-solid" [ngClass]="servicio.icono"></i>
                     </div>
 
-                    <div class="service-action">
-                        <span class="price"><!--$300<span>/mes</span>--></span>
-                        <button (click)="abrirModal('internet')">Ver planes</button>
+                    <div class="service-content">
+
+                        <div class="service-info">
+                            <h2>{{ servicio.titulo }}</h2>
+                            <p class="service-desc">{{ servicio.descripcion }}</p>
+                            <ul>
+                                <li *ngFor="let caracteristica of servicio.caracteristicas">
+                                    {{ caracteristica }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="service-action">
+                            <span class="price"></span>
+                            <button type="button" (click)="abrirModal(servicio.id)">
+                                {{ servicio.accion }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- TELEFONÍA -->
-            <div class="service-card">
-                <div class="service-image telefonia">
-                    <i class="fa-solid fa-phone"></i>
-                </div>
-
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>Telefonía fija y móvil</h2>
-                        <p class="service-desc">
-                            Comunicación estable para hogar y empresas.
-                        </p>
-
-                        <ul>
-                            <li>Líneas fijas limitadas</li>
-                            <li>Chips con datos y llamadas</li>
-                            <li>Cobertura nacional</li>
-                        </ul>
-                    </div>
-
-                    <div class="service-action">
-                        <span class="price"><!--$120--><span><!--/mes--></span></span>
-                        <button (click)="abrirModal('telefonia')">Más información</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CAMARAS -->
-            <div class="service-card">
-                <div class="service-image camaras">
-                    <i class="fa-solid fa-video"></i>
-                </div>
-
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>Cámaras de seguridad</h2>
-                        <p class="service-desc">
-                            Sistemas de videovigilancia para proteger tu hogar y negocio.
-                        </p>
-
-                        <ul>
-                            <li>DVR</li>
-                            <li>Visión nocturna</li>
-                            <li>Instalación profesional</li>
-                        </ul>
-                    </div>
-
-                    <div class="service-action">
-                        <span class="price"><!--$1,999--></span>
-                        <button (click)="abrirModal('camaras')">Cotizar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PUNTOS DE VENTA -->
-            <div class="service-card">
-                <div class="service-image puntos">
-                    <i class="fa-solid fa-cash-register"></i>
-                </div>
-
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>Puntos de venta</h2>
-                        <p class="service-desc">
-                            Soluciones de cobro modernas para tu negocio.
-                        </p>
-
-                        <ul>
-                            <li>Control de inventario</li>
-                            <li>Control de ventas</li>
-                            <li>Recargas de tiempo aire</li>
-                        </ul>
-                    </div>
-
-                    <div class="service-action">
-                        <span class="price"><!--$2,499--></span>
-                        <button (click)="abrirModal('puntos')">Ver opciones</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GPS -->
-            <div class="service-card">
-                <div class="service-image gps">
-                    <i class="fa-solid fa-location-dot"></i>
-                </div>
-
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>GPS para vehículos</h2>
-                        <p class="service-desc">
-                            Monitoreo en tiempo real para vehículos y flotillas.
-                        </p>
-
-                        <ul>
-                            <li>Ubicación en vivo</li>
-                            <li>Alertas inteligentes</li>
-                            <li>Historial de recorridos</li>
-                        </ul>
-                    </div>
-
-                    <div class="service-action">
-                        <span class="price"><!--$179<span>/mes</span>--></span>
-                        <button (click)="abrirModal('gps')">Ver detalles</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PAGINAS WEB -->
-            <div class="service-card">
-                <div class="service-image web">
-                    <i class="fa-solid fa-globe"></i>
-                </div>
-
-                <div class="service-content">
-                    <div class="service-info">
-                        <h2>Páginas web con dominio</h2>
-                        <p class="service-desc">
-                            Diseño web profesional para impulsar tu negocio.
-                        </p>
-
-                        <ul>
-                            <li>Dominio propio</li>
-                            <li>Hosting incluido</li>
-                            <li>Diseño adaptable</li>
-                        </ul>
-                    </div>
-
-                    <div class="service-action">
-                        <span class="price"><!--$2,999--></span>
-                        <button (click)="abrirModal('web')">Solicitar</button>
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /servicios -->
-
+        </div>
 
 
         <!-- SECCIÓN productos -->
@@ -205,597 +63,424 @@
 
             <div class="products-grid">
 
-                <div class="product-card" (click)="abrirModalProducto('router')">
+
+
+                <div class="product-card" *ngFor="let producto of productos" (click)="abrirModalProducto(producto.id)">
                     <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/router/r3.webp" alt="Routers" />
+                        <img [src]="producto.imagenes[0]" [alt]="producto.nombre" />
                     </div>
                     <div class="product-info">
-                        <h3>Router</h3>
-                        <p>TL-WR850N Inalámbrico N 300Mbps</p>
-                        <span class="product-cta">$390.00 MXN</span>
+                        <h3>{{ producto.nombre }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <span class="product-cta">{{ producto.precio }}</span>
                     </div>
                 </div>
-
-                <div class="product-card" (click)="abrirModalProducto('switch')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/switch/s2.webp" alt="Switch" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Switch 5 puertos</h3>
-                        <p>LS1005G Gigabit 5 puertos</p>
-                        <span class="product-cta">$250.00 MXN</span>
-                    </div>
-                </div>
-                <div class="product-card" (click)="abrirModalProducto('switchs')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/switch8/s2.webp" alt="Switch" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Switch 8 puertos</h3>
-                        <p>LS1008 escritorio de 8 puertos 10/100Mbps</p>
-                        <span class="product-cta">$160.00 MXN</span>
-                    </div>
-                </div>
-
-
-                <div class="product-card" (click)="abrirModalProducto('access-point')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/wifi/e1.webp" alt="Access Point" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Extensor WiFi</h3>
-                        <p>TL-WA850RE N300Mbps repetidor de WiFi</p>
-                        <span class="product-cta">$350.00 MXN</span>
-                    </div>
-                </div>
-
-                <div class="product-card" (click)="abrirModalProducto('camaras')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/camaras/c1.webp" alt="Cámaras" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Kit de Cámaras</h3>
-                        <p>Kit Bullet Uniarch Un104G3 Incluye 4 Camaras Bullet 2Mp </p>
-                        <span class="product-cta">$4,800.00 MXN</span>
-                    </div>
-                </div>
-
-                <div class="product-card" (click)="abrirModalProducto('cables-rj45')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/cable/c2.webp" alt="Cables RJ45" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Cables RJ45 Cat 5e</h3>
-                        <p>Metro de cable UTP Cat 5e ponchado $15 adicionales</p>
-                        <span class="product-cta">$5.00 MXN</span>
-                    </div>
-                </div>
-
-                <div class="product-card" (click)="abrirModalProducto('no-break')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/break/b2.webp" alt="No Break" />
-                    </div>
-                    <div class="product-info">
-                        <h3>No Break</h3>
-                        <p>UPS 520VA 34 Minutos Koblenz regulador de voltaje integrado</p>
-                        <span class="product-cta">$1,300.00 MXN</span>
-                    </div>
-
-                </div>
-                <div class="product-card" (click)="abrirModalProducto('roku')">
-                    <div class="product-img-wrap">
-                        <img src="../../../assets/img/productos/roku.svg" alt="Roku Premiere" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Roku Premiere</h3>
-                        <p>3920RW-SW Premiere Reproductor multimedia 4K/HDR</p>
-                        <span class="product-cta">$750.00 MXN</span>
-                    </div>
-
-                </div>
-
-
             </div>
-
         </div>
 
-    </div>
 
-    <!-- ==========================================
+        <!-- ==========================================
          MODALES DE SERVICIOS
-    ========================================== -->
-    <!-- MODAL: INTERNET -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'internet'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header internet">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="32" height="32">
-                    <path d="M288 96c-90.9 0-173.2 36-233.7 94.6-12.7 12.3-33 12-45.2-.7s-12-33
-                    .7-45.2C81.7 74.9 179.9 32 288 32S494.3 74.9 566.3 144.7c12.7 12.3 13 32.6 .7
-                     45.2s-32.6 13-45.2 .7C461.2 132 378.9 96 288 96zM240 432a48 48 0 1 1 96 0 48
-                      48 0 1 1 -96 0zM168 326.2c-11.7 13.3-31.9 14.5-45.2 2.8s-14.5-31.9-2.8-45.2C161
-                       237.4 221.1 208 288 208s127 29.4 168 75.8c11.7 13.3 10.4 33.5-2.8 45.2s-33.5
-                       10.4-45.2-2.8C378.6 292.9 335.8 272 288 272s-90.6 20.9-120 54.2z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>Planes de Internet</h2>
-                    <p>Elige el plan ideal para ti</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="plan-grid-internet">
+        ========================================== -->
 
-                    <!-- Plan 100 -->
-                    <div class="plan-card-internet">
-                        <div class="plan-card-top">
-                            <h3 class="plan-nombre">Plan 100 Megas</h3>
-                            <p class="plan-simetrico">100 Mbps Simétricos</p>
-                            <div class="plan-precio">MXN $300<span>/ al mes</span></div>
-                        </div>
 
-                        <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Más información</a>
-                    </div>
+        <!-- MODAL: INTERNET -->
+        <app-modal-base *ngIf="modalActivo === 'internet'" titulo="Planes de Internet"
+            subtitulo="Elige el plan ideal para ti" icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 
-                    <!-- Plan 200 -->
-                    <div class="plan-card-internet plan-card-popular">
-                        <div class="plan-card-top">
-                            <h3 class="plan-nombre">Plan 200 Megas</h3>
-                            <p class="plan-simetrico">200 Mbps Simétricos</p>
-                            <div class="plan-precio">MXN $400<span>/ al mes</span></div>
-                        </div>
+            <div class="plan-grid-internet">
+                <div class="plan-card-internet" *ngFor="let plan of planesInternet"
+                    [class.plan-card-popular]="plan.popular">
 
-                        <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Más información</a>
+                    <div class="plan-card-top">
+                        <h3 class="plan-nombre">{{ plan.nombre }}</h3>
+                        <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
+                        <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
                     </div>
-
-                    <!-- Plan 300 -->
-                    <div class="plan-card-internet">
-                        <div class="plan-card-top">
-                            <h3 class="plan-nombre">Plan 300 Megas</h3>
-                            <p class="plan-simetrico">300 Mbps Simétricos</p>
-                            <div class="plan-precio">MXN $500<span>/ al mes</span></div>
-                        </div>
-                        <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Mas información</a>
-                    </div>
-
-                    <!-- Plan 500 -->
-                    <div class="plan-card-internet">
-                        <div class="plan-card-top">
-                            <h3 class="plan-nombre">Plan 500 Megas</h3>
-                            <p class="plan-simetrico">500 Mbps Simétricos</p>
-                            <div class="plan-precio">MXN $600<span>/ al mes</span></div>
-                        </div>
-
-                        <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Mas información</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: TELEFONÍA -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'telefonia'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header telefonia">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
-                    <path
-                        d="M160.2 25C152.3 6.1 131.7-3.9 112.1 1.4l-5.5 1.5c-64.6
-                    17.6-119.8 80.2-103.7 156.4 37.1 175 174.8 312.7 349.8 349.8 76.3
-                    16.2 138.8-39.1 156.4-103.7l1.5-5.5c5.4-19.7-4.7-40.3-23.5-48.1l-97.3-40.5c-16.5-6.9-35.6-2.1-47
-                    11.8l-38.6 47.2C233.9 335.4 177.3 277 144.8 205.3L189 169.3c13.9-11.3 18.6-30.4 11.8-47L160.2 25z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>Telefonía fija y móvil</h2>
-                    <p>Comunicación sin límites</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="info-grid">
-                    <div class="info-block">
-                        <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
-                        <h3>Líneas Fijas</h3>
-                        <p>Líneas locales para tu hogar o empresa. Estabilidad y claridad
-                            garantizada.</p>
-                        <ul class="plan-features">
-                            <li>Llamadas locales</li>
-                            <li>Número fijo asignado</li>
-                            <li>Calidad HD</li>
-                        </ul>
-                        <div class="modal-cta">
-                            <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20telefonía"
-                                class="modal-btn-wp" target="_blank">WhatsApp</a>
-                        </div>
-                    </div>
-                    <div class="info-block">
-                        <div class="info-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                        <h3>Emenet Mobile</h3>
-                        <p>Velocidad, cobertura y cero complicaciones.</p>
-                        <ul class="plan-features">
-                            <li>Datos incluidos</li>
-                            <li>Cobertura nacional</li>
-                            <li>Planes desde $85 mensuales</li>
-                        </ul>
-                        <div class="modal-cta">
-                            <a href="https://mobile.emenet.mx/" class="modal-btn-wp" target="_blank">Más información</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: CÁMARAS -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'camaras'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header camaras">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="32" height="32">
-                    <path d="M96 64c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64l256
-                    0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64L96 64zM464 336l73.5
-                    58.8c4.2 3.4 9.4 5.2 14.8 5.2 13.1 0 23.7-10.6 23.7-23.7l0-240.6c0-13.1-10.6-23.7-23.7-23.7-5.4
-                    0-10.6 1.8-14.8 5.2L464 176 464 336z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>Cotizar Cámaras</h2>
-                    <p>Recibe una cotización personalizada</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="cotizar-features">
-                    <div class="cotizar-item">
-                        <i class="fa-solid fa-moon"></i>
-                        <p>Visión nocturna 4K</p>
-                    </div>
-                    <div class="cotizar-item">
-                        <i class="fa-regular fa-floppy-disk"></i>
-                        <p>Disco de 1 TB</p>
-                    </div>
-                    <div class="cotizar-item">
-                        <i class="fa-regular fa-hard-drive"></i>
-                        <p>DVR Incluido</p>
-                    </div>
-                    <div class="cotizar-item">
-                        <i class="fa-solid fa-cloud"></i>
-                        <p>Grabación en nube</p>
-                    </div>
-                </div>
-                <form class="cotizar-form" (submit)="enviarCotizacion($event, 'camaras')">
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label>Tu nombre</label>
-                            <input type="text" placeholder="Nombre completo" required name="nombre" />
-                        </div>
-                        <div class="form-field">
-                            <label>Teléfono</label>
-                            <input type="tel" placeholder="713 000 0000" required name="telefono" />
-                        </div>
-                    </div>
-                    <div class="form-field">
-                        <label>¿Cuántas cámaras necesitas? (Bajo disponibilidad)</label>
-                        <select name="cantidadCamaras">
-                            <option>1 - 2 cámaras</option>
-                            <option>3 - 4 cámaras (Recomendado)</option>
-                            <option>5 - 8 cámaras</option>
-                            <option>Más de 8 cámaras</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label>Tipo de instalación</label>
-                        <select name="tipoInstalacion">
-                            <option>Hogar</option>
-                            <option>Negocio</option>
-                            <option>Empresa / Industria</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="form-submit">Enviar solicitud</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: PUNTOS DE VENTA -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'puntos'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header puntos">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
-                    <path d="M0 128l0 32 512 0 0-32c0-35.3-28.7-64-64-64L64 64C28.7 64 0 92.7 0 128zm0 80L0
-                    384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-176-512 0zM64 360c0-13.3 10.7-24
-                    24-24l48 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24zm144 0c0-13.3
-                    10.7-24 24-24l64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0c-13.3 0-24-10.7-24-24z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>Puntos de Venta</h2>
-                    <p>Opciones para tu negocio</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="opciones-grid">
-                    <div class="opcion-card">
-                        <div class="opcion-icon"><i class="fa-solid fa-credit-card"></i></div>
-                        <h3>Kit Básico MyBusinessPos</h3>
-                        <p>Ideal para pequeños y grandes negocios. Incluye equipo básico y 2 horas de capacitación
-                            incluidas.</p>
-                        <ul class="plan-features">
-                            <li>Equipo básico completo.</li>
-                            <li>Impresora térmica.</li>
-                            <li>Cajón de dinero</li>
-                            <li>Lector de código de barras</li>
-                            <li>Sin mensualidad</li>
-                        </ul>
-                        <div class="modal-cta">
-                            <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">Más
-                                información</a>
-                        </div>
-                    </div>
-                    <div class="opcion-card opcion-destacado">
-                        <div class="opcion-icon"><i class="fa-solid fa-desktop"></i></div>
-                        <h3>Kit Premium MyBusinessPos</h3>
-                        <p>Excelente para pequeños y grandes negocios. Incluye equipo premium y 10 horas de capacitación
-                            incluidas.</p>
-                        <ul class="plan-features">
-                            <li>Equipo GHIA Intel 4 núcleos 3.40GHz completo</li>
-                            <li>Impresora térmica 300 mm/seg.</li>
-                            <li>Cajón de dinero de acero reforzado</li>
-                            <li>Lector de código de barras óptico</li>
-                            <li>Sin mensualidad</li>
-                        </ul>
-
-                        <div class="modal-cta">
-                            <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">Más
-                                información</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-cta">
-                    <button class="plan-btn" (click)="solicitarOpcion('sistema-completo')">Asesoría por
-                        WhatsApp</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: GPS -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'gps'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header gps">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="32" height="32">
-                    <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4
-                    316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64
-                    0 1 0 0-128 64 64 0 1 0 0 128z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>GPS para Vehículos</h2>
-                    <p>Monitoreo inteligente en tiempo real</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="gps-detalles">
-                    <div class="gps-detalle-item">
-                        <div class="gps-detalle-icon"><i class="fa-solid fa-location-dot"></i></div>
-                        <div>
-                            <h4>Ubicación en tiempo real</h4>
-                            <p>Rastrea la posición exacta de tus vehículos desde cualquier dispositivo con conexión a
-                                internet.</p>
-                        </div>
-                    </div>
-                    <div class="gps-detalle-item">
-                        <div class="gps-detalle-icon"><i class="fa-solid fa-bell"></i></div>
-                        <div>
-                            <h4>Alertas inteligentes</h4>
-                            <p>Recibe notificaciones de exceso de velocidad, salida de zona y movimiento fuera de
-                                horario.</p>
-                        </div>
-                    </div>
-                    <div class="gps-detalle-item">
-                        <div class="gps-detalle-icon"><i class="fa-solid fa-chart-column"></i></div>
-                        <div>
-                            <h4>Historial de recorridos</h4>
-                            <p>Consulta rutas, paradas y tiempos de los últimos 90 días para optimizar tus operaciones.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="gps-detalle-item">
-                        <div class="gps-detalle-icon"><i class="fa-solid fa-car"></i></div>
-                        <div>
-                            <h4>Control de flotillas</h4>
-                            <p>Gestiona múltiples unidades desde un solo panel. Compatible con cualquier tipo de
-                                vehículo.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-cta">
-                    <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20GPS%20para%20vehículos"
-                        class="modal-btn-wp" target="_blank">Solicitar por WhatsApp</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: PÁGINAS WEB -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'web'" (click)="cerrarModal($event)">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
-            <div class="modal-header web">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
-                    <path d="M351.9 280l-190.9 0c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1
-                    52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4
-                    20.3-43.5 34.6-102.9 37.5-167.4zM160.9 232l190.9 0C349 167.5 334.7 108.1 314.4 64.6
-                    303 40.2 290.7 22.8 279.3 12.2 268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4
-                    10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4zm-48 0C116.4 146.4 138.5 66.9
-                    170.8 14.7 78.7 47.3 10.9 131.2 1.5 232l111.4 0zM1.5 280c9.4 100.8 77.2 184.7 169.3
-                    217.3-32.3-52.2-54.4-131.7-57.9-217.3L1.5 280zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3
-                    92.1-32.7 159.9-116.5 169.3-217.3l-111.4 0zm111.4-48C501.9 131.2 434.1 47.3 342 14.7 374.3
-                    66.9 396.4 146.4 399.9 232l111.4 0z" />
-                </svg>
-                <div class="modal-header-text">
-                    <h2>Páginas Web con Dominio</h2>
-                    <p>Tu presencia digital profesional</p>
-                </div>
-                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-            </div>
-            <div class="modal-body">
-                <div class="web-features">
-                    <div class="web-feature">
-                        <i class="fa-solid fa-globe"></i>
-                        <div>
-                            <h4>Dominio propio</h4>
-                            <p>Tu nombre en internet: <em>tunegocio.mx</em></p>
-                        </div>
-                    </div>
-                    <div class="web-feature">
-                        <i class="fa-solid fa-desktop"></i>
-                        <div>
-                            <h4>Hosting incluido</h4>
-                            <p>Servidor rápido y seguro sin costos extra el primer año.</p>
-                        </div>
-                    </div>
-                    <div class="web-feature">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <div>
-                            <h4>Diseño adaptable</h4>
-                            <p>Tu sitio se ve perfecto en celular, tablet y computadora.</p>
-                        </div>
-                    </div>
-                    <div class="web-feature">
-                        <i class="fa-solid fa-lock"></i>
-                        <div>
-                            <h4>Certificado SSL</h4>
-                            <p>Conexión segura para tus visitantes incluida sin cargo.</p>
-                        </div>
-                    </div>
-                </div>
-                <form class="cotizar-form" (submit)="enviarCotizacion($event, 'web')">
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label>Tu nombre</label>
-                            <input type="text" placeholder="Nombre completo" required name="nombre" />
-                        </div>
-                        <div class="form-field">
-                            <label>Teléfono</label>
-                            <input type="tel" placeholder="713 000 0000" required name="telefono" />
-                        </div>
-                    </div>
-                    <div class="form-field">
-                        <label>¿Qué tipo de página necesitas?</label>
-                        <select name="tipoPagina">
-                            <option>Página informativa / Presentación</option>
-                            <option>Tienda en línea</option>
-                            <option>Landing page</option>
-                            <option>Blog o noticias</option>
-                            <option>Otro</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="form-submit">Solicitar información</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: PRODUCTO DETALLE -->
-    <div class="modal-overlay" *ngIf="modalActivo === 'producto'" (click)="cerrarModal($event)">
-        <div class="modal-panel modal-panel-product" (click)="$event.stopPropagation()">
-            <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
-
-            <div class="product-modal-content" *ngIf="productoSeleccionado">
-                <!-- Top Section: Image Carousel + Product Info -->
-                <div class="product-modal-top">
-                    <!-- Image Carousel -->
-                    <div class="product-image-carousel">
-                        <div class="carousel-main">
-                            <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]"
-                                [alt]="productoSeleccionado.nombre" class="carousel-main-img"
-                                (click)="abrirZoom(productoSeleccionado.imagenActual)" title="Click para ampliar" />
-                            <div class="carousel-zoom-hint" (click)="abrirZoom(productoSeleccionado.imagenActual)">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i>
-                            </div>
-                        </div>
-                        <div class="carousel-thumbnails" *ngIf="productoSeleccionado.imagenes.length > 1">
-                            <div *ngFor="let img of productoSeleccionado.imagenes; let i = index" class="thumbnail"
-                                [class.active]="i === productoSeleccionado.imagenActual" (click)="cambiarImagen(i)">
-                                <img [src]="img" [alt]="'Thumbnail ' + (i + 1)" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Info -->
-                    <div class="product-modal-info">
-                        <h2 class="product-modal-name">{{ productoSeleccionado.nombre }}</h2>
-                        <div class="product-modal-price">{{ productoSeleccionado.precio }}</div>
-                        <div class="product-modal-availability"
-                            [class.low-stock]="productoSeleccionado.disponibilidad === 'Bajo disponibilidad'"
-                            [class.in-stock]="productoSeleccionado.disponibilidad === 'Disponible'">
-                            {{ productoSeleccionado.disponibilidad }}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Main Features -->
-                <div class="product-modal-section">
-                    <h3 class="section-title">Características principales</h3>
-                    <ul class="features-list">
-                        <li *ngFor="let feature of productoSeleccionado.caracteristicas">
-                            {{ feature }}
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Description -->
-                <div class="product-modal-section">
-                    <h3 class="section-description">{{ productoSeleccionado.descripcion }}</h3>
-                </div>
-
-                <!-- Technical Specifications -->
-                <div class="product-modal-section">
-                    <h3 class="section-title">Especificaciones técnicas</h3>
-                    <div class="specs-grid">
-                        <div class="spec-item" *ngFor="let spec of productoSeleccionado.especificaciones">
-                            <span class="spec-label"><i class="fa-regular fa-circle-check"></i> {{ spec.label }}</span>
-                            <span class="spec-value">{{ spec.value }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CTA Button -->
-                <div class="product-modal-cta">
-                    <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20adquirir%20el%20producto%20{{ productoSeleccionado.nombre }}%20con%20un%20precio%20de%20{{ productoSeleccionado.precio }}"
-                        class="btn-contactar" target="_blank">
-                        <i class="fa-solid fa-cart-shopping"></i> Contactar para comprar
+                    <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">
+                        Más información
                     </a>
                 </div>
             </div>
+
+        </app-modal-base>
+
+
+        <!-- MODAL: TELEFONÍA -->
+        <app-modal-base *ngIf="modalActivo === 'telefonia'" titulo="Telefonía fija y móvil"
+            subtitulo="Comunicación sin límites" icono="fa-phone" clase="telefonia" (cerrar)="cerrarModal()">
+            <div class="info-grid">
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                    <h3>Líneas Fijas</h3>
+                    <p>Líneas locales para tu hogar o empresa. Estabilidad y claridad garantizada.</p>
+                    <ul class="plan-features">
+                        <li>Llamadas locales</li>
+                        <li>Número fijo asignado</li>
+                        <li>Calidad HD</li>
+                    </ul>
+                    <div class="modal-cta">
+                        <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20telefonía"
+                            class="modal-btn-wp" target="_blank">WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Emenet Mobile</h3>
+                    <p>Velocidad, cobertura y cero complicaciones.</p>
+                    <ul class="plan-features">
+                        <li>Datos incluidos</li>
+                        <li>Cobertura nacional</li>
+                        <li>Planes desde $85 mensuales</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <a href="https://mobile.emenet.mx/" class="modal-btn-wp" target="_blank">
+                            Más información
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </app-modal-base>
+
+        <!-- MODAL: CÁMARAS -->
+        <app-modal-base *ngIf="modalActivo === 'camaras'" titulo="Cotizar Cámaras"
+            subtitulo="Recibe una cotización personalizada" icono="fa-video" clase="camaras" (cerrar)="cerrarModal()">
+            <div class="cotizar-features">
+                <div class="cotizar-item"><i class="fa-solid fa-moon"></i>
+                    <p>Visión nocturna 4K</p>
+                </div>
+                <div class="cotizar-item"><i class="fa-regular fa-floppy-disk"></i>
+                    <p>Disco de 1 TB</p>
+                </div>
+                <div class="cotizar-item"><i class="fa-regular fa-hard-drive"></i>
+                    <p>DVR Incluido</p>
+                </div>
+                <div class="cotizar-item"><i class="fa-solid fa-cloud"></i>
+                    <p>Grabación en nube</p>
+                </div>
+            </div>
+            <form class="cotizar-form" (submit)="enviarCotizacion($event, 'camaras')">
+                <div class="form-row">
+                    <div class="form-field"><label>Tu nombre</label>
+                        <input type="text" placeholder="Nombre completo" required name="nombre" />
+                    </div>
+
+                    <div class="form-field"><label>Teléfono</label>
+                        <input type="tel" placeholder="713 000 0000" required name="telefono" />
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label>¿Cuántas cámaras necesitas? (Bajo disponibilidad)</label>
+                    <select name="cantidadCamaras">
+                        <option>1 - 2 cámaras</option>
+                        <option>3 - 4 cámaras (Recomendado)</option>
+                        <option>5 - 8 cámaras</option>
+                        <option>Más de 8 cámaras</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label>Tipo de instalación</label>
+                    <select name="tipoInstalacion">
+                        <option>Hogar</option>
+                        <option>Negocio</option>
+                        <option>Empresa / Industria</option>
+                    </select>
+                </div>
+                <button type="submit" class="form-submit">Enviar solicitud</button>
+            </form>
+
+        </app-modal-base>
+
+        <!-- MODAL: PUNTOS DE VENTA -->
+        <app-modal-base *ngIf="modalActivo === 'puntos'" titulo="Puntos de Venta" subtitulo="Opciones para tu negocio"
+            icono="fa-cash-register" clase="puntos" (cerrar)="cerrarModal()">
+            <div class="opciones-grid">
+                <div class="opcion-card">
+                    <div class="opcion-icon"><i class="fa-solid fa-credit-card"></i></div>
+                    <h3>Kit Básico MyBusinessPos</h3>
+                    <p>
+                        Ideal para pequeños y grandes negocios.
+                        Incluye equipo básico y 2 horas de capacitación incluidas.
+                    </p>
+
+                    <ul class="plan-features">
+                        <li>Equipo básico completo.</li>
+                        <li>Impresora térmica.</li>
+                        <li>Cajón de dinero</li>
+                        <li>Lector de código de barras</li>
+                        <li>Sin mensualidad</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">
+                            Más información
+                        </a>
+                    </div>
+                </div>
+                <div class="opcion-card opcion-destacado">
+                    <div class="opcion-icon"><i class="fa-solid fa-desktop"></i></div>
+                    <h3>Kit Premium MyBusinessPos</h3>
+                    <p>
+                        Excelente para pequeños y grandes negocios.
+                        Incluye equipo premium y 10 horas de capacitación incluidas.
+                    </p>
+
+                    <ul class="plan-features">
+                        <li>Equipo GHIA Intel 4 núcleos 3.40GHz completo</li>
+                        <li>Impresora térmica 300 mm/seg.</li>
+                        <li>Cajón de dinero de acero reforzado</li>
+                        <li>Lector de código de barras óptico</li>
+                        <li>Sin mensualidad</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">
+                            Más información
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-cta">
+                <button type="button" class="plan-btn" (click)="solicitarOpcion('sistema-completo')">
+                    Asesoría por WhatsApp
+                </button>
+            </div>
+        </app-modal-base>
+
+        <!-- MODAL: GPS -->
+        <app-modal-base *ngIf="modalActivo === 'gps'" titulo="GPS para Vehículos"
+            subtitulo="Monitoreo inteligente en tiempo real" icono="fa-location-dot" clase="gps"
+            (cerrar)="cerrarModal()">
+            <div class="gps-detalles">
+                <div class="gps-detalle-item">
+                    <div class="gps-detalle-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <h4>Ubicación en tiempo real</h4>
+                        <p>
+                            Rastrea la posición exacta de tus vehículos
+                            desde cualquier dispositivo con conexión a internet.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="gps-detalle-item">
+                    <div class="gps-detalle-icon"><i class="fa-solid fa-bell"></i></div>
+                    <div>
+                        <h4>Alertas inteligentes</h4>
+                        <p>
+                            Recibe notificaciones de exceso de velocidad,
+                            salida de zona y movimiento fuera de horario.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="gps-detalle-item">
+                    <div class="gps-detalle-icon"><i class="fa-solid fa-chart-column"></i></div>
+                    <div>
+                        <h4>Historial de recorridos</h4>
+                        <p>
+                            Consulta rutas, paradas y tiempos de los últimos
+                            90 días para optimizar tus operaciones.
+                        </p>
+                    </div>
+                </div>
+                <div class="gps-detalle-item">
+                    <div class="gps-detalle-icon"><i class="fa-solid fa-car"></i></div>
+                    <div>
+                        <h4>Control de flotillas</h4>
+                        <p>
+                            Gestiona múltiples unidades desde un solo panel.
+                            Compatible con cualquier tipo de vehículo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-cta">
+                <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20información%20sobre%20GPS%20para%20vehículos"
+                    class="modal-btn-wp" target="_blank">
+                    Solicitar por WhatsApp
+                </a>
+            </div>
+        </app-modal-base>
+
+        <!-- MODAL: PÁGINAS WEB -->
+        <app-modal-base *ngIf="modalActivo === 'web'" titulo="Páginas Web con Dominio"
+            subtitulo="Tu presencia digital profesional" icono="fa-globe" clase="web" (cerrar)="cerrarModal()">
+            <div class="web-features">
+                <div class="web-feature">
+                    <i class="fa-solid fa-globe"></i>
+                    <div>
+                        <h4>Dominio propio</h4>
+                        <p>Tu nombre en internet: <em>tunegocio.mx</em></p>
+                    </div>
+                </div>
+                <div class="web-feature">
+                    <i class="fa-solid fa-desktop"></i>
+                    <div>
+                        <h4>Hosting incluido</h4>
+                        <p>Servidor rápido y seguro sin costos extra el primer año.</p>
+                    </div>
+                </div>
+
+                <div class="web-feature">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <div>
+                        <h4>Diseño adaptable</h4>
+                        <p>Tu sitio se ve perfecto en celular, tablet y computadora.</p>
+                    </div>
+                </div>
+
+                <div class="web-feature">
+                    <i class="fa-solid fa-lock"></i>
+                    <div>
+                        <h4>Certificado SSL</h4>
+                        <p>Conexión segura para tus visitantes incluida sin cargo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="cotizar-form" (submit)="enviarCotizacion($event, 'web')">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Tu nombre</label>
+                        <input type="text" placeholder="Nombre completo" required name="nombre" />
+                    </div>
+                    <div class="form-field">
+                        <label>Teléfono</label>
+                        <input type="tel" placeholder="713 000 0000" required name="telefono" />
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>¿Qué tipo de página necesitas?</label>
+                    <select name="tipoPagina">
+                        <option>Página informativa / Presentación</option>
+                        <option>Tienda en línea</option>
+                        <option>Landing page</option>
+                        <option>Blog o noticias</option>
+                        <option>Otro</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="form-submit">Solicitar información</button>
+            </form>
+        </app-modal-base>
+
+
+
+        <!-- ==========================================
+         MODALES DE productos
+        ========================================== -->
+        <div class="modal-overlay" *ngIf="modalActivo === 'producto'" (click)="cerrarModal($event)">
+            <div class="modal-panel modal-panel-product" (click)="$event.stopPropagation()">
+                <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
+
+                <div class="product-modal-content" *ngIf="productoSeleccionado">
+                    <!-- Top Section: Image Carousel + Product Info -->
+                    <div class="product-modal-top">
+                        <!-- Image Carousel -->
+                        <div class="product-image-carousel">
+                            <div class="carousel-main">
+                                <img [src]="productoSeleccionado.imagenes[productoSeleccionado.imagenActual]"
+                                    [alt]="productoSeleccionado.nombre" class="carousel-main-img"
+                                    (click)="abrirZoom(productoSeleccionado.imagenActual)" title="Click para ampliar" />
+                                <div class="carousel-zoom-hint" (click)="abrirZoom(productoSeleccionado.imagenActual)">
+                                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                </div>
+                            </div>
+                            <div class="carousel-thumbnails" *ngIf="productoSeleccionado.imagenes.length > 1">
+                                <div *ngFor="let img of productoSeleccionado.imagenes; let i = index" class="thumbnail"
+                                    [class.active]="i === productoSeleccionado.imagenActual" (click)="cambiarImagen(i)">
+                                    <img [src]="img" [alt]="'Thumbnail ' + (i + 1)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="product-modal-info">
+                            <h2 class="product-modal-name">{{ productoSeleccionado.nombre }}</h2>
+                            <div class="product-modal-price">{{ productoSeleccionado.precio }}</div>
+                            <div class="product-modal-availability"
+                                [class.low-stock]="productoSeleccionado.disponibilidad === 'Bajo disponibilidad'"
+                                [class.in-stock]="productoSeleccionado.disponibilidad === 'Disponible'">
+                                {{ productoSeleccionado.disponibilidad }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Features -->
+                    <div class="product-modal-section">
+                        <h3 class="section-title">Características principales</h3>
+                        <ul class="features-list">
+                            <li *ngFor="let feature of productoSeleccionado.caracteristicas">
+                                {{ feature }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="product-modal-section">
+                        <h3 class="section-description">{{ productoSeleccionado.descripcion }}</h3>
+                    </div>
+
+                    <!-- Technical Specifications -->
+                    <div class="product-modal-section">
+                        <h3 class="section-title">Especificaciones técnicas</h3>
+                        <div class="specs-grid">
+                            <div class="spec-item" *ngFor="let spec of productoSeleccionado.especificaciones">
+                                <span class="spec-label"><i class="fa-regular fa-circle-check"></i> {{ spec.label
+                                    }}</span>
+                                <span class="spec-value">{{ spec.value }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <div class="product-modal-cta">
+                        <a href="https://api.whatsapp.com/send?phone=5217131334557&text=Hola,%20quiero%20adquirir%20el%20producto%20{{ productoSeleccionado.nombre }}%20con%20un%20precio%20de%20{{ productoSeleccionado.precio }}"
+                            class="btn-contactar" target="_blank">
+                            <i class="fa-solid fa-cart-shopping"></i> Contactar para comprar
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- ZOOM LIGHTBOX -->
-    <div class="zoom-overlay" [class.zoom-open]="zoomIndex !== null" (click)="cerrarZoom($event)">
+        <!-- ZOOM LIGHTBOX -->
+        <div class="zoom-overlay" [class.zoom-open]="zoomIndex !== null" (click)="cerrarZoom($event)">
 
-        <button class="zoom-close" (click)="cerrarZoom()" aria-label="Cerrar">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <div class="zoom-container">
-            <button class="zoom-nav zoom-nav-prev" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
-                (click)="zoomAnterior($event)" aria-label="Anterior">
-                <i class="fa-solid fa-chevron-left"></i>
+            <button class="zoom-close" (click)="cerrarZoom()" aria-label="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <img *ngIf="imagenZoomActual" [src]="imagenZoomActual" alt="Imagen ampliada" class="zoom-img" />
+            <div class="zoom-container">
+                <button class="zoom-nav zoom-nav-prev"
+                    *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+                    (click)="zoomAnterior($event)" aria-label="Anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
 
-            <button class="zoom-nav zoom-nav-next" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
-                (click)="zoomSiguiente($event)" aria-label="Siguiente">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
+                <img *ngIf="imagenZoomActual" [src]="imagenZoomActual" alt="Imagen ampliada" class="zoom-img" />
+
+                <button class="zoom-nav zoom-nav-next"
+                    *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1"
+                    (click)="zoomSiguiente($event)" aria-label="Siguiente">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="zoom-counter" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
+                {{ (zoomIndex ?? 0) + 1 }} / {{ productoSeleccionado.imagenes.length }}
+            </div>
+
         </div>
-
-        <div class="zoom-counter" *ngIf="productoSeleccionado && productoSeleccionado.imagenes.length > 1">
-            {{ (zoomIndex ?? 0) + 1 }} / {{ productoSeleccionado.imagenes.length }}
-        </div>
-
     </div>
-
 </main>
