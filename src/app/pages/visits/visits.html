@@ -1,100 +1,96 @@
 <main class="page">
-    <div class="container">
+  <div class="container">
 
-  <div class="payment-container">
+    <div class="payment-container">
 
-    <!-- HEADER -->
-    <div class="visitas-header">
-      <div class="header-icon"><i class="fa-solid fa-ticket"></i></div>
-      <div class="header-content">
-        <h2>Historial de Visitas</h2>
-        <p>Consulta el estado y detalle de tus visitas técnicas.</p>
+      <!-- HEADER -->
+      <div class="visitas-header">
+        <div class="header-icon"><i class="fa-solid fa-ticket"></i></div>
+        <div class="header-content">
+          <h2>Historial de Visitas</h2>
+          <p>Consulta el estado y detalle de tus visitas técnicas.</p>
+        </div>
       </div>
-    </div>
 
+      <!-- LISTA DE TARJETAS -->
+      <div class="filter-container">
+        <button *ngFor="let filtro of filtros" class="filter-btn" [class.active]="filtroEstado === filtro.value"
+          (click)="cambiarFiltro(filtro.value)">
+          {{ filtro.label }} <span>({{ contarEstado(filtro.value) }}) </span>
+        </button>
+      </div>
 
-    <!-- LISTA DE TARJETAS -->
-    <!--<div class="visitas-list">-->
+      <!-- DISEÑO DE CARGA (SPINNER) -->
+      <div class="loading-container" *ngIf="loading">
+        <div class="loading-spinner"></div>
+        <p>Cargando tus visitas...</p>
+      </div>
 
-    <div class="filter-container">
-      <button *ngFor="let filtro of filtros" class="filter-btn" [class.active]="filtroEstado === filtro.value"
-        (click)="cambiarFiltro(filtro.value)">
-        {{ filtro.label }} <span>({{ contarEstado(filtro.value) }}) </span>
-      </button>
-    </div>
+      <section class="empty-state" *ngIf="visitasFiltradas.length === 0 && !loading">
+        <i class="fa-solid fa-money-bill"></i>
+        <h4>Sin resultados</h4>
+        <p>{{ mensajeFiltro }}</p>
+      </section>
 
-    <!-- DISEÑO DE CARGA (SPINNER) -->
-    <div class="loading-container" *ngIf="loading">
-      <div class="loading-spinner"></div>
-      <p>Cargando tus visitas...</p>
-    </div>
+      <section class="visitas-list" *ngIf="visitasFiltradas.length > 0 && !loading">
 
-    <section class="empty-state" *ngIf="visitasFiltradas.length === 0 && !loading">
-      <i class="fa-solid fa-money-bill"></i>
-      <h4>Sin resultados</h4>
-      <p>{{ mensajeFiltro }}</p>
-    </section>
+        <article class="visita-card" *ngFor="let visita of visitasPaginadas; trackBy: trackByVisitas"
+          (click)="abrirDetalle(visita)" data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
 
-    <section class="visitas-list" *ngIf="visitasFiltradas.length > 0 && !loading">
-
-      <article class="visita-card" *ngFor="let visita of visitasPaginadas; trackBy: trackByVisitas"
-        (click)="abrirDetalle(visita)" data-bs-toggle="modal" data-bs-target="#detalleVisitaModal">
-
-        <!-- IZQUIERDA -->
-        <div class="visita-left">
-          <div class="visita-icon" [ngClass]="getEstadoConfig(visita.estado).clase">
-            <i class="fa-solid" [ngClass]="getEstadoConfig(visita.estado).icono"></i>
-          </div>
-
-          <div class="visita-info">
-            <h4>{{ visita.problema }}</h4>
-
-            <div class="visita-meta">
-              <span>
-                <i class="fa-solid fa-calendar-days"></i>
-                Solicitud: {{ visita.created_at | date:'dd/MM/yyyy, h:mm a' }}
-              </span>
+          <!-- IZQUIERDA -->
+          <div class="visita-left">
+            <div class="visita-icon" [ngClass]="getEstadoConfig(visita.estado).clase">
+              <i class="fa-solid" [ngClass]="getEstadoConfig(visita.estado).icono"></i>
             </div>
 
-            <p>
-              Tecnico: {{ getTecnicoAsignado(visita) }}
-            </p>
+            <div class="visita-info">
+              <h4>{{ visita.problema }}</h4>
+
+              <div class="visita-meta">
+                <span>
+                  <i class="fa-solid fa-calendar-days"></i>
+                  Solicitud: {{ visita.created_at | date:'dd/MM/yyyy, h:mm a' }}
+                </span>
+              </div>
+              <p>
+                Tecnico: {{ getTecnicoAsignado(visita) }}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <!-- DERECHA -->
-        <div class="visita-right">
-          <span class="status-badge" [ngClass]="getEstadoConfig(visita.estado).clase">
-            <span class="dot"></span>
-            {{ getEstadoConfig(visita.estado).texto }}
-          </span>
+          <!-- DERECHA -->
+          <div class="visita-right">
+            <span class="status-badge" [ngClass]="getEstadoConfig(visita.estado).clase">
+              <span class="dot"></span>
+              {{ getEstadoConfig(visita.estado).texto }}
+            </span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+        </article>
+      </section>
+
+      <!-- paginacion -->
+      <nav class="pagination-container" *ngIf="totalPaginas > 1">
+        <button class="btn-page" type="button" (click)="cambiarPagina(pagination.currentPage - 1)"
+          [disabled]="pagination.currentPage === 1">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === pagination.currentPage"
+          (click)="cambiarPagina(pagina)">
+          {{ pagina }}
+        </button>
+
+        <button class="btn-page" (click)="cambiarPagina(pagination.currentPage + 1)"
+          [disabled]="pagination.currentPage === totalPaginas">
           <i class="fa-solid fa-chevron-right"></i>
-        </div>
+        </button>
+      </nav>
 
-      </article>
-    </section>
-
-    <!-- paginacion -->
-    <nav class="pagination-container" *ngIf="totalPaginas > 1" aria-label="Paginación de visitas">
-      <button class="btn-page" type="button" (click)="cambiarPagina(pagination.currentPage - 1)" [disabled]="pagination.currentPage === 1">
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
-
-      <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === pagination.currentPage"
-        (click)="cambiarPagina(pagina)">
-        {{ pagina }}
-      </button>
-
-      <button class="btn-page" (click)="cambiarPagina(pagination.currentPage + 1)" [disabled]="pagination.currentPage === totalPaginas">
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
-    </nav>
-
-  </div>
+    </div>
   </div>
 </main>
-
-
 
 <div class="modal fade modal-visitas" id="detalleVisitaModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -175,5 +171,3 @@
     </div>
   </div>
 </div>
-
-<!--</div>-->
