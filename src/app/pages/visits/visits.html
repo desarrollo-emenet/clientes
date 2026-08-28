@@ -75,17 +75,17 @@
     </section>
 
     <!-- paginacion -->
-    <nav class="pagination-container" *ngIf="totalPaginas > 1">
-      <button class="btn-page" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+    <nav class="pagination-container" *ngIf="totalPaginas > 1" aria-label="Paginación de visitas">
+      <button class="btn-page" type="button" (click)="cambiarPagina(pagination.currentPage - 1)" [disabled]="pagination.currentPage === 1">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
 
-      <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === paginaActual"
+      <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === pagination.currentPage"
         (click)="cambiarPagina(pagina)">
         {{ pagina }}
       </button>
 
-      <button class="btn-page" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
+      <button class="btn-page" (click)="cambiarPagina(pagination.currentPage + 1)" [disabled]="pagination.currentPage === totalPaginas">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
     </nav>
@@ -155,17 +155,17 @@
 
             <div class="detalle-card-group">
               <label><i class="fa-solid fa-circle-info"></i>Detalle del reporte</label>
-              <p>{{ visitaSeleccionada.detalle || 'Sin información.' }}</p>
+              <p class="texto-oracion">{{ visitaSeleccionada.detalle || 'Sin información.' }}</p>
             </div>
 
             <div class="detalle-card-group">
               <label><i class="fa-solid fa-stethoscope"></i>Diagnóstico</label>
-              <p>{{ visitaSeleccionada.diagnostico || 'Sin diagnóstico registrado.' }}</p>
+              <p class="texto-oracion">{{ visitaSeleccionada.diagnostico || 'Sin diagnóstico registrado.' }}</p>
             </div>
 
             <div class="detalle-card-group solucion-destacada">
               <label><i class="fa-solid fa-lightbulb"></i>Solución aplicada</label>
-              <p>{{ visitaSeleccionada.solucion || 'Aún no se registra una solución.' }}</p>
+              <p class="texto-oracion">{{ visitaSeleccionada.solucion || 'Aún no se registra una solución.' }}</p>
             </div>
           </div>
 

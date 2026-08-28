@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
 import { EstadoConfig, Visitas, estado_visitas, filtros_visitas } from './serviceVisit';
+import { Pagination } from '../../services/utility/pagination.service';
 
 
 @Component({
@@ -21,40 +22,27 @@ export class Visits {
   visitaSeleccionada: Visitas | null = null;
 
   filtroEstado = -1;
-  elementosPorPagina = 10;
-  paginaActual = 1;
 
   readonly filtros = filtros_visitas;
   private readonly estados = estado_visitas;
+  readonly pagination = new Pagination<Visitas>();
 
   constructor(
     private user: UserService,
     private clientS: ClientService,
    protected http: HttpService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
-    this.loadClientData(numeroCliente);
-  }
-
-  protected async loadClientData(numeroCliente: string): Promise<void> {
-    try {
-      this.loading = true;
-      const cliente = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
-      this.obtenerVisitas(cliente.numero_cliente);
-    } catch (error) {
-      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
-    }finally{
-      this.loading = false;
-    }
-
+    await this.obtenerVisitas(numeroCliente);
   }
 
   protected async obtenerVisitas(numeroCliente: string): Promise<void> {
     try {
       const { visitas } = await firstValueFrom(this.clientS.visitas(numeroCliente));
       this. visitas = visitas ?? [];
+      this.actualizarPaginacion();
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener visitas')      
     }
@@ -81,14 +69,14 @@ export class Visits {
     this.visitaSeleccionada = visita;
   }
 
-
   trackByVisitas(index: number, visita: Visitas): number {
     return visita.id;
   }
 
   cambiarFiltro(estado: number): void {
     this.filtroEstado = estado;
-    this.paginaActual = 1;
+    this.pagination.reset();
+    this.actualizarPaginacion();
   }
 
   contarEstado(estado: number): number {
@@ -104,37 +92,26 @@ export class Visits {
     return this.visitas.filter(v => v.estado === this.filtroEstado);
   }
 
-  get visitasPaginadas(): Visitas[] {
-    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
-    return this.visitasFiltradas.slice(
-      inicio,
-      inicio + this.elementosPorPagina
+  private actualizarPaginacion(): void {
+    this.pagination.setItems(
+      this.visitasFiltradas
     );
+  }
+
+  get visitasPaginadas(): Visitas[] {
+    return this.pagination.paginatedItems;
   }
 
   get totalPaginas(): number {
-    return Math.max(
-      1,
-      Math.ceil(
-        this.visitasFiltradas.length /
-        this.elementosPorPagina
-      )
-    );
-
+    return this.pagination.totalPages;
   }
 
   get paginas(): number[] {
-    return Array.from(
-      { length: this.totalPaginas },
-      (_, i) => i + 1
-    );
+    return this.pagination.pages;
   }
 
   cambiarPagina(pagina: number): void {
-    if (pagina < 1 || pagina > this.totalPaginas) {
-      return;
-    }
-    this.paginaActual = pagina;
+    this.pagination.goToPage(pagina);
   }
 
   get mensajeFiltro(): string {
@@ -148,5 +125,4 @@ export class Visits {
     return mensajes[this.filtroEstado] ??
       'No existen visitas registradas.';
   }
-
 }
