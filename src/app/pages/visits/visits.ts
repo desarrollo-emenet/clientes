@@ -102,17 +102,6 @@ export class Visits {
     return this.pagination.paginatedItems;
   }
 
-  get totalPaginas(): number {
-    return this.pagination.totalPages;
-  }
-
-  get paginas(): number[] {
-    return this.pagination.pages;
-  }
-
-  cambiarPagina(pagina: number): void {
-    this.pagination.goToPage(pagina);
-  }
 
   get mensajeFiltro(): string {
     const mensajes: Record<number, string> = {
