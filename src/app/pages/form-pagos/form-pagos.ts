@@ -15,7 +15,7 @@ import { ClientService } from '../../services/user/clientService';
 import { UserService } from '../../services/user/user-service';
 
 import { Pagination } from '../../services/utility/pagination.service';
-import { Pago,FiltroPago, ESTADOS_PAGO, FILTROS_PAGO, MENSAJES_FILTRO_PAGO } from './pagos';
+import { Pago, FiltroPago, ESTADOS_PAGO, FILTROS_PAGO, MENSAJES_FILTRO_PAGO } from './pagos';
 import { ContactoService } from '../../services/utility/contacto.service';
 
 
@@ -115,9 +115,10 @@ export class FormPagos {
       this.data = cliente;
       this.pagos = pagos.pagos;
 
+      this.cargarTelefono();
       this.actualizarPaginacion();
       this.verificarEstadoCliente();
-      this.cargarTelefono();
+      
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     } finally {
@@ -126,14 +127,14 @@ export class FormPagos {
   }
 
   private verificarEstadoCliente(): void {
-    this.baja = this.data?.cliente?.cliente?.clasificacion === 'BAJA';
+    this.baja = this.data?.cliente?.clasificacion === 'BAJA';
     if (this.baja) { this.pagosForm.disable(); }
     else { this.pagosForm.enable(); }
   }
 
   private cargarTelefono(): void {
     const telefono =
-      this.data?.cliente?.cliente?.telefono
+      this.data?.cliente?.telefono
         ?.replace(/\s/g, '')
         .substring(0, 10) ?? '';
     this.pagosForm.patchValue({ telefono });
@@ -348,9 +349,9 @@ export class FormPagos {
   }
 
   contactarSoporte(): void {
-  this.contactoS.contactSupport(
-    '5217131334557',
-    'Hola, mi servicio se encuentra dado de baja y quisiera recibir información para reactivarlo.'
-  );
-}
+    this.contactoS.contactSupport(
+      '5217131334557',
+      'Hola, mi servicio se encuentra dado de baja y quisiera recibir información para reactivarlo.'
+    );
+  }
 }
