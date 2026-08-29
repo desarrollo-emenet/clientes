@@ -27,7 +27,7 @@
             <div class="ep-input-group">
               <input [type]="showOldPassword ? 'text' : 'password'" formControlName="old_password" class="ep-input"
                 placeholder="Ingresa tu contraseña actual" />
-              <button type="button" class="ep-eye-btn" [class.revealed]="showOldPassword" (click)="viewOldPassword()">
+              <button type="button" class="ep-eye-btn" [class.revealed]="showOldPassword" (click)="this.showOldPassword = !this.showOldPassword">
                 <img [src]="showOldPassword
                     ? 'assets/img/invisible.png'
                     : 'assets/img/ojo.png'" width="20" />
@@ -60,7 +60,7 @@
               <div class="ep-input-group">
                 <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="ep-input"
                   placeholder="Mínimo 8 caracteres" />
-                <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="viewPassword()">
+                <button type="button" class="ep-eye-btn" [class.revealed]="showPassword" (click)="this.showPassword = !this.showPassword">
                   <img [src]="showPassword
                     ? 'assets/img/invisible.png'
                     : 'assets/img/ojo.png'" width="20" />

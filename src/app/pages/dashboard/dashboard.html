@@ -2,11 +2,7 @@
   <main class=" page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
 
     <!-- Loading con logo -->
-    <div *ngIf="!infoCliente || loading" class="loading-container">
-      <img src="assets/img/logo.png" alt="Cargando..." class="loading-logo">
-      <div class="loading-spinner"></div>
-      <p class="loading-text">Cargando...</p>
-    </div>
+    <app-preloader *ngIf="!infoCliente || loading"></app-preloader>
     <section class="client-details-section" *ngIf="infoCliente">
       <h2 class="client-details-title">Detalles del Cliente</h2>
 

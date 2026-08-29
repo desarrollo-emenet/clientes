@@ -8,6 +8,9 @@ import { firstValueFrom, Subscription, switchMap } from 'rxjs';
 import { PasswordService } from '../../services/utility/password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { CalculoService } from '../../services/utility/calculo.service';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,35 +20,77 @@ import { HttpService } from '../../services/utility/http.service';
 })
 export class EditProfile {
   updateForm!: FormGroup;
-  showOldPassword = false;
-  showPassword = false;
-
-  loading = false;
-
+  showOldPassword!: boolean;
+  showPassword!: boolean;
+  loading!: boolean;
+  infoCliente: any;
   passwordStrength = 0;
   private passwordSub!: Subscription;
-
 
   constructor(
     private fb: FormBuilder,
     private clientS: ClientService,
     private auth: LoginS,
     protected http: HttpService,
-    protected passwordService: PasswordService
+    private calculo: CalculoService,
+    protected passwordService: PasswordService,
+    private ObservableService: ObservableService,
+    private user: UserService
   ) {
-
     this.updateForm = this.fb.group({
-      email: ['', [Validators.email]],
-      old_password: ['', [Validators.required, Validators.minLength(8)]],
-      password: ['', [Validators.minLength(8)]],
-      password_confirmation: ['', [Validators.minLength(8)]],
+      email: [null, [Validators.email]],
+      old_password: [null, [Validators.required, Validators.minLength(8)]],
+      password: [null, [Validators.minLength(8)]],
+      password_confirmation: [null, [Validators.minLength(8)]],
     }, { validators: this.passwordService.matchValidator });
   }
 
   ngOnInit(): void {
+    const clienteActivo = this.user.obtenerServicioActivo();
     this.passwordSub = this.password.valueChanges.subscribe((val) => {
       this.passwordStrength = this.passwordService.calculateStrength(val);
     });
+    this.ObservableService.cliente$.subscribe(info => this.infoCliente = info)
+    if(!this.infoCliente.cliente) this.loadClientData(clienteActivo ?? '');
+  }
+
+  protected async loadClientData(numeroCliente: string): Promise<void> {
+    try {
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+    }
+  }
+
+  protected async update(): Promise<void> {
+    const cambiarEmail = !!this.email.value;
+    const cambiarPassword = !!this.password.value;
+    if (!cambiarEmail && !cambiarPassword) {
+      this.updateForm.markAllAsTouched();
+      return;
+    }
+    if (this.updateForm.invalid) { this.updateForm.markAllAsTouched(); return; }
+    try {
+      this.loading = true;
+      const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
+      const response = await firstValueFrom(this.clientS.updateUser(user.id, this.updateForm.value));
+      this.onUpdateSuccess(response);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar los datos.")
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  private onUpdateSuccess(response:any): void {
+    toast.success(response.mensaje);
+    this.updateForm.reset();
+    setTimeout(() => {
+      this.auth.logout()
+      //this.auth.goNavigate('/dashboard');
+    }, 3500);
   }
 
   ngOnDestroy(): void {
@@ -59,72 +104,7 @@ export class EditProfile {
   get password() { return this.updateForm.controls['password']!; }
   get passwordConfirmation() { return this.updateForm.controls['password_confirmation']; }
 
-
-  protected async update(): Promise<void> {
-
-    const cambiarEmail = !!this.email.value;
-    const cambiarPassword = !!this.password.value;
-
-    if (!cambiarEmail && !cambiarPassword) {
-      this.updateForm.markAllAsTouched();
-      return;
-    }
-
-    if (this.updateForm.invalid) { this.updateForm.markAllAsTouched(); return; }
-    this.loading = true;
-
-    try {
-      const raw = this.updateForm.getRawValue();
-      const payload: {
-        old_password: string;
-        email?: string;
-        password?: string;
-      } = {
-        old_password: raw.old_password
-      };
-
-      if (cambiarEmail) { payload.email = raw.email; }
-      if (cambiarPassword) { payload.password = raw.password; }
-
-      //console.log(payload);
-
-      const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
-      const response = await firstValueFrom(this.clientS.updateUser(user.id, payload));
-
-      //console.log(response);
-
-      this.onUpdateSuccess(response);
-
-    } catch (error) {
-      this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar los datos.")
-      //this.handleUpdateError(error);
-    } finally {
-      this.loading = false;
-    }
-  }
-
-
-  private onUpdateSuccess(response:any): void {
-
-    this.loading = false;
-    toast.success(response.mensaje);
-    this.updateForm.reset();
-
-    setTimeout(() => {
-      this.auth.logout()
-      //this.auth.goNavigate('/dashboard');
-    }, 3500);
-  }
-
-  cancel() {
+  protected cancel() {
     this.auth.goNavigate('/dashboard');
   }
-
-  viewPassword() {
-    this.showPassword = !this.showPassword;
-  }
-  viewOldPassword() {
-    this.showOldPassword = !this.showOldPassword;
-  }
-
 }

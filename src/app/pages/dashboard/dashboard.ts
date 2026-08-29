@@ -11,10 +11,11 @@ import { ContactoService } from '../../services/utility/contacto.service';
 import { CalculoService } from '../../services/utility/calculo.service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { infoCliente } from '../../models/info-cliente';
+import { Preloader } from '../../shared/preloader/preloader';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgxSonnerToaster, CurrencyPipe, CommonModule],
+  imports: [RouterLink, NgxSonnerToaster, CurrencyPipe, CommonModule, Preloader],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
