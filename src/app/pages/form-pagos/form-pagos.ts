@@ -1,10 +1,6 @@
 import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ClientService } from '../../services/user/clientService';
-import { UserService } from '../../services/user/user-service';
-
 import { NgxSonnerToaster, toast } from "ngx-sonner";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,24 +9,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+
 import { HttpService } from '../../services/utility/http.service';
+import { ClientService } from '../../services/user/clientService';
+import { UserService } from '../../services/user/user-service';
 
-interface Pago {
-  id: number;
-  numOperacion: string;
-  clave: string;
-  mensualidad: string;
-  cantidad: string;
-  estado: string;
-  observacion: string | null;
-  created_at: string;
-}
+import { Pagination } from '../../services/utility/pagination.service';
+import { Pago, FiltroPago, ESTADOS_PAGO, FILTROS_PAGO, MENSAJES_FILTRO_PAGO } from './pagos';
+import { ContactoService } from '../../services/utility/contacto.service';
 
-interface EstadoConfig {
-  texto: string;
-  clase: string;
-  icono: string;
-}
 
 @Component({
   selector: 'app-form-pagos',
@@ -52,62 +39,15 @@ export class FormPagos {
 
   loading = false;
   loading1 = false;
+
   archivoSeleccionado!: File;
+  selectedFile: File | null = null;
+
   pagosForm!: FormGroup;
   data: any;
   maxDate = new Date();
   pagos: Pago[] = [];
   baja = false;
-
-
-  filtroEstado = 'todos';
-  elementosPorPagina = 10;
-  paginaActual = 1;
-
-  readonly filtros = [
-    { value: 'todos', label: 'Todas' },
-    { value: '1', label: 'Pendientes' },
-    { value: 'registrado', label: 'Registrado' },
-    { value: '4', label: 'Rechazado' }
-  ];
-
-
-  private readonly estados: Record<string, EstadoConfig> = {
-    '1': {
-      texto: 'Pendiente',
-      clase: 'pendiente',
-      icono: 'fa-clock'
-    },
-    '2': {
-      texto: 'Validado',
-      clase: 'validado',
-      icono: 'fa-check'
-    },
-    '3': {
-      texto: 'Validado',
-      clase: 'validado',
-      icono: 'fa-check'
-    },
-    '4': {
-      texto: 'Recahzado',
-      clase: 'rechazado',
-      icono: 'fa-xmark'
-    }
-  };
-
-  private readonly mensajesFiltro: Record<string, string> = {
-    '1': 'No hay pagos pendientes.',
-    registrado: 'No hay pagos registrados.',
-    '4': 'No hay pagos declinados.',
-    todos: 'No se encontraron pagos.'
-  };
-
-  private readonly TIPOS_PERMITIDOS = [
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'application/pdf'
-  ];
 
   private readonly MAX_FILE_SIZE = 2 * 1024 * 1024;
 
@@ -116,40 +56,34 @@ export class FormPagos {
   formularioAbierto: string | null = null;
 
   imagePreview: string | ArrayBuffer | null = null;
-  selectedFile: File | null = null;
+
+  filtroEstado = 'todos';
+
+  readonly filtros: FiltroPago[] = FILTROS_PAGO;
+  readonly pagination = new Pagination<Pago>();
+  private readonly estados = ESTADOS_PAGO;
+  private readonly mensajesFiltro = MENSAJES_FILTRO_PAGO;
+
+  private readonly TIPOS_PERMITIDOS = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'application/pdf'
+  ];
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
+    private contactoS: ContactoService,
     private clientS: ClientService,
     private user: UserService,
     private http: HttpService) { }
 
 
-  showSection(id: string): void {
-    this.activeSection = id;
-    this.pagosAbierto = null;
-    this.formularioAbierto = null;
-  }
-
-  togglePagos(id: string): void {
-    this.pagosAbierto = this.pagosAbierto === id ? null : id;
-  }
-
-  toggleFormulario(id: string): void {
-    this.formularioAbierto = this.formularioAbierto === id ? null : id;
-  }
-
-  get f() {
-    return this.pagosForm.controls;
-  }
 
   ngOnInit(): void {
     this.crearFormulario();
     const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) {
-      return;
-    }
+    if (!numeroCliente) { return; }
     this.cargarDatos(numeroCliente);
   }
 
@@ -165,6 +99,10 @@ export class FormPagos {
     })
   }
 
+  get f() {
+    return this.pagosForm.controls;
+  }
+
   private async cargarDatos(numeroCliente: string): Promise<void> {
     try {
       this.loading = true;
@@ -177,14 +115,10 @@ export class FormPagos {
       this.data = cliente;
       this.pagos = pagos.pagos;
 
-      if (this.data?.cliente?.cliente?.clasificacion === 'BAJA') {
-        this.baja = true;
-        this.pagosForm.disable();
-      } else {
-        this.baja = false;
-        this.pagosForm.enable();
-      }
       this.cargarTelefono();
+      this.actualizarPaginacion();
+      this.verificarEstadoCliente();
+      
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     } finally {
@@ -192,12 +126,54 @@ export class FormPagos {
     }
   }
 
+  private verificarEstadoCliente(): void {
+    this.baja = this.data?.cliente?.clasificacion === 'BAJA';
+    if (this.baja) { this.pagosForm.disable(); }
+    else { this.pagosForm.enable(); }
+  }
+
   private cargarTelefono(): void {
     const telefono =
-      this.data?.cliente?.cliente?.telefono
+      this.data?.cliente?.telefono
         ?.replace(/\s/g, '')
         .substring(0, 10) ?? '';
     this.pagosForm.patchValue({ telefono });
+  }
+
+  showSection(id: string): void {
+    this.activeSection = id;
+    this.pagosAbierto = null;
+    this.formularioAbierto = null;
+  }
+
+  togglePagos(id: string): void {
+    this.pagosAbierto = this.pagosAbierto === id ? null : id;
+  }
+
+  toggleFormulario(id: string): void {
+    this.formularioAbierto = this.formularioAbierto === id ? null : id;
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onFileChange(event: any) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) { this.processFile(file); }
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault(); event.stopPropagation();
+    const file = event.dataTransfer?.files?.[0];
+    if (file) { this.processFile(file); }
   }
 
   private processFile(file: File) {
@@ -226,29 +202,8 @@ export class FormPagos {
     this.pagosForm.patchValue({
       comprobante: file
     });
+    this.pagosForm.get('comprobante')?.updateValueAndValidity();
   }
-
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) this.processFile(file);
-  }
-
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    const file = event.dataTransfer?.files[0];
-    if (file) this.processFile(file);
-  }
-
 
   protected async enviarPago(): Promise<void> {
 
@@ -327,6 +282,12 @@ export class FormPagos {
     });
   }
 
+
+  //evitar recarga de elementos repetidos
+  trackByPago(index: number, pago: any): number {
+    return pago.id;
+  }
+
   getEstadoConfig(estado: string) {
     return this.estados[estado] ?? {
       texto: 'Desconocido',
@@ -335,10 +296,16 @@ export class FormPagos {
     };
   }
 
-  //evitar recarga de elementos repetidos
-  trackByPago(index: number, pago: any): number {
-    return pago.id;
+  contarEstado(estado: string): number {
+    if (estado === 'todos') {
+      return this.pagos.length;
+    }
+    const estadosRegistrados = ['2', '3'];
+    return this.pagos.filter(p => estado === 'registrado'
+      ? estadosRegistrados.includes(p.estado)
+      : p.estado === estado).length;
   }
+
 
   //filtro
   private coincideFiltro(pago: Pago): boolean {
@@ -356,73 +323,35 @@ export class FormPagos {
     return this.pagos.filter(pago => this.coincideFiltro(pago));
   }
 
-  cambiarFiltro(estado: string): void {
-    this.filtroEstado = estado;
-    this.paginaActual = 1;
-  }
-
-  contarEstado(estado: string): number {
-    if (estado === 'todos') {
-      return this.pagos.length;
-    }
-    const estadosRegistrados = ['2', '3'];
-
-    return this.pagos.filter(p => estado === 'registrado'
-      ? estadosRegistrados.includes(p.estado)
-      : p.estado === estado).length;
-  }
-
   get mensajeFiltro(): string {
     return this.mensajesFiltro[this.filtroEstado] ?? 'No se encontraron pagos.';
   }
 
+  cambiarFiltro(estado: string): void {
+    this.filtroEstado = estado;
+    this.actualizarPaginacion();
+  }
+
+  private actualizarPaginacion(): void {
+    this.pagination.setItems(this.pagosFiltrados);
+  }
+
   //paginacion
   get pagosPaginados(): Pago[] {
-    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
-    return this.pagosFiltrados.slice(
-      inicio,
-      inicio + this.elementosPorPagina
-    );
-  }
-
-  get totalPaginas(): number {
-    return Math.max(
-      1,
-      Math.ceil(this.pagosFiltrados.length / this.elementosPorPagina)
-    );
-  }
-
-  get paginas(): number[] {
-    return Array.from(
-      { length: this.totalPaginas },
-      (_, i) => i + 1
-    );
-  }
-
-  cambiarPagina(pagina: number): void {
-    if (pagina >= 1 && pagina <= this.totalPaginas) {
-      this.paginaActual = pagina;
-    }
+    return this.pagination.paginatedItems;
   }
 
   soloNumeros(event: Event, controlName: string, maxLength: number): void {
     const input = event.target as HTMLInputElement;
-
-    const valor = input.value
-      .replace(/\D/g, '')
-      .slice(0, maxLength);
-
+    const valor = input.value.replace(/\D/g, '').slice(0, maxLength);
     input.value = valor;
-
     this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
   }
 
   contactarSoporte(): void {
-    const numeroWhatsApp = '5217131334557';
-    const mensaje = encodeURIComponent(
+    this.contactoS.contactSupport(
+      '5217131334557',
       'Hola, mi servicio se encuentra dado de baja y quisiera recibir información para reactivarlo.'
     );
-    const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensaje}`;
-    window.open(url, '_blank');
   }
 }

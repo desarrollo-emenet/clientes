@@ -1,7 +1,3 @@
-/* ==========================================================
-   PAGE
-========================================================== */
-
 body {
   background: #f5f7fb;
 }
@@ -9,9 +5,9 @@ body {
 .page {
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(to bottom, #f7f9fc, #edf3fa);
   display: flex;
   justify-content: center;
+  background: linear-gradient(to bottom, #f7f9fc, #edf3fa);
 }
 
 .container {
@@ -28,32 +24,32 @@ body {
   overflow: hidden;
 }
 
-
-/* ==========================================================
-   HEADER
-========================================================== */
-
 .visitas-header {
   display: flex;
   align-items: center;
   gap: 22px;
   padding: 35px;
-  background: linear-gradient(135deg, #0b4e94 0%, #138ddf 100%);
-  color: white;
-  box-sizing: border-box;
   width: 100%;
+  box-sizing: border-box;
+  color: #fff;
+  background: linear-gradient(135deg, #0b4e94, #138ddf);
 }
 
 .header-icon {
   width: 75px;
   height: 75px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, .18);
+  min-width: 75px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .18);
   font-size: 32px;
   backdrop-filter: blur(10px);
+}
+
+.header-content {
+  min-width: 0;
 }
 
 .header-content h2 {
@@ -64,15 +60,11 @@ body {
 }
 
 .header-content p {
-  margin-top: 6px;
+  margin: 6px 0 0;
   opacity: .9;
   word-break: break-word;
 }
 
-
-/* ==========================================================
-   FILTROS
-========================================================== */
 
 .filter-container {
   display: flex;
@@ -80,8 +72,8 @@ body {
   gap: 10px;
   padding: 22px 30px 18px;
   overflow-x: auto;
-  border-bottom: 1px solid #edf2f7;
   background: #fff;
+  border-bottom: 1px solid #edf2f7;
   scrollbar-width: none;
 }
 
@@ -94,15 +86,15 @@ body {
   align-items: center;
   gap: 8px;
   padding: 12px 18px;
-  border: none;
+  border: 0;
   border-radius: 12px;
   background: transparent;
   color: #64748b;
   font-size: .93rem;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
   transition: .25s;
-  white-space: nowrap;
 }
 
 .filter-btn span {
@@ -120,17 +112,13 @@ body {
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, #0b4e94 0%, #138ddf 100%);
-  color: #ffffff;
+  color: #fff;
+  background: linear-gradient(135deg, #0b4e94, #138ddf);
 }
 
 .filter-btn.active span {
   color: rgba(255, 255, 255, .85);
 }
-
-/* ==========================================================
-   LISTADO
-========================================================== */
 
 .visitas-list {
   display: flex;
@@ -141,12 +129,13 @@ body {
 
 .visita-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   padding: 22px;
-  border-radius: 18px;
   border: 1px solid var(--gray-200);
-  background: white;
+  border-radius: 18px;
+  background: #fff;
   cursor: pointer;
   transition: .35s ease;
 }
@@ -159,13 +148,15 @@ body {
 
 .visita-left {
   display: flex;
-  gap: 18px;
   align-items: flex-start;
+  gap: 18px;
   flex: 1;
+  min-width: 0;
 }
 
 .visita-info {
   flex: 1;
+  min-width: 0;
 }
 
 .visita-info h4 {
@@ -176,8 +167,8 @@ body {
 
 .visita-meta {
   display: flex;
-  gap: 15px;
   flex-wrap: wrap;
+  gap: 15px;
   margin-bottom: 8px;
 }
 
@@ -187,8 +178,8 @@ body {
 }
 
 .visita-meta i {
-  color: var(--primary);
   margin-right: 6px;
+  color: var(--primary);
 }
 
 .visita-info p {
@@ -196,10 +187,15 @@ body {
   color: #64748b;
 }
 
+.visita-info p i {
+  margin-right: 5px;
+}
+
 .visita-right {
   display: flex;
   align-items: center;
   gap: 18px;
+  flex-shrink: 0;
 }
 
 .visita-right .fa-chevron-right {
@@ -212,27 +208,19 @@ body {
   transform: translateX(5px);
 }
 
-/* ==========================================================
-   ICONO IZQUIERDO
-========================================================== */
-
 .visita-icon {
   width: 60px;
   height: 60px;
   min-width: 60px;
-
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 18px;
-  position: relative;
-
-  transition: .25s ease;
-
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .7),
     0 8px 18px rgba(15, 23, 42, .06);
+  transition: .25s ease;
 }
 
 .visita-card:hover .visita-icon {
@@ -241,115 +229,46 @@ body {
 
 .visita-icon i {
   font-size: 1.35rem;
-  transition: .25s;
 }
-
-/* ==========================================================
-   AGENDADO
-========================================================== */
 
 .visita-icon.agendado {
-  background:
-    linear-gradient(135deg, #eef6ff, #d9ebff);
   color: #0b4e94;
+  background: linear-gradient(135deg, #eef6ff, #d9ebff);
 }
-
-.visita-icon.agendado::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  border: 1px solid rgba(11, 78, 148, .12);
-}
-
-/* ==========================================================
-   PENDIENTE
-========================================================== */
 
 .visita-icon.pendiente {
-  background:
-    linear-gradient(135deg, #fff9e8, #ffe9ba);
   color: #d97706;
+  background: linear-gradient(135deg, #fff9e8, #ffe9ba);
 }
-
-.visita-icon.pendiente::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  border: 1px solid rgba(217, 119, 6, .12);
-}
-
-/* ==========================================================
-   EN PROCESO
-========================================================== */
 
 .visita-icon.proceso {
-  background:
-    linear-gradient(135deg, #e8f4ff, #cfe7ff);
   color: #1064be;
+  background: linear-gradient(135deg, #e8f4ff, #cfe7ff);
 }
-
-.visita-icon.proceso::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  border: 1px solid rgba(16, 100, 190, .12);
-}
-
-/* ==========================================================
-   FINALIZADO
-========================================================== */
 
 .visita-icon.finalizado {
-  background:
-    linear-gradient(135deg, #ecfdf3, #d8f8e6);
   color: #16964b;
+  background: linear-gradient(135deg, #ecfdf3, #d8f8e6);
 }
 
-.visita-icon.finalizado::after {
+.visita-icon::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 18px;
-  border: 1px solid rgba(22, 150, 75, .12);
+  border-radius: inherit;
+  border: 1px solid currentColor;
+  opacity: .12;
 }
 
-/* ==========================================================
-   CANCELADO
-========================================================== */
-
-.visita-icon.cancelado {
-  background:
-    linear-gradient(135deg, #fff1f1, #ffdede);
-  color: #dc2626;
-}
-
-.visita-icon.cancelado::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  border: 1px solid rgba(220, 38, 38, .12);
-}
-
-/* ==========================================================
-   BADGE
-========================================================== */
 
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
   padding: 9px 16px;
-
   border-radius: 999px;
-
   font-size: .82rem;
   font-weight: 700;
-
   letter-spacing: .2px;
 }
 
@@ -360,96 +279,69 @@ body {
   background: currentColor;
 }
 
-/* Agendado */
-
 .status-badge.agendado {
-  background: #edf6ff;
   color: #0b4e94;
+  background: #edf6ff;
 }
-
-/* Pendiente */
 
 .status-badge.pendiente {
-  background: #fff7e6;
   color: #d97706;
+  background: #fff7e6;
 }
-
-/* En proceso */
 
 .status-badge.proceso {
-  background: #eef6ff;
   color: #1064be;
+  background: #eef6ff;
 }
-
-/* Finalizado */
 
 .status-badge.finalizado {
-  background: #edfdf3;
   color: #16964b;
+  background: #edfdf3;
 }
 
-/* Cancelado */
-
-.status-badge.cancelado {
-  background: #fff1f1;
-  color: #dc2626;
-}
-
-/* ==========================================================
-   LOADING SPINNER
-   ========================================================== */
 
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
   gap: 18px;
+  padding: 80px 20px;
 }
 
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(11, 78, 148, 0.12);
+  border: 4px solid rgba(11, 78, 148, .12);
   border-left-color: #0b4e94;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 .loading-container p {
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.95rem;
   margin: 0;
+  color: #64748b;
+  font-size: .95rem;
+  font-weight: 500;
   animation: pulse-text 1.5s ease-in-out infinite;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
 @keyframes pulse-text {
-
   0%,
   100% {
-    opacity: 0.6;
+    opacity: .6;
   }
 
   50% {
     opacity: 1;
   }
 }
-
-/* ==========================================================
-   EMPTY
-   ========================================================== */
 
 .empty-state {
   padding: 70px 20px;
@@ -458,24 +350,19 @@ body {
 }
 
 .empty-state i {
-  font-size: 60px;
-  color: #0b4e94;
   margin-bottom: 20px;
+  color: #0b4e94;
+  font-size: 60px;
 }
 
 .empty-state h4 {
   margin-bottom: 10px;
 }
 
-
-/* ==========================================================
-   PAGINACION
-========================================================== */
-
 .pagination-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 15px 30px 35px;
 }
@@ -483,8 +370,8 @@ body {
 .btn-page {
   width: 42px;
   height: 42px;
-  border-radius: 12px;
   border: 1px solid #dbe4ef;
+  border-radius: 12px;
   background: #fff;
   color: #64748b;
   font-weight: 600;
@@ -493,18 +380,14 @@ body {
 }
 
 .btn-page:hover:not(:disabled) {
+  border-color: #bcd3ea;
   background: #eef5fc;
   color: #0b4e94;
-  border-color: #bcd3ea;
 }
 
-.btn-page.active {
-  background: #0b4e94;
-  color: #fff !important;
-  border-color: #0b4e94;
-}
-
+.btn-page.active,
 .btn-page.active:hover {
+  border-color: #0b4e94;
   background: #0b4e94;
   color: #fff;
 }
@@ -514,26 +397,22 @@ body {
   cursor: not-allowed;
 }
 
-/* ==========================================================
-   MODAL
-========================================================== */
-
 .modal-visitas .modal-content {
-  border: none;
-  border-radius: 22px;
   overflow: hidden;
+  border: 0;
+  border-radius: 22px;
 }
 
 .modal-header {
   padding: 28px 30px;
+  border: 0;
+  color: #fff;
   background: linear-gradient(135deg, #0b4e94, #0b6cdb);
-  color: white;
-  border: none;
 }
 
 .modal-title {
-  font-weight: 700;
   font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .modal-subtitle {
@@ -554,17 +433,17 @@ body {
 }
 
 .modal-column {
-  background: white;
-  border-radius: 18px;
   padding: 25px;
   border: 1px solid #edf1f5;
+  border-radius: 18px;
+  background: #fff;
 }
 
 .column-title {
+  margin-bottom: 22px;
+  color: var(--primary);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 22px;
 }
 
 .detalle-group {
@@ -573,9 +452,9 @@ body {
 
 .detalle-group label {
   display: block;
+  margin-bottom: 6px;
   color: #7c8594;
   font-size: .82rem;
-  margin-bottom: 6px;
   font-weight: 600;
 }
 
@@ -585,8 +464,8 @@ body {
 }
 
 .asunto-destacado {
-  font-weight: 700;
   font-size: 1.05rem;
+  font-weight: 700;
 }
 
 .tecnico-avatar-box {
@@ -598,32 +477,36 @@ body {
 .avatar-mini {
   width: 48px;
   height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   background: #eaf4ff;
   color: var(--primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 20px;
+}
+
+.tecnico-avatar-box p {
+  margin: 0;
 }
 
 .detalle-card-group {
   padding: 18px;
+  margin-bottom: 18px;
   border-radius: 16px;
   background: #f7f9fc;
-  margin-bottom: 18px;
 }
 
 .detalle-card-group label {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 700;
-  color: var(--gray-700);
   margin-bottom: 10px;
+  color: var(--gray-700);
+  font-weight: 700;
 }
 
-.detalle-card-group i {
+.detalle-card-group label i {
   color: var(--primary);
 }
 
@@ -634,14 +517,17 @@ body {
 }
 
 .solucion-destacada {
-  background: #eef8ff;
   border-left: 5px solid var(--primary);
+  background: #eef8ff;
 }
 
+.texto-oracion {
+  text-transform: lowercase;
+}
 
-/* ==========================================================
-   RESPONSIVE
-========================================================== */
+.texto-oracion::first-letter {
+  text-transform: uppercase;
+}
 
 @media (max-width: 900px) {
 
@@ -652,10 +538,9 @@ body {
   .visita-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
   }
-  
-  .visita-icon{
+
+  .visita-icon {
     display: none;
   }
 
@@ -664,11 +549,6 @@ body {
     justify-content: space-between;
   }
 }
-
-
-/* ==========================================================
-   TABLET / MÓVIL
-========================================================== */
 
 @media (max-width: 768px) {
 
@@ -680,33 +560,16 @@ body {
     border-radius: 18px;
   }
 
-
-  /* =========================
-     HEADER
-  ========================= */
-
-  .header-content {
-    min-width: 0;
-  }
-
   .header-content h2 {
-    margin: 0;
-
     font-size: 1.4rem;
     line-height: 1.2;
   }
 
   .header-content p {
     margin-top: 4px;
-
     font-size: .82rem;
     line-height: 1.3;
   }
-
-
-  /* =========================
-     CONTENIDO
-  ========================= */
 
   .filter-container,
   .visitas-list,
@@ -724,41 +587,28 @@ body {
   }
 }
 
-
-/* ==========================================================
-   MÓVIL
-========================================================== */
 @media (max-width: 576px) {
 
-  
   .visitas-header {
+    flex-direction: column;
     gap: 6px;
     padding: 16px 12px;
-    
     text-align: center;
-    flex-direction: column;
   }
 
   .header-icon {
     display: none;
+  }
 
+  .visita-left {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
 
-  /* =========================
-     HEADER
-  ========================= */
-
   .visitas-header {
-    gap: 11px;
     padding: 18px 16px;
-  }
-
-  .header-icon {
-    display: none;
-
   }
 
   .header-content h2 {
@@ -770,13 +620,9 @@ body {
     font-size: .78rem;
   }
 
-
-  /* =========================
-     VISITAS
-  ========================= */
-
   .visita-left {
     flex-direction: column;
+    gap: 10px;
   }
 
   .status-badge {
@@ -789,37 +635,5 @@ body {
 
   .visita-info h4 {
     font-size: 1rem;
-  }
-}
-
-
-/* ==========================================================
-   MÓVIL PEQUEÑO
-========================================================== */
-
-@media (max-width: 380px) {
-
-  .visitas-header {
-    gap: 9px;
-    padding: 16px 14px;
-  }
-
-  .header-icon {
-    display: none;
-  }
-
-  .header-content h2 {
-    font-size: 1.15rem;
-  }
-
-  .header-content p {
-    font-size: .74rem;
-  }
-
-  .filter-container,
-  .visitas-list,
-  .pagination-container {
-    padding-left: 14px;
-    padding-right: 14px;
   }
 }

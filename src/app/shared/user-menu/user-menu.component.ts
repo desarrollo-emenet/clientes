@@ -8,6 +8,7 @@ import { HttpService } from '../../services/utility/http.service';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { toast } from 'ngx-sonner';
+import { ClientService } from '../../services/user/clientService';
 
 @Component({
   selector: 'app-user-menu',
@@ -23,15 +24,18 @@ export class UserMenuComponent implements OnInit {
   constructor(
     private router: Router,
     private loginS: LoginS,
+    private clientS: ClientService,
     private userServ: UserService,
     private ObservableService: ObservableService,
     protected http: HttpService
-  ) {}
+  ) { }
 
   cliente: any;
-  ngOnInit(): void {
+  user:any;
+  async ngOnInit(): Promise<void> {
     this.checkCurrentRoute();
     this.ObservableService.cliente$.subscribe(info => this.cliente = info)
+    this.user = await firstValueFrom(this.clientS.getAuthenticatedUser());
   }
 
   checkCurrentRoute(): void {
@@ -40,23 +44,23 @@ export class UserMenuComponent implements OnInit {
 
   navigateTo(route: string): void {
     this.isDropdownOpen = false;
-    if (( route === '/visitas' || route === '/formas-de-pago' || route === '/formulario-pagos' ) && this.cliente.cliente) {
+    if ((route === '/visitas' || route === '/formas-de-pago' || route === '/formulario-pagos') && this.cliente.cliente) {
       this.router.navigate([route, this.cliente.cliente]);
-    } else if(route === '/servicios'){
+    } else if (route === '/servicios') {
       this.router.navigate([route]);
       this.userServ.eliminarServicioActivo();
-    }else {
+    } else {
       this.router.navigate([route]);
     }
   }
 
   protected async handleLogout(): Promise<void> {
-  this.isDropdownOpen = false;
-    try{
+    this.isDropdownOpen = false;
+    try {
       await firstValueFrom(this.loginS.logout());
       this.loginS.clearToken();
       this.router.navigate(['/iniciar-sesion']);
-    }catch(e){
+    } catch (e) {
       const error = e as HttpErrorResponse;
       this.loginS.clearToken();
       this.router.navigate(['/iniciar-sesion']);

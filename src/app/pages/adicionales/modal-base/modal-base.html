@@ -1,0 +1,17 @@
+<div class="modal-overlay" (click)="cerrarPorOverlay($event)">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+        <div class="modal-header" [ngClass]="clase">
+            <i class="modal-header-icon fa-solid" [ngClass]="icono"></i>
+            <div class="modal-header-text">
+                <h2>{{ titulo }}</h2>
+                <p>{{ subtitulo }}</p>
+            </div>
+            <button type="button" class="modal-close" (click)="cerrarModal()" aria-label="Cerrar">
+                &#x2715;
+            </button>
+        </div>
+        <div class="modal-body">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

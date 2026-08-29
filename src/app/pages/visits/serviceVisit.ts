@@ -32,12 +32,6 @@ export const filtros_visitas: FiltroVisita[] = [
     { value: 3, label: 'Finalizadas' }
 ];
 
-export interface EstadoConfig {
-    texto: string;
-    clase: string;
-    icono: string;
-}
-
 export const estado_visitas: Record<number, EstadoConfig> = {
     0: {
         texto: 'Agendado',

@@ -80,17 +80,17 @@
         </section>
 
         <!-- paginacion -->
-        <nav class="pagination-container" *ngIf="totalPaginas > 1">
-          <button class="btn-page" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+        <nav class="pagination-container" *ngIf="pagination.totalPages > 1">
+          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage - 1)" [disabled]="pagination.currentPage === 1">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
 
-          <button *ngFor="let pagina of paginas" class="btn-page" [class.active]="pagina === paginaActual"
-            (click)="cambiarPagina(pagina)">
+          <button *ngFor="let pagina of pagination.pages" class="btn-page" [class.active]="pagina === pagination.currentPage"
+            (click)="pagination.goToPage(pagina)">
             {{ pagina }}
           </button>
 
-          <button class="btn-page" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
+          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage + 1)" [disabled]="pagination.currentPage === pagination.totalPages">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </nav>

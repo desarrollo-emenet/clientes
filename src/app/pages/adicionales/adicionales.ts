@@ -1,12 +1,13 @@
 import { Component, HostListener } from '@angular/core';
-import { NgClass, CommonModule } from '@angular/common';
+import { NgClass, CommonModule, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { PRODUCTOS, Producto } from './serviceAdicional';
+import { PRODUCTOS, Producto, SERVICIOS_ADICIONALES, planesInternet } from './serviceAdicional';
+import { ModalBase } from './modal-base/modal-base';
 
 
 @Component({
   selector: 'app-adicionales',
-  imports: [NgClass, CommonModule, MatIconModule],
+  imports: [NgClass, CommonModule, MatIconModule, ModalBase, NgFor],
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
@@ -17,21 +18,40 @@ export class Adicionales {
   productoSeleccionado: Producto | null = null;
   zoomIndex: number | null = null;
 
+  servicios = SERVICIOS_ADICIONALES;
+  planesInternet = planesInternet;
+  productos = Object.values(PRODUCTOS);
+
+
+  private bloquearScroll(): void {
+    document.body.style.overflow = 'hidden';
+  }
+
+  private desbloquearScroll(): void {
+    document.body.style.overflow = '';
+  }
+
+  private esOverlay(evento: MouseEvent, clase: string): boolean {
+    return (evento.target as HTMLElement).classList.contains(clase);
+  }
+
+  soloNumeros(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
+
+  soloTexto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
+  }
+  
+
+
 
   @HostListener('window:keydown.escape')
   cerrarConEscape(): void {
-    if (this.zoomIndex !== null) {
-      this.cerrarZoom();
-      return;
-    }
-    if (this.modalActivo !== null) {
-      this.modalActivo = null;
-      document.body.style.overflow = '';
-    }
-  }
-
-  get productos(): Producto[] {
-    return Object.values(PRODUCTOS);
+    if (this.zoomIndex !== null) { this.cerrarZoom(); return; }
+    if (this.modalActivo !== null) { this.modalActivo = null; this.desbloquearScroll(); }
   }
 
   showSection(id: string): void {
@@ -41,22 +61,14 @@ export class Adicionales {
 
   abrirModal(seccion: string): void {
     this.modalActivo = seccion;
-    document.body.style.overflow = 'hidden';
+    this.bloquearScroll();
   }
 
   cerrarModal(evento?: MouseEvent): void {
-
-    if (evento) {
-      const target = evento.target as HTMLElement;
-
-      if (!target.classList.contains('modal-overlay')) {
-        return;
-      }
-    }
+    if (evento && !this.esOverlay(evento, 'modal-overlay')) { return; }
     this.modalActivo = null;
     this.productoSeleccionado = null;
-
-    document.body.style.overflow = '';
+    this.desbloquearScroll();
   }
 
   abrirModalProducto(categoria: string): void {
@@ -71,11 +83,13 @@ export class Adicionales {
       imagenActual: 0
     };
     this.modalActivo = 'producto';
-    document.body.style.overflow = 'hidden';
+    this.bloquearScroll();
   }
 
   cambiarImagen(index: number): void {
     if (!this.productoSeleccionado) return;
+    const total = this.productoSeleccionado.imagenActual = index;
+    if (index < 0 || index >= total) return;
     this.productoSeleccionado.imagenActual = index;
   }
 
@@ -103,12 +117,7 @@ export class Adicionales {
   }
 
   cerrarZoom(evento?: MouseEvent): void {
-    if (evento) {
-      const target = evento.target as HTMLElement;
-      if (!target.classList.contains('zoom-overlay')) {
-        return;
-      }
-    }
+    if (evento && !this.esOverlay(evento, 'zoom-overlay')) { return; }
     this.zoomIndex = null;
   }
 
@@ -140,12 +149,8 @@ export class Adicionales {
   }
 
   solicitarOpcion(opcion: string): void {
-    const mensaje = encodeURIComponent(
+    this.redirigirAWhatsApp(
       `Hola, quiero información sobre el punto de venta My Business POS: ${opcion}`
-    );
-    window.open(
-      `https://api.whatsapp.com/send?phone=5217131334557&text=${mensaje}`,
-      '_blank'
     );
   }
 
@@ -161,14 +166,17 @@ export class Adicionales {
     servicio: string,
     campos: FormData
   ): string {
-    if (servicio === 'camaras') {
-      return this.construirMensajeCamaras(campos);
-    }
-    if (servicio === 'web') {
-      return this.construirMensajeWeb(campos);
-    }
-    return `Hola, quiero solicitar una cotización de: ${servicio}`;
+    const constructor = this.constructoresMensaje[servicio];
+    return constructor
+      ? constructor(campos)
+      : `Hola, quiero solicitar una cotización de: ${servicio}`;
   }
+
+  private readonly constructoresMensaje: Record<string,
+    (campos: FormData) => string> = {
+      camaras: (campos) => this.construirMensajeCamaras(campos),
+      web: (campos) => this.construirMensajeWeb(campos)
+    };
 
   private construirMensajeCamaras(campos: FormData): string {
     const nombre = campos.get('nombre') as string;
