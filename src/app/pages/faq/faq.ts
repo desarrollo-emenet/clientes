@@ -1,5 +1,12 @@
 import { NgClass } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, HostListener } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { CalculoService } from '../../services/utility/calculo.service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { HttpService } from '../../services/utility/http.service';
+import { ClientService } from '../../services/user/clientService';
+import { UserService } from '../../services/user/user-service';
 
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 3;
@@ -29,6 +36,28 @@ export class FAQ {
     this.helpAbierto = null;
     this.faqAbierto = null;
     this.itemAbierto = null;
+  }
+
+  constructor(
+      private user: UserService,
+      private clientS: ClientService, private calculo: CalculoService,
+     protected http: HttpService, private ObservableService: ObservableService) { }
+
+  async ngOnInit(): Promise<void> {
+    const numeroCliente = this.user.obtenerServicioActivo();
+    this.ObservableService.cliente$.subscribe((info: any) => {
+      if(!info.cliente) this.loadClientData(numeroCliente ?? '');
+    });
+  }
+
+  protected async loadClientData(numeroCliente: string): Promise<void> {
+    try {
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+    }
   }
 
   showView(id: string): void {

@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgForOf, DatePipe } from '@angular/common';
+import { NgClass, NgIf, NgForOf, DatePipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSonnerToaster, toast } from "ngx-sonner";
@@ -17,12 +17,15 @@ import { UserService } from '../../services/user/user-service';
 import { Pagination } from '../../services/utility/pagination.service';
 import { Pago, FiltroPago, ESTADOS_PAGO, FILTROS_PAGO, MENSAJES_FILTRO_PAGO } from './pagos';
 import { ContactoService } from '../../services/utility/contacto.service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { CalculoService } from '../../services/utility/calculo.service';
+import { CompressService } from '../../services/utility/compress.service';
 
 
 @Component({
   selector: 'app-form-pagos',
   imports: [NgxSonnerToaster,
-    NgIf,
+    CommonModule,
     DatePipe,
     NgClass,
     ReactiveFormsModule,
@@ -30,7 +33,7 @@ import { ContactoService } from '../../services/utility/contacto.service';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatIconModule, NgForOf],
+    MatIconModule],
   templateUrl: './form-pagos.html',
   styleUrl: './form-pagos.css'
 })
@@ -76,7 +79,9 @@ export class FormPagos {
     private contactoS: ContactoService,
     private clientS: ClientService,
     private user: UserService,
-    private http: HttpService) { }
+    private http: HttpService,
+    private ObservableService: ObservableService,
+    private calculo: CalculoService, private compress: CompressService) { }
 
 
 
@@ -89,13 +94,12 @@ export class FormPagos {
 
   private crearFormulario(): void {
     this.pagosForm = this.fb.nonNullable.group({
-      fechaPago: ['', [Validators.required]],
-      numOperacion: ['', [Validators.required, Validators.maxLength(30)]],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      clave: ['', [Validators.required]],
+      fechaPago: [null, [Validators.required]],
+      numOperacion: [null, [Validators.required, Validators.maxLength(30)]],
+      telefono: [null, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      clave: [null, [Validators.required]],
       comprobante: [null, [Validators.required]],
-      monto: ['', [Validators.required, Validators.pattern(/^\d{1,5}$/)]],
-
+      monto: [null, [Validators.required, Validators.pattern(/^\d{1,5}$/)]],
     })
   }
 
@@ -112,13 +116,14 @@ export class FormPagos {
           pagos: this.clientS.resBanco(numeroCliente)
         })
       );
-      this.data = cliente;
+      this.ObservableService.actualizarObs(cliente.cliente, this.calculo.construirNotificaciones(cliente.cliente), cliente.servicios);
+      this.data = cliente.cliente;
       this.pagos = pagos.pagos;
 
       this.cargarTelefono();
       this.actualizarPaginacion();
       this.verificarEstadoCliente();
-      
+
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     } finally {
@@ -127,14 +132,14 @@ export class FormPagos {
   }
 
   private verificarEstadoCliente(): void {
-    this.baja = this.data?.cliente?.clasificacion === 'BAJA';
+    this.baja = this.data.clasificacion === 'BAJA';
     if (this.baja) { this.pagosForm.disable(); }
     else { this.pagosForm.enable(); }
   }
 
   private cargarTelefono(): void {
     const telefono =
-      this.data?.cliente?.telefono
+      this.data.telefono
         ?.replace(/\s/g, '')
         .substring(0, 10) ?? '';
     this.pagosForm.patchValue({ telefono });
@@ -176,31 +181,32 @@ export class FormPagos {
     if (file) { this.processFile(file); }
   }
 
-  private processFile(file: File) {
+  private async processFile(file: File) {
 
     if (!this.TIPOS_PERMITIDOS.includes(file.type)) {
       toast.error('Tipo de archivo no permitido.');
       return;
     }
+    const compressedFile = await this.compress.compressImage(file);
 
-    if (file.size > this.MAX_FILE_SIZE) {
+    if (compressedFile.size > this.MAX_FILE_SIZE) {
       toast.error('El archivo no debe superar los 2 MB');
       return;
     }
 
-    this.archivoSeleccionado = file;
-    this.selectedFile = file;
+    this.archivoSeleccionado = compressedFile;
+    this.selectedFile = compressedFile;
 
-    if (file.type.startsWith('image/')) {
+    if (compressedFile.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = () => this.imagePreview = reader.result;
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     } else {
       this.imagePreview = 'assets/img/pdf.webp';
     }
 
     this.pagosForm.patchValue({
-      comprobante: file
+      comprobante: compressedFile
     });
     this.pagosForm.get('comprobante')?.updateValueAndValidity();
   }
@@ -225,11 +231,6 @@ export class FormPagos {
       this.pagosForm.reset();
     } catch (error) {
       const httpError = error as HttpErrorResponse;
-
-      if (httpError.status === 422 && httpError.error?.errors) {
-        this.asignarErrores(httpError.error.errors);
-      }
-
       this.http.errorHttp(httpError, 'Error al enviar los datos');
     } finally {
       this.loading1 = false;
@@ -241,7 +242,7 @@ export class FormPagos {
   private crearFormData(): FormData {
     const raw = this.pagosForm.getRawValue();
     const formData = new FormData();
-    const cliente = this.data?.numero_cliente ?? '';
+    const cliente = this.data.cliente ?? '';
     const fecha = new Date(raw.fechaPago);
 
     //const formData = new FormData();

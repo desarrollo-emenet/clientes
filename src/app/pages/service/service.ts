@@ -71,7 +71,9 @@ export class Service implements OnInit, OnDestroy {
   }
 
 
-  constructor(private fb: FormBuilder, private router: Router, private api: ClientService, protected http: HttpService, private rateLimit: UserService) {
+  constructor(private fb: FormBuilder, private router: Router,
+    private api: ClientService, protected http: HttpService,
+    private rateLimit: UserService) {
     this.serviceForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],
     });

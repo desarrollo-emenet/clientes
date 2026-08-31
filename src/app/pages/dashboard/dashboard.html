@@ -13,8 +13,11 @@
             <i class="fa-regular fa-user"></i>
           </div>
           <div class="client-info">
-            <h4 class="hero-title">{{ getSaludo() }}</h4>
-            <h3 class="client-name"> {{ infoCliente.nombre }}</h3>
+            <div class="flex justify-content-between">
+              <div>
+                <h4 class="hero-title">{{ getSaludo() }}</h4>
+                <h3 class="client-name"> {{ infoCliente.nombre }}</h3>
+              </div>
             <div class="client-id-pill">
               <i class="fa-regular fa-id-card"></i>
               <span>Cliente #{{ infoCliente.cliente }}</span>
@@ -22,6 +25,7 @@
                 *ngIf="infoCliente.cliente">
                 <i class="fa-regular fa-copy"></i>
               </button>
+            </div>
             </div>
             <div class="client-badges">
 

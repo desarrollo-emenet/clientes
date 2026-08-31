@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
 import { EstadoConfig, Visitas, estado_visitas, filtros_visitas } from './serviceVisit';
 import { Pagination } from '../../services/utility/pagination.service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { CalculoService } from '../../services/utility/calculo.service';
 
 
 @Component({
@@ -29,13 +31,28 @@ export class Visits {
 
   constructor(
     private user: UserService,
-    private clientS: ClientService,
-   protected http: HttpService) { }
+    private clientS: ClientService, private calculo: CalculoService,
+   protected http: HttpService, private ObservableService: ObservableService) { }
 
   async ngOnInit(): Promise<void> {
     const numeroCliente = this.user.obtenerServicioActivo();
-    if (!numeroCliente) return;
-    await this.obtenerVisitas(numeroCliente);
+    this.ObservableService.cliente$.subscribe((info: any) => {
+      if(!info.cliente) this.loadClientData(numeroCliente ?? '');
+    })
+    await this.obtenerVisitas(numeroCliente ?? '');
+
+
+  }
+
+  protected async loadClientData(numeroCliente: string): Promise<void> {
+
+    try {
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    } finally {
+    }
   }
 
   protected async obtenerVisitas(numeroCliente: string): Promise<void> {
@@ -44,7 +61,7 @@ export class Visits {
       this. visitas = visitas ?? [];
       this.actualizarPaginacion();
     } catch (error) {
-      this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener visitas')      
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener visitas')
     }
   }
 
@@ -61,7 +78,7 @@ export class Visits {
     0: visita.usarioAgendado,
     2: visita.usarioProceso,
     3: visita.usarioAtencion
-  };  
+  };
   return tecnicos[visita.estado] || 'Sin asignar';
 }
 

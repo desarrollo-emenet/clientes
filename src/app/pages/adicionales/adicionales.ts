@@ -3,11 +3,18 @@ import { NgClass, CommonModule, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PRODUCTOS, Producto, SERVICIOS_ADICIONALES, planesInternet } from './serviceAdicional';
 import { ModalBase } from './modal-base/modal-base';
+import { UserService } from '../../services/user/user-service';
+import { ObservableService } from '../../services/utility/observable.service';
+import { firstValueFrom } from 'rxjs';
+import { ClientService } from '../../services/user/clientService';
+import { CalculoService } from '../../services/utility/calculo.service';
+import { HttpService } from '../../services/utility/http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
   selector: 'app-adicionales',
-  imports: [NgClass, CommonModule, MatIconModule, ModalBase, NgFor],
+  imports: [NgClass, CommonModule, MatIconModule, ModalBase],
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
@@ -22,6 +29,23 @@ export class Adicionales {
   planesInternet = planesInternet;
   productos = Object.values(PRODUCTOS);
 
+  constructor(private user: UserService, private ObservableService: ObservableService, private clientS: ClientService,
+    private calculo: CalculoService, private http: HttpService
+  ){
+    const clienteActivo = this.user.obtenerServicioActivo();
+    this.ObservableService.cliente$.subscribe((info: any) => {
+      if(!info.cliente) this.loadClientData(clienteActivo ?? '');
+    })
+  }
+
+  protected async loadClientData(numeroCliente: string): Promise<void> {
+    try {
+      const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
+      this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios);
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
+    }
+  }
 
   private bloquearScroll(): void {
     document.body.style.overflow = 'hidden';
@@ -44,9 +68,6 @@ export class Adicionales {
     const input = event.target as HTMLInputElement;
     input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
   }
-  
-
-
 
   @HostListener('window:keydown.escape')
   cerrarConEscape(): void {
