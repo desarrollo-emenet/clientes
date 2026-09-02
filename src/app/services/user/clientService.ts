@@ -111,6 +111,7 @@ export class ClientService {
   }
 
   informePdf(url: string): Observable<Blob>{
+    console.log(url)
     // return this.http.get(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers, responseType: 'blob' });
     return this.http.get(`${url}`,{ responseType: 'blob' });
   }
