@@ -137,7 +137,7 @@
 
 .speedtest-frame {
     width: 100%;
-    min-height: 480px;
+    min-height: 650px;
     background: #111c33;
     border-radius: 13px;
     overflow: hidden;
@@ -145,13 +145,13 @@
 }
 
 
-.speedtest-frame iframe {
+/* .speedtest-frame iframe {
     display: block;
     width: 100%;
     height: 480px;
     border: 0;
     background: #111c33;
-}
+} */
 
 
 .recommendations-accordion {
@@ -319,13 +319,13 @@
         border-radius: 17px;
     }
 
-    .speedtest-frame {
+    /* .speedtest-frame {
         min-height: 430px;
-    }
+    } */
 
-    .speedtest-frame iframe {
+    /* .speedtest-frame iframe {
         height: 430px;
-    }
+    } */
 
     .recommendations-list {
         grid-template-columns: 1fr;
@@ -385,15 +385,15 @@
         width: 70px;
     }
 
-    .speedtest-frame {
+    /* .speedtest-frame {
         min-height: 390px;
 
         border-radius: 10px;
-    }
+    } */
 
-    .speedtest-frame iframe {
+    /* .speedtest-frame iframe {
         height: 390px;
-    }
+    } */
 
     .recommendations-accordion {
         margin-top: 14px;
