@@ -106,7 +106,7 @@ export class ClientService {
   //pdf informe blob datos binarios
   informePdf(cliente: string): Observable<Blob>{
     const headers = this.getHeaders(true);
-    return this.http.get<any>(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers });
+    return this.http.get(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers, responseType: 'blob' });
     // return this.http.get(`${this.apiUrl}/informe-pdf/${cliente}`,{ responseType: 'blob' });
   }
 }
