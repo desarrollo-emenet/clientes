@@ -73,6 +73,7 @@ export class Client implements OnInit {
 
     try {
       const { urlPdf } = await firstValueFrom(this.clientS.obtenerLink(numeroCliente));
+      console.log('URL del PDF recibido:', urlPdf); // Agrega este log para verificar la URL recibida
       const blob = await firstValueFrom(this.clientS.informePdf(urlPdf));
       console.log('Blob recibido:', blob); // Agrega este log para verificar el blob recibido
       const url = window.URL.createObjectURL(blob);
