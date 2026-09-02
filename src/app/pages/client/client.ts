@@ -72,9 +72,9 @@ export class Client implements OnInit {
     this.loading = true
 
     try {
-      const { urlPdf } = await firstValueFrom(this.clientS.obtenerLink(numeroCliente));
-      console.log('URL del PDF recibido:', urlPdf); // Agrega este log para verificar la URL recibida
-      const blob = await firstValueFrom(this.clientS.informePdf(urlPdf));
+      const urlPdf  = await firstValueFrom(this.clientS.obtenerLink(numeroCliente));
+      console.log('URL del PDF recibido:', urlPdf.url); // Agrega este log para verificar la URL recibida
+      const blob = await firstValueFrom(this.clientS.informePdf(urlPdf.url));
       console.log('Blob recibido:', blob); // Agrega este log para verificar el blob recibido
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
