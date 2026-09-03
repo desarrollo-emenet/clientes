@@ -88,8 +88,8 @@ export class EditProfile {
     toast.success(response.mensaje);
     this.updateForm.reset();
     setTimeout(() => {
-      this.auth.logout()
-      //this.auth.goNavigate('/dashboard');
+      //this.auth.logout()
+      this.auth.goNavigate('/dashboard');
     }, 3500);
   }
 
