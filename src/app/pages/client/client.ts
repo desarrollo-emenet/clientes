@@ -7,11 +7,10 @@ import { PaymentService } from '../../services/pagoralia/paymentService';
 import { UserService } from '../../services/user/user-service';
 import { HttpErrorResponse } from '@angular/common/http'
 import { DomSanitizer } from '@angular/platform-browser';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { HttpService } from '../../services/utility/http.service';
 import { Preloader } from '../../shared/preloader/preloader';
 import { CalculoService } from '../../services/utility/calculo.service';
-import { DocPdfService } from '../../services/utility/doc-pdf.service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { infoCliente } from '../../models/info-cliente';
 import { FormService } from '../../services/pagoralia/form.service';
@@ -42,7 +41,6 @@ export class Client implements OnInit {
     private http: HttpService,
     protected calculo: CalculoService,
     private sanitizer: DomSanitizer,
-    public doc: DocPdfService,
     protected FormPago: FormService,
     private observable: ObservableService) { }
 
