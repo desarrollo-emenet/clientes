@@ -123,10 +123,11 @@
               <p>{{ visitaSeleccionada.created_at | date:'dd/MM/yyyy, h:mm a' }}</p>
             </div>
 
-            <div class="detalle-group">
+            <div class="detalle-group" *ngIf="visitaSeleccionada.agendaFecha">
               <label>Fecha programada</label>
-              <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a') || 'Pendiente de agendar' }}</p>
+              <p>{{ (visitaSeleccionada.agendaFecha | date:'dd/MM/yyyy, h:mm a') }}</p>
             </div>
+            
 
             <div class="detalle-group">
               <label>Fecha de atención</label>
