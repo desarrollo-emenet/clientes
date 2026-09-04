@@ -82,13 +82,12 @@ export class EditProfile {
     } finally {
       this.loading = false;
     }
-  }
+  } 
 
   private onUpdateSuccess(response:any): void {
     toast.success(response.mensaje);
     this.updateForm.reset();
     setTimeout(() => {
-      //this.auth.logout()
       this.auth.goNavigate('/dashboard');
     }, 3500);
   }
