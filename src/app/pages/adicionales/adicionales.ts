@@ -10,11 +10,12 @@ import { ClientService } from '../../services/user/clientService';
 import { CalculoService } from '../../services/utility/calculo.service';
 import { HttpService } from '../../services/utility/http.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-adicionales',
-  imports: [NgClass, CommonModule, MatIconModule, ModalBase],
+  imports: [NgClass, CommonModule, MatIconModule, ModalBase, FormsModule],
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
@@ -31,10 +32,10 @@ export class Adicionales {
 
   constructor(private user: UserService, private ObservableService: ObservableService, private clientS: ClientService,
     private calculo: CalculoService, private http: HttpService
-  ){
+  ) {
     const clienteActivo = this.user.obtenerServicioActivo();
     this.ObservableService.cliente$.subscribe((info: any) => {
-      if(!info.cliente) this.loadClientData(clienteActivo ?? '');
+      if (!info.cliente) this.loadClientData(clienteActivo ?? '');
     })
   }
 
@@ -59,10 +60,11 @@ export class Adicionales {
     return (evento.target as HTMLElement).classList.contains(clase);
   }
 
+  telefono: string = '';
   soloNumeros(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^0-9]/g, '');
+    this.telefono = this.user.soloNumeros(event, undefined, undefined, 10);
   }
+
 
   soloTexto(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -179,47 +181,26 @@ export class Adicionales {
     evento.preventDefault();
     const formulario = evento.target as HTMLFormElement;
     const campos = new FormData(formulario);
-    const mensaje = this.obtenerMensajeCotizacion(servicio, campos);
-    this.redirigirAWhatsApp(mensaje);
+    this.redirigirAWhatsApp(this.constructoresMensaje[servicio]?.(campos)
+      ?? `Hola, quiero solicitar una cotización de: ${servicio}`
+    );
+    formulario.reset();
   }
 
-  private obtenerMensajeCotizacion(
-    servicio: string,
-    campos: FormData
-  ): string {
-    const constructor = this.constructoresMensaje[servicio];
-    return constructor
-      ? constructor(campos)
-      : `Hola, quiero solicitar una cotización de: ${servicio}`;
-  }
+  private readonly constructoresMensaje: Record<string, (campos: FormData) => string> = {
+    camaras: campos => this.construirMensaje('Hola, quiero cotizar cámaras de seguridad.',
+      campos, 'Cantidad de cámaras', 'cantidadCamaras', 'Tipo de instalación', 'tipoInstalacion'),
+    web: campos => this.construirMensaje('Hola, quiero cotizar una página web.',
+      campos, 'Tipo de página', 'tipoPagina')
+  };
 
-  private readonly constructoresMensaje: Record<string,
-    (campos: FormData) => string> = {
-      camaras: (campos) => this.construirMensajeCamaras(campos),
-      web: (campos) => this.construirMensajeWeb(campos)
-    };
-
-  private construirMensajeCamaras(campos: FormData): string {
-    const nombre = campos.get('nombre') as string;
-    const telefono = campos.get('telefono') as string;
-    const cantidad = campos.get('cantidadCamaras') as string;
-    const instalacion = campos.get('tipoInstalacion') as string;
-
-    return `Hola, quiero cotizar cámaras de seguridad.\n\n` +
-      `*Nombre:* ${nombre}\n` +
-      `*Teléfono:* ${telefono}\n` +
-      `*Cantidad de cámaras:* ${cantidad}\n` +
-      `*Tipo de instalación:* ${instalacion}`;
-  }
-
-  private construirMensajeWeb(campos: FormData): string {
-    const nombre = campos.get('nombre') as string;
-    const telefono = campos.get('telefono') as string;
-    const tipoPagina = campos.get('tipoPagina') as string;
-
-    return `Hola, quiero cotizar una página web.\n\n` +
-      `*Nombre:* ${nombre}\n` +
-      `*Teléfono:* ${telefono}\n` +
-      `*Tipo de página:* ${tipoPagina}`;
+  private construirMensaje(titulo: string, campos: FormData, ...camposExtra: string[]): string {
+    const nombre = String(campos.get('nombre') ?? '').trim();
+    const telefono = String(campos.get('telefono') ?? '').replace(/\D/g, '');
+    const datos = [`*Nombre:* ${nombre}`, `*Teléfono:* ${telefono}`];
+    for (let i = 0; i < camposExtra.length; i += 2) {
+      datos.push(`*${camposExtra[i]}:* ${campos.get(camposExtra[i + 1]) ?? ''}`);
+    }
+    return `${titulo}\n\n${datos.join('\n')}`;
   }
 }

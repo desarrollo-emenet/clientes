@@ -94,9 +94,9 @@ export class FormPagos {
 
   private crearFormulario(): void {
     this.pagosForm = this.fb.nonNullable.group({
-      fechaPago: [null, [Validators.required]],
+      fechaPago: [new Date(), [Validators.required]],
       numOperacion: [null, [Validators.required, Validators.maxLength(30)]],
-      telefono: [null, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      telefono: [null, [Validators.required, Validators.pattern(/^\d{3}-\d{3}-\d{4}$/)]],
       clave: [null, [Validators.required]],
       comprobante: [null, [Validators.required]],
       monto: [null, [Validators.required, Validators.pattern(/^\d{1,5}$/)]],
@@ -135,14 +135,6 @@ export class FormPagos {
     this.baja = this.data.clasificacion === 'BAJA';
     if (this.baja) { this.pagosForm.disable(); }
     else { this.pagosForm.enable(); }
-  }
-
-  private cargarTelefono(): void {
-    const telefono =
-      this.data.telefono
-        ?.replace(/\s/g, '')
-        .substring(0, 10) ?? '';
-    this.pagosForm.patchValue({ telefono });
   }
 
   showSection(id: string): void {
@@ -226,9 +218,10 @@ export class FormPagos {
     this.limpiarErroresBackend();
 
     try {
-      await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
+      console.log('data', this.crearFormData());
+      //await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
       toast.success('Datos enviados');
-      this.pagosForm.reset();
+      this.limpiarFormulario();
     } catch (error) {
       const httpError = error as HttpErrorResponse;
       this.http.errorHttp(httpError, 'Error al enviar los datos');
@@ -238,6 +231,12 @@ export class FormPagos {
 
   }
 
+  limpiarFormulario(): void {
+    this.pagosForm.reset();
+    this.archivoSeleccionado = null as any;
+    this.selectedFile = null;
+    this.imagePreview = null;
+  }
 
   private crearFormData(): FormData {
     const raw = this.pagosForm.getRawValue();
@@ -250,7 +249,7 @@ export class FormPagos {
     formData.append('clave', raw.clave);
     formData.append('fechaPago', fecha.toISOString().split('T')[0]);
     formData.append('numOperacion', raw.numOperacion);
-    formData.append('telefono', raw.telefono);
+    formData.append('telefono', raw.telefono.replace(/\D/g, ''));
     formData.append('monto', raw.monto);
     formData.append('comprobante', this.archivoSeleccionado);
 
@@ -260,7 +259,6 @@ export class FormPagos {
 
   private asignarErrores(errors: any): void {
     Object.keys(errors).forEach(campo => {
-
       const control = this.pagosForm.get(campo);
       if (control) {
         //console.log(control);
@@ -342,11 +340,14 @@ export class FormPagos {
     return this.pagination.paginatedItems;
   }
 
+  private cargarTelefono(): void {
+    const telefono = this.data.telefono?.replace(/\s/g, '').substring(0, 10) ?? '';
+    const telefonoFormateado = this.user.formatearTextoTelefono(telefono);
+    this.pagosForm.patchValue({ telefono:telefonoFormateado });
+  }
+
   soloNumeros(event: Event, controlName: string, maxLength: number): void {
-    const input = event.target as HTMLInputElement;
-    const valor = input.value.replace(/\D/g, '').slice(0, maxLength);
-    input.value = valor;
-    this.pagosForm.get(controlName)?.setValue(valor, { emitEvent: false });
+    this.user.soloNumeros(event, this.pagosForm, controlName, maxLength);
   }
 
   contactarSoporte(): void {

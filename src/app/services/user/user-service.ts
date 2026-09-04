@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
 import { toast } from 'ngx-sonner';
 import { ObservableService } from '../utility/observable.service';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -62,29 +63,31 @@ export class UserService {
     }
   }
 
-  obtenerUsuarioAutenticado(route: ActivatedRoute): Observable<string | null> {
-    return route.paramMap.pipe(
-      switchMap(params => {
-        const numero = params.get('numero_cliente');
+  formatearTextoTelefono(valor: string, maxLength: number = 10): string {
+    if (!valor) return '';
+    const valorLimpio = valor.replace(/\D/g, '').slice(0, maxLength);
 
-        if (numero) {
-          return of(numero);
-        }
+    if (valorLimpio.length <= 3) {
+      return valorLimpio;
+    } else if (valorLimpio.length <= 6) {
+      return `${valorLimpio.slice(0, 3)}-${valorLimpio.slice(3)}`;
+    } else {
+      return `${valorLimpio.slice(0, 3)}-${valorLimpio.slice(3, 6)}-${valorLimpio.slice(6)}`;
+    }
+  }
 
-        return this.clientS.getAuthenticatedUser().pipe(
-          switchMap(user => {
-            const cliente = user?.cliente;
-
-            if (!cliente) {
-              toast.error('No se encontró información del cliente');
-              return of(null);
-            }
-
-            return of(cliente);
-          })
-        );
-      })
-    );
+  soloNumeros(event: Event, form?: FormGroup, controlName?: string, maxLength: number = 10): string {
+    const input = event.target as HTMLInputElement;
+    const valorFormateado = this.formatearTextoTelefono(input.value, maxLength);
+    if (form && controlName) {
+      input.value = valorFormateado;
+      form.get(controlName)?.setValue(valorFormateado, { emitEvent: false });
+    } else {
+      setTimeout(() => {
+        input.value = valorFormateado;
+      });
+    }
+    return valorFormateado;
   }
 
   obtenerServicioActivo(): string | null {

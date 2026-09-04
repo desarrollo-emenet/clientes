@@ -152,11 +152,11 @@
             <form class="cotizar-form" (submit)="enviarCotizacion($event, 'camaras')">
                 <div class="form-row">
                     <div class="form-field"><label>Tu nombre</label>
-                        <input type="text" placeholder="Nombre completo" required name="nombre" autocomplete="off" (input)="soloTexto($event)"/>
+                        <input type="text"  placeholder="Nombre completo" required name="nombre" autocomplete="off" (input)="soloTexto($event)"/>
                     </div>
 
                     <div class="form-field"><label>Teléfono</label>
-                        <input type="tel" placeholder="713 000 0000" required name="telefono" maxlength="10" (input)="soloNumeros($event)" autocomplete="off" />
+                        <input type="tel" [(ngModel)]="telefono"  placeholder="713 000 0000" required name="telefono"  (input)="soloNumeros($event)" autocomplete="off" />
                     </div>
                 </div>
 
@@ -323,7 +323,7 @@
                     </div>
                     <div class="form-field">
                         <label>Teléfono</label>
-                        <input type="tel" placeholder="713 000 0000" required name="telefono" maxlength="10" (input)="soloNumeros($event)" autocomplete="off" />
+                        <input type="tel" [(ngModel)]="telefono" placeholder="713 000 0000" required name="telefono" (input)="soloNumeros($event)" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-field">
