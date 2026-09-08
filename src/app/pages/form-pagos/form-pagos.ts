@@ -48,6 +48,7 @@ export class FormPagos {
 
   pagosForm!: FormGroup;
   data: any;
+  serv: any;
   maxDate = new Date();
   pagos: Pago[] = [];
   baja = false;
@@ -118,9 +119,10 @@ export class FormPagos {
       );
       this.ObservableService.actualizarObs(cliente.cliente, this.calculo.construirNotificaciones(cliente.cliente), cliente.servicios);
       this.data = cliente.cliente;
+      this.serv = cliente.servicios;
       this.pagos = pagos.pagos;
 
-      this.cargarTelefono();
+      this.cargarInfo();
       this.actualizarPaginacion();
       this.verificarEstadoCliente();
 
@@ -340,10 +342,13 @@ export class FormPagos {
     return this.pagination.paginatedItems;
   }
 
-  private cargarTelefono(): void {
+  private cargarInfo(): void {
     const telefono = this.data.telefono?.replace(/\s/g, '').substring(0, 10) ?? '';
     const telefonoFormateado = this.user.formatearTextoTelefono(telefono);
-    this.pagosForm.patchValue({ telefono:telefonoFormateado });
+    this.pagosForm.patchValue({ telefono: telefonoFormateado });
+
+    const totalMensual = this.calculo.calcularTotalMensual(this.serv);
+      this.pagosForm.patchValue({monto: totalMensual.toString()});
   }
 
   soloNumeros(event: Event, controlName: string, maxLength: number): void {
