@@ -126,22 +126,63 @@
 
 
 
+/* ==========================================
+   ESTILOS RESPONSIVOS PARA MÓVILES (NUEVO)
+   ========================================== */
 @media (max-width: 576px) {
+  .email-layout {
+    padding: 1.5rem 1rem;
+    align-items: stretch;
+  }
+
+  .auth-card {
+    border-radius: 22px;
+    border-width: 3px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .logo-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .logo-wrapper img {
+    height: 55px;
+  }
+
   .payment-container {
     border-radius: 24px;
     padding: 18px;
   }
 
+  /* Ocultamos el icono en móviles para liberar espacio */
   .header-icon {
-    width: 64px;
-    height: 64px;
-    font-size: 1.5rem;
+    display: none !important;
+  }
+
+  /* Reajustamos el encabezado para que el texto se centre sin el icono */
+  .payment-header {
+    display: block; /* Cambia a bloque para evitar desajustes de flexbox */
+    text-align: center; /* Centra el título y texto del encabezado */
+    margin-bottom: 1.5rem;
   }
 
   .header-content h2 {
     font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .header-content p {
+    font-size: 0.95rem;
+  }
+  
+  .submit-btn {
+    height: 54px; /* Un poco más cómoda para pantallas táctiles pequeñas */
+    border-radius: 14px;
   }
 }
+
 
 @property --angle {
   syntax: '<angle>';
