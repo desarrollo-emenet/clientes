@@ -18,22 +18,20 @@
                 <h4 class="hero-title">{{ getSaludo() }}</h4>
                 <h3 class="client-name"> {{ infoCliente.nombre }}</h3>
               </div>
-            <div class="client-id-pill">
-              <i class="fa-regular fa-id-card"></i>
-              <span>Cliente #{{ infoCliente.cliente }}</span>
-              <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(infoCliente.cliente)"
-                *ngIf="infoCliente.cliente">
-                <i class="fa-regular fa-copy"></i>
-              </button>
-            </div>
+              <div class="client-id-pill">
+                <i class="fa-regular fa-id-card"></i>
+                <span>Cliente #{{ infoCliente.cliente }}</span>
+                <button class="service-copy-btn" type="button" (click)="copiarAlPortapapeles(infoCliente.cliente)"
+                  *ngIf="infoCliente.cliente">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+              </div>
             </div>
             <div class="client-badges">
 
-              <span class="badge badge-success"
-                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
+              <span class="badge badge-success" *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
                   class="fa-solid fa-signal"></i> Conectado</span>
-              <span class="badge badge-danger"
-                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
+              <span class="badge badge-danger" *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
                   class="fa-solid fa-signal"></i> Suspendido</span>
               <span class="badge badge-secondary" *ngIf="!infoCliente.infoRed?.estado"><i
                   class="fa-solid fa-signal"></i> Conectando...</span>
@@ -42,7 +40,7 @@
             </div>
           </div>
         </div>
-<!-- client-actions -->
+        <!-- client-actions -->
         <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
           <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
             <div class="action-icon action-icon-blue">
@@ -62,7 +60,8 @@
             </div>
             <span class="action-label">Probar<br>velocidad</span>
           </button>
-          <button class="action-item" type="button" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">
+          <button class="action-item" type="button"
+            (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">
             <div class="action-icon action-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
@@ -221,7 +220,7 @@
     </ng-template>
 
   </main>
-  <ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1"/>
+  <ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1" />
 
 </div>
 
@@ -229,22 +228,53 @@
 
 <!-- SERVICIO BAJA -->
 <div class="modal-backdrop-custom" *ngIf="mostrarMensaje">
-  <div class="modal-card">
+  <div class="modal-card" [ngClass]="{'modal-baja': tipoMensaje === 'baja', 'modal-adeudo': tipoMensaje === 'adeudo'}">
     <button class="close-btn" (click)="mostrarMensaje = false;">✕</button>
 
-    <h4 class="text fw-bold">Servicio cancelado</h4>
-    <p class="mt-2">
-      Tu servicio <strong class="text-danger">{{ infoCliente.cliente }}</strong> se encuentra dado de baja.
-    </p>
-    <p class="text-muted">
-      Para continuar disfrutando de nuestros servicios de internet, es necesario contratar nuevamente.
-    </p>
+    <ng-container *ngIf="tipoMensaje === 'baja'">
 
-    <div class="d-flex gap-5 center-content">
-      <button class="btn btn-secondary mt-3" (click)="irAContratar()">
-        Contratar servicio
-      </button>
-      <button class="btn btn-secondary mt-3" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">Soporte WhatsApp</button>
-    </div>
+      <h4 class="text fw-bold">Servicio cancelado</h4>
+      <p class="mt-2">
+        Tu servicio <strong class="text-danger">{{ infoCliente.cliente }}</strong> se encuentra dado de baja.
+      </p>
+      <p class="text-muted">
+        Para continuar disfrutando de nuestros servicios de internet, es necesario contratar nuevamente.
+      </p>
+
+      <div class="d-flex gap-5 center-content">
+        <button class="btn btn-secondary mt-3" (click)="irAContratar()">
+          Contratar servicio
+        </button>
+        <button class="btn btn-secondary mt-3"
+          (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda.')">Soporte WhatsApp</button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tipoMensaje === 'adeudo'">
+      <div class="payment-alert-icon">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+      </div>
+      <h4 class="payment-title">Tienes un pago pendiente</h4>
+
+      <p class="payment-description">Tu servicio <strong>{{ infoCliente.cliente }}</strong> tiene un saldo pendiente de pago.</p>
+      <div class="payment-amount">${{ infoCliente.deuda | number:'1.2-2' }}</div>
+      <div class="payment-label">Saldo pendiente</div>
+
+      <p class="payment-message">Realiza tu pago para mantener tu servicio activoy continuar disfrutando de tu conexión a internet.</p>
+
+      <div class="payment-actions">
+        <button class="btn-payment" [routerLink]="['/estadoCuenta', infoCliente.cliente]">
+          <i class="fa-solid fa-credit-card"></i>Ver estado de cuenta
+        </button>
+        <button class="btn-whatsapp" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
+          <i class="fa-solid fa-file-circle-plus"></i>Registrar pago
+        </button>
+      </div>
+
+      <div class="payment-footer">
+        <i class="fa-solid fa-circle-info"></i>Evita la suspensión de tu servicio realizando tu pago.
+      </div>
+
+    </ng-container>
   </div>
 </div>

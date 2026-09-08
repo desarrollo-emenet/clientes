@@ -1230,6 +1230,133 @@
   transform: translateY(-2px);
 }
 
+/* =====================================
+   MODAL DE ADEUDO
+===================================== */
+
+.modal-adeudo {
+  max-width: 480px;
+  padding: 32px 30px 24px;
+}
+
+.payment-alert-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff4df;
+  color: #ff3b30;
+  font-size: 25px;
+}
+
+.payment-title {
+  margin: 0;
+  font-size: 23px;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+}
+
+.payment-description {
+  margin: 12px auto 0;
+  max-width: 390px;
+  text-align: center;
+  line-height: 1.5;
+  color: #5d6573;
+}
+
+.payment-description strong {
+  color: #0b4e94;
+}
+
+.payment-amount {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #ff3b30;;
+  line-height: 1.1;
+}
+
+.payment-label {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff3b30;
+}
+
+.payment-message {
+  margin: 18px auto 0;
+  max-width: 390px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #626b78;
+}
+
+.payment-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.btn-payment,
+.btn-whatsapp {
+  flex: 1;
+  min-height: 48px;
+  border: none;
+  border-radius: 11px;
+  font-weight: 600;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.btn-payment {
+  background: #0b4e94;
+  color: white;
+  box-shadow: 0 5px 14px rgba(11, 78, 148, .25);
+}
+
+.btn-payment:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(11, 78, 148, .32);
+}
+
+.btn-whatsapp {
+  background: #f3f5f7;
+  color: #27313d;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  background: #e9edf1;
+}
+
+.btn-payment i,
+.btn-whatsapp i {
+  margin-right: 7px;
+}
+
+.payment-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 12px;
+  color: #8a919c;
+  text-align: center;
+}
+
+.payment-footer i {
+  font-size: 12px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 480px) {
   .modal-card {

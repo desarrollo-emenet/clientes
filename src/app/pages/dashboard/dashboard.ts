@@ -21,6 +21,8 @@ import { Preloader } from '../../shared/preloader/preloader';
 })
 export class Dashboard implements OnInit {
   mostrarMensaje!: boolean;
+  tipoMensaje: 'baja' | 'adeudo' | null = null;
+
   infoCliente!: infoCliente;
   loading!: boolean;
   servicios: any = { internet: [] };
@@ -47,12 +49,12 @@ export class Dashboard implements OnInit {
       const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
       this.infoCliente = cliente;
       this.servicios = servicios;
-      if (this.infoCliente.clasificacion === 'BAJA') this.mostrarMensaje = true;
+      this.verificarMensajes(this.infoCliente);
       this.ObservableService.actualizarObs(cliente, this.calculo.construirNotificaciones(cliente), servicios)
       this.totalMensual = this.calculo.calcularTotalMensual(servicios)
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
-    }finally{
+    } finally {
       this.loading = false;
     }
   }
@@ -74,8 +76,19 @@ export class Dashboard implements OnInit {
 
   protected getSaludo(): string {
     const hour = new Date().getHours();
-    if (hour >= 6 && hour < 12) {return 'Buenos días';}
-    if (hour >= 12 && hour < 19) {return 'Buenas tardes';}
+    if (hour >= 6 && hour < 12) { return 'Buenos días'; }
+    if (hour >= 12 && hour < 19) { return 'Buenas tardes'; }
     return 'Buenas noches';
+  }
+
+  private verificarMensajes(cliente: any): void {
+    if (cliente.clasificacion === 'BAJA') {
+      this.tipoMensaje = 'baja'; this.mostrarMensaje = true;
+      return;
+    }
+    const dia = new Date().getDate();
+    if (dia >= 5 && Number(cliente.deuda) > 0) {
+      this.tipoMensaje = 'adeudo'; this.mostrarMensaje = true;
+    }
   }
 }
