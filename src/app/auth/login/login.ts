@@ -17,7 +17,6 @@ import { HttpService } from '../../services/utility/http.service';
 })
 
 export class Login implements OnInit {
-  mostrarAyuda!: boolean;
   loginForm: FormGroup;
   loading!: boolean;
   showPassword!: boolean;
@@ -41,10 +40,10 @@ export class Login implements OnInit {
   @HostListener('document:keydown.escape')
 
   ngOnInit() {
-    if(this.messaggeSuccess) toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
+    if (this.messaggeSuccess) toast.success('Cuenta creada. Revisa tu correo para validar tu cuenta');
     const sesion = this.api.getToken();
     const servicio = localStorage.getItem('servicio_activo');
-    this.router.navigate(sesion && servicio ? ['/dashboard', servicio] : ['/servicios']);    
+    this.router.navigate(sesion && servicio ? ['/dashboard', servicio] : ['/servicios']);
   }
 
   protected async login(): Promise<void> {
@@ -54,15 +53,15 @@ export class Login implements OnInit {
       return;
     }
 
-    try{
+    try {
       this.loading = true;
       const { token, numero_cliente } = await firstValueFrom(this.api.login(this.loginForm.value));
       if (token) sessionStorage.setItem('authToken', token);
       toast.success('Sesión iniciada correctamente');
       this.router.navigate(['/dashboard', numero_cliente]);
-    }catch(error){
+    } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al iniciar sesión');
-    }finally{
+    } finally {
       this.loading = false;
     }
   }
@@ -73,4 +72,22 @@ export class Login implements OnInit {
   get password() {
     return this.loginForm.controls['password'];
   }
+
+  mostrarAyuda = false;
+  tutorialAbierto = false;
+
+
+  abrirTutorial(): void {
+    this.tutorialAbierto = true;
+  }
+
+  cerrarTutorial(): void {
+    this.tutorialAbierto = false;
+  }
+
+  cerrarAyuda(): void {
+    this.mostrarAyuda = false;
+    this.tutorialAbierto = false;
+  }
+
 }
