@@ -90,4 +90,18 @@ export class Login implements OnInit {
     this.tutorialAbierto = false;
   }
 
+  verTutorialCompleto(): void {
+  const elemento = document.querySelector(
+    '.tutorial-view__video'
+  ) as HTMLElement | null;
+
+  if (!elemento) return;
+
+  if (!document.fullscreenElement) {
+    elemento.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
 }

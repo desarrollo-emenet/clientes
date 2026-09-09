@@ -230,10 +230,12 @@
       <div class="tutorial-view" *ngIf="tutorialAbierto">
 
         <div class="tutorial-view__video">
-          <iframe src="https://www.youtube.com/embed/fYIApXngg_M?rel=0" title="Tutorial para crear cuenta"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+          <img src="assets/img/gif/crearCuenta.gif" alt="Tutorial para crear cuenta" class="tutorial-view__gif">
+          <button type="button" class="tutorial-view__fullscreen" aria-label="Ver tutorial en pantalla completa"
+            title="Pantalla completa" (click)="verTutorialCompleto()">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+
         </div>
         <div class="tutorial-view__info">
           <div class="tutorial-view__icon">
@@ -242,8 +244,7 @@
           <div>
             <h4>Aprende a crear tu cuenta</h4>
             <p>
-              Sigue el tutorial para conocer el proceso
-              de registro y acceder a tu cuenta de cliente.
+              Sigue el tutorial para conocer el proceso de registro y acceder a tu cuenta de cliente.
             </p>
           </div>
         </div>
