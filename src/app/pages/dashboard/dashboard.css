@@ -1470,3 +1470,505 @@
     display: block;
   }
 }
+
+.tutorial-view {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  gap: 16px;
+  overflow-y: auto;
+}
+.tutorial-view__info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.tutorial-view__icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: rgba(11, 78, 148, 0.10);
+  color: #0b4e94;
+  font-size: 0.95rem;
+}
+
+.tutorial-view__info h4 {
+  margin: 1px 0 4px;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.tutorial-view__info p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.tutorial-view__back-button {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #dbe4f0;
+  border-radius: 11px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tutorial-view__back-button i {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.tutorial-view__back-button:hover {
+  background: #f8fafc;
+  border-color: #bfdbfe;
+  color: #0b4e94;
+}
+
+.tutorial-view__back-button:hover i {
+  transform: translateX(-3px);
+}
+
+.tutorial-view__back-button:active {
+  transform: scale(0.98);
+}
+
+.tutorial-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.tutorial-header__back {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #475569;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tutorial-header__back:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #0b4e94;
+}
+
+.tutorial-header__text {
+  min-width: 0;
+}
+
+.tutorial-header__text span {
+  display: block;
+  margin-bottom: 1px;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tutorial-header__text h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+@media (min-width: 992px) {
+  .tutorial-view {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .tutorial-view {
+    padding: 16px;
+    gap: 14px;
+  }
+  .tutorial-view__info {
+    padding: 13px;
+  }
+  .tutorial-view__info h4 {
+    font-size: 0.92rem;
+  }
+  .tutorial-view__info p {
+    font-size: 0.76rem;
+  }
+  .tutorial-view__back-button {
+    min-height: 44px;
+  }
+}
+
+.tutorial-launch {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding: 14px 16px;
+  border: 1px solid #e4eaf1;
+  border-radius: 14px;
+  background: #fff;
+  color: #172b4d;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.tutorial-launch:hover {
+  transform: translateY(-2px);
+  border-color: #0b4e94;
+  box-shadow: 0 8px 24px rgba(11, 78, 148, .10);
+  background: #f8fbff;
+}
+
+.tutorial-launch__icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #eef5fc;
+  color: #0b4e94;
+  font-size: 20px;
+}
+
+.tutorial-launch__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tutorial-launch__content strong {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tutorial-launch__content small {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #7a8798;
+}
+
+.tutorial-launch__arrow {
+  color: #9aa8b8;
+  font-size: 13px;
+  transition: transform .2s ease;
+}
+
+.tutorial-launch:hover .tutorial-launch__arrow {
+  transform: translateX(3px);
+}
+
+.tutorial-view {
+  width: 100%;
+  animation: tutorialIn .25s ease;
+}
+
+@keyframes tutorialIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.tutorial-view__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.tutorial-view__header > div {
+  flex: 1;
+}
+
+.tutorial-view__header span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0b4e94;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+}
+
+.tutorial-view__header h3 {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.tutorial-view__back,
+.tutorial-view__close {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  background: #f4f7fa;
+  color: #536274;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.tutorial-view__back:hover,
+.tutorial-view__close:hover {
+  background: #eaf1f8;
+  color: #0b4e94;
+}
+
+
+.tutorial-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+
+.tutorial-view__video {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  background: #0f172a;
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.14),
+    0 3px 10px rgba(15, 23, 42, 0.08);
+}
+
+.tutorial-view__gif {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0f172a;
+}
+
+.tutorial-view__fullscreen {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.78);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.tutorial-view__fullscreen i {
+  font-size: 0.85rem;
+}
+
+.tutorial-view__fullscreen:hover {
+  background: #0b4e94;
+  transform: translateY(-2px);
+}
+
+.tutorial-view__fullscreen:active {
+  transform: scale(0.94);
+}
+
+
+.tutorial-view__info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.tutorial-view__icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: rgba(11, 78, 148, 0.1);
+  color: #0b4e94;
+  font-size: 0.95rem;
+}
+
+.tutorial-view__info h4 {
+  margin: 1px 0 4px;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.tutorial-view__info p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.tutorial-view__back-button {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #dbe4f0;
+  border-radius: 11px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tutorial-view__back-button:hover {
+  background: #f8fafc;
+  border-color: #bfdbfe;
+  color: #0b4e94;
+}
+
+.tutorial-view__back-button i {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.tutorial-view__back-button:hover i {
+  transform: translateX(-3px);
+}
+
+.tutorial-view__back-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 576px) {
+
+  .tutorial-view {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .tutorial-view__video {
+    border-radius: 14px;
+  }
+
+  .tutorial-view__fullscreen {
+    right: 10px;
+    bottom: 10px;
+
+    width: 36px;
+    height: 36px;
+  }
+
+  .tutorial-view__info {
+    padding: 13px;
+  }
+
+  .tutorial-view__info h4 {
+    font-size: 0.92rem;
+  }
+
+  .tutorial-view__info p {
+    font-size: 0.76rem;
+  }
+
+  .tutorial-view__back-button {
+    min-height: 44px;
+  }
+}
+
+.tutorial-view__video:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tutorial-view__video:fullscreen .tutorial-view__gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tutorial-view__video:fullscreen .tutorial-view__fullscreen {
+  right: 20px;
+  bottom: 20px;
+}

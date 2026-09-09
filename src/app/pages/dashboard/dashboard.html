@@ -156,21 +156,6 @@
           </div>
         </div>
 
-        <!-- Estado de Cuenta -->
-        <!-- <div class="service-item">
-          <div class="service-icon service-icon-blue-light">
-            <i class="fa-regular fa-file-lines"></i>
-          </div>
-          <div class="service-content">
-            <div class="service-label">Estado de Cuenta</div>
-            <div class="service-value">MXN {{ calculo.calcularTotalMensual(servicios) || 0 |
-              currency:'MXN':'symbol-narrow':'1.0-0' }}</div>
-            <div class="service-sub">Último pago: {{ calculo.getMesPagoReciente(servicios) || 'N/A' }}
-              git c
-            </div>
-          </div>
-        </div> -->
-
         <!-- Telefonía -->
         <div class="service-item" *ngIf="(servicios.telefono?.canServicios ?? 0) > 0">
           <div class="service-icon service-icon-purple">
@@ -228,10 +213,11 @@
 
 <!-- SERVICIO BAJA -->
 <div class="modal-backdrop-custom" *ngIf="mostrarMensaje">
-  <div class="modal-card" [ngClass]="{'modal-baja': tipoMensaje === 'baja', 'modal-adeudo': tipoMensaje === 'adeudo'}">
-    <button class="close-btn" (click)="mostrarMensaje = false;">✕</button>
+  <div class="modal-card"
+    [ngClass]="{'modal-baja': tipoMensaje === 'baja', 'modal-adeudo': tipoMensaje === 'adeudo', }">
+    <button class="close-btn" (click)="mostrarMensaje = false; cerrarTutorial()">✕</button>
 
-    <ng-container *ngIf="tipoMensaje === 'baja'">
+    <ng-container *ngIf="tipoMensaje === 'baja' && !tutorialAbierto">
 
       <h4 class="text fw-bold">Servicio cancelado</h4>
       <p class="mt-2">
@@ -250,17 +236,19 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="tipoMensaje === 'adeudo'">
+    <ng-container *ngIf="tipoMensaje === 'adeudo' && !tutorialAbierto">
       <div class="payment-alert-icon">
         <i class="fa-solid fa-file-invoice-dollar"></i>
       </div>
       <h4 class="payment-title">Tienes un pago pendiente</h4>
 
-      <p class="payment-description">Tu servicio <strong>{{ infoCliente.cliente }}</strong> tiene un saldo pendiente de pago.</p>
+      <p class="payment-description">Tu servicio <strong>{{ infoCliente.cliente }}</strong> tiene un saldo pendiente de
+        pago.</p>
       <div class="payment-amount">${{ infoCliente.deuda | number:'1.2-2' }}</div>
       <div class="payment-label">Saldo pendiente</div>
 
-      <p class="payment-message">Realiza tu pago para mantener tu servicio activoy continuar disfrutando de tu conexión a internet.</p>
+      <p class="payment-message">Realiza tu pago para mantener tu servicio activoy continuar disfrutando de tu conexión
+        a internet.</p>
 
       <div class="payment-actions">
         <button class="btn-payment" [routerLink]="['/estadoCuenta', infoCliente.cliente]">
@@ -270,9 +258,80 @@
           <i class="fa-solid fa-file-circle-plus"></i>Registrar pago
         </button>
       </div>
+      <br>
+
+      <div class="tutorials-section">
+        <div class="tutorials-section__header">
+          <div>
+            <strong>¿Necesitas ayuda?</strong>
+            <span>Consulta nuestros tutoriales</span>
+          </div>
+        </div>
+
+        <div class="tutorials-section__buttons">
+          <button type="button" class="tutorial-launch" (click)="abrirTutorial('estadoCuenta')">
+            <span class="tutorial-launch__icon"><i class="fa-solid fa-user-plus"></i></span>
+            <span class="tutorial-launch__content">
+              <strong>Estado de cuenta</strong><small>Aprende a pagar en linea</small>
+            </span>
+            <i class="fa-solid fa-chevron-right tutorial-launch__arrow"></i>
+          </button>
+
+          <button type="button" class="tutorial-launch" (click)="abrirTutorial('registrarPago')">
+            <span class="tutorial-launch__icon"><i class="fa-solid fa-file-circle-plus"></i></span>
+            <span class="tutorial-launch__content">
+              <strong>Registrar un pago</strong><small>Aprende a enviar tu comprobante</small>
+            </span>
+            <i class="fa-solid fa-chevron-right tutorial-launch__arrow"></i>
+          </button>
+        </div>
+      </div>
 
       <div class="payment-footer">
         <i class="fa-solid fa-circle-info"></i>Evita la suspensión de tu servicio realizando tu pago.
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tutorialAbierto">
+      <div class="tutorial-view">
+        <div class="tutorial-header">
+          <button type="button" class="tutorial-header__back" (click)="cerrarTutorial()" aria-label="Volver">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+
+          <div class="tutorial-header__text">
+            <span>Tutorial</span>
+            <h3>{{ tutorialSeleccionado === 'estadoCuenta' ? 'Estado de cuenta' : 'Registrar un pago'}}</h3>
+          </div>
+        </div>
+
+        <div class="tutorial-view__video">
+          <img class="tutorial-view__gif"
+            [src]="tutorialSeleccionado === 'estadoCuenta' ? 'assets/img/gif/pagoralia.gif' : 'assets/img/gif/pagosForm.gif'">
+
+          <button type="button" class="tutorial-view__fullscreen" aria-label="Ver tutorial en pantalla completa"
+            title="Pantalla completa" (click)="verTutorialCompleto()">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+
+        </div>
+
+        <div class="tutorial-view__info">
+          <div class="tutorial-view__icon"><i class="fa-solid fa-circle-play"></i></div>
+          <div>
+            <h4>
+              {{ tutorialSeleccionado === 'estadoCuenta' ? 'Aprende a pagar desde estado de cuenta' : 'Aprende a registrar tu pago' }}
+            </h4>
+            <p>
+              {{tutorialSeleccionado === 'estadoCuenta' ? 'Sigue el tutorial para conocer el proceso de pago en linea.'
+              : 'Sigue el tutorial para conocer cómo registrar correctamente tu comprobante de pago.' }}
+            </p>
+          </div>
+        </div>
+
+        <button type="button" class="tutorial-view__back-button" (click)="cerrarTutorial()">
+          <i class="fa-solid fa-arrow-left"></i> Volver a la información de pago
+        </button>
       </div>
 
     </ng-container>

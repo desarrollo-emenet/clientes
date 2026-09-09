@@ -22,6 +22,8 @@ import { Preloader } from '../../shared/preloader/preloader';
 export class Dashboard implements OnInit {
   mostrarMensaje!: boolean;
   tipoMensaje: 'baja' | 'adeudo' | null = null;
+  tutorialAbierto = false;
+  tutorialSeleccionado: 'estadoCuenta' | 'registrarPago' | null = null;
 
   infoCliente!: infoCliente;
   loading!: boolean;
@@ -89,6 +91,23 @@ export class Dashboard implements OnInit {
     const dia = new Date().getDate();
     if (dia >= 5 && Number(cliente.deuda) > 0) {
       this.tipoMensaje = 'adeudo'; this.mostrarMensaje = true;
+    }
+  }
+  
+  abrirTutorial(tutorial: 'estadoCuenta' | 'registrarPago'): void {
+    this.tutorialSeleccionado = tutorial;
+    this.tutorialAbierto = true;
+  }
+  
+  cerrarTutorial(): void {this.tutorialAbierto = false;}
+
+  verTutorialCompleto(): void {
+    const elemento = document.querySelector('.tutorial-view__video') as HTMLElement | null;
+    if (!elemento) return;
+    if (!document.fullscreenElement) {
+      elemento.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
     }
   }
 }
