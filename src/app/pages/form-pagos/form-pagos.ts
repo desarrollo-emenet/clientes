@@ -172,7 +172,8 @@ export class FormPagos {
   onDrop(event: DragEvent) {
     event.preventDefault(); event.stopPropagation();
     const file = event.dataTransfer?.files?.[0];
-    if (file) { this.processFile(file); }
+    if (!file) { return; }
+    this.processFile(file);
   }
 
   private async processFile(file: File) {
@@ -199,10 +200,12 @@ export class FormPagos {
       this.imagePreview = 'assets/img/pdf.webp';
     }
 
-    this.pagosForm.patchValue({
-      comprobante: compressedFile
-    });
-    this.pagosForm.get('comprobante')?.updateValueAndValidity();
+    const comprobanteControl = this.pagosForm.get('comprobante');
+
+    comprobanteControl?.setValue(compressedFile);
+    comprobanteControl?.markAsDirty();
+    comprobanteControl?.markAsTouched();
+    comprobanteControl?.updateValueAndValidity();
   }
 
   protected async enviarPago(): Promise<void> {
@@ -348,7 +351,7 @@ export class FormPagos {
     this.pagosForm.patchValue({ telefono: telefonoFormateado });
 
     const totalMensual = this.calculo.calcularTotalMensual(this.serv);
-      this.pagosForm.patchValue({monto: totalMensual.toString()});
+    this.pagosForm.patchValue({ monto: totalMensual.toString() });
   }
 
   soloNumeros(event: Event, controlName: string, maxLength: number): void {

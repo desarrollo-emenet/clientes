@@ -251,7 +251,7 @@
                   (drop)="onDrop($event)" (click)="fileInput.click()">
 
                   <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
-                    formControlName="comprobante" class="form-control upload-input" style="display: none">
+                     class="form-control upload-input" style="display: none">
 
                   <ng-container *ngIf="!imagePreview; else preview">
                     <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
