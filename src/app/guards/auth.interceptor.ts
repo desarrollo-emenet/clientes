@@ -6,7 +6,7 @@ import { toast } from 'ngx-sonner';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const token = sessionStorage.getItem('authToken');
+  const token = localStorage.getItem('authToken');
 
   // Clonar la petición HTTP real para meterle el Token de Laravel
   let authReq = req;
@@ -23,7 +23,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       // Si Laravel responde 401, el token fue eliminado por el límite de 2 sesiones
       if (error.status === 401 && !isLoginRequest  && teniaToken) {
-        sessionStorage.clear(); 
+        localStorage.clear(); 
         setTimeout(() => toast.error('Tu sesión ha expirado o se inició en otro dispositivo'), 0);
         router.navigate(['/iniciar-sesion']);
       }

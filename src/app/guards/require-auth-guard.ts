@@ -13,5 +13,5 @@ export const requireAuthGuard: CanActivateFn = (route, state) => {
 };
 
 export function hasToken(): boolean {
-  return !!sessionStorage.getItem('authToken');
+  return !!localStorage.getItem('authToken');
 }

@@ -19,7 +19,7 @@ export class LoginS {
   private apiUrl = environment.apiUrl
 
   public getToken(): string | null {
-    return sessionStorage.getItem('authToken');
+    return localStorage.getItem('authToken');
   }
   getHeaders(): HttpHeaders {
     const token = this.getToken();

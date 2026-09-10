@@ -56,7 +56,7 @@ export class Login implements OnInit {
     try {
       this.loading = true;
       const { token, numero_cliente } = await firstValueFrom(this.api.login(this.loginForm.value));
-      if (token) sessionStorage.setItem('authToken', token);
+      if (token) localStorage.setItem('authToken', token);
       toast.success('Sesión iniciada correctamente');
       this.router.navigate(['/dashboard', numero_cliente]);
     } catch (error) {
