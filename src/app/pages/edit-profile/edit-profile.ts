@@ -11,6 +11,7 @@ import { HttpService } from '../../services/utility/http.service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { CalculoService } from '../../services/utility/calculo.service';
 import { UserService } from '../../services/user/user-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -35,7 +36,8 @@ export class EditProfile {
     private calculo: CalculoService,
     protected passwordService: PasswordService,
     private ObservableService: ObservableService,
-    private user: UserService
+    private user: UserService,
+    private router: Router
   ) {
     this.updateForm = this.fb.group({
       email: [null, [Validators.email]],
@@ -51,7 +53,7 @@ export class EditProfile {
       this.passwordStrength = this.passwordService.calculateStrength(val);
     });
     this.ObservableService.cliente$.subscribe(info => this.infoCliente = info)
-    if(!this.infoCliente.cliente) this.loadClientData(clienteActivo ?? '');
+    if (!this.infoCliente.cliente) this.loadClientData(clienteActivo ?? '');
   }
 
   protected async loadClientData(numeroCliente: string): Promise<void> {
@@ -76,21 +78,31 @@ export class EditProfile {
       this.loading = true;
       const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
       const response = await firstValueFrom(this.clientS.updateUser(user.id, this.updateForm.value));
-      this.onUpdateSuccess(response);
+      this.handleLogout(response);
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar los datos.")
     } finally {
       this.loading = false;
     }
-  } 
-
-  private onUpdateSuccess(response:any): void {
-    toast.success(response.mensaje);
-    this.updateForm.reset();
-    setTimeout(() => {
-      this.auth.goNavigate('/dashboard');
-    }, 3500);
   }
+
+  protected async handleLogout(response: any): Promise<void> {
+    try {
+      toast.success(response.mensaje);
+
+      await firstValueFrom(this.auth.logout());
+      this.auth.clearToken();
+      setTimeout(() => { this.auth.goNavigate('/iniciar-sesion'); }, 1000);
+    } catch (e) {
+      const error = e as HttpErrorResponse;
+      this.auth.clearToken();
+      this.router.navigate(['/iniciar-sesion']);
+      if (error?.status !== 401) {
+        toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
+      }
+    }
+  }
+
 
   ngOnDestroy(): void {
     if (this.passwordSub) {
