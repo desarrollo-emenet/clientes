@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mi emenet</string>
+    <string name="title_activity_main">Mi emenet</string>
+    <string name="package_name">com.miemenet.app</string>
+    <string name="custom_url_scheme">com.miemenet.app</string>
+</resources>

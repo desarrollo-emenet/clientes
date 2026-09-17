@@ -15,6 +15,10 @@ import { ObservableService } from '../../services/utility/observable.service';
 import { infoCliente } from '../../models/info-cliente';
 import { FormService } from '../../services/pagoralia/form.service';
 
+import { FileOpener } from '@capawesome-team/capacitor-file-opener';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+
 @Component({
   selector: 'app-client',
   imports: [CurrencyPipe, CommonModule, RouterLink, NgClass, Preloader],
@@ -64,25 +68,63 @@ export class Client implements OnInit {
   }
 
   protected async informePdf() {
-     const numeroCliente = this.user.obtenerServicioActivo();
+    const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
 
     this.loading = true
 
     try {
-      const urlPdf  = await firstValueFrom(this.clientS.obtenerLink(numeroCliente));
-      console.log('URL del PDF recibido:', urlPdf.url); // Agrega este log para verificar la URL recibida
-      const blob = await firstValueFrom(this.clientS.informePdf(urlPdf.url));
-      console.log('Blob recibido:', blob); // Agrega este log para verificar el blob recibido
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `informe_${numeroCliente}.pdf`;
-      document.body.appendChild(a);
-      a.click();
+      const urlPdf = await firstValueFrom(this.clientS.obtenerLink(numeroCliente));
 
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      if (urlPdf.url) {
+        const blob = await firstValueFrom(this.clientS.informePdf(urlPdf.url));
+
+        const nombreArchivo = `informe_${numeroCliente}.pdf`;
+
+        if (Capacitor.isNativePlatform()) {
+          await new Promise<void>((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(blob);
+
+            fileReader.onloadend = async () => {
+              try {
+                const base64data = fileReader.result as string;
+                const base64Limpio = base64data.split(',')[1];
+
+                const archivoGuardado = await Filesystem.writeFile({
+                  path: nombreArchivo,
+                  data: base64Limpio,
+                  directory: Directory.Cache,
+                });
+
+                await FileOpener.openFile({
+                  path: archivoGuardado.uri,
+                  mimeType: 'application/pdf'
+                });
+                resolve();
+              } catch (err) {
+                console.error('Error interno en el puente nativo:', err);
+                reject(err);
+              }
+            };
+            fileReader.onerror = (error) => reject(error);
+          });
+
+        } else {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = nombreArchivo;
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }
+      }
+      else {
+        toast.error('Error al descargar el informe');
+      }
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
@@ -90,12 +132,12 @@ export class Client implements OnInit {
     }
   }
 
-  protected async generarPago(): Promise<void>{
+  protected async generarPago(): Promise<void> {
     const formPago = this.FormPago.generarDatos(this.infoCliente, this.servicios);
     if (!formPago.valid) return console.log("no se pudo generar la orden");
     try {
       this.loadingPago = true;
-      const {data} = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
+      const { data } = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
       window.open(data.redirect_url, '_blank');
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
@@ -105,14 +147,52 @@ export class Client implements OnInit {
   }
 
 
-
-
   protected async obtenerTickets(venta: string): Promise<void> {
     this.loading = true;
     try {
-      const response = await firstValueFrom(this.clientS.ticket(venta));
+      const response = await firstValueFrom(this.clientS.obtenerLinkTicket(venta));
+      //console.log('Res:', response);
       if (response.url) {
-        this.urlNueva = this.sanitizer.bypassSecurityTrustResourceUrl(response.url);
+        const blob = await firstValueFrom(this.clientS.ticket(response.url));
+        //console.log('Blob:', blob);
+        const nombreTicket = `ticket_${venta}.pdf`;
+
+        if (Capacitor.isNativePlatform()) {
+
+          await new Promise<void>((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(blob);
+
+            fileReader.onloadend = async () => {
+              try {
+                const base64data = fileReader.result as string;
+                const base64Limpio = base64data.split(',')[1];
+
+                const archivoGuardado = await Filesystem.writeFile({
+                  path: nombreTicket,
+                  data: base64Limpio,
+                  directory: Directory.Cache,
+                });
+
+                await FileOpener.openFile({
+                  path: archivoGuardado.uri,
+                  mimeType: 'application/pdf'
+                });
+
+                resolve();
+              } catch (err) {
+                //console.error('Error al guardar o abrir ticket:', err);
+                toast.error('Error al guardar o abrir el ticket');
+                reject(err);
+              }
+            };
+
+            fileReader.onerror = (error) => reject(error);
+          });
+
+        } else {
+          this.urlNueva = this.sanitizer.bypassSecurityTrustResourceUrl(response.url);
+        }
       } else {
         toast.error('Error al descargar el ticket');
       }
@@ -142,6 +222,5 @@ export class Client implements OnInit {
     if (this.showPagoModal) {
       this.cerrarPagoModal();
     }
-  }
-
+  }  
 }

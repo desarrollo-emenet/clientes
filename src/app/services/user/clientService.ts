@@ -98,9 +98,13 @@ export class ClientService {
   }
 
   //ticket
-  ticket(venta: string): Observable<any>{
+  obtenerLinkTicket(venta: string): Observable<any>{
     const headers = this.getHeaders(true);
     return this.http.get<any>(`${this.apiUrl2}/clientesV3-ticket/${venta}?tipo=comprobanteDescarga`, { headers: headers });
+  }
+
+  ticket(url: string): Observable<any>{
+    return this.http.get(`${url}`,{ responseType: 'blob' });
   }
 
   //pdf informe blob datos binarios
