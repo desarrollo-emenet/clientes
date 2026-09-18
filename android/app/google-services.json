@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792338621207",
+    "project_id": "notificacionespush-4f384",
+    "storage_bucket": "notificacionespush-4f384.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792338621207:android:699bb3b0a1810114b84d52",
+        "android_client_info": {
+          "package_name": "com.miemenet.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLL2WDsEtITGyfOvWYT1J5X4E5LvzCa7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

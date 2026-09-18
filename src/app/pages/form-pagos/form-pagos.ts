@@ -223,7 +223,7 @@ export class FormPagos {
     this.limpiarErroresBackend();
 
     try {
-      console.log('data', this.crearFormData());
+      //console.log('data', this.crearFormData());
       await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
       toast.success('Datos enviados');
       this.limpiarFormulario();

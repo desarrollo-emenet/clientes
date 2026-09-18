@@ -1,13 +1,18 @@
 import { Component, signal, HostListener, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Footer } from './shared/footer/footer';
 import { Header } from './shared/header/header';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavComponent } from './shared/nav/nav';
 import { filter } from 'rxjs/operators';
 import { NgIf, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
-
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications'
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-root',
@@ -59,7 +64,10 @@ export class App implements OnDestroy {
 
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private platform: Platform) {
+
+    if (this.platform.ANDROID) { this.initPush(); }
+
     this.actualizarVistas(window.location.pathname);
 
     this.rutaSub = this.router.events
@@ -97,4 +105,35 @@ export class App implements OnDestroy {
     this.showheader = !this.rutasSinNav.includes(urlLimpia);
     this.showFooter = !this.rutasSinFooter.some(r => urlLimpia.startsWith(r));
   }
+
+  initPush(): void {
+    //console.log('Iniciando Push Notifications...');
+
+    PushNotifications.requestPermissions().then((result) => {
+      if (result.receive === 'granted') {
+        PushNotifications.register();
+      } else {
+        console.error('Permiso de notificaciones denegado');
+      }
+    });
+
+    PushNotifications.addListener('registration', (token: Token) => {
+      alert('Push registration success, token: ' + token.value);
+    });
+
+    PushNotifications.addListener('registrationError', (error: any) => {
+      alert('Push registration error: ' + error);
+    });
+
+    PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+      alert('Push notification received: ' + JSON.stringify(notification));
+    });
+
+    PushNotifications.addListener('pushNotificationActionPerformed', (action: ActionPerformed) => {
+      alert('Push notification action performed: ' + JSON.stringify(action));
+    });
+  }
+
+
 }
+
