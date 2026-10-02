@@ -124,6 +124,21 @@
       <div class="help-panel__view" *ngIf="!tutorialAbierto">
 
         <section class="help-panel__section">
+
+          <p class="help-panel__section-label">
+            <i class="fa-solid fa-list-check"></i>Video Tutorial
+          </p>
+          <button type="button" class="tutorial-launch" (click)="abrirTutorial()">
+            <span class="tutorial-launch__icon">
+              <i class="fa-solid fa-circle-play"></i>
+            </span>
+            <span class="tutorial-launch__content">
+              <strong>Ver tutorial</strong>
+            </span>
+            <i class="fa-solid fa-chevron-right tutorial-launch__arrow"></i>
+          </button>
+          
+          <br>
           <p class="help-panel__section-label">
             <i class="fa-solid fa-list-check"></i>Pasos para acceder
           </p>
@@ -171,18 +186,7 @@
             </li>
           </ol>
 
-          <button type="button" class="tutorial-launch" (click)="abrirTutorial()">
-            <span class="tutorial-launch__icon">
-              <i class="fa-solid fa-circle-play"></i>
-            </span>
-
-            <span class="tutorial-launch__content">
-              <strong>Ver tutorial</strong>
-            </span>
-
-            <i class="fa-solid fa-chevron-right tutorial-launch__arrow"></i>
-
-          </button>
+          
         </section>
 
         <section class="help-panel__section">
