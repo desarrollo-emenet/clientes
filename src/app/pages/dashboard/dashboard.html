@@ -42,12 +42,20 @@
         </div>
         <!-- client-actions -->
         <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
-          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
+
+          <button class="action-item" routerLink="/edit-perfil">
+            <div class="action-icon action-icon-blue">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <span class="action-label">Datos de <br>acceso</span>
+          </button>
+
+          <!--<button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
             <div class="action-icon action-icon-blue">
               <i class="fa-solid fa-credit-card"></i>
             </div>
             <span class="action-label">Formas de<br>pago</span>
-          </button>
+          </button>-->          
 
           <button class="action-item" routerLink="/speedtest">
             <div class="action-icon action-icon-kingblue">
