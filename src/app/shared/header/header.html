@@ -2,10 +2,10 @@
   <div class="container-fluid d-flex align-items-center justify-content-between py-2">
 
     <div class="d-flex align-items-center">
-      <div class="d-flex me-3" href="#">
+      <div class="d-flex me-3" routerLinkActive="active" (click)="auth.goNavigate('/dashboard')">
         <img src="assets/img/logo.png" alt="Logo" height="40">
       </div>
-      <h5 class="mb-0 fw-bold text-dark">Mi emenet</h5>
+      <h5 class="mb-0 fw-bold text-dark"routerLinkActive="active" (click)="auth.goNavigate('/dashboard')">Mi emenet</h5>
     </div>
 
     <div class="header-nav d-none d-md-flex" *ngIf="showNavButtons">

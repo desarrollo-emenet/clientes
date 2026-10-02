@@ -9,6 +9,7 @@ import { ClientService } from '../../services/user/clientService';
 import { UserService } from '../../services/user/user-service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { CalculoService } from '../../services/utility/calculo.service';
+import { LoginS } from '../../services/auth/login';
 
 interface Noti {
   title: string;
@@ -30,7 +31,7 @@ export class Header implements OnInit {
   private ultimoNumeroCliente: string | null = null;
   private cargandoNotificaciones!: boolean;
 
-  constructor(private clientS: ClientService, private user: UserService, private router: Router,
+  constructor(private clientS: ClientService, private user: UserService, private router: Router, protected auth: LoginS,
     private ObservableService: ObservableService, private calculo: CalculoService,
   ) {}
 
