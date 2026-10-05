@@ -13,7 +13,7 @@ import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-user-menu',
-  imports: [CommonModule, RouterLink, AvatarModule, ],
+  imports: [CommonModule, RouterLink, AvatarModule,],
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.css'
 })
@@ -24,13 +24,13 @@ export class UserMenuComponent implements OnInit {
   cliente: any = { nombre: '', cliente: '', avatarUrl: '' };
   user: any;
 
-   avatarOptions: string[] = [
+  avatarOptions: string[] = [
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Mia',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucy',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Leo',
-  'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucy',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Leo',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe',
   ];
 
   constructor(
@@ -46,13 +46,13 @@ export class UserMenuComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.checkCurrentRoute();
     this.ObservableService.cliente$.subscribe(info => {
-      if(!info) {
-        return 
-      }
-        
-      this.cliente = { ...info, avatarUrl: info?.avatarUrl || this.avatarOptions[0] };
+      if (!info) { return }
+      this.cliente = { ...info, avatarUrl: info.avatarUrl ?? this.avatarOptions[0] };
     })
     this.user = await firstValueFrom(this.clientS.getAuthenticatedUser());
+    if (this.user?.avatar_url) {
+      this.ObservableService.actualizarAvatar(this.user.avatar_url);
+    }
   }
 
   checkCurrentRoute(): void {
@@ -71,10 +71,17 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  changeAvatar(url: string, event: Event) {
-    event.stopPropagation(); 
-    //this.cliente.avatarUrl = url;
-    this.ObservableService.actualizarAvatar(url);
+  protected async changeAvatar(url: string, event: Event) {
+
+    event.stopPropagation();
+    try {
+      await firstValueFrom(this.clientS.updateAvatar({ avatar_url: url }));
+      this.ObservableService.actualizarAvatar(url);
+      toast.success('Avatar actualizado correctamente');
+    } catch (e) {
+      const error = e as HttpErrorResponse;
+      this.http.errorHttp(error, 'Error al actualizar el avatar');
+    }
   }
 
   protected async handleLogout(): Promise<void> {
@@ -93,7 +100,7 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  
+
 
   @HostListener('document:click', ['$event'])
   closeDropdownOnClickOutside(event: MouseEvent): void {
@@ -133,7 +140,5 @@ export class UserMenuComponent implements OnInit {
       this.isDropdownOpen = false;
     }
   }
-
-
 }
 

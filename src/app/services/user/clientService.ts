@@ -42,6 +42,11 @@ export class ClientService {
     return this.http.patch(`${this.apiUrl}/usuarios/${id}`, data, { headers });
   }
 
+  updateAvatar(data: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.put(`${this.apiUrl}/updateAvatar`, data, { headers });
+  }
+
   //envia correo de verificacion para agregar servicio
   addService(data: any): Observable<any> {
     const headers = this.getHeaders();
