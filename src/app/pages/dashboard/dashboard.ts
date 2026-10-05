@@ -12,10 +12,11 @@ import { CalculoService } from '../../services/utility/calculo.service';
 import { ObservableService } from '../../services/utility/observable.service';
 import { infoCliente } from '../../models/info-cliente';
 import { Preloader } from '../../shared/preloader/preloader';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgxSonnerToaster, CurrencyPipe, CommonModule, Preloader],
+  imports: [RouterLink, NgxSonnerToaster, CurrencyPipe, CommonModule, Preloader, AvatarModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -29,6 +30,7 @@ export class Dashboard implements OnInit {
   loading!: boolean;
   servicios: any = { internet: [] };
   totalMensual: number = 0;
+  clienteAv: any = { nombre: '', cliente: '', avatarUrl: '' };
 
   constructor(
     private clientS: ClientService,
@@ -40,6 +42,10 @@ export class Dashboard implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.ObservableService.cliente$.subscribe(info => {
+      if (!info) { return; }
+      this.clienteAv = { ...info, avatarUrl: info.avatarUrl || null };
+    });
     const numeroCliente = this.user.obtenerServicioActivo();
     if (!numeroCliente) return;
     this.loadClientData(numeroCliente);
@@ -48,6 +54,7 @@ export class Dashboard implements OnInit {
   protected async loadClientData(numeroCliente: string): Promise<void> {
     try {
       this.loading = true;
+
       const { cliente, servicios } = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
       this.infoCliente = cliente;
       this.servicios = servicios;
@@ -93,13 +100,13 @@ export class Dashboard implements OnInit {
       this.tipoMensaje = 'adeudo'; this.mostrarMensaje = true;
     }
   }
-  
+
   abrirTutorial(tutorial: 'estadoCuenta' | 'registrarPago'): void {
     this.tutorialSeleccionado = tutorial;
     this.tutorialAbierto = true;
   }
-  
-  cerrarTutorial(): void {this.tutorialAbierto = false;}
+
+  cerrarTutorial(): void { this.tutorialAbierto = false; }
 
   verTutorialCompleto(): void {
     const elemento = document.querySelector('.tutorial-view__video') as HTMLElement | null;

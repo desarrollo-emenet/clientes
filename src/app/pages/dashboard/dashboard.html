@@ -10,7 +10,12 @@
       <div class="client-card">
         <div class="client-card-header">
           <div class="client-avatar">
-            <i class="fa-regular fa-user"></i>
+            <p-avatar *ngIf="clienteAv?.avatarUrl" [image]="clienteAv.avatarUrl" shape="circle" size="large" />
+
+            <!-- Respaldo: si no hay avatarUrl, muestra tu icono original -->
+            <div *ngIf="!clienteAv?.avatarUrl" class="avatar-fallback" style="color: black;">
+              <i class="fa-regular fa-user"></i>
+            </div>
           </div>
           <div class="client-info">
             <div class="flex justify-content-between">
@@ -55,7 +60,7 @@
               <i class="fa-solid fa-credit-card"></i>
             </div>
             <span class="action-label">Formas de<br>pago</span>
-          </button>-->          
+          </button>-->
 
           <button class="action-item" routerLink="/speedtest">
             <div class="action-icon action-icon-kingblue">
@@ -328,7 +333,8 @@
           <div class="tutorial-view__icon"><i class="fa-solid fa-circle-play"></i></div>
           <div>
             <h4>
-              {{ tutorialSeleccionado === 'estadoCuenta' ? 'Aprende a pagar desde estado de cuenta' : 'Aprende a registrar tu pago' }}
+              {{ tutorialSeleccionado === 'estadoCuenta' ? 'Aprende a pagar desde estado de cuenta' : 'Aprende a
+              registrar tu pago' }}
             </h4>
             <p>
               {{tutorialSeleccionado === 'estadoCuenta' ? 'Sigue el tutorial para conocer el proceso de pago en linea.'

@@ -9,17 +9,29 @@ import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-user-menu',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AvatarModule, ],
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.css'
 })
 export class UserMenuComponent implements OnInit {
-  isDropdownOpen!: boolean;
+  isDropdownOpen: boolean = false;
   avatarUrl!: string;
   isServiceRoute!: boolean;
+  cliente: any = { nombre: '', cliente: '', avatarUrl: '' };
+  user: any;
+
+   avatarOptions: string[] = [
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Mia',
+  'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
+  'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
+  'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucy',
+  'https://api.dicebear.com/7.x/avataaars/svg?seed=Leo',
+  'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe',
+  ];
 
   constructor(
     private router: Router,
@@ -30,11 +42,16 @@ export class UserMenuComponent implements OnInit {
     protected http: HttpService
   ) { }
 
-  cliente: any;
-  user:any;
+
   async ngOnInit(): Promise<void> {
     this.checkCurrentRoute();
-    this.ObservableService.cliente$.subscribe(info => this.cliente = info)
+    this.ObservableService.cliente$.subscribe(info => {
+      if(!info) {
+        return 
+      }
+        
+      this.cliente = { ...info, avatarUrl: info?.avatarUrl || this.avatarOptions[0] };
+    })
     this.user = await firstValueFrom(this.clientS.getAuthenticatedUser());
   }
 
@@ -54,6 +71,12 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
+  changeAvatar(url: string, event: Event) {
+    event.stopPropagation(); 
+    //this.cliente.avatarUrl = url;
+    this.ObservableService.actualizarAvatar(url);
+  }
+
   protected async handleLogout(): Promise<void> {
     this.isDropdownOpen = false;
     try {
@@ -70,16 +93,14 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
+  
+
   @HostListener('document:click', ['$event'])
   closeDropdownOnClickOutside(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const dropdownElement = document.querySelector('.user-dropdown');
-    const triggerElement = document.querySelector('.user-dropdown-trigger');
-
-    if (dropdownElement && triggerElement) {
-      if (!dropdownElement.contains(target) && !triggerElement.contains(target)) {
-        this.isDropdownOpen = false;
-      }
+    const containerElement = document.querySelector('.user-menu-container');
+    if (containerElement && !containerElement.contains(target)) {
+      this.isDropdownOpen = false;
     }
   }
 
@@ -106,20 +127,13 @@ export class UserMenuComponent implements OnInit {
 
   @HostListener('document:touchstart', ['$event'])
   closeDropdownOnTouchStartOutside(event: TouchEvent): void {
-    if (!this.isDropdownOpen) {
-      return;
-    }
-    const target = event.target as HTMLElement | null;
-    const dropdownElement = document.querySelector('.user-dropdown');
-    const triggerElement = document.querySelector('.user-dropdown-trigger');
-    if (!target || !dropdownElement || !triggerElement) {
-      this.isDropdownOpen = false;
-      return;
-    }
-    if (!dropdownElement.contains(target) && !triggerElement.contains(target)) {
+    const target = event.target as HTMLElement;
+    const containerElement = document.querySelector('.user-menu-container');
+    if (containerElement && !containerElement.contains(target)) {
       this.isDropdownOpen = false;
     }
   }
+
 
 }
 
