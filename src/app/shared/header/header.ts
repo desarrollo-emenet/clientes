@@ -16,6 +16,7 @@ interface Noti {
   text: string;
   time: string;
   unread: boolean;
+  route?: string;
 }
 
 @Component({

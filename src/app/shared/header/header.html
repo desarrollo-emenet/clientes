@@ -5,7 +5,8 @@
       <div class="d-flex me-3" routerLinkActive="active" (click)="auth.goNavigate('/dashboard')">
         <img src="assets/img/logo.png" alt="Logo" height="40">
       </div>
-      <h5 class="mb-0 fw-bold text-dark"routerLinkActive="active" (click)="auth.goNavigate('/dashboard')">Mi emenet</h5>
+      <h5 class="mb-0 fw-bold text-dark" routerLinkActive="active" (click)="auth.goNavigate('/dashboard')">Mi emenet
+      </h5>
     </div>
 
     <div class="header-nav d-none d-md-flex" *ngIf="showNavButtons">
@@ -13,17 +14,9 @@
     </div>
 
     <div class="header-actions d-flex align-items-center">
-      <button
-        class="notif-btn"
-        type="button"
-        (click)="toggleNotificaciones()"
-        aria-label="Notificaciones"
-      >
+      <button class="notif-btn" type="button" (click)="toggleNotificaciones()" aria-label="Notificaciones">
         <i class="fa-regular fa-bell"></i>
-        <span
-          class="notif-badge"
-          *ngIf="notifications.length > 0"
-        >
+        <span class="notif-badge" *ngIf="notifications.length > 0">
           {{ notifications.length }}
         </span>
       </button>
@@ -40,14 +33,19 @@
 
         <div class="notif-list" *ngIf="notifications.length > 0">
           <div *ngFor="let n of notifications" class="notif-item"
-            [ngClass]="{ 'unread': n.unread, 'warning': n.title === 'Adeudo pendiente' }">
+            [ngClass]="{ 'unread': n.unread, 'warning': n.title === 'Adeudo pendiente', 'clickable': !!n.route }"
+            (click)="n.route && auth.goNavigate(n.route)">
+
             <div class="notif-icon">
               <i class="fa-regular fa-credit-card" style="color: rgb(0, 51, 143);"></i>
             </div>
+
             <div class="notif-content">
               <div class="notif-title">{{ n.title }}</div>
               <div class="notif-text">{{ n.text }}</div>
               <div class="notif-time">{{ n.time }}</div>
+              <div class="notif-arrow" *ngIf="n.route">
+              </div>
             </div>
           </div>
         </div>

@@ -28,7 +28,6 @@ export class UserMenuComponent implements OnInit {
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Mia',
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucy',
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Leo',
     'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe',
   ];
