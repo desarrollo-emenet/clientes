@@ -1,192 +1,213 @@
+<div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
+  <main class="page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
+    <app-preloader *ngIf="loading"></app-preloader>
+    <div class="payments-wrapper" *ngIf="!loading">
 
-  <div class="row g-0" style="min-height: calc(var(--app-vh, 1vh) * 100);">
-    <main class="page col-12 col-md-12 col-lg-12 px-3 px-lg-4 py-4">
-      <app-preloader *ngIf="loading"></app-preloader>
-      <div class="payments-wrapper" *ngIf="!loading">
+      <!-- HEADER -->
+      <div class="payments-header">
+        <h1 class="page-title">Métodos de pago</h1>
+        <p class="page-subtitle">
+          Elige una opción para ver los detalles y realizar tu pago.
+        </p>
+      </div>
 
-        <!-- HEADER -->
-        <div class="payments-header">
-          <h1 class="page-title">Métodos de pago</h1>
-          <p class="page-subtitle">
-            Elige una opción para ver los detalles y realizar tu pago.
-          </p>
-        </div>
-
-        <!-- ONLINE -->
-        <details class="payment-card" name="grupo-acordeon">
-          <summary class="payment-summary">
-            <div class="payment-left">
-              <div class="icon-circle online">
-                <i class="fa-solid fa-credit-card"></i>
-              </div>
-              <div>
-                <h3>Pago en línea</h3>
-                <p>Activación automática</p>
-              </div>
+      <!-- ONLINE -->
+      <details class="payment-card" name="grupo-acordeon">
+        <summary class="payment-summary">
+          <div class="payment-left">
+            <div class="icon-circle online">
+              <i class="fa-solid fa-credit-card"></i>
             </div>
-
-            <div class="payment-right">
-              <span class="badge-recommended">
-                Recomendado
-              </span>
-              <i class="fa-solid fa-chevron-down chevron"></i>
+            <div>
+              <h3>Pago en línea</h3>
+              <p>Activación automática</p>
             </div>
-          </summary>
-
-          <div class="payment-body">
-            <img src="assets/img/FormasPago/pagoralia.webp" class="payment-logo">
-            <div class="steps">
-              <div class="step-item">
-                <span>1</span>Elige tu método de pago
-              </div>
-              <div class="step-item">
-                <span>2</span>Realiza el pago seguro
-              </div>
-              <div class="step-item">
-                <span>3</span>Activación en máximo 1 hora
-              </div>
-            </div>
-
-            <div class="notes-box">
-              <div class="note">Comisión por procesamiento incluida</div>
-              <div class="note">Confirmación automática del pago</div>
-            </div>
-
-            <button class="btn-primary" (click)="generarPago()" [disabled]="loadingPago" *ngIf="infoCliente.clasificacion != 'BAJA'">
-              <ng-container *ngIf="!loadingPago">
-                <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
-
-              <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
-                Procesando...</ng-container>
-            </button>
           </div>
-        </details>
 
-        <!-- HSBC -->
-        <details class="payment-card" name="grupo-acordeon">
-
-          <summary class="payment-summary">
-            <div class="payment-left">
-              <div class="icon-circle bank">
-                <i class="fa-solid fa-building-columns"></i>
-              </div>
-              <div>
-                <h3>Depósito bancario</h3>
-                <p>Sucursal HSBC</p>
-              </div>
-            </div>
+          <div class="payment-right">
+            <span class="badge-recommended">
+              Recomendado
+            </span>
             <i class="fa-solid fa-chevron-down chevron"></i>
-          </summary>
+          </div>
+        </summary>
 
-          <div class="payment-body">
-            <img src="assets/img/FormasPago/hsbc.webp" class="payment-logo">
-            <div class="data-list">
-              <div class="data-item">
-                <span>Cuenta</span><strong>4062409131</strong>
-              </div>
-
-              <div class="data-item">
-                <span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
-              </div>
-
-              <div class="data-item">
-                <span>Concepto</span><strong>Nombre del titular completo</strong>
-              </div>
+        <div class="payment-body">
+          <img src="assets/img/FormasPago/pagoralia.webp" class="payment-logo">
+          <div class="steps">
+            <div class="step-item">
+              <span>1</span>Elige tu método de pago
             </div>
-
-            <button class="btn-primary" (click)="copy('4062409131')">Copiar cuenta</button>
+            <div class="step-item">
+              <span>2</span>Realiza el pago seguro
+            </div>
+            <div class="step-item">
+              <span>3</span>Activación en máximo 1 hora
+            </div>
           </div>
 
-        </details>
-
-        <!-- SPEI -->
-        <details class="payment-card" name="grupo-acordeon">
-          <summary class="payment-summary">
-            <div class="payment-left">
-              <div class="icon-circle transfer">
-                <i class="fa-solid fa-arrow-right-arrow-left"></i>
-              </div>
-              <div>
-                <h3>Transferencia SPEI</h3>
-                <p>Banca móvil o app</p>
-              </div>
-            </div>
-            <i class="fa-solid fa-chevron-down chevron"></i>
-          </summary>
-
-          <div class="payment-body">
-            <img src="assets/img/FormasPago/spei.webp" class="payment-logo">
-            <div class="data-list">
-              <div class="data-item"><span>CLABE</span><strong>021453040624091311</strong></div>
-              <div class="data-item"><span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
-              </div>
-              <div class="data-item"><span>Concepto</span><strong>Nombre del titular completo</strong></div>
-            </div>
-            <button class="btn-primary" (click)="copy('021453040624091311')">Copiar CLABE</button>
+          <div class="notes-box">
+            <div class="note">Comisión por procesamiento incluida</div>
+            <div class="note">Confirmación automática del pago</div>
           </div>
 
-        </details>
+          <button class="btn-primary" (click)="generarPago()" [disabled]="loadingPago"
+            *ngIf="infoCliente?.clasificacion !== 'BAJA'">
+            <ng-container *ngIf="!loadingPago">
+              <i class="fa-solid fa-credit-card me-2"></i>Pagar ahora</ng-container>
 
-        <!-- OXXO -->
-        <details class="payment-card" name="grupo-acordeon">
-          <summary class="payment-summary">
-            <div class="payment-left">
-              <div class="icon-circle store">
-                <i class="fa-solid fa-store"></i>
-              </div>
-              <div>
-                <h3>Pago en tiendas</h3>
-                <p>OXXO y establecimientos</p>
-              </div>
-            </div>
-            <i class="fa-solid fa-chevron-down chevron"></i>
-          </summary>
-
-          <div class="payment-body">
-            <img src="assets/img/FormasPago/oxxo.webp" class="payment-logo oxxo">
-            <div class="data-list">
-              <div class="data-item"><span>Disponible en</span>
-                <strong>OXXO · Farmacia del Ahorro · Financiera del Bienestar</strong>
-              </div>
-              <div class="data-item"><span>Cuenta</span><strong>4741764001982278</strong></div>
-            </div>
-
-            <div class="notes-box">
-              <div class="note">Estos establecimientos pueden generar comisión adicional</div>
-            </div>
-            <button class="btn-primary" (click)="copy('4741764001982278')">
-              Copiar cuenta
-            </button>
-          </div>
-
-        </details>
-
-        <!-- SOPORTE -->
-        <div class="support-box">
-          <div class="support-left">
-            <h2>¿Necesitas ayuda?</h2>
-            <p>Si tienes dudas sobre tu pago o activación,
-              nuestro equipo puede ayudarte.</p>
-          </div>
-
-          <button class="btn-whatsapp" (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda con mi pago.')">
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
-                  <g>
-                    <path d="M12 6V2H8" />
-                    <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z" />
-                    <path d="M2 12h2" />
-                    <path d="M9 11v2" class="eye-l" />
-                    <path d="M15 11v2" class="eye-r" />
-                    <path d="M20 12h2" />
-                  </g>
-                </svg>
-            Hablar con Embot
+            <ng-container *ngIf="loadingPago"><i class="fa-solid fa-spinner fa-spin me-2"></i>
+              Procesando...</ng-container>
           </button>
         </div>
+      </details>
+
+      <!-- HSBC -->
+      <details class="payment-card" name="grupo-acordeon">
+
+        <summary class="payment-summary">
+          <div class="payment-left">
+            <div class="icon-circle bank">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+              <h3>Depósito bancario</h3>
+              <p>Sucursal HSBC</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron"></i>
+        </summary>
+
+        <div class="payment-body">
+          <img src="assets/img/FormasPago/hsbc.webp" class="payment-logo">
+          <div class="data-list">
+            <div class="data-item">
+              <span>Cuenta</span><strong>4062409131</strong>
+            </div>
+
+            <div class="data-item">
+              <span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
+            </div>
+
+            <div class="data-item">
+              <span>Concepto</span><strong>Nombre del titular completo</strong>
+            </div>
+          </div>
+
+          <button class="btn-primary" (click)="copy('4062409131')">Copiar cuenta</button>
+        </div>
+
+      </details>
+
+      <!-- SPEI -->
+      <details class="payment-card" name="grupo-acordeon">
+        <summary class="payment-summary">
+          <div class="payment-left">
+            <div class="icon-circle transfer">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <div>
+              <h3>Transferencia SPEI</h3>
+              <p>Banca móvil o app</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron"></i>
+        </summary>
+
+        <div class="payment-body">
+          <img src="assets/img/FormasPago/spei.webp" class="payment-logo">
+          <div class="data-list">
+            <div class="data-item"><span>CLABE</span><strong>021453040624091311</strong></div>
+            <div class="data-item"><span>Beneficiario</span><strong>IPTVTEL COMUNICACIONES S DE RL DE CV</strong>
+            </div>
+            <div class="data-item"><span>Concepto</span><strong>Nombre del titular completo</strong></div>
+          </div>
+          <button class="btn-primary" (click)="copy('021453040624091311')">Copiar CLABE</button>
+        </div>
+
+      </details>
+
+      <!-- OXXO -->
+      <details class="payment-card" name="grupo-acordeon">
+        <summary class="payment-summary">
+          <div class="payment-left">
+            <div class="icon-circle store">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <div>
+              <h3>Pago en tiendas</h3>
+              <p>OXXO y establecimientos</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron"></i>
+        </summary>
+
+        <div class="payment-body">
+          <img src="assets/img/FormasPago/oxxo.webp" class="payment-logo oxxo">
+          <div class="data-list">
+            <div class="data-item"><span>Disponible en</span>
+              <strong>OXXO · Farmacia del Ahorro · Financiera del Bienestar</strong>
+            </div>
+            <div class="data-item"><span>Cuenta</span><strong>4741764001982278</strong></div>
+          </div>
+
+          <div class="notes-box">
+            <div class="note">Estos establecimientos pueden generar comisión adicional</div>
+          </div>
+          <button class="btn-primary" (click)="copy('4741764001982278')">
+            Copiar cuenta
+          </button>
+        </div>
+
+      </details>
+
+      <div class="payment-receipt-card">
+        <div class="payment-receipt-card-content">
+          <div class="payment-receipt-card-icon">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+
+          <div class="payment-receipt-card-text">
+            <span class="payment-receipt-card-eyebrow">
+              ¿Ya realizaste tu pago?
+            </span>
+            <h3> Envíanos tu comprobante </h3>
+            <p> Registra tu pago para que podamos validarlo y actualizar tu cuenta. </p>
+          </div>
+        </div>
+
+        <button type="button" class="payment-button" (click)="auth.goNavigate('/formulario-pagos')">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          <span>Enviar comprobante</span>
+        </button>
+
       </div>
-    </main>
-    <ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1"/>
-  </div>
 
+      <!-- SOPORTE -->
+      <div class="support-box">
+        <div class="support-left">
+          <h2>¿Necesitas ayuda?</h2>
+          <p>Si tienes dudas sobre tu pago o activación,
+            nuestro equipo puede ayudarte.</p>
+        </div>
 
+        <button class="btn-whatsapp"
+          (click)="contactoService.contactSupport('7133475658', 'Hola, necesito ayuda con mi pago.')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="embot-icon">
+            <g>
+              <path d="M12 6V2H8" />
+              <path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z" />
+              <path d="M2 12h2" />
+              <path d="M9 11v2" class="eye-l" />
+              <path d="M15 11v2" class="eye-r" />
+              <path d="M20 12h2" />
+            </g>
+          </svg>
+          Hablar con Embot
+        </button>
+      </div>
+    </div>
+  </main>
+  <ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1" />
+</div>

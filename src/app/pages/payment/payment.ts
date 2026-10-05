@@ -14,6 +14,7 @@ import { ObservableService } from '../../services/utility/observable.service';
 import { CalculoService } from '../../services/utility/calculo.service';
 import { ContactoService } from '../../services/utility/contacto.service';
 import { Preloader } from '../../shared/preloader/preloader';
+import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-payment',
@@ -33,6 +34,7 @@ export class Payment {
     private clientS: ClientService,
     protected contactoService: ContactoService,
     private user: UserService,
+    protected auth: LoginS,
     private ObservableService: ObservableService,
     private paymentService: PaymentService,
     private calculo: CalculoService,
@@ -42,7 +44,7 @@ export class Payment {
     const clienteActivo = this.user.obtenerServicioActivo();
     this.ObservableService.cliente$.subscribe(info => this.infoCliente = info)
     this.ObservableService.servicios$.subscribe(info => this.servicios = info)
-    if(!this.infoCliente.cliente) this.loadClientData(clienteActivo ?? '');
+    if (clienteActivo) { this.loadClientData(clienteActivo);  }
   }
 
   protected async loadClientData(numeroCliente: string): Promise<void> {

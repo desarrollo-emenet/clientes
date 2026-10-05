@@ -76,7 +76,7 @@ export class UserMenuComponent implements OnInit {
     try {
       await firstValueFrom(this.clientS.updateAvatar({ avatar_url: url }));
       this.ObservableService.actualizarAvatar(url);
-      toast.success('Avatar actualizado correctamente');
+      //toast.success('Avatar actualizado correctamente');
     } catch (e) {
       const error = e as HttpErrorResponse;
       this.http.errorHttp(error, 'Error al actualizar el avatar');
