@@ -1,12 +1,13 @@
-import { Component, signal, HostListener, OnDestroy } from '@angular/core';
+import { Component, signal, HostListener, OnDestroy, NgZone } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Header } from './shared/header/header';
+import { NotificationService } from './services/utility/notification.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavComponent } from './shared/nav/nav';
 import { filter } from 'rxjs/operators';
-import { NgIf, NgClass } from '@angular/common';
+import { NgIf, NgClass, AsyncPipe  } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { App as CapacitorApp,  } from '@capacitor/app';
+import { App as CapacitorApp, } from '@capacitor/app';
 import {
   ActionPerformed,
   PushNotificationSchema,
@@ -15,17 +16,24 @@ import {
 } from '@capacitor/push-notifications'
 import { Platform } from '@angular/cdk/platform';
 import { PluginListenerHandle } from '@capacitor/core';
+import { LoginS } from './services/auth/login';
+import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule,],
+  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule, AsyncPipe, NgxSonnerToaster ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnDestroy {
   //protected readonly title = signal('Marcos');
 
-private backButtonListener?: PluginListenerHandle;
+  
+
+  private backButtonListener?: PluginListenerHandle;
+  
+  bannerVisible$;
+  notification$;
 
   showSidebar = true;
   showheader = true;
@@ -68,7 +76,10 @@ private backButtonListener?: PluginListenerHandle;
 
   ];
 
-  constructor(private router: Router, private platform: Platform) {
+  constructor(private router: Router, private platform: Platform, private ngZone: NgZone, private auth: LoginS, private bannerService: NotificationService) {
+
+    this.bannerVisible$ = this.bannerService.bannerVisible$;
+    this.notification$ = this.bannerService.currentNotification$;
 
     if (this.platform.ANDROID) { this.initPush(); }
 
@@ -103,14 +114,14 @@ private backButtonListener?: PluginListenerHandle;
   }
 
   async ngOnInit(): Promise<void> {
-  if (!this.platform.ANDROID) return;
-  this.backButtonListener = await CapacitorApp.addListener( 'backButton',
-    ({ canGoBack }) => {
-      if (canGoBack) { window.history.back(); return; }
-      CapacitorApp.exitApp();
-    }
-  );
-}
+    if (!this.platform.ANDROID) return;
+    this.backButtonListener = await CapacitorApp.addListener('backButton',
+      ({ canGoBack }) => {
+        if (canGoBack) { window.history.back(); return; }
+        CapacitorApp.exitApp();
+      }
+    );
+  }
 
   private actualizarVistas(url: string): void {
     if (!url) return;
@@ -132,20 +143,60 @@ private backButtonListener?: PluginListenerHandle;
     });
 
     PushNotifications.addListener('registration', (token: Token) => {
-      alert('Push registration success, token: ' + token.value);
+      console.log('token enviado al servidor: ' + token.value);
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Push registration error: ' + error);
+      console.error('Push registration error: ' + error);
     });
 
     PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
-      alert('Push notification received: ' + JSON.stringify(notification));
+      console.log('Push notification received: ' + JSON.stringify(notification));
+
+      this.ngZone.run(() => {
+        this.bannerService.mostrar(notification.title || '', notification.body || '', notification.data);
+      });
     });
 
     PushNotifications.addListener('pushNotificationActionPerformed', (action: ActionPerformed) => {
-      alert('Push notification action performed: ' + JSON.stringify(action));
+      console.log('Push notification action performed: ' + JSON.stringify(action));
+      this.procesarRedireccion(action.notification.data);
     });
+
+    
+  }
+
+
+   clickBanner() {
+    this.notification$.subscribe(notif => {
+      if (notif && notif.data) {
+        this.procesarRedireccion(notif.data);
+      }
+    }).unsubscribe(); // Nos desuscribimos de inmediato para evitar bucles
+    this.bannerService.ocultar();
+  }
+
+  cerrarBanner(event: Event) {
+    event.stopPropagation(); // Evita que se dispare el click del banner completo
+    this.bannerService.ocultar();
+  }
+
+  procesarRedireccion(data: any) {
+    if (data && data.tipo) {
+      this.ngZone.run(() => {
+        switch (data.tipo) {
+          case 'pago':
+            this.router.navigate(['/formas-de-pago']);
+            break;
+          case 'estado_cuenta':
+            this.router.navigate(['/estado-cuenta']);
+            break;
+          default:
+            this.router.navigate(['/inicio']);
+            break;
+        }
+      });
+    }
   }
 
 

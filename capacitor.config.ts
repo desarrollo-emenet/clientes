@@ -4,6 +4,11 @@ const config: CapacitorConfig = {
   appId: 'com.miemenet.app',
   appName: 'Mi emenet',
   webDir: 'dist/front/browser',
+  plugins: {
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
+  },
   server: {                       //evitar validacion https en android 
     cleartext: true,            //y probar en localhost
     androidScheme: 'http'     

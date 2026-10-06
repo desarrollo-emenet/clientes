@@ -11,14 +11,25 @@
       <router-outlet></router-outlet>
     </main>
 
+    <!-- notificaciones push dentro de la app -->
+    <div class="push-banner" *ngIf="bannerVisible$ | async" (click)="clickBanner()">
+      <div class="banner-icon"><i class="fa-solid fa-bell"></i></div>
+      <div class="banner-content">
+        <h4>{{ (notification$ | async)?.title }}</h4>
+        <p>{{ (notification$ | async)?.body }}</p>
+      </div>
+      <button class="banner-close" (click)="cerrarBanner($event)">✕</button>
+    </div>
+
   </div>
 
   <!-- Bottom nav — solo móvil (<768px) -->
-  <nav class="bottom-nav d-md-none" *ngIf="showSidebar"
-       [ngClass]="{ 'hidden': bottomNavOculto }">
+  <nav class="bottom-nav d-md-none" *ngIf="showSidebar" [ngClass]="{ 'hidden': bottomNavOculto }">
     <app-nav></app-nav>
   </nav>
 
   <!--<app-footer *ngIf="showFooter"></app-footer>-->
+
+  <ngx-sonner-toaster position="top-center" closeButton></ngx-sonner-toaster>
 
 </div>
