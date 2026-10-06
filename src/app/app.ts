@@ -6,6 +6,7 @@ import { NavComponent } from './shared/nav/nav';
 import { filter } from 'rxjs/operators';
 import { NgIf, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { App as CapacitorApp,  } from '@capacitor/app';
 import {
   ActionPerformed,
   PushNotificationSchema,
@@ -13,15 +14,18 @@ import {
   Token,
 } from '@capacitor/push-notifications'
 import { Platform } from '@angular/cdk/platform';
+import { PluginListenerHandle } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule],
+  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule,],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnDestroy {
-  protected readonly title = signal('Marcos');
+  //protected readonly title = signal('Marcos');
+
+private backButtonListener?: PluginListenerHandle;
 
   showSidebar = true;
   showheader = true;
@@ -75,7 +79,6 @@ export class App implements OnDestroy {
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects ?? event.url;
         this.actualizarVistas(url);
-        // Mostrar el nav al cambiar de ruta
         this.bottomNavOculto = false;
         this.posicionScrollAnterior = 0;
       });
@@ -96,7 +99,18 @@ export class App implements OnDestroy {
 
   ngOnDestroy(): void {
     this.rutaSub?.unsubscribe();
+    this.backButtonListener?.remove();
   }
+
+  async ngOnInit(): Promise<void> {
+  if (!this.platform.ANDROID) return;
+  this.backButtonListener = await CapacitorApp.addListener( 'backButton',
+    ({ canGoBack }) => {
+      if (canGoBack) { window.history.back(); return; }
+      CapacitorApp.exitApp();
+    }
+  );
+}
 
   private actualizarVistas(url: string): void {
     if (!url) return;
