@@ -1,8 +1,10 @@
 /* ===== LAYOUT PRINCIPAL (FLEXBOX) ===== */
 .app-wrapper {
   display: flex;
-  flex-direction: column; /* Alineación vertical */
-  min-height: 100vh;      /* Ocupa el alto total de la pantalla */
+  flex-direction: column;
+  /* Alineación vertical */
+  min-height: 100vh;
+  /* Ocupa el alto total de la pantalla */
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -26,7 +28,8 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  flex-shrink: 0; /* Evita que el footer se achique */
+  flex-shrink: 0;
+  /* Evita que el footer se achique */
 }
 
 .footer-main {
@@ -124,6 +127,7 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 767.98px) {
+
   /* Espacio extra en el footer para que el bottom-nav no lo tape */
   .footer {
     padding-bottom: 80px;
@@ -158,12 +162,14 @@
   top: 16px;
   left: 16px;
   right: 16px;
-  background-color: #2c3e50; /* Color oscuro elegante */
+  background-color: #2c3e50;
+  /* Color oscuro elegante */
   color: #ffffff;
   padding: 14px 16px;
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 99999; /* Asegura que esté por encima de todo */
+  z-index: 99999;
+  /* Asegura que esté por encima de todo */
   display: flex;
   align-items: center;
   gap: 12px;
@@ -176,11 +182,13 @@
 
   .banner-content {
     flex: 1;
+
     h4 {
       margin: 0 0 4px 0;
       font-size: 14px;
       font-weight: 600;
     }
+
     p {
       margin: 0;
       font-size: 12px;
@@ -200,12 +208,21 @@
     font-size: 16px;
     padding: 4px;
     cursor: pointer;
-    &:hover { color: #ffffff; }
+
+    &:hover {
+      color: #ffffff;
+    }
   }
 }
 
 @keyframes slideDown {
-  from { transform: translateY(-100px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
 
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

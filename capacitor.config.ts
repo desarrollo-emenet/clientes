@@ -9,9 +9,11 @@ const config: CapacitorConfig = {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
   },
-  server: {                       //evitar validacion https en android 
-    cleartext: true,            //y probar en localhost
-    androidScheme: 'http'     
+  server: {  
+    cleartext: true, 
+    hostname: 'mi.emenet.mx',           
+    androidScheme: 'https',   
+    allowNavigation: ['://speedtest.com']  
   },
   android: {
     allowMixedContent: true   

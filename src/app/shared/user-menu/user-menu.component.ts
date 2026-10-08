@@ -87,6 +87,7 @@ export class UserMenuComponent implements OnInit {
     this.isDropdownOpen = false;
     try {
       await firstValueFrom(this.loginS.logout());
+      //await firstValueFrom(this.loginS.logout1({ fmc_token: this.clientS.getFcmToken() }));
       this.loginS.clearToken();
       this.router.navigate(['/iniciar-sesion']);
     } catch (e) {

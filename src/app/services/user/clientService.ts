@@ -76,6 +76,12 @@ export class ClientService {
     return this.http.delete<any>(`${this.apiUrl}/servicios/${id}`, { headers });
   }
 
+  enviarTokenNoti(fcm_token: string, device_type: string): Observable<any> {
+    const headers = this.getHeaders();
+    const data = { fcm_token, device_type: 'android' };
+    return this.http.post<any>(`${this.apiUrl}/devices/save-token-noti`, data, { headers });
+  }
+
   verifyAccessService(cliente: string): Observable<{ has_access: boolean, servicio?: any }> {
     const headers = this.getHeaders();
     return this.http.get<{ has_access: boolean, servicio?: any }>(`${this.apiUrl}/verify-access-service/${cliente}`, { headers });

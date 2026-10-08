@@ -5,8 +5,9 @@ import { NotificationService } from './services/utility/notification.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavComponent } from './shared/nav/nav';
 import { filter } from 'rxjs/operators';
-import { NgIf, NgClass, AsyncPipe  } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { firstValueFrom, Subscription } from 'rxjs';
+import { HttpService } from './services/utility/http.service';
 import { App as CapacitorApp, } from '@capacitor/app';
 import {
   ActionPerformed,
@@ -18,20 +19,22 @@ import { Platform } from '@angular/cdk/platform';
 import { PluginListenerHandle } from '@capacitor/core';
 import { LoginS } from './services/auth/login';
 import { NgxSonnerToaster } from 'ngx-sonner';
+import { ClientService } from './services/user/clientService';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule, AsyncPipe, NgxSonnerToaster ],
+  imports: [RouterOutlet, NgIf, NgClass, NavComponent, Header, ReactiveFormsModule, AsyncPipe, NgxSonnerToaster],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnDestroy {
   //protected readonly title = signal('Marcos');
 
-  
+
 
   private backButtonListener?: PluginListenerHandle;
-  
+
   bannerVisible$;
   notification$;
 
@@ -76,7 +79,15 @@ export class App implements OnDestroy {
 
   ];
 
-  constructor(private router: Router, private platform: Platform, private ngZone: NgZone, private auth: LoginS, private bannerService: NotificationService) {
+  constructor(
+    private router: Router,
+    private platform: Platform,
+    private ngZone: NgZone,
+    private auth: LoginS,
+    private bannerService: NotificationService,
+    private clientS: ClientService,
+    protected http: HttpService,
+  ) {
 
     this.bannerVisible$ = this.bannerService.bannerVisible$;
     this.notification$ = this.bannerService.currentNotification$;
@@ -131,7 +142,7 @@ export class App implements OnDestroy {
     this.showFooter = !this.rutasSinFooter.some(r => urlLimpia.startsWith(r));
   }
 
-  initPush(): void {
+  async initPush(): Promise<void> {
     //console.log('Iniciando Push Notifications...');
 
     PushNotifications.requestPermissions().then((result) => {
@@ -142,8 +153,14 @@ export class App implements OnDestroy {
       }
     });
 
-    PushNotifications.addListener('registration', (token: Token) => {
-      console.log('token enviado al servidor: ' + token.value);
+    PushNotifications.addListener('registration', async (token: Token) => {
+      //console.log('token enviado al servidor: ' + token.value);
+
+      try {
+        await firstValueFrom(this.clientS.enviarTokenNoti(token.value, 'android'));
+      } catch (error) {
+        this.http.errorHttp(error as HttpErrorResponse, 'Error al registrar la cuenta');
+      }
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
@@ -163,11 +180,11 @@ export class App implements OnDestroy {
       this.procesarRedireccion(action.notification.data);
     });
 
-    
+
   }
 
 
-   clickBanner() {
+  clickBanner() {
     this.notification$.subscribe(notif => {
       if (notif && notif.data) {
         this.procesarRedireccion(notif.data);
@@ -186,13 +203,13 @@ export class App implements OnDestroy {
       this.ngZone.run(() => {
         switch (data.tipo) {
           case 'pago':
-            this.router.navigate(['/formas-de-pago']);
+            this.auth.goNavigate('/formas-de-pago');
             break;
           case 'estado_cuenta':
-            this.router.navigate(['/estado-cuenta']);
+            this.auth.goNavigate('/estadoCuenta');
             break;
           default:
-            this.router.navigate(['/inicio']);
+            this.router.navigate(['/dashboard']);
             break;
         }
       });
