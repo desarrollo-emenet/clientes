@@ -1,26 +1,30 @@
 import { Component, signal, HostListener, OnDestroy, NgZone } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { Platform } from '@angular/cdk/platform';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { Header } from './shared/header/header';
 import { NotificationService } from './services/utility/notification.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ClientService } from './services/user/clientService';
+import { LoginS } from './services/auth/login';
 import { NavComponent } from './shared/nav/nav';
-import { filter } from 'rxjs/operators';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { firstValueFrom, Subscription } from 'rxjs';
 import { HttpService } from './services/utility/http.service';
+
+import { filter } from 'rxjs/operators';
+import { firstValueFrom, Subscription } from 'rxjs';
+import { NgxSonnerToaster } from 'ngx-sonner';
+
 import { App as CapacitorApp, } from '@capacitor/app';
+import { PluginListenerHandle } from '@capacitor/core';
 import {
   ActionPerformed,
   PushNotificationSchema,
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications'
-import { Platform } from '@angular/cdk/platform';
-import { PluginListenerHandle } from '@capacitor/core';
-import { LoginS } from './services/auth/login';
-import { NgxSonnerToaster } from 'ngx-sonner';
-import { ClientService } from './services/user/clientService';
-import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -30,8 +34,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class App implements OnDestroy {
   //protected readonly title = signal('Marcos');
-
-
 
   private backButtonListener?: PluginListenerHandle;
 
@@ -205,7 +207,7 @@ export class App implements OnDestroy {
           case 'pago':
             this.auth.goNavigate('/formas-de-pago');
             break;
-          case 'estado_cuenta':
+          case 'deuda':
             this.auth.goNavigate('/estadoCuenta');
             break;
           default:

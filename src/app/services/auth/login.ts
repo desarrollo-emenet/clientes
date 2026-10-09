@@ -59,8 +59,14 @@ export class LoginS {
     return this.http.post<{ valid: boolean }>(`${this.apiUrl}/verify-token`, data);
   }
 
-  goNavigate(ruta: string) {
+  goNavigate(ruta: string, requiereServicio: boolean = true) {
     const numero = localStorage.getItem('servicio_activo');
+
+    if (!requiereServicio) {
+      this.router.navigate([ruta]);
+      this.linkClick.emit();
+      return;
+    }
 
     if (!numero) {
       toast.error('Seleeciona un servicio primero');
