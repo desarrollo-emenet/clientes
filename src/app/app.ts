@@ -202,16 +202,25 @@ export class App implements OnDestroy {
 
   procesarRedireccion(data: any) {
     if (data && data.tipo) {
+      const numero = localStorage.getItem('servicio_activo')
       this.ngZone.run(() => {
         switch (data.tipo) {
           case 'pago':
-            this.auth.goNavigate('/formas-de-pago');
+            if (numero) {
+              this.auth.goNavigate('/formas-de-pago');
+            } else {
+              this.auth.goNavigate('/servicios', false)
+            }
             break;
           case 'deuda':
-            this.auth.goNavigate('/estadoCuenta');
+            if (numero) {
+              this.auth.goNavigate('/estadoCuenta');
+            } else {
+              this.auth.goNavigate('/servicios', false)
+            }
             break;
           default:
-            this.router.navigate(['/dashboard']);
+            this.auth.goNavigate('/dashboard');
             break;
         }
       });
