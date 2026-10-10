@@ -3,15 +3,17 @@ import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
-import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import { toast } from 'ngx-sonner';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { ClientService } from '../../services/user/clientService';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, RouterLink, NgxSonnerToaster],
+  imports: [ReactiveFormsModule, NgIf, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -23,8 +25,13 @@ export class Login implements OnInit {
   isFlipping!: boolean;
   messaggeSuccess!: boolean;
 
-  constructor(private fb: FormBuilder, private router: Router, private api: LoginS,
-    protected http: HttpService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private api: LoginS,
+    protected http: HttpService,
+    private clientS: ClientService
+  ) {
     this.loginForm = this.fb.group({
       cliente: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -57,6 +64,16 @@ export class Login implements OnInit {
       this.loading = true;
       const { token, numero_cliente } = await firstValueFrom(this.api.login(this.loginForm.value));
       if (token) localStorage.setItem('authToken', token);
+
+      try {
+        const fcm_token = localStorage.getItem('fcm_token');
+        if (fcm_token) {
+          await firstValueFrom(this.clientS.enviarTokenNoti(fcm_token, 'android'));
+        } 
+      } catch (error) {
+        this.http.errorHttp(error as HttpErrorResponse, 'Error');
+      }
+
       toast.success('Sesión iniciada correctamente');
       this.router.navigate(['/dashboard', numero_cliente]);
     } catch (error) {
@@ -91,17 +108,17 @@ export class Login implements OnInit {
   }
 
   verTutorialCompleto(): void {
-  const elemento = document.querySelector(
-    '.tutorial-view__video'
-  ) as HTMLElement | null;
+    const elemento = document.querySelector(
+      '.tutorial-view__video'
+    ) as HTMLElement | null;
 
-  if (!elemento) return;
+    if (!elemento) return;
 
-  if (!document.fullscreenElement) {
-    elemento.requestFullscreen?.();
-  } else {
-    document.exitFullscreen?.();
+    if (!document.fullscreenElement) {
+      elemento.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
+    }
   }
-}
 
 }

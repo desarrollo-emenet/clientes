@@ -145,7 +145,6 @@ export class App implements OnDestroy {
   }
 
   async initPush(): Promise<void> {
-    //console.log('Iniciando Push Notifications...');
 
     PushNotifications.requestPermissions().then((result) => {
       if (result.receive === 'granted') {
@@ -158,10 +157,15 @@ export class App implements OnDestroy {
     PushNotifications.addListener('registration', async (token: Token) => {
       //console.log('token enviado al servidor: ' + token.value);
 
+      localStorage.setItem('fcm_token', token.value);
+      if (!localStorage.getItem('fcm_token')) {
+        return;
+      }
+
       try {
         await firstValueFrom(this.clientS.enviarTokenNoti(token.value, 'android'));
       } catch (error) {
-        this.http.errorHttp(error as HttpErrorResponse, 'Error al registrar la cuenta');
+        this.http.errorHttp(error as HttpErrorResponse, 'Error al sincronizar datos');
       }
     });
 
@@ -205,13 +209,16 @@ export class App implements OnDestroy {
       const numero = localStorage.getItem('servicio_activo')
       this.ngZone.run(() => {
         switch (data.tipo) {
+
           case 'pago':
+          case 'recordatorio_pago':
             if (numero) {
               this.auth.goNavigate('/formas-de-pago');
             } else {
               this.auth.goNavigate('/servicios', false)
             }
             break;
+            
           case 'deuda':
             if (numero) {
               this.auth.goNavigate('/estadoCuenta');
@@ -226,7 +233,6 @@ export class App implements OnDestroy {
       });
     }
   }
-
 
 }
 

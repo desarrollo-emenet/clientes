@@ -85,9 +85,18 @@ export class UserMenuComponent implements OnInit {
 
   protected async handleLogout(): Promise<void> {
     this.isDropdownOpen = false;
+    const fcmToken = localStorage.getItem('fcm_token');
+
+    if (fcmToken) {
+      try {
+        await firstValueFrom(this.clientS.eliminarTokenNoti(fcmToken));
+      } catch (error) {
+        console.error('No se pudo desvincular el token FCM:', error);
+      }
+    }
+
     try {
       await firstValueFrom(this.loginS.logout());
-      //await firstValueFrom(this.loginS.logout1({ fmc_token: this.clientS.getFcmToken() }));
       this.loginS.clearToken();
       this.router.navigate(['/iniciar-sesion']);
     } catch (e) {

@@ -21,7 +21,7 @@ export class ClientService {
     return localStorage.getItem('authToken');
   }
 
-  getHeaders(inlcudeWebKey: boolean = false ): HttpHeaders {
+  getHeaders(inlcudeWebKey: boolean = false): HttpHeaders {
     const token = this.getToken();
     let headers = new HttpHeaders().set('Accept', 'application/json');
     if (inlcudeWebKey) headers = headers.set("x-web-key", `${this.tokenKey}`);
@@ -82,6 +82,12 @@ export class ClientService {
     return this.http.post<any>(`${this.apiUrl}/devices/save-token-noti`, data, { headers });
   }
 
+  eliminarTokenNoti(fcmToken: string) {
+    const headers = this.getHeaders();
+    return this.http.delete(`${this.apiUrl}/devices/delete-token-noti`, { headers, body: { fcm_token: fcmToken }}
+    );
+  }
+
   verifyAccessService(cliente: string): Observable<{ has_access: boolean, servicio?: any }> {
     const headers = this.getHeaders();
     return this.http.get<{ has_access: boolean, servicio?: any }>(`${this.apiUrl}/verify-access-service/${cliente}`, { headers });
@@ -103,31 +109,31 @@ export class ClientService {
   }
 
   //visitas
-  visitas(cliente: string): Observable<any>{
+  visitas(cliente: string): Observable<any> {
     const headers = this.getHeaders(true);
     return this.http.get<any>(`${this.apiUrl2}/reportes-clienteV2/${cliente}`, { headers: headers });
   }
 
   //ticket
-  obtenerLinkTicket(venta: string): Observable<any>{
+  obtenerLinkTicket(venta: string): Observable<any> {
     const headers = this.getHeaders(true);
     return this.http.get<any>(`${this.apiUrl2}/clientesV3-ticket/${venta}?tipo=comprobanteDescarga`, { headers: headers });
   }
 
-  ticket(url: string): Observable<any>{
-    return this.http.get(`${url}`,{ responseType: 'blob' });
+  ticket(url: string): Observable<any> {
+    return this.http.get(`${url}`, { responseType: 'blob' });
   }
 
   //pdf informe 
-  obtenerLink(cliente: string): Observable<any>{
+  obtenerLink(cliente: string): Observable<any> {
     const headers = this.getHeaders(true);
-    return this.http.get<any>(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers});
+    return this.http.get<any>(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers });
     // return this.http.get(`${this.apiUrl}/informe-pdf/${cliente}`,{ responseType: 'blob' });
   }
 
-  informePdf(url: string): Observable<Blob>{
+  informePdf(url: string): Observable<Blob> {
     //console.log(url)
     // return this.http.get(`${this.apiUrl2}/informe-trimestral/${cliente}?tipo=informeTrim`, { headers: headers, responseType: 'blob' });
-    return this.http.get(`${url}`,{ responseType: 'blob' });
+    return this.http.get(`${url}`, { responseType: 'blob' });
   }
 }

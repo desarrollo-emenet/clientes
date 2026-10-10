@@ -2,7 +2,7 @@ import { NgIf, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService } from '../../services/user/clientService';
-import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import { toast } from 'ngx-sonner';
 import { LoginS } from '../../services/auth/login';
 import { firstValueFrom, Subscription, switchMap } from 'rxjs';
 import { PasswordService } from '../../services/utility/password.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster, NgClass],
+  imports: [ReactiveFormsModule, NgIf, NgClass],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css'
 })
@@ -69,16 +69,29 @@ export class EditProfile {
   protected async update(): Promise<void> {
     const cambiarEmail = !!this.email.value;
     const cambiarPassword = !!this.password.value;
+
     if (!cambiarEmail && !cambiarPassword) {
       this.updateForm.markAllAsTouched();
       return;
     }
     if (this.updateForm.invalid) { this.updateForm.markAllAsTouched(); return; }
+
     try {
       this.loading = true;
       const user = await firstValueFrom(this.clientS.getAuthenticatedUser());
       const response = await firstValueFrom(this.clientS.updateUser(user.id, this.updateForm.value));
-      this.handleLogout(response);
+
+      if (cambiarPassword) {
+        // Laravel ya revocó todas las sesiones y tokens FCM
+        toast.success(response.mensaje);
+        this.auth.clearToken();
+        localStorage.removeItem('servicio_activo');
+        this.router.navigate(['/iniciar-sesion']);
+        return;
+      }
+
+      await this.handleLogout(response);
+
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, "Error al actualizar los datos.")
     } finally {
@@ -89,17 +102,15 @@ export class EditProfile {
   protected async handleLogout(response: any): Promise<void> {
     try {
       toast.success(response.mensaje);
-
       await firstValueFrom(this.auth.logout());
-      this.auth.clearToken();
-      setTimeout(() => { this.auth.goNavigate('/iniciar-sesion'); }, 1000);
     } catch (e) {
       const error = e as HttpErrorResponse;
+      if (error?.status !== 401) {
+        toast.error('Error en logout. Por favor, inicia sesión de nuevo.');
+      }
+    } finally {
       this.auth.clearToken();
       this.router.navigate(['/iniciar-sesion']);
-      if (error?.status !== 401) {
-        toast.error('Error en logout. Por favor, inicie sesión de nuevo.');
-      }
     }
   }
 
