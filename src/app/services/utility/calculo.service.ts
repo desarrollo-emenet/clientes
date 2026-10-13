@@ -35,16 +35,16 @@ export class CalculoService {
     if (dia >= 1 && dia <= 5) {
       lista.push({
         title: 'Recordatorio de pago',
-        text: 'Recuerda que tus fecha de pago son del 1 al 5 de cada mes. Evita cortes en tu servicio realizando tu pago a tiempo.',
+        text: 'Recuerda que tus fecha de pago son del 1 al 5 de cada mes. Evita suspensiones en tu servicio realizando tu pago a tiempo.',
         time: 'Hoy',
         unread: true,
         route: '/formas-de-pago'
-      });
+      }); 
     }
     if (Number(cliente.deuda) > 0) {
       lista.push({
         title: 'Adeudo pendiente',
-        text: `Tienes un adeudo pendiente de $${cliente.deuda}. Por favor realiza tu pago para evitar cortes en tu servicio.`,
+        text: `Tienes un adeudo pendiente de $${cliente.deuda}. Por favor realiza tu pago para suspension en tu servicio.`,
         time: 'Hoy',
         unread: true,
         route: '/estadoCuenta'
