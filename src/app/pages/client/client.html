@@ -11,7 +11,7 @@
       </div>
     </div>
     <div *ngIf="infoCliente" class="content-wrapper">
-      <div class="top-banner">
+      <div *ngIf="infoCliente.clasificacion !== 'BAJA'" class="top-banner">
         <div class="banner-section banner-debt"
           *ngIf="!sinAdeudo() && calculo.deudaValida(infoCliente.deuda) !== null">
           <div class="banner-icon">
