@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
-import { NgxSonnerToaster, toast } from "ngx-sonner";
+import { toast } from "ngx-sonner";
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user/user-service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,7 +16,7 @@ import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, NgxSonnerToaster, CurrencyPipe, CommonModule, Preloader, AvatarModule],
+  imports: [RouterLink, CurrencyPipe, CommonModule, Preloader, AvatarModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })

@@ -5,10 +5,7 @@
 
 /*Saludo css*/
 .hero-title {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: clamp(0.8rem, 1vw, 1rem);
   font-weight: 400;
   color: #8a8a9a;
@@ -110,10 +107,7 @@
 }
 
 .client-details-title {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   color: #9a9aaa;
@@ -187,10 +181,7 @@
 }
 
 .client-name {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: clamp(1.4rem, 4vw, 1.25rem);
   font-weight: 800;
   color: #0f0f1a;
@@ -224,10 +215,7 @@
   align-items: center;
   padding: 0.3rem 0.75rem;
   border-radius: 20px;
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -349,10 +337,7 @@
 }
 
 .action-label {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   color: #555;
@@ -386,10 +371,7 @@
 }
 
 .section-header-accent h4 {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: #9a9aaa;
@@ -464,10 +446,7 @@
 }
 
 .contact-label {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   color: #9a9aaa;
@@ -477,10 +456,7 @@
 }
 
 .contact-value {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: #0f0f1a;
@@ -639,10 +615,7 @@
 }
 
 .service-label {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   color: #9a9aaa;
@@ -652,10 +625,7 @@
 }
 
 .service-value {
-  font-family:
-    'Outfit',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 1.05rem;
   font-weight: 600;
   color: #0f0f1a;
@@ -664,8 +634,7 @@
 }
 
 .service-value-mono {
-  font-family:
-    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-family: "Nunito", sans-serif;
   font-size: 0.95rem;
   background: #f8f9fa;
   padding: 0.4rem 0.75rem;
@@ -1420,10 +1389,7 @@
 }
 
 .loading-text {
-  font-family:
-    'DM Sans',
-    -apple-system,
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 1rem;
   font-weight: 300;
   color: #6b7280;

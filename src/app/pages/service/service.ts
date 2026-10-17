@@ -2,7 +2,7 @@ import { NgFor, NgIf, NgClass, DecimalPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import {  toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { Header } from '../../shared/header/header';
@@ -12,7 +12,7 @@ import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-service',
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgxSonnerToaster, NgClass, FormsModule, Header, DecimalPipe],
+  imports: [ReactiveFormsModule, NgIf, NgFor,  NgClass, FormsModule, Header, DecimalPipe],
   templateUrl: './service.html',
   styleUrl: './service.css'
 })

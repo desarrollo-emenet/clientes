@@ -1,7 +1,7 @@
 import { NgClass, NgIf, NgForOf, DatePipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgxSonnerToaster, toast } from "ngx-sonner";
+import { toast } from "ngx-sonner";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +24,7 @@ import { CompressService } from '../../services/utility/compress.service';
 
 @Component({
   selector: 'app-form-pagos',
-  imports: [NgxSonnerToaster,
+  imports: [
     CommonModule,
     DatePipe,
     NgClass,

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { LoginS } from '../../services/auth/login';
-import { toast, NgxSonnerToaster } from 'ngx-sonner';
+import { toast } from 'ngx-sonner';
 import { Subscription } from 'rxjs';
 import { HttpService } from '../../services/utility/http.service';
 import { PasswordService } from '../../services/utility/password.service';
@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-response-recover',
-  imports: [ReactiveFormsModule, NgIf, NgClass, NgxSonnerToaster],
+  imports: [ReactiveFormsModule, NgIf, NgClass],
   templateUrl: './response-recover.html',
   styleUrl: './response-recover.css',
 })

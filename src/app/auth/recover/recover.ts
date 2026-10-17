@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginS } from '../../services/auth/login';
-import { toast, NgxSonnerToaster } from 'ngx-sonner';
+import { toast } from 'ngx-sonner';
 import { HttpService } from '../../services/utility/http.service';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { UserService } from '../../services/user/user-service';
 
 @Component({
   selector: 'app-recover',
-  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster, DecimalPipe],
+  imports: [ReactiveFormsModule, NgIf, DecimalPipe],
   templateUrl: './recover.html',
   styleUrl: './recover.css'
 })

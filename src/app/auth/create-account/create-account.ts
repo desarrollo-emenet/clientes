@@ -3,14 +3,14 @@ import { DatePipe, DecimalPipe, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginS } from '../../services/auth/login';
-import { toast, NgxSonnerToaster } from 'ngx-sonner';
+import { toast } from 'ngx-sonner';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
 import { UserService } from '../../services/user/user-service';
 @Component({
   selector: 'app-create-account',
-  imports: [ReactiveFormsModule, NgIf, NgxSonnerToaster, DecimalPipe],
+  imports: [ReactiveFormsModule, NgIf, DecimalPipe],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css'
 })

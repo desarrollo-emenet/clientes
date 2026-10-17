@@ -1,7 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
-import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import {  toast } from 'ngx-sonner';
 import { ClientService } from '../../services/user/clientService';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../services/pagoralia/paymentService';
@@ -18,7 +18,7 @@ import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-payment',
-  imports: [ClipboardModule, NgxSonnerToaster, NgIf, FormsModule, Preloader],
+  imports: [ClipboardModule,  NgIf, FormsModule, Preloader],
   templateUrl: './payment.html',
   styleUrl: './payment.css'
 })

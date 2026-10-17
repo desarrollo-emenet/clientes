@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
   selector: 'app-email-verificado',
   standalone: true,
-  imports: [NgxSonnerToaster, CommonModule],
+  imports: [ CommonModule],
   templateUrl: './email-verificado.html',
   styleUrl: './email-verificado.css'
 })
