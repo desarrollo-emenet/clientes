@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <form [formGroup]="createForm" (ngSubmit)="register()">
+        <form [formGroup]="createForm" (ngSubmit)="abrirConfirmacionRegistro()">
           <!-- Número de cliente -->
           <div class="form-card">
             <div class="card-title">
@@ -92,7 +92,7 @@
 
           <!-- Botón -->
           <div class="submit-wrapper">
-            
+
             <div *ngIf="countdown > 0" class="countdown-container">
               <span class="countdown-text">
                 Reintentar en <strong>{{ Math.floor(countdown / 60) }}:{{ (countdown % 60) | number:'2.0-0' }}</strong>
@@ -100,9 +100,9 @@
             </div>
 
             <button type="submit" class="submit-btn" [disabled]="loading || countdown > 0">
-              <span *ngIf="loading && countdown > 0" class="spinner-border spinner-border-sm me-2"></span>
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
               <span *ngIf="!loading && countdown === 0">REGISTRARSE</span>
-
+              <span *ngIf="loading"> Procesando... </span>
             </button>
           </div>
 
@@ -114,13 +114,11 @@
 
         </form>
 
-        <!--<ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1"/>-->
       </div>
 
     </div>
   </main>
 
-  <!-- Panel derecho con la imagen (visible solo en pantallas grandes) -->
   <aside class="login-sidebar position-relative">
     <div class="position-absolute top-0 start-0 w-100 p-4 p-md-5" style="z-index: 50;">
       <!-- Logo -->
@@ -129,4 +127,42 @@
     <img src="assets/img/crear/emenet.webp" alt="Emenet Comunicaciones" class="sidebar-image img-fluid w-100 h-100"
       loading="lazy">
   </aside>
+</div>
+
+
+<div class="modal-confirmacion" *ngIf="showModal" (click)="cerrarModal()">
+
+  <div class="confirmacion-modal" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="modal-icon">
+      <i class="fa-solid fa-user-check"></i>
+    </div>
+
+    <h3>Confirmar registro</h3>
+    <p class="modal-description"> ¿Estás seguro de que quieres crear una cuenta usando el siguiente correo electrónico? </p>
+    <div class="confirmacion-info">
+      <div class="info-item correo-confirmacion">
+        <i class="fa-solid fa-envelope"></i>
+        <span>{{ correo }}</span>
+      </div>
+    </div>
+
+    <div class="modal-buttons">
+      <button type="button" class="btn btn-light" (click)="cerrarModal()" [disabled]="loading">
+        Cancelar
+      </button>
+
+      <button type="button" class="btn btn-primary-custom" (click)="register()" [disabled]="countdown > 0 || loading">
+        <ng-container *ngIf="!loading">
+          <i class="fa-solid fa-check me-2"></i> Confirmar
+        </ng-container>
+        <ng-container *ngIf="loading">
+          <i class="fa-solid fa-spinner fa-spin me-2"></i>Registrando...
+        </ng-container>
+      </button>
+    </div>
+  </div>
 </div>

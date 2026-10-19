@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ClientService } from './clientService';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of, switchMap } from 'rxjs';
-import { toast } from 'ngx-sonner';
 import { ObservableService } from '../utility/observable.service';
 import { FormGroup } from '@angular/forms';
 
@@ -15,7 +12,9 @@ export class UserService {
   private readonly maxIntentos = 3;
   private readonly penalizacion = [30, 60, /*2 * 60 * 60*/ 90];
 
-  constructor(private clientS: ClientService, private ObservableService: ObservableService) { }
+  constructor(private ObservableService: ObservableService) { }
+
+  
 
   enviarCorreo(id: string): boolean {
     this.resetDiario(id);

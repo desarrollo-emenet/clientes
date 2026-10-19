@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { DatePipe, DecimalPipe, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,6 +21,8 @@ export class CreateAccount {
   loading!: boolean;
   isFlipping!: boolean;
   countdown = 0;
+  showModal = false;
+  correo = '';
   protected Math = Math;
   private timerInterval: any;
 
@@ -68,20 +70,20 @@ export class CreateAccount {
     this.countdown = this.rateLimit.registrarIntentos(id);
     this.startCountdown();
 
-    try{
+    try {
       this.loading = true;
       await firstValueFrom(this.api.register(this.createForm.value));
-      this.router.navigate(['/iniciar-sesion'], {state: { success: true },});
-    }catch(error){
+      this.router.navigate(['/iniciar-sesion'], { state: { success: true }, });
+    } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al registrar la cuenta');
-    }finally{
+    } finally {
       this.loading = false;
     }
   }
   get numero_cliente() { return this.createForm.controls['numero_cliente']; }
 
 
-    private startCountdown(): void {
+  private startCountdown(): void {
     clearInterval(this.timerInterval);
 
     this.timerInterval = setInterval(() => {
@@ -96,5 +98,38 @@ export class CreateAccount {
 
   ngOnDestroy(): void {
     clearInterval(this.timerInterval);
+  }
+
+
+  protected async abrirConfirmacionRegistro(): Promise<void> {
+    if (this.loading) { return; }
+
+    if (this.createForm.invalid) { this.createForm.markAllAsTouched(); return; }
+    const numeroCliente = String(this.createForm.value.numero_cliente).trim();
+    this.loading = true;
+    try {
+      const email = await firstValueFrom(this.api.obtenerEmail(numeroCliente));
+      this.correo = email.correo;
+      this.showModal = true;
+    } catch (error) {
+      this.http.errorHttp(error as HttpErrorResponse, 'Error al obtener el correo');
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  cerrarModal(): void {
+    if (this.loading) {
+      return;
+    }
+
+    this.showModal = false;
+  }
+
+  @HostListener('document:keydown.escape')
+  protected manejarTeclaEscape(): void {
+    if (this.showModal) {
+      this.cerrarModal();
+    }
   }
 }

@@ -31,6 +31,12 @@ export class LoginS {
   register(data: RegisterRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
   }
+
+  obtenerEmail(numero_cliente: string){
+    return this.http.post<any>(`${this.apiUrl}/consultarEmail`, {numero_cliente});
+  }
+
+
   //Login post
   login(credentials: LoginRequest): Observable<any> {
     //console.log(credentials);
