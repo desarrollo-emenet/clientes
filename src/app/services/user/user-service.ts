@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ClientService } from './clientService';
 import { ObservableService } from '../utility/observable.service';
 import { FormGroup } from '@angular/forms';
+
+interface Limitacion {
+  id: string;
+  intentos: number;
+  unlock: number;
+  fecha: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,55 +17,89 @@ export class UserService {
 
   private readonly maxIntentos = 3;
   private readonly penalizacion = [30, 60, /*2 * 60 * 60*/ 90];
+  private readonly storageKey = 'limit';
 
   constructor(private ObservableService: ObservableService) { }
 
-  
+  private obtenerLimitaciones(): Limitacion[] {
+    try {
+      const data = localStorage.getItem(this.storageKey);
+      return data ? JSON.parse(data) as Limitacion[] : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private guardarLimitaciones(limitaciones: Limitacion[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(limitaciones));
+  }
+  private obtenerLimitacion(id: string): Limitacion {
+    const hoy = new Date().toLocaleDateString();
+    const limitaciones = this.obtenerLimitaciones();
+
+    let limitacion = limitaciones.find(item => item.id === id);
+
+    if (!limitacion) {
+      limitacion = {
+        id,
+        intentos: 0,
+        unlock: 0,
+        fecha: hoy
+      };
+
+      limitaciones.push(limitacion);
+      this.guardarLimitaciones(limitaciones);
+    } else if (limitacion.fecha !== hoy) {
+      limitacion.intentos = 0;
+      limitacion.unlock = 0;
+      limitacion.fecha = hoy;
+
+      this.guardarLimitaciones(limitaciones);
+    }
+
+    return limitacion;
+  }
 
   enviarCorreo(id: string): boolean {
-    this.resetDiario(id);
-
-    const intentos = this.getIntentos(id);
-    const unlock = Number(localStorage.getItem(`${id}_unlock`) || 0);
-
-    return intentos < this.maxIntentos && Date.now() >= unlock;
+    const limitacion = this.obtenerLimitacion(id);
+    return limitacion.intentos < this.maxIntentos && Date.now() >= limitacion.unlock;
   }
 
   registrarIntentos(id: string): number {
-    this.resetDiario(id);
+    const limitacion = this.obtenerLimitacion(id);
+    limitacion.intentos++;
+    const seconds = this.penalizacion[limitacion.intentos - 1] ?? 0;
+    limitacion.unlock = Date.now() + seconds * 1000;
 
-    const intentos = this.getIntentos(id) + 1;
-    const seconds = this.penalizacion[intentos - 1] ?? 0;
+    const limitaciones = this.obtenerLimitaciones();
+    const index = limitaciones.findIndex(item => item.id === id);
 
-    localStorage.setItem(`${id}_attempts`, intentos.toString());
-    localStorage.setItem(`${id}_unlock`, (Date.now() + seconds * 1000).toString());
+    if (index !== -1) {
+      limitaciones[index] = limitacion;
+    } else {
+      limitaciones.push(limitacion);
+    }
 
+    this.guardarLimitaciones(limitaciones);
     return seconds;
   }
 
   getFaltante(id: string): number {
-    const unlock = Number(localStorage.getItem(`${id}_unlock`) || 0);
-    return Math.max(0, Math.ceil((unlock - Date.now()) / 1000));
+    const limitacion = this.obtenerLimitacion(id);
+    return Math.max(0, Math.ceil((limitacion.unlock - Date.now()) / 1000));
   }
 
   getIntentos(id: string): number {
-    return Number(localStorage.getItem(`${id}_attempts`) || 0);
+    return this.obtenerLimitacion(id).intentos;
   }
 
   reset(id: string): void {
-    localStorage.removeItem(`${id}_attempts`);
-    localStorage.removeItem(`${id}_unlock`);
-    localStorage.removeItem(`${id}_date`);
+    const limitaciones = this.obtenerLimitaciones().filter(item => item.id !== id);
+    this.guardarLimitaciones(limitaciones);
   }
 
-  private resetDiario(id: string): void {
-    const hoy = new Date().toLocaleDateString();
-    const date = localStorage.getItem(`${id}_date`);
-
-    if (date !== hoy) {
-      this.reset(id);
-      localStorage.setItem(`${id}_date`, hoy);
-    }
+  resetTodo(): void {
+    localStorage.removeItem(this.storageKey);
   }
 
   formatearTextoTelefono(valor: string, maxLength: number = 10): string {
