@@ -685,4 +685,7 @@
   .header-icon {
     display: none;
   }
+  .btn-primary-custom i{
+ display: none;
+}
 }
