@@ -162,11 +162,11 @@ export class App implements OnDestroy {
         return;
       }
 
-      try {
+      /*try {
         await firstValueFrom(this.clientS.enviarTokenNoti(token.value, 'android'));
       } catch (error) {
         this.http.errorHttp(error as HttpErrorResponse, 'Error al sincronizar datos');
-      }
+      }*/
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {

@@ -65,13 +65,14 @@ export class Login implements OnInit {
       const { token, numero_cliente } = await firstValueFrom(this.api.login(this.loginForm.value));
       if (token) localStorage.setItem('authToken', token);
 
-      try {
-        const fcm_token = localStorage.getItem('fcm_token');
-        if (fcm_token) {
+      const fcm_token = localStorage.getItem('fcm_token');
+
+      if (token && fcm_token) {
+        try {
           await firstValueFrom(this.clientS.enviarTokenNoti(fcm_token, 'android'));
-        } 
-      } catch (error) {
-        this.http.errorHttp(error as HttpErrorResponse, 'Error');
+        } catch (error) {
+          this.http.errorHttp(error as HttpErrorResponse, 'Error al sincronizar token');
+        }
       }
 
       toast.success('Sesión iniciada correctamente');
