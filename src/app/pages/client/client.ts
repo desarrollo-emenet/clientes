@@ -41,11 +41,11 @@ export class Client implements OnInit {
     const planActualNombre = (this.infoCliente?.nombrePlan || '').trim().toLowerCase();
     const velocidadActual = Number(this.infoCliente?.velocidad) || 0;
 
-    return this.planesInternet.filter(plan => {
+    // Filtrar los planes que no son el actual
+    const disponibles = this.planesInternet.filter(plan => {
       const planNombre = (plan.nombre || '').trim().toLowerCase();
       const planVelocidad = Number(plan.velocidad) || 0;
 
-      // Si coincide en velocidad (ej: 200) o el nombre del plan contiene/coincide con el nombre actual
       if (velocidadActual > 0 && planVelocidad === velocidadActual) {
         return false;
       }
@@ -54,6 +54,18 @@ export class Client implements OnInit {
       }
       return true;
     });
+
+    // Encontrar el siguiente plan superior inmediato (mayor a la velocidad actual)
+    const planesSuperiores = disponibles
+      .filter(p => Number(p.velocidad) > velocidadActual)
+      .sort((a, b) => Number(a.velocidad) - Number(b.velocidad));
+
+    const siguientePlan = planesSuperiores.length > 0 ? planesSuperiores[0] : (disponibles[0] ?? null);
+
+    return disponibles.map(plan => ({
+      ...plan,
+      popular: siguientePlan ? (plan.velocidad === siguientePlan.velocidad && plan.nombre === siguientePlan.nombre) : false
+    }));
   }
 
   loadingPago = false;
