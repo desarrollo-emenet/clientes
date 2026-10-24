@@ -19,9 +19,12 @@ import { FileOpener } from '@capawesome-team/capacitor-file-opener';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
+import { ModalBase } from '../adicionales/modal-base/modal-base';
+import { planesInternet } from '../adicionales/serviceAdicional';
+
 @Component({
   selector: 'app-client',
-  imports: [CurrencyPipe, CommonModule, RouterLink, NgClass, Preloader],
+  imports: [CurrencyPipe, CommonModule, RouterLink, NgClass, Preloader, ModalBase],
   templateUrl: './client.html',
   styleUrl: './client.css'
 })
@@ -31,6 +34,8 @@ export class Client implements OnInit {
   servicios: any;
   loading!: boolean;
 
+  modalActivo: string | null = null;
+  planesInternet = planesInternet;
 
   loadingPago = false;
   showPagoModal = false;
@@ -217,8 +222,22 @@ export class Client implements OnInit {
     this.showPagoModal = false;
   }
 
+  abrirModal(seccion: string): void {
+    this.modalActivo = seccion;
+    document.body.style.overflow = 'hidden';
+  }
+
+  cerrarModal(): void {
+    this.modalActivo = null;
+    document.body.style.overflow = '';
+  }
+
   @HostListener('document:keydown.escape')
   protected manejarTeclaEscape(): void {
+    if (this.modalActivo) {
+      this.cerrarModal();
+      return;
+    }
     if (this.showPagoModal) {
       this.cerrarPagoModal();
     }
