@@ -232,6 +232,25 @@ export class Client implements OnInit {
     document.body.style.overflow = '';
   }
 
+  solicitarMejoraPlan(plan: any): void {
+    const nombre = this.infoCliente?.nombre || '';
+    const noCliente = this.infoCliente?.cliente || '';
+    const planNombre = plan?.nombre || '';
+    const costo = `MXN $${plan?.precio || ''}`;
+
+    const mensaje = `Hola, quiero mejorar mi plan\n` +
+      `Nombre: ${nombre}\n` +
+      `No. Cliente: ${noCliente}\n` +
+      `Plan a contratar: ${planNombre}\n` +
+      `Costo: ${costo}`;
+
+    const numeroWhatsApp = '5217131334557';
+    const mensajeCodificado = encodeURIComponent(mensaje);
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensajeCodificado}`;
+
+    window.open(urlWhatsApp, '_blank');
+  }
+
   @HostListener('document:keydown.escape')
   protected manejarTeclaEscape(): void {
     if (this.modalActivo) {

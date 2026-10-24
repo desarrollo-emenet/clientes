@@ -134,7 +134,7 @@
                 <div class="svc-name-plan">{{ serv.plan }}</div>
               </div>
               <div class="svc-action">
-                <a href="javascript:void(0)" (click)="abrirModal('internet')"><i class="fa-solid fa-cat"></i></a>
+                <a href="javascript:void(0)" (click)="abrirModal('internet')"><i class="fa-solid fa-crown"></i></a>
               </div>
             </div>
             <div class="svc-badge" [ngClass]="serv.badge">
@@ -273,19 +273,18 @@
 </div>
 
 <!-- MODAL: INTERNET -->
-<app-modal-base *ngIf="modalActivo === 'internet'" titulo="Planes de Internet"
-  subtitulo="Elige el plan ideal para ti" icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
+<app-modal-base *ngIf="modalActivo === 'internet'" titulo="Planes de Internet" subtitulo="Elige el plan ideal para ti"
+  icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 
   <div class="plan-grid-internet">
-    <div class="plan-card-internet" *ngFor="let plan of planesInternet"
-      [class.plan-card-popular]="plan.popular">
+    <div class="plan-card-internet" *ngFor="let plan of planesInternet" [class.plan-card-popular]="plan.popular">
 
       <div class="plan-card-top">
         <h3 class="plan-nombre">{{ plan.nombre }}</h3>
         <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
         <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
       </div>
-      <a href="https://emenet.mx/planes" class="plan-btn-internet" target="_blank">Más información</a>
+      <button type="button" class="plan-btn-internet" (click)="solicitarMejoraPlan(plan)">Mejorar Plan</button>
     </div>
   </div>
 
