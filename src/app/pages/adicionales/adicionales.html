@@ -72,9 +72,7 @@
         </div>
 
 
-        <!-- ==========================================
-         MODALES DE SERVICIOS
-        ========================================== -->
+        <!-- MODALES DE SERVICIOS -->
 
 
         <!-- MODAL: INTERNET -->
@@ -82,7 +80,8 @@
             subtitulo="Elige el plan ideal para ti" icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 
             <div class="plan-grid-internet">
-                <div class="plan-card-internet" *ngFor="let plan of planesInternet" [class.plan-card-popular]="plan.popular">
+                <div class="plan-card-internet" *ngFor="let plan of planesInternet"
+                    [class.plan-card-popular]="plan.popular">
 
                     <div class="plan-card-top">
                         <h3 class="plan-nombre">{{ plan.nombre }}</h3>
@@ -152,11 +151,13 @@
             <form class="cotizar-form" (submit)="enviarCotizacion($event, 'camaras')">
                 <div class="form-row">
                     <div class="form-field"><label>Tu nombre</label>
-                        <input type="text"  placeholder="Nombre completo" required name="nombre" autocomplete="off" (input)="soloTexto($event)"/>
+                        <input type="text" placeholder="Nombre completo" required name="nombre" autocomplete="off"
+                            (input)="soloTexto($event)" />
                     </div>
 
                     <div class="form-field"><label>Teléfono</label>
-                        <input type="tel" [(ngModel)]="telefono"  placeholder="713 000 0000" required name="telefono"  (input)="soloNumeros($event)" autocomplete="off" />
+                        <input type="tel" [(ngModel)]="telefono" placeholder="713 000 0000" required name="telefono"
+                            (input)="soloNumeros($event)" autocomplete="off" />
                     </div>
                 </div>
 
@@ -190,7 +191,8 @@
                 <div class="opcion-card">
                     <div class="opcion-icon"><i class="fa-solid fa-credit-card"></i></div>
                     <h3>Kit Básico MyBusinessPos</h3>
-                    <p>Ideal para pequeños y grandes negocios. Incluye equipo básico y 2 horas de capacitación incluidas.</p>
+                    <p>Ideal para pequeños y grandes negocios. Incluye equipo básico y 2 horas de capacitación
+                        incluidas.</p>
 
                     <ul class="plan-features">
                         <li>Equipo básico completo.</li>
@@ -201,7 +203,7 @@
                     </ul>
 
                     <div class="modal-cta">
-                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">
+                        <a href="https://pos.emenet.mx/" class="modal-btn-wp" target="_blank">
                             Más información
                         </a>
                     </div>
@@ -223,13 +225,14 @@
                     </ul>
 
                     <div class="modal-cta">
-                        <a href="https://desarrollo.emenet.mx/" class="modal-btn-wp" target="_blank">Más información</a>
+                        <a href="https://pos.emenet.mx/" class="modal-btn-wp" target="_blank">Más información</a>
                     </div>
                 </div>
             </div>
 
             <div class="modal-cta">
-                <button type="button" class="plan-btn" (click)="solicitarOpcion('sistema-completo')">Asesoría por WhatsApp</button>
+                <button type="button" class="plan-btn" (click)="solicitarOpcion('sistema-completo')">Asesoría por
+                    WhatsApp</button>
             </div>
         </app-modal-base>
 
@@ -242,7 +245,8 @@
                     <div class="gps-detalle-icon"><i class="fa-solid fa-location-dot"></i></div>
                     <div>
                         <h4>Ubicación en tiempo real</h4>
-                        <p>Rastrea la posición exacta de tus vehículos desde cualquier dispositivo con conexión a internet.</p>
+                        <p>Rastrea la posición exacta de tus vehículos desde cualquier dispositivo con conexión a
+                            internet.</p>
                     </div>
                 </div>
 
@@ -250,7 +254,8 @@
                     <div class="gps-detalle-icon"><i class="fa-solid fa-bell"></i></div>
                     <div>
                         <h4>Alertas inteligentes</h4>
-                        <p>Recibe notificaciones de exceso de velocidad, salida de zona y movimiento fuera de horario.</p>
+                        <p>Recibe notificaciones de exceso de velocidad, salida de zona y movimiento fuera de horario.
+                        </p>
                     </div>
                 </div>
 
@@ -265,7 +270,8 @@
                     <div class="gps-detalle-icon"><i class="fa-solid fa-car"></i></div>
                     <div>
                         <h4>Control de flotillas</h4>
-                        <p>Gestiona múltiples unidades desde un solo panel. Compatible con cualquier tipo de vehículo.</p>
+                        <p>Gestiona múltiples unidades desde un solo panel. Compatible con cualquier tipo de vehículo.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -319,11 +325,13 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label>Tu nombre</label>
-                        <input type="text" placeholder="Nombre completo" required name="nombre" autocomplete="off" (input)="soloTexto($event)"/>
+                        <input type="text" placeholder="Nombre completo" required name="nombre" autocomplete="off"
+                            (input)="soloTexto($event)" />
                     </div>
                     <div class="form-field">
                         <label>Teléfono</label>
-                        <input type="tel" [(ngModel)]="telefono" placeholder="713 000 0000" required name="telefono" (input)="soloNumeros($event)" autocomplete="off" />
+                        <input type="tel" [(ngModel)]="telefono" placeholder="713 000 0000" required name="telefono"
+                            (input)="soloNumeros($event)" autocomplete="off" />
                     </div>
                 </div>
                 <div class="form-field">
