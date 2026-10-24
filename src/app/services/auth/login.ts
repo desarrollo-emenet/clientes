@@ -32,10 +32,9 @@ export class LoginS {
     return this.http.post<any>(`${this.apiUrl}/usuarios`, data);
   }
 
-  obtenerEmail(numero_cliente: string){
-    return this.http.post<any>(`${this.apiUrl}/consultarEmail`, {numero_cliente});
+  obtenerEmail(numero_cliente: string) {
+    return this.http.post<any>(`${this.apiUrl}/consultarEmail`, { numero_cliente });
   }
-
 
   //Login post
   login(credentials: LoginRequest): Observable<any> {
@@ -61,6 +60,11 @@ export class LoginS {
     return this.http.get(`${this.apiUrl}/auth/logout`, { headers });
   }
 
+  deleteAccount(id: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.delete(`${this.apiUrl}/usuarios/${id}`, { headers });
+  }
+  
   verifyMail(data: any): Observable<{ valid: boolean }> {
     return this.http.post<{ valid: boolean }>(`${this.apiUrl}/verify-token`, data);
   }
