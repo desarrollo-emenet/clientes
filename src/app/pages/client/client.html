@@ -133,7 +133,7 @@
                 <div class="svc-name">{{ serv.nombre }}</div>
                 <div class="svc-name-plan">{{ serv.plan }}</div>
               </div>
-              <div class="svc-action">
+              <div class="svc-action" *ngIf="serv.nombre === 'Internet'">
                 <a href="javascript:void(0)" (click)="abrirModal('internet')"><i class="fa-solid fa-crown"></i></a>
               </div>
             </div>
@@ -277,7 +277,7 @@
   icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 
   <div class="plan-grid-internet">
-    <div class="plan-card-internet" *ngFor="let plan of planesInternet" [class.plan-card-popular]="plan.popular">
+    <div class="plan-card-internet" *ngFor="let plan of planesInternetDisponibles" [class.plan-card-popular]="plan.popular">
 
       <div class="plan-card-top">
         <h3 class="plan-nombre">{{ plan.nombre }}</h3>

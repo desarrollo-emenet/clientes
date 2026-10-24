@@ -37,6 +37,25 @@ export class Client implements OnInit {
   modalActivo: string | null = null;
   planesInternet = planesInternet;
 
+  get planesInternetDisponibles(): any[] {
+    const planActualNombre = (this.infoCliente?.nombrePlan || '').trim().toLowerCase();
+    const velocidadActual = Number(this.infoCliente?.velocidad) || 0;
+
+    return this.planesInternet.filter(plan => {
+      const planNombre = (plan.nombre || '').trim().toLowerCase();
+      const planVelocidad = Number(plan.velocidad) || 0;
+
+      // Si coincide en velocidad (ej: 200) o el nombre del plan contiene/coincide con el nombre actual
+      if (velocidadActual > 0 && planVelocidad === velocidadActual) {
+        return false;
+      }
+      if (planActualNombre && (planActualNombre.includes(planNombre) || planNombre.includes(planActualNombre))) {
+        return false;
+      }
+      return true;
+    });
+  }
+
   loadingPago = false;
   showPagoModal = false;
   ticket: any;
