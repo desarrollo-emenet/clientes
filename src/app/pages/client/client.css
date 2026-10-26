@@ -635,6 +635,21 @@
   transform: translateY(-2px);
 }
 
+.service-card-clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.service-card-clickable:hover {
+  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.15);
+  border-color: rgba(11, 78, 148, 0.2);
+  transform: translateY(-3px);
+}
+
+.service-card-clickable:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
 .service-card-top {
   display: flex;
   align-items: center;
@@ -652,12 +667,14 @@
 }
 
 .svc-action a {
-  color: #94870193;
+  color: #a2a2a193;
   font-size: 1.2rem;
   transition: color 0.2s, transform 0.15s;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-right: 8px;
+
   text-decoration: none;
 }
 
@@ -1345,7 +1362,7 @@
 }
 
 .plan-card-internet.plan-card-popular::before {
-  content: "Popular";
+  content: "Recomendado";
   position: absolute;
   top: 12px;
   right: 12px;
