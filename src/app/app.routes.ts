@@ -21,6 +21,7 @@ import { FormPagos } from './pages/form-pagos/form-pagos';
 import { Adicionales } from './pages/adicionales/adicionales';
 import { recoverEmailGuard } from './guards/recover-email-guard';
 import { SpeedTest } from './pages/speed-test/speed-test';
+import { AvisoPrivacidad } from './pages/aviso-privacidad/aviso-privacidad';
 
 
 export const routes: Routes = [
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'recuperar-password', component: Recover },
   { path: 'response-password', component: ResponseRecover, canActivate: [recoverEmailGuard] },
   { path: 'email-verificado', component: EmailVerificado, canActivate: [emailVerificadoGuard] },
+  { path: 'aviso-privacidad', component: AvisoPrivacidad},
 
 
   // Requieren login
