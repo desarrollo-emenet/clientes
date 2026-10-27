@@ -60,9 +60,9 @@ export class LoginS {
     return this.http.get(`${this.apiUrl}/auth/logout`, { headers });
   }
 
-  deleteAccount(id: string): Observable<any> {
+  deleteAccount(password: string): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.delete(`${this.apiUrl}/usuarios/${id}`, { headers });
+    return this.http.delete(`${this.apiUrl}/eliminarCuenta`, { body: {password}, headers });
   }
   
   verifyMail(data: any): Observable<{ valid: boolean }> {

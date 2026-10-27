@@ -22,6 +22,7 @@ import { Adicionales } from './pages/adicionales/adicionales';
 import { recoverEmailGuard } from './guards/recover-email-guard';
 import { SpeedTest } from './pages/speed-test/speed-test';
 import { AvisoPrivacidad } from './pages/aviso-privacidad/aviso-privacidad';
+import { Perfil } from './pages/perfil/perfil';
 
 
 export const routes: Routes = [
@@ -42,6 +43,7 @@ export const routes: Routes = [
   { path: 'formas-de-pago/:numero_cliente', component: Payment, canActivate: [requireAuthGuard] },
   { path: 'visitas/:numero_cliente', component: Visits, canActivate: [requireAuthGuard] },
   { path: 'edit-perfil', component: EditProfile, canActivate: [requireAuthGuard] },
+  { path: 'mi-perfil', component: Perfil, canActivate:[requireAuthGuard] },
   { path: 'faq', component: FAQ, canActivate: [requireAuthGuard] },
   { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},

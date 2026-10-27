@@ -1,0 +1,195 @@
+<div class="profile-page">
+    <main class="profile-container">
+
+        <section class="profile-hero">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    <p-avatar *ngIf="clienteAv.avatarUrl; else avatarFallback" [image]="clienteAv.avatarUrl"
+                        shape="circle" size="xlarge" />
+                    <ng-template #avatarFallback>
+                        <div class="avatar-fallback">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+                    </ng-template>
+                </div>
+                <button type="button" class="avatar-edit-button" aria-label="Cambiar avatar" title="Cambiar avatar"
+                    (click)="toggleSelectorAvatar()">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+            </div>
+
+            <div class="profile-identity">
+                <span class="profile-eyebrow">mi emenet</span>
+                <h2>{{ infoCliente?.nombre }}</h2>
+                <p>Administra tu información personal</p>
+                <button type="button" class="change-avatar-button" (click)="toggleSelectorAvatar()">
+                    <i class="fa-solid fa-camera"></i>
+                    {{ mostrarSelectorAvatar ? 'Cancelar' : 'Cambiar avatar' }}
+                </button>
+            </div>
+        </section>
+
+
+        <!--avatares -->
+        <section class="avatar-picker-card" *ngIf="mostrarSelectorAvatar">
+            <div class="avatar-picker-heading">
+                <div>
+                    <h3>Elige tu avatar</h3>
+                    <p>Personaliza tu perfil con uno de estos avatares.</p>
+                </div>
+
+                <button type="button" class="avatar-picker-close" aria-label="Cerrar selector"
+                    [disabled]="guardandoAvatar" (click)="toggleSelectorAvatar()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="avatar-selector-grid">
+                <button *ngFor="let optionUrl of avatarOptions" type="button" class="avatar-option"
+                    [class.avatar-option-selected]="clienteAv.avatarUrl === optionUrl" [disabled]="guardandoAvatar"
+                    [attr.aria-pressed]="clienteAv.avatarUrl === optionUrl"
+                    [attr.aria-label]="'Seleccionar avatar ' + optionUrl.split('seed=')[1]"
+                    (click)="cambiarAvatar(optionUrl)">
+                    <p-avatar [image]="optionUrl" shape="circle" size="xlarge" />
+                    <span class="avatar-selected-check" *ngIf="clienteAv.avatarUrl === optionUrl">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                </button>
+            </div>
+
+            <div class="avatar-saving" *ngIf="guardandoAvatar">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Guardando avatar...
+            </div>
+        </section>
+
+
+        <section class="account-card">
+            <div class="section-heading">
+                <div class="section-icon"><i class="fa-regular fa-id-card"></i></div>
+                <div>
+                    <h2>Información de la cuenta</h2>
+                    <p>Datos generales de tu cuenta.</p>
+                </div>
+            </div>
+
+            <div class="account-details">
+
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-hashtag"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Correo</span>
+                        <div class="client-number">
+                            <strong>{{ infoCliente?.correo || 'No disponible' }}</strong>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Telefono</span>
+                        <div class="client-number">
+                            <strong>{{ infoCliente?.telefono || 'No disponible' }}</strong>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="action-card edit-action" routerLink="/edit-perfil">
+                <div class="action-icon"><i class="fa-regular fa-pen-to-square"></i></div>
+                <div class="action-content">
+                    <strong>Editar datos de acceso</strong>
+                    <span>Actualiza tus contraseña y/o correo electronico</span>
+                </div>
+                <i class="fa-solid fa-chevron-right action-chevron"></i>
+            </button>
+
+            <!-- Eliminar cuenta -->
+            <button type="button" class="action-card delete-action" (click)="abrirConfirmacionRegistro()">
+                <div class="action-icon"><i class="fa-regular fa-trash-can"></i></div>
+                <div class="action-content">
+                    <strong>Eliminar mi cuenta</strong>
+                </div>
+                <i class="fa-solid fa-chevron-right action-chevron"></i>
+            </button>
+        </section>
+
+    </main>
+</div>
+
+
+
+
+<div class="delete-modal-overlay" *ngIf="showModal" (click)="cerrarModal()" (keydown.escape)="cerrarModal()">
+    <section class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" (click)="$event.stopPropagation()">
+        <button type="button" class="delete-modal-close" aria-label="Cerrar" [disabled]="loading" (click)="cerrarModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="delete-modal-icon">
+            <i class="fa-solid fa-user-xmark"></i>
+        </div>
+        <span class="delete-modal-eyebrow">SEGURIDAD DE LA CUENTA</span>
+        <h2 id="delete-modal-title">Eliminar mi cuenta</h2>
+        <p class="delete-modal-description">
+            Estás a punto de solicitar la eliminación de tu cuenta de mi emenet, esta acción puede ser irreversible.
+        </p>
+
+        <form (ngSubmit)="confirmarEliminarCuenta()">
+
+            <label for="passwordEliminar" class="delete-password-label">
+                Confirma tu contraseña actual
+            </label>
+
+            <div class="delete-password-wrapper">
+                <i class="fa-solid fa-lock password-lock-icon"></i>
+
+                <input id="passwordEliminar" name="passwordEliminar"
+                    [type]="mostrarPasswordEliminar ? 'text' : 'password'" [(ngModel)]="passwordEliminar"
+                    placeholder="Ingresa tu contraseña" autocomplete="current-password" [disabled]="loading" required />
+
+                <button type="button" class="password-visibility-button" [disabled]="loading" [attr.aria-label]="mostrarPasswordEliminar
+            ? 'Ocultar contraseña'
+            : 'Mostrar contraseña'" (click)="mostrarPasswordEliminar = !mostrarPasswordEliminar">
+                    <i [class]="mostrarPasswordEliminar
+              ? 'fa-regular fa-eye-slash'
+              : 'fa-regular fa-eye'">
+                    </i>
+                </button>
+            </div>
+
+            <p class="delete-error" *ngIf="errorEliminar">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                {{ errorEliminar }}
+            </p>
+
+            <div class="delete-security-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>
+                    Tu contraseña se verificará de forma segura antes de procesar la eliminación.
+                </span>
+            </div>
+
+            <div class="delete-modal-actions">
+                <button type="button" class="delete-cancel-button" [disabled]="loading" (click)="cerrarModal()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="delete-confirm-button" [disabled]="loading || !passwordEliminar.trim()">
+                    <ng-container *ngIf="!loading">
+                        <i class="fa-regular fa-trash-can"></i>
+                        Eliminar cuenta
+                    </ng-container>
+
+                    <ng-container *ngIf="loading">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Procesando...
+                    </ng-container>
+                </button>
+            </div>
+
+        </form>
+    </section>
+</div>

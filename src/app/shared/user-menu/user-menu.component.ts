@@ -24,13 +24,6 @@ export class UserMenuComponent implements OnInit {
   cliente: any = { nombre: '', cliente: '', avatarUrl: '' };
   user: any;
 
-  avatarOptions: string[] = [
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Mia',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Leo',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe',
-  ];
 
   constructor(
     private router: Router,
@@ -46,7 +39,7 @@ export class UserMenuComponent implements OnInit {
     this.checkCurrentRoute();
     this.ObservableService.cliente$.subscribe(info => {
       if (!info) { return }
-      this.cliente = { ...info, avatarUrl: info.avatarUrl ?? this.avatarOptions[0] };
+      this.cliente = { ...info, avatarUrl: info.avatarUrl ?? null };
     })
     this.user = await firstValueFrom(this.clientS.getAuthenticatedUser());
     if (this.user?.avatar_url) {
@@ -67,19 +60,6 @@ export class UserMenuComponent implements OnInit {
       this.userServ.eliminarServicioActivo();
     } else {
       this.router.navigate([route]);
-    }
-  }
-
-  protected async changeAvatar(url: string, event: Event) {
-
-    event.stopPropagation();
-    try {
-      await firstValueFrom(this.clientS.updateAvatar({ avatar_url: url }));
-      this.ObservableService.actualizarAvatar(url);
-      //toast.success('Avatar actualizado correctamente');
-    } catch (e) {
-      const error = e as HttpErrorResponse;
-      this.http.errorHttp(error, 'Error al actualizar el avatar');
     }
   }
 
