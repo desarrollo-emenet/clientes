@@ -588,7 +588,9 @@
 }
 
 .help-panel--open {
-  right: 0;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 /* En Móviles (Pantalla completa adaptable) */
