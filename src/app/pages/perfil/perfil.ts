@@ -12,11 +12,12 @@ import { HttpService } from '../../services/utility/http.service';
 import { infoCliente } from '../../models/info-cliente';
 import { FormsModule } from '@angular/forms';
 import { LoginS } from '../../services/auth/login';
+import { Preloader } from '../../shared/preloader/preloader';
 
 
 @Component({
   selector: 'app-perfil',
-  imports: [NgIf, Avatar, RouterLink, NgFor, FormsModule, DatePipe],
+  imports: [NgIf, Avatar, RouterLink, NgFor, FormsModule, DatePipe, Preloader],
   templateUrl: './perfil.html',
   styleUrl: './perfil.css'
 })

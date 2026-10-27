@@ -1,7 +1,9 @@
 <div class="profile-page">
-    <main class="profile-container">
+    <app-preloader *ngIf="!infoCliente || loading"></app-preloader>
+    <main class="profile-container" *ngIf="infoCliente && useremail">
+        
 
-        <section class="profile-hero">
+        <section class="profile-hero" >
             <div class="profile-avatar-wrapper">
                 <div class="profile-avatar">
                     <p-avatar *ngIf="clienteAv.avatarUrl; else avatarFallback" [image]="clienteAv.avatarUrl"
