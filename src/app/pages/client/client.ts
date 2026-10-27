@@ -173,8 +173,9 @@ export class Client implements OnInit {
     if (!formPago.valid) return console.log("no se pudo generar la orden");
     try {
       this.loadingPago = true;
-      const { data } = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
-      window.open(data.redirect_url, '_blank');
+      //const { data } = await firstValueFrom(this.paymentService.crearOrdenPagoralia(formPago.value));
+      //window.open(data.redirect_url, '_blank');
+      toast.message("Pagado");
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al procesar los datos');
     } finally {
