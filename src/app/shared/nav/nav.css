@@ -1,6 +1,3 @@
-/* ============================================================
-   SIDEBAR — desktop (dentro del header como nav horizontal)
-   ============================================================ */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -50,7 +47,7 @@
 }
 
 .list-group-item.active {
-  background:rgba(222, 225, 229, 0.473)
+  background: rgba(222, 225, 229, 0.473)
 }
 
 /* ============================================================
@@ -113,13 +110,10 @@
   color: #2179B5;
 }
 
-:host-context(.bottom-nav) .list-group-item:hover {
-  background: rgba(33, 121, 181, 0.06);
-  transform: none;
-}
-
+:host-context(.bottom-nav) .list-group-item:hover,
 :host-context(.bottom-nav) .list-group-item.active {
-  background: rgba(33, 121, 181, 0.08);
+  background: transparent;
+  transform: none;
 }
 
 /* Scrollbar oculto */

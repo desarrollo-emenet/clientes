@@ -19,9 +19,12 @@ import { FileOpener } from '@capawesome-team/capacitor-file-opener';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
+import { ModalBase } from '../adicionales/modal-base/modal-base';
+import { planesInternet } from '../adicionales/serviceAdicional';
+
 @Component({
   selector: 'app-client',
-  imports: [CurrencyPipe, CommonModule, RouterLink, NgClass, Preloader],
+  imports: [CurrencyPipe, CommonModule, RouterLink, NgClass, Preloader, ModalBase],
   templateUrl: './client.html',
   styleUrl: './client.css'
 })
@@ -31,6 +34,39 @@ export class Client implements OnInit {
   servicios: any;
   loading!: boolean;
 
+  modalActivo: string | null = null;
+  planesInternet = planesInternet;
+
+  get planesInternetDisponibles(): any[] {
+    const planActualNombre = (this.infoCliente?.nombrePlan || '').trim().toLowerCase();
+    const velocidadActual = Number(this.infoCliente?.velocidad) || 0;
+
+    // Filtrar los planes que no son el actual
+    const disponibles = this.planesInternet.filter(plan => {
+      const planNombre = (plan.nombre || '').trim().toLowerCase();
+      const planVelocidad = Number(plan.velocidad) || 0;
+
+      if (velocidadActual > 0 && planVelocidad === velocidadActual) {
+        return false;
+      }
+      if (planActualNombre && (planActualNombre.includes(planNombre) || planNombre.includes(planActualNombre))) {
+        return false;
+      }
+      return true;
+    });
+
+    // Encontrar el siguiente plan superior inmediato (mayor a la velocidad actual)
+    const planesSuperiores = disponibles
+      .filter(p => Number(p.velocidad) > velocidadActual)
+      .sort((a, b) => Number(a.velocidad) - Number(b.velocidad));
+
+    const siguientePlan = planesSuperiores.length > 0 ? planesSuperiores[0] : (disponibles[0] ?? null);
+
+    return disponibles.map(plan => ({
+      ...plan,
+      popular: siguientePlan ? (plan.velocidad === siguientePlan.velocidad && plan.nombre === siguientePlan.nombre) : false
+    }));
+  }
 
   loadingPago = false;
   showPagoModal = false;
@@ -217,8 +253,41 @@ export class Client implements OnInit {
     this.showPagoModal = false;
   }
 
+  abrirModal(seccion: string): void {
+    this.modalActivo = seccion;
+    document.body.style.overflow = 'hidden';
+  }
+
+  cerrarModal(): void {
+    this.modalActivo = null;
+    document.body.style.overflow = '';
+  }
+
+  solicitarMejoraPlan(plan: any): void {
+    const nombre = this.infoCliente?.nombre || '';
+    const noCliente = this.infoCliente?.cliente || '';
+    const planNombre = plan?.nombre || '';
+    const costo = `MXN $${plan?.precio || ''}`;
+
+    const mensaje = `Hola, quiero mejorar mi plan\n` +
+      `Nombre: ${nombre}\n` +
+      `No. Cliente: ${noCliente}\n` +
+      `Plan a contratar: ${planNombre}\n` +
+      `Costo: ${costo}`;
+
+    const numeroWhatsApp = '5217131334557';
+    const mensajeCodificado = encodeURIComponent(mensaje);
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensajeCodificado}`;
+
+    window.open(urlWhatsApp, '_blank');
+  }
+
   @HostListener('document:keydown.escape')
   protected manejarTeclaEscape(): void {
+    if (this.modalActivo) {
+      this.cerrarModal();
+      return;
+    }
     if (this.showPagoModal) {
       this.cerrarPagoModal();
     }
