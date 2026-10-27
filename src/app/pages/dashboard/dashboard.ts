@@ -69,7 +69,7 @@ export class Dashboard implements OnInit {
   }
 
   protected irAContratar() {
-    window.open('https://emenet.mx/planes', '_blank');
+    window.open('https://desarrollo.emenet.mx/planes', '_blank');
   }
 
   protected copiarAlPortapapeles(texto: string): void {
