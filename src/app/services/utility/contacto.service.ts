@@ -10,3 +10,4 @@ export class ContactoService {
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   }
 }
+ 

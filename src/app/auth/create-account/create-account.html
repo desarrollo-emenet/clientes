@@ -4,7 +4,7 @@
 
     <div class="w-100 my-auto d-flex flex-column align-items-center">
       <div class="text-center mb-4 mt-n2 logo-mobile">
-        <img src="assets/img/emenetLogo.webp" alt="emenet Logo" height="70">
+        <img src="assets/img/ISPGenerico/logoISPGenerico.webp" alt="emenet Logo" height="70">
       </div>
 
       <div class="auth-card shadow-lg p-2 p-sm-5 w-100">
@@ -49,12 +49,13 @@
                   ¿Te falta vincular tu correo? <em>¡Hazlo ahora!</em>
                 </span>
                 <div class="support-buttons">
-                  <a class="btn-soporte btn-whatsapp" target="_blank" [href]="'https://wa.me/7133475658?text=' +
-                      'Hola,%20no%20conozco%20mi%20numero%20de%20cliente'">
+                  
+
+                  <a class="btn-soporte btn-whatsapp" target="_blank" (click)="contactoService.contactSupport('9999999999', 'Hola, no conozco mi numero de cliente, necesito ayuda.')">
                     <i class="fa-brands fa-whatsapp fa-lg" style="color: rgb(255, 255, 255);"></i>
                     Chat de WhatsApp
                   </a>
-                  <a class="btn-soporte btn-telefono" href="tel:7131334557">
+                  <a class="btn-soporte btn-telefono" href="tel:9999999999">
                     <i class="fa-solid fa-phone fa-lg" style="color: rgb(23, 122, 196);"></i>
                     Llamar a Soporte
                   </a>
@@ -122,7 +123,7 @@
   <aside class="login-sidebar position-relative">
     <div class="position-absolute top-0 start-0 w-100 p-4 p-md-5" style="z-index: 50;">
       <!-- Logo -->
-      <img src="assets/img/emenetLogo.webp" alt="emenet Logo" class="img-fluid" style="max-height: 90px;">
+      <img src="assets/img/ISPGenerico/sin-fondoISPGenerico.webp" alt="emenet Logo" class="img-fluid" style="max-height: 200px;">
     </div>
     <img src="assets/img/crear/emenet.webp" alt="emenet comunicaciones" class="sidebar-image img-fluid w-100 h-100"
       loading="lazy">

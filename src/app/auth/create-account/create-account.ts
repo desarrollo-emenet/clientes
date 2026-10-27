@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../../services/utility/http.service';
 import { UserService } from '../../services/user/user-service';
+import { ContactoService } from '../../services/utility/contacto.service';
 @Component({
   selector: 'app-create-account',
   imports: [ReactiveFormsModule, NgIf, DecimalPipe],
@@ -28,7 +29,8 @@ export class CreateAccount {
 
   constructor(private fb: FormBuilder, private router: Router, private api: LoginS,
     protected http: HttpService,
-    private rateLimit: UserService
+    private rateLimit: UserService,
+    protected contactoService: ContactoService,
   ) {
     this.createForm = this.fb.group({
       numero_cliente: ['', [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')]],

@@ -5,7 +5,7 @@
     <!-- 2. LOADING FLOTANTE: Se muestra encima de la interfaz al generar la URL del ticket -->
     <div *ngIf="infoCliente && loading" class="loading-overlay-fixed">
       <div class="loading-card-box">
-        <img src="assets/img/logo.png" alt="Generando..." class="loading-logo logo-animated">
+        <img src="assets/img/ISPGenerico/logopeqISPGenerico.webp" alt="Generando..." class="loading-logo logo-animated">
         <div class="loading-spinner border-primary-color"></div>
         <p class="loading-text-white">Generando ...</p>
       </div>
@@ -66,8 +66,7 @@
                 MXN {{ this.calculo.calcularTotalMensual(servicios) | currency:'MXN':'symbol-narrow':'1.2-2' }}
               </div>
             </ng-template>
-            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluye
-              todos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
+            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluyetodos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
           </div>
         </div>
       </div>
