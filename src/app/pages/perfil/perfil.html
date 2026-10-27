@@ -21,7 +21,6 @@
             <div class="profile-identity">
                 <span class="profile-eyebrow">mi emenet</span>
                 <h2>{{ infoCliente?.nombre }}</h2>
-                <p>Administra tu información personal</p>
                 <button type="button" class="change-avatar-button" (click)="toggleSelectorAvatar()">
                     <i class="fa-solid fa-camera"></i>
                     {{ mostrarSelectorAvatar ? 'Cancelar' : 'Cambiar avatar' }}
@@ -69,29 +68,28 @@
                 <div class="section-icon"><i class="fa-regular fa-id-card"></i></div>
                 <div>
                     <h2>Información de la cuenta</h2>
-                    <p>Datos generales de tu cuenta.</p>
                 </div>
             </div>
 
             <div class="account-details">
 
                 <div class="detail-item">
-                    <div class="detail-icon"><i class="fa-solid fa-hashtag"></i></div>
+                    <div class="detail-icon"><i class="fa-solid fa-at"></i></div>
                     <div class="detail-content">
                         <span class="detail-label">Correo</span>
                         <div class="client-number">
-                            <strong>{{ infoCliente?.correo || 'No disponible' }}</strong>
+                            <strong>{{ useremail?.email }}</strong>
 
                         </div>
                     </div>
                 </div>
 
                 <div class="detail-item">
-                    <div class="detail-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="detail-icon"><i class="fa-solid fa-user"></i></div>
                     <div class="detail-content">
-                        <span class="detail-label">Telefono</span>
+                        <span class="detail-label">Creacion de cuenta</span>
                         <div class="client-number">
-                            <strong>{{ infoCliente?.telefono || 'No disponible' }}</strong>
+                             <strong>{{ useremail?.email_verified_at | date: 'mediumDate' }}</strong>
 
                         </div>
                     </div>
@@ -151,12 +149,8 @@
                     placeholder="Ingresa tu contraseña" autocomplete="current-password" [disabled]="loading" required />
 
                 <button type="button" class="password-visibility-button" [disabled]="loading" [attr.aria-label]="mostrarPasswordEliminar
-            ? 'Ocultar contraseña'
-            : 'Mostrar contraseña'" (click)="mostrarPasswordEliminar = !mostrarPasswordEliminar">
-                    <i [class]="mostrarPasswordEliminar
-              ? 'fa-regular fa-eye-slash'
-              : 'fa-regular fa-eye'">
-                    </i>
+                    ? 'Ocultar contraseña' : 'Mostrar contraseña'" (click)="mostrarPasswordEliminar = !mostrarPasswordEliminar">
+                    <i [class]="mostrarPasswordEliminar ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
                 </button>
             </div>
 
@@ -167,9 +161,7 @@
 
             <div class="delete-security-note">
                 <i class="fa-solid fa-shield-halved"></i>
-                <span>
-                    Tu contraseña se verificará de forma segura antes de procesar la eliminación.
-                </span>
+                <span> Tu contraseña se verificará de forma segura antes de procesar la eliminación. </span>
             </div>
 
             <div class="delete-modal-actions">

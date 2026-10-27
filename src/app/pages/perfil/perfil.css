@@ -130,10 +130,9 @@
   display: block;
   margin-bottom: 0.45rem;
   color: #c6e1ff;
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: 800;
   letter-spacing: 0.13em;
-  text-transform: uppercase;
 }
 
 .profile-identity h2 {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { ObservableService } from '../../services/utility/observable.service';
 import { UserService } from '../../services/user/user-service';
 import { firstValueFrom } from 'rxjs';
@@ -16,7 +16,7 @@ import { LoginS } from '../../services/auth/login';
 
 @Component({
   selector: 'app-perfil',
-  imports: [NgIf, Avatar, RouterLink, NgFor, FormsModule],
+  imports: [NgIf, Avatar, RouterLink, NgFor, FormsModule, DatePipe],
   templateUrl: './perfil.html',
   styleUrl: './perfil.css'
 })
@@ -47,6 +47,7 @@ export class Perfil {
   passwordEliminar = '';
   mostrarPasswordEliminar = false;
   errorEliminar = '';
+  useremail: any;
 
 
 
@@ -82,6 +83,7 @@ export class Perfil {
     try {
       const res = await firstValueFrom(this.clientS.getClientePorNumero(numeroCliente));
       this.infoCliente = res?.cliente ?? null;
+      this.useremail = await firstValueFrom(this.clientS.getAuthenticatedUser());
     } catch (error) {
       this.http.errorHttp(error as HttpErrorResponse, 'Error al cargar los datos');
     }
