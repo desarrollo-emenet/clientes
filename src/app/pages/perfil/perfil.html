@@ -1,9 +1,9 @@
 <div class="profile-page">
     <app-preloader *ngIf="!infoCliente || loading"></app-preloader>
     <main class="profile-container" *ngIf="infoCliente && useremail">
-        
 
-        <section class="profile-hero" >
+
+        <section class="profile-hero">
             <div class="profile-avatar-wrapper">
                 <div class="profile-avatar">
                     <p-avatar *ngIf="clienteAv.avatarUrl; else avatarFallback" [image]="clienteAv.avatarUrl"
@@ -91,30 +91,32 @@
                     <div class="detail-content">
                         <span class="detail-label">Creacion de cuenta</span>
                         <div class="client-number">
-                             <strong>{{ useremail?.email_verified_at | date: 'mediumDate' }}</strong>
+                            <strong>{{ useremail?.email_verified_at | date: 'mediumDate' }}</strong>
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button type="button" class="action-card edit-action" routerLink="/edit-perfil">
-                <div class="action-icon"><i class="fa-regular fa-pen-to-square"></i></div>
-                <div class="action-content">
-                    <strong>Editar datos de acceso</strong>
-                    <span>Actualiza tus contraseña y/o correo electronico</span>
-                </div>
-                <i class="fa-solid fa-chevron-right action-chevron"></i>
-            </button>
+            <div class="account-details">
+                <button type="button" class="action-card edit-action" routerLink="/edit-perfil">
+                    <div class="action-icon"><i class="fa-regular fa-pen-to-square"></i></div>
+                    <div class="action-content">
+                        <strong>Editar datos de acceso</strong>
+                        <span>Actualiza tus contraseña y/o correo electronico</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right action-chevron"></i>
+                </button>
 
-            <!-- Eliminar cuenta -->
-            <button type="button" class="action-card delete-action" (click)="abrirConfirmacionRegistro()">
-                <div class="action-icon"><i class="fa-regular fa-trash-can"></i></div>
-                <div class="action-content">
-                    <strong>Eliminar mi cuenta</strong>
-                </div>
-                <i class="fa-solid fa-chevron-right action-chevron"></i>
-            </button>
+                <!-- Eliminar cuenta -->
+                <button type="button" class="action-card delete-action" (click)="abrirConfirmacionRegistro()">
+                    <div class="action-icon"><i class="fa-regular fa-trash-can"></i></div>
+                    <div class="action-content">
+                        <strong>Eliminar mi cuenta</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-right action-chevron"></i>
+                </button>
+            </div>
         </section>
 
     </main>
@@ -124,8 +126,10 @@
 
 
 <div class="delete-modal-overlay" *ngIf="showModal" (click)="cerrarModal()" (keydown.escape)="cerrarModal()">
-    <section class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" (click)="$event.stopPropagation()">
-        <button type="button" class="delete-modal-close" aria-label="Cerrar" [disabled]="loading" (click)="cerrarModal()">
+    <section class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title"
+        (click)="$event.stopPropagation()">
+        <button type="button" class="delete-modal-close" aria-label="Cerrar" [disabled]="loading"
+            (click)="cerrarModal()">
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="delete-modal-icon">
@@ -151,7 +155,8 @@
                     placeholder="Ingresa tu contraseña" autocomplete="current-password" [disabled]="loading" required />
 
                 <button type="button" class="password-visibility-button" [disabled]="loading" [attr.aria-label]="mostrarPasswordEliminar
-                    ? 'Ocultar contraseña' : 'Mostrar contraseña'" (click)="mostrarPasswordEliminar = !mostrarPasswordEliminar">
+                    ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                    (click)="mostrarPasswordEliminar = !mostrarPasswordEliminar">
                     <i [class]="mostrarPasswordEliminar ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
                 </button>
             </div>
