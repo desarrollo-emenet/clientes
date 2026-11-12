@@ -1,0 +1,237 @@
+<div class="report-page">
+
+    <app-preloader *ngIf="!infoCliente || loading"></app-preloader>
+
+    <div class="report-form-card" *ngIf="infoCliente">
+        <div class="report-header">
+            <div>
+                <h2>Reportar un problema</h2>
+                <p>Cuéntanos qué sucede con tu servicio y nuestro equipo te ayudará.</p>
+            </div>
+
+            <div class="header-icon">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+        </div>
+
+        <div class="report-info">
+            <div class="info-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div>
+                <h6>Estamos para ayudarte</h6>
+                <p>Describe el inconveniente que estás presentando. Nuestro equipo revisará tu solicitud y dará
+                    seguimiento. </p>
+            </div>
+        </div>
+
+
+        <div class="report-layout">
+
+            <div class="card-heading">
+                <h5>Visite el apartado de preguntas frecuentes.</h5>
+                <button type="button" class="btn-submit" routerLink="/faq">
+                    <i class="fa-solid fa-headset"></i>
+                    Ir a ayuda
+                </button>
+            </div>
+
+            <!--<div class="card-heading">
+                <div>
+                    <h5>Nuevo reporte</h5>
+                    <p>Completa la información de tu solicitud.</p>
+                </div>
+                <span class="required-label">* Campos obligatorios</span>
+            </div>-->
+
+            <div class="form-section">
+                <label class="form-label">
+                    Servicio relacionado <span>*</span>
+                </label>
+
+                <div class="service-selector">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+
+                    <div class="service-data">
+                        <strong>Cliente {{ infoCliente.cliente }}</strong>
+                        <small>Plan {{ infoCliente.velocidad}} Mbps</small>
+                    </div>
+
+                    <div class="client-badges">
+
+                        <span class="badge badge-success"
+                            *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
+                                class="fa-solid fa-signal"></i> Activo </span>
+                        <span class="badge badge-danger"
+                            *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
+                                class="fa-solid fa-signal"></i> Suspendido</span>
+                        <!--<span class="badge badge-precaution"
+                            *ngIf="infoCliente.infoRed?.estadoFibra?.toLowerCase() === 'waiting'">
+                            Sin conexión </span>-->
+                        <span class="badge badge-success" *ngIf="!infoCliente.infoRed?.estado"><i
+                                class="fa-solid fa-signal"></i> {{ infoCliente.desClasificacion || 'N/A' }}</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" *ngIf="puedeReportar">
+
+                <label class="form-label">
+                    ¿Qué problema estás presentando? <span>*</span>
+                </label>
+
+                <p class="form-description">
+                    Selecciona la opción que mejor describa lo que sucede con tu servicio.
+                </p>
+
+                <div class="problem-grid">
+
+                    @for (problema of problemas; track problema.id) {
+                    <button type="button" class="problem-option" [class.selected]="problemaSeleccionado === problema.id"
+                        [attr.aria-pressed]="problemaSeleccionado === problema.id"
+                        (click)="seleccionarProblema(problema.id)">
+
+                        <div class="problem-icon">
+                            <i class="fa-solid" [class]="problema.icono"></i>
+                        </div>
+
+                        <span>{{ problema.nombre }}</span>
+
+                        <i class="fa-solid fa-circle-check check-icon" *ngIf="problemaSeleccionado === problema.id">
+                        </i>
+
+                    </button>
+                    }
+
+                </div>
+
+                <!-- Descripción -->
+                <div class="description-section">
+
+                    <label class="form-label">
+                        Cuéntanos qué sucede <span>*</span>
+                    </label>
+
+                    <textarea class="form-control report-textarea" rows="4" maxlength="500" [value]="descripcion"
+                        (input)="actualizarDescripcion($event)"
+                        placeholder="Describe brevemente el problema que estás experimentando...">
+        </textarea>
+
+                    <div class="textarea-footer">
+                        <small>Incluye detalles que nos ayuden a solucionar tu problema.</small>
+                        <small>{{ descripcion.length }}/500</small>
+                    </div>
+
+                </div>
+
+                <!-- Aquí conservas tu apartado de evidencia fotográfica -->
+
+
+                <div class="form-section">
+                    <label class="form-label">
+                        Evidencia fotográfica
+                        <small>(Opcional)</small>
+                    </label>
+
+                    <div class="upload-body">
+                        <!--<div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+
+                        <div>
+                            <strong>Adjunta fotografías o evidencias</strong>
+                            <p>Arrastra tus archivos aquí o <span>selecciona desde tu dispositivo</span></p>
+                            <small>PNG, JPG o JPEG · Máximo 2 MB por archivo</small>
+                        </div>
+
+                        <button type="button" class="btn-upload">
+                            <i class="fa-solid fa-plus"></i>
+                            Agregar
+                        </button>-->
+
+                        <div class="drop-zone" [class.dragging]="isDragging" [class.processing]="processingFile"
+                            (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+                            (click)="!processingFile && fileInput.click()">
+
+                            <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
+                                class="form-control upload-input" style="display: none">
+
+                            <ng-container *ngIf="processingFile">
+
+                                <div class="upload-big-icon">
+                                    <i class="fa-solid fa-spinner fa-spin"></i>
+                                </div>
+
+                                <h6>Procesando archivo...</h6>
+                                <p>Estamos preparando tu evidencia.</p>
+
+                            </ng-container>
+
+                            <ng-container *ngIf="!processingFile &&!imagePreview;">
+                                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                <h6>Sube tu evidencia aquí</h6>
+                                <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                                <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
+                            </ng-container>
+
+                            <!--<ng-template #preview>
+                                <img [src]="imagePreview" class="preview" alt="Vista previa" width="100px"
+                                    height="auto">
+                                <p class="mt-2 fw-bold">
+                                    {{ selectedFile?.name }}
+                                </p>
+                            </ng-template>-->
+
+                            <ng-container *ngIf="!processingFile && imagePreview">
+                                <div class="preview-wrapper">
+                                    <img [src]="imagePreview" class="preview" alt="Vista previa del archivo">
+                                    <button type="button" class="remove-file-btn" aria-label="Eliminar archivo"
+                                        title="Eliminar archivo" (click)="eliminarArchivo()">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <p class="preview-name">
+                                    {{ selectedFile?.name }}
+                                </p>
+                                <small>Haz clic para cambiar el archivo</small>
+                            </ng-container>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="btn-submit">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Enviar reporte
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-section" *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'">
+            <label class="form-label">
+                Estado del servicio: <span>{{ infoCliente.infoRed.estado }}</span>
+            </label>
+            <p class="form-description">
+                Tu servicio se encuentra suspendido. Realiza tu pago para reactivar tu servicio y en caso de tener
+                problemas, puedas reportar el problema.
+            </p>
+
+            <button type="button" class="btn-submit" (click)="auth.goNavigate('/formas-de-pago')">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                Ver formas de pago
+            </button>
+        </div>
+
+    </div>
+</div>
