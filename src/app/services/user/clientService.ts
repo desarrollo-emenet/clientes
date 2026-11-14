@@ -70,6 +70,11 @@ export class ClientService {
     const headers = this.getHeaders();
     return this.http.get(`${this.apiUrl}/cliente/${numero}`, { headers });
   }
+  
+  getClientePorNumeroActualizado(numero: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get(`${this.apiUrl}/cliente/${numero}`, { headers });
+  }
 
   deleteService(id: number): Observable<any> {
     const headers = this.getHeaders();

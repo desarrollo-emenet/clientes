@@ -23,6 +23,7 @@ import { recoverEmailGuard } from './guards/recover-email-guard';
 import { SpeedTest } from './pages/speed-test/speed-test';
 import { AvisoPrivacidad } from './pages/aviso-privacidad/aviso-privacidad';
 import { Perfil } from './pages/perfil/perfil';
+import { Reportes } from './pages/reportes/reportes';
 
 
 export const routes: Routes = [
@@ -48,6 +49,7 @@ export const routes: Routes = [
   { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
   { path: 'speedtest', component: SpeedTest, canActivate: [requireAuthGuard]},
+  { path: 'reportes', component: Reportes, canActivate: [requireAuthGuard]},
 
 
   { path: '**', redirectTo: '/iniciar-sesion' }
