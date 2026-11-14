@@ -1654,3 +1654,35 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   z-index: 10005;
 }
+/* Acomodo del contenido dentro de los modales a pantalla completa */
+.cotizar-form,
+.gps-detalles,
+.web-features,
+.cotizar-features {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.info-grid,
+.opciones-grid {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plan-grid-internet {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.modal-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.cotizar-form .form-submit {
+  align-self: center;
+  min-width: 220px;
+}
+
