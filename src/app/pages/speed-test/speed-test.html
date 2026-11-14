@@ -5,19 +5,19 @@
             <span class="section-tag">
                 <i class="pi pi-gauge"></i>Diagnóstico de conexión
             </span>
-            <h1>Realiza una prueba de velocidad</h1>
-            <p>Comprueba la velocidad de tu conexión a Internet de forma rápida y sencilla.</p>
+            <h1>Realiza la prueba de velocidad en tu hogar</h1>
+            <p>Comprueba la velocidad de tu conexión a Internet desde tu casa de forma rápida y sencilla.</p>
         </div>
 
         <div class="recommendations-accordion">
 
-            <button type="button"class="accordion-header"(click)="toggleRecommendations()"
+            <button type="button" class="accordion-header" (click)="toggleRecommendations()"
                 [attr.aria-expanded]="recommendationsOpen">
                 <div class="accordion-title">
                     <span class="accordion-icon"><i class="fa-solid fa-lightbulb"></i></span>
                     <div>
                         <strong>Consejos para obtener un resultado más preciso</strong>
-                        <span>Antes de iniciar la prueba</span>
+                        <span>Antes de iniciar la prueba verifica que estes conectado a la red de tu casa</span>
                     </div>
                 </div>
                 <span class="accordion-arrow" [class.open]="recommendationsOpen">
@@ -59,8 +59,8 @@
 
         <div class="speedtest-card">
             <div class="speedtest-frame">
-              <iframe width="100%" height="650px" frameborder="0" src="https://iptvtel.speedtestcustom.com"></iframe>
-              <!-- <iframe src="" title="Prueba de velocidad" allow="fullscreen"> </iframe> -->
+                <iframe width="100%" height="650px" frameborder="0" src="https://iptvtel.speedtestcustom.com"></iframe>
+                <!-- <iframe src="" title="Prueba de velocidad" allow="fullscreen"> </iframe> -->
             </div>
         </div>
 

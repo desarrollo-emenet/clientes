@@ -12,8 +12,7 @@
     </div>
     <div *ngIf="infoCliente" class="content-wrapper">
       <div *ngIf="infoCliente.clasificacion !== 'BAJA'" class="top-banner">
-        <div class="banner-section banner-debt"
-          *ngIf="!sinAdeudo() && calculo.deudaValida(infoCliente.deuda) !== null">
+        <div class="banner-section banner-debt" *ngIf="!sinAdeudo() && calculo.deudaValida(infoCliente.deuda) !== null">
           <div class="banner-icon">
             <i class="fa-solid fa-wallet"></i>
           </div>
@@ -42,8 +41,8 @@
         </div>
 
         <div class="banner-section banner-pay">
-          <button [ngClass]="sinAdeudo() ? 'btn-adelantar-pay' : 'btn-pay'"
-           (click)="this.showPagoModal = true" [disabled]="loadingPago || loading">
+          <button [ngClass]="sinAdeudo() ? 'btn-adelantar-pay' : 'btn-pay'" (click)="this.showPagoModal = true"
+            [disabled]="loadingPago || loading">
             <i class="fa-solid fa-credit-card me-2"></i>{{ sinAdeudo() ? 'Adelantar pago' : 'Pagar ahora'}}
           </button>
           <a [routerLink]="['/formas-de-pago', infoCliente.cliente]" class="ver-formas">
@@ -53,19 +52,22 @@
 
         <div class="banner-section banner-lastpay">
           <div class="banner-text">
-            <div class="banner-label">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Total mensual' : 'Total a pagar'}}</div>
+            <div class="banner-label">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Total mensual'
+              : 'Total a pagar'}}</div>
 
-              <ng-container *ngIf="calculo.deudaValida(infoCliente.deuda) !== null; else textoDeuda">
-                <div class=" debt" [ngClass]="sinAdeudo() ? 'banner-amount-ad' : 'banner-amount'">
-                  MXN {{ sinAdeudo() ? this.calculo.calcularTotalMensual(servicios) : (infoCliente.deuda) | currency:'MXN':'symbol-narrow':'1.2-2' }}
-                </div>
-              </ng-container>
-              <ng-template #textoDeuda>
-                <div class=" debt" [ngClass]="'banner-amount-ad'">
-                   MXN {{ this.calculo.calcularTotalMensual(servicios) | currency:'MXN':'symbol-narrow':'1.2-2' }}
-                </div>
-              </ng-template>
-            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluye todos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
+            <ng-container *ngIf="calculo.deudaValida(infoCliente.deuda) !== null; else textoDeuda">
+              <div class=" debt" [ngClass]="sinAdeudo() ? 'banner-amount-ad' : 'banner-amount'">
+                MXN {{ sinAdeudo() ? this.calculo.calcularTotalMensual(servicios) : (infoCliente.deuda) |
+                currency:'MXN':'symbol-narrow':'1.2-2' }}
+              </div>
+            </ng-container>
+            <ng-template #textoDeuda>
+              <div class=" debt" [ngClass]="'banner-amount-ad'">
+                MXN {{ this.calculo.calcularTotalMensual(servicios) | currency:'MXN':'symbol-narrow':'1.2-2' }}
+              </div>
+            </ng-template>
+            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluye
+              todos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
           </div>
         </div>
       </div>
@@ -120,14 +122,15 @@
         <div class="accent-bar"></div>
         <h4>Servicios contratados</h4>
       </div>
-      <div class="row g-3 justify-content-center mb-4" >
+      <div class="row g-3 justify-content-center mb-4">
         <div [ngClass]="calculo.contarServicios(servicios).clase" *ngFor="let serv of contratados">
-          <div class="service-card-new">
+          <div class="service-card-new" [class.service-card-clickable]="serv.nombre === 'Internet'"
+            (click)="serv.nombre === 'Internet' ? abrirModal('internet') : null">
             <div class="service-card-top">
               <div class="svc-icon" [ngClass]="serv.iconColor">
                 <i class="fa-solid" [ngClass]="serv.icon"></i>
               </div>
-              <div>
+              <div class="svc-info">
                 <div class="svc-name">{{ serv.nombre }}</div>
                 <div class="svc-name-plan">{{ serv.plan }}</div>
               </div>
@@ -137,7 +140,7 @@
             </div>
             <div class="svc-price-row">
               <span class="svc-price-label">{{ serv.textPrecio }}</span>
-              <span class="svc-price"  [ngClass]="serv.colorPrecio">
+              <span class="svc-price" [ngClass]="serv.colorPrecio">
                 MXN {{ (serv.precio || 0) | currency:'MXN':'symbol-narrow':'1.0-0'
                 }}/mes
               </span>
@@ -155,7 +158,8 @@
         <!-- Historial + descarga de estado de cuenta integrado -->
         <div class="payment-list">
           <div *ngFor="let item of servicios.estadoCuenta" class="payment-card"
-            [class.payment-card--clickable]="(infoCliente.clasificacion) !== 'BAJA'" (click)="descargarTicket(item.VENTA)">
+            [class.payment-card--clickable]="(infoCliente.clasificacion) !== 'BAJA'"
+            (click)="descargarTicket(item.VENTA)">
 
             <div class="payment-card-left">
               <div class="payment-icon payment-icon--blue">
@@ -261,10 +265,26 @@
   </main>
 </div>
 
- <div class="contenedor-pdf">
-    <iframe
-      *ngIf="urlNueva"
-      [src]="urlNueva"
-      type="application/pdf">
-    </iframe>
+<div class="contenedor-pdf">
+  <iframe *ngIf="urlNueva" [src]="urlNueva" type="application/pdf">
+  </iframe>
+</div>
+
+<!-- MODAL: INTERNET -->
+<app-modal-base *ngIf="modalActivo === 'internet'" titulo="Planes de Internet" subtitulo="Elige el plan ideal para ti"
+  icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
+
+  <div class="plan-grid-internet">
+    <div class="plan-card-internet" *ngFor="let plan of planesInternetDisponibles"
+      [class.plan-card-popular]="plan.popular">
+
+      <div class="plan-card-top">
+        <h3 class="plan-nombre">{{ plan.nombre }}</h3>
+        <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
+        <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
+      </div>
+      <button type="button" class="plan-btn-internet" (click)="solicitarMejoraPlan(plan)">Mejorar Plan</button>
+    </div>
   </div>
+
+</app-modal-base>

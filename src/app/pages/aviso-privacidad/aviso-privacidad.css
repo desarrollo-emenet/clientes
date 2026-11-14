@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333333;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+}
+
+.privacy-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.privacy-header {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.privacy-title {
+    margin: 0;
+}
+
+.date {
+    margin: 0;
+    text-align: left;
+}
+
+
+.privacy-header h1 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.privacy-header .date {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.privacy-section {
+    margin-bottom: 1.5rem;
+}
+
+.privacy-section h2 {
+    font-size: 1.25rem;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+}
+
+.privacy-section p {
+    margin-bottom: 0.75rem;
+}
+
+.privacy-section ul {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.privacy-section li {
+    margin-bottom: 0.35rem;
+}
+
+.privacy-footer {
+    margin-top: 2rem;
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.ep-submit-btn {
+    width: calc(100% - 3rem);
+    height: 50px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0b4e94, #0d5db4);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.25s ease;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.22);
+}
+
+.ep-submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 35px rgba(37, 99, 235, 0.28);
+}
+
+.login-logo {
+    height: 70px;
+    max-height: 70px;
+}

@@ -3,7 +3,6 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { HttpErrorResponse } from '@angular/common/http';
 
 import { Header } from './shared/header/header';
 import { NotificationService } from './services/utility/notification.service';
@@ -54,6 +53,7 @@ export class App implements OnDestroy {
   rutasSinNav = [
     '/iniciar-sesion',
     '/crear-cuenta',
+    '/aviso-privacidad',
     '/recuperar-password',
     '/response-password',
     '/email-verificado',
@@ -65,20 +65,21 @@ export class App implements OnDestroy {
   ];
 
   rutasSinFooter = [
+    "/iniciar-sesion",
+    "/crear-cuenta",
+    "/recuperar-password",
+    '/response-password',
+    '/email-verificado',
     '/dashboard',
-    '/notificaciones',
-    '/perfil',
-    '/formas-de-pago',
+    '/servicios',
     '/estadoCuenta',
-    '/edit-perfil',
+    '/formas-de-pago',
     '/visitas',
+    '/edit-perfil',
     '/faq',
     '/formulario-pagos',
     '/adicionales',
-    "/iniciar-sesion",
-    "/crear-cuenta",
-    "/recuperar-password"
-
+    '/speedtest',   
   ];
 
   constructor(

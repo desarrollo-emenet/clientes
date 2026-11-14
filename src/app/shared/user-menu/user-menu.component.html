@@ -32,27 +32,10 @@
       </div>
     </div>
 
-    <div class="avatar-picker-section"
-      style="padding: 10px 15px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; background-color: #f9f9f9;">
-      <div style="font-size: 11px; color: #777; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">
-        SELECCIONA TU AVATAR</div>
-
-      <div class="avatar-selector-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
-        <div *ngFor="let optionUrl of avatarOptions" (click)="changeAvatar(optionUrl, $event)"
-          [style.outline]="cliente?.avatarUrl === optionUrl ? '2px solid #6366F1' : 'none'"
-          [style.outline-offset]="'1px'"
-          style="cursor: pointer; border-radius: 50%; display: inline-flex; transition: all 0.2s; justify-content: center; align-items: center;">
-
-          <p-avatar [image]="optionUrl" shape="circle" size="large" />
-        </div>
-      </div>
-    </div>
-
-
     <div class="dropdown-section" *ngIf="!isServiceRoute">
-      <button class="dropdown-item" (click)="navigateTo('/edit-perfil')">
+      <button class="dropdown-item" (click)="navigateTo('/mi-perfil')">
         <i class="fa-solid fa-lock"></i>
-        <span>Datos de acceso</span>
+        <span>Mi perfil</span>
       </button>
 
       <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
