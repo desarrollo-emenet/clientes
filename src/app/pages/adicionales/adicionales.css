@@ -1655,55 +1655,100 @@
   z-index: 10005;
 }
 
-/* ===== MODALES: DISEÑO SOLO PARA MÓVIL ===== */
+/* ===== MODALES: ESTILO APPLE SOLO MÓVIL ===== */
 @media (max-width: 600px) {
-  /* Todo centrado */
   .plan-grid-internet, .info-grid, .opciones-grid, .gps-detalles, .web-features {
-    display: flex; flex-direction: column; gap: 16px; margin: 0 auto 20px; width: 100%;
+    display: flex; flex-direction: column; gap: 14px; margin: 0 auto 20px; width: 100%;
   }
-  .modal-cta { display: flex; justify-content: center; margin-top: 24px; }
 
-  /* Tarjetas */
-  .plan-card-internet, .info-block, .opcion-card, .gps-detalle-item, .web-feature {
-    border-radius: 20px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.07); text-align: center;
+  /* Tarjetas blancas tipo Apple */
+  .plan-card-internet, .info-block, .opcion-card, .gps-detalle-item, .web-feature, .cotizar-item {
+    background: #fff; border: none; border-radius: 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    text-align: center; transform: none;
   }
-  .info-block, .opcion-card { padding: 26px 20px; align-items: center; gap: 12px; }
-  .info-icon, .opcion-icon { font-size: 2.4rem; margin: 0 auto; }
-  .info-block h3, .opcion-card h3 { font-size: 1.25rem; }
-  .info-block p, .opcion-card p { font-size: 1rem; line-height: 1.55; }
-  .plan-features { align-items: center; gap: 8px; }
-  .plan-features li { font-size: 0.98rem; padding-left: 0; text-align: center; }
+  .plan-card-internet:hover { transform: none; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06); }
+  .plan-card-internet.plan-card-popular { border: none; box-shadow: 0 0 0 2px #0071e3, 0 8px 24px rgba(0,113,227,.15); }
+  .plan-card-internet.plan-card-popular::before { background: #0071e3; font-size: .7rem; padding: 4px 10px; }
+  .opcion-card.opcion-destacado { background: #fff; box-shadow: 0 0 0 2px #0071e3, 0 8px 24px rgba(0,113,227,.15); }
+
+  .info-block, .opcion-card { padding: 28px 22px; align-items: center; gap: 10px; }
+  .info-icon, .opcion-icon { font-size: 2.2rem; color: #0071e3; margin: 0 auto 4px; }
+  .info-block h3, .opcion-card h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -.015em; color: #1d1d1f; }
+  .info-block p, .opcion-card p { font-size: 1.02rem; line-height: 1.5; color: #6e6e73; }
+
+  .plan-features { align-items: center; gap: 8px; margin: 6px 0 4px; }
+  .plan-features li { font-size: 1rem; color: #1d1d1f; padding-left: 0; text-align: center; }
   .plan-features li::before { display: none; }
 
   /* Internet */
-  .plan-card-top { padding: 28px 20px 16px; text-align: center; }
-  .plan-nombre { font-size: 1.3rem; }
-  .plan-simetrico { font-size: 0.98rem; margin-bottom: 14px; }
-  .plan-precio { font-size: 2.2rem; }
-  .plan-precio span { font-size: 0.95rem; }
-  .plan-btn-internet { height: 48px; font-size: 1rem; }
+  .plan-card-top { padding: 30px 20px 18px; text-align: center; }
+  .plan-nombre { font-size: 1.4rem; font-weight: 700; letter-spacing: -.015em; color: #1d1d1f; }
+  .plan-simetrico { font-size: 1rem; color: #6e6e73; margin-bottom: 14px; }
+  .plan-precio { font-size: 2.4rem; font-weight: 700; letter-spacing: -.03em; color: #1d1d1f; }
+  .plan-precio span { font-size: .95rem; font-weight: 400; color: #6e6e73; }
+  .plan-btn-internet, .plan-card-popular .plan-btn-internet, .plan-card-internet:hover .plan-btn-internet {
+    height: 48px; font-size: 1.02rem; font-weight: 500; border-radius: 980px; background: #0071e3; color: #fff; box-shadow: none; width: calc(100% - 40px); margin: 0 auto 22px;
+  }
 
   /* Cámaras */
   .cotizar-features { grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0 auto 24px; }
-  .cotizar-item { padding: 20px 10px; border-radius: 18px; }
-  .cotizar-item i { font-size: 2rem; }
-  .cotizar-item p { font-size: 0.95rem; font-weight: 600; }
+  .cotizar-item { padding: 22px 10px; }
+  .cotizar-item i { font-size: 1.9rem; color: #0071e3; }
+  .cotizar-item p { font-size: .95rem; font-weight: 500; color: #1d1d1f; }
 
   /* GPS y Web */
-  .gps-detalle-item, .web-feature { flex-direction: column; align-items: center; padding: 22px 18px; gap: 10px; }
-  .gps-detalle-icon, .web-feature i { font-size: 2rem; margin: 0; }
-  .gps-detalle-item h4, .web-feature h4 { font-size: 1.1rem; margin-bottom: 4px; }
-  .gps-detalle-item p, .web-feature p { font-size: 0.98rem; line-height: 1.5; }
+  .gps-detalle-item, .web-feature { flex-direction: column; align-items: center; padding: 26px 20px; gap: 8px; }
+  .gps-detalle-icon, .web-feature i { font-size: 2rem; color: #0071e3; margin: 0; }
+  .web-feature em { color: #0071e3; }
+  .gps-detalle-item h4, .web-feature h4 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; color: #1d1d1f; margin-bottom: 4px; }
+  .gps-detalle-item p, .web-feature p { font-size: 1rem; line-height: 1.5; color: #6e6e73; }
+
+  /* Formularios en tarjeta */
+  .cotizar-form { background: #fff; border-radius: 22px; padding: 22px 18px; gap: 16px; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06); }
+  .form-row { grid-template-columns: 1fr; gap: 16px; }
+  .form-field label { font-size: .88rem; font-weight: 500; color: #6e6e73; text-align: left; }
+  .form-field input, .form-field select { padding: 14px 16px; font-size: 1.05rem; color: #1d1d1f; background: #f5f5f7; border: 1px solid transparent; border-radius: 14px; }
+  .form-field input:focus, .form-field select:focus { background: #fff; border-color: #0071e3; box-shadow: 0 0 0 4px rgba(0,113,227,.18); }
+  .form-submit { height: 50px; font-size: 1.05rem; font-weight: 500; border-radius: 980px; background: #0071e3; box-shadow: none; }
+  .form-submit:hover { transform: none; background: #0077ed; box-shadow: none; }
+
+  /* Botones (píldora azul) */
+  .modal-cta { display: flex; justify-content: center; margin-top: 8px; }
+  .modal-btn-wp, .plan-btn { height: 48px; padding: 0 32px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.02rem; font-weight: 500; border-radius: 980px; background: #0071e3; color: #fff; box-shadow: none; max-width: 320px; }
+  .modal-btn-wp:hover, .plan-btn:hover { transform: none; background: #0077ed; box-shadow: none; }
+}
+
+
+/* ===== MODALES MÓVIL: COLORES POR MODAL ===== */
+@media (max-width: 600px) {
+  /* Insignias de iconos */
+  .info-icon, .opcion-icon, .gps-detalle-icon, .web-feature i, .cotizar-item i {
+    display: flex; align-items: center; justify-content: center;
+    width: 54px; height: 54px; border-radius: 17px; font-size: 1.5rem;
+    color: #fff; background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    box-shadow: 0 8px 18px var(--glow, rgba(10,132,255,.28)); margin: 0 auto 6px;
+  }
+  .cotizar-item i { width: 46px; height: 46px; font-size: 1.25rem; border-radius: 15px; }
+
+  /* Acentos */
+  .plan-precio { background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6)); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  .plan-precio span { -webkit-text-fill-color: #6e6e73; color: #6e6e73; }
+  .plan-card-internet.plan-card-popular, .opcion-card.opcion-destacado { box-shadow: 0 0 0 2px var(--accent, #0a84ff), 0 12px 28px var(--glow, rgba(10,132,255,.28)); }
+  .plan-card-internet.plan-card-popular::before { background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6)); }
+  .web-feature em { color: var(--accent, #ff375f); }
+
+  /* Viñetas de listas con check de color */
+  .plan-features li::before { display: inline-block; position: static; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--accent, #0a84ff); vertical-align: middle; }
+
+  /* Botones con degradado */
+  .plan-btn-internet, .plan-card-popular .plan-btn-internet, .plan-card-internet:hover .plan-btn-internet, .modal-btn-wp, .plan-btn, .form-submit {
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6)); color: #fff; box-shadow: 0 10px 22px var(--glow, rgba(10,132,255,.28));
+  }
+  .modal-btn-wp:hover, .plan-btn:hover, .form-submit:hover { background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6)); filter: brightness(1.06); box-shadow: 0 12px 26px var(--glow, rgba(10,132,255,.28)); }
 
   /* Formularios */
-  .cotizar-form { gap: 16px; width: 100%; }
-  .form-row { grid-template-columns: 1fr; gap: 16px; }
-  .form-field label { font-size: 0.98rem; text-align: left; }
-  .form-field input, .form-field select { padding: 13px 15px; font-size: 1rem; }
-  .form-submit { height: 52px; font-size: 1.05rem; }
-
-  /* Botones */
-  .modal-btn-wp { padding: 14px 30px; font-size: 1rem; }
-  .plan-btn { height: 48px; font-size: 1rem; max-width: 300px; }
+  .form-field input:focus, .form-field select:focus { border-color: var(--accent, #0a84ff); box-shadow: 0 0 0 4px var(--soft, rgba(10,132,255,.14)); }
+  .form-field input, .form-field select { background: #f2f2f7; }
 }
 

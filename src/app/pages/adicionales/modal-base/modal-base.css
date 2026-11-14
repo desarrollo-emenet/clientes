@@ -129,7 +129,7 @@
 }
 
 /* ==========================================
-   VERSIÓN MÓVIL: pantalla completa y centrado
+   VERSIÓN MÓVIL — estilo Apple
 ========================================== */
 
 @media (max-width: 600px) {
@@ -138,6 +138,9 @@
         padding: 0;
         align-items: stretch;
         overflow: hidden;
+        background: #f5f5f7;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
     }
 
     .modal-panel {
@@ -147,49 +150,191 @@
         height: 100dvh;
         max-height: none;
         border-radius: 0;
+        background: #f5f5f7;
+        box-shadow: none;
+        animation: modalMovil 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    /* Encabezado limpio, sin color de fondo */
+    .modal-header,
+    .modal-header.internet,
+    .modal-header.telefonia,
+    .modal-header.camaras,
+    .modal-header.puntos,
+    .modal-header.gps,
+    .modal-header.web {
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        padding: 56px 24px 20px;
+        background: rgba(245, 245, 247, 0.85);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        backdrop-filter: saturate(180%) blur(20px);
+        color: #1d1d1f;
+        text-align: center;
     }
 
     .modal-header-icon {
         display: none;
     }
 
-    .modal-header {
-        position: relative;
-        gap: 10px;
-        padding: 22px 56px 22px 20px;
-        text-align: center;
+    .modal-header-text {
+        flex: none;
+        width: 100%;
     }
 
     .modal-header-text h2 {
-        font-size: 1.35rem;
+        font-size: 1.9rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: #1d1d1f;
         text-align: center;
     }
 
     .modal-header-text p {
-        margin-top: 4px;
-        font-size: 0.9rem;
+        margin-top: 8px;
+        font-size: 1.05rem;
+        font-weight: 400;
+        line-height: 1.35;
+        color: #6e6e73;
+        opacity: 1;
         text-align: center;
     }
 
+    /* Botón cerrar discreto, arriba a la derecha */
     .modal-close {
         position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 34px;
-        height: 34px;
-        font-size: 19px;
-        flex-shrink: 0;
+        top: 14px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        background: rgba(60, 60, 67, 0.12);
+        color: #6e6e73;
+        font-size: 16px;
+    }
+
+    .modal-close:hover {
+        background: rgba(60, 60, 67, 0.2);
+        transform: none;
     }
 
     .modal-body {
         display: flex;
         flex-direction: column;
-        padding: 24px 18px 32px;
+        padding: 12px 20px calc(32px + env(safe-area-inset-bottom));
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* Centra el contenido horizontal y verticalmente */
+    /* Contenido centrado en horizontal y vertical */
     .modal-content {
-        max-width: 480px;
+        max-width: 440px;
         margin: auto;
+    }
+}
+
+@keyframes modalMovil {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   MÓVIL — color de acento por modal
+========================================== */
+
+@media (max-width: 600px) {
+
+    .modal-panel {
+        --accent: #0a84ff;
+        --accent2: #5e5ce6;
+        --soft: rgba(10, 132, 255, 0.12);
+        --glow: rgba(10, 132, 255, 0.28);
+    }
+
+    .modal-panel:has(.modal-header.internet) {
+        --accent: #0a84ff;
+        --accent2: #5e5ce6;
+        --soft: rgba(10, 132, 255, 0.12);
+        --glow: rgba(10, 132, 255, 0.28);
+    }
+
+    .modal-panel:has(.modal-header.telefonia) {
+        --accent: #00b4d8;
+        --accent2: #0a84ff;
+        --soft: rgba(0, 180, 216, 0.13);
+        --glow: rgba(0, 180, 216, 0.30);
+    }
+
+    .modal-panel:has(.modal-header.camaras) {
+        --accent: #af52de;
+        --accent2: #5e5ce6;
+        --soft: rgba(175, 82, 222, 0.12);
+        --glow: rgba(175, 82, 222, 0.28);
+    }
+
+    .modal-panel:has(.modal-header.puntos) {
+        --accent: #12b76a;
+        --accent2: #06a077;
+        --soft: rgba(18, 183, 106, 0.13);
+        --glow: rgba(18, 183, 106, 0.28);
+    }
+
+    .modal-panel:has(.modal-header.gps) {
+        --accent: #ff9f0a;
+        --accent2: #ff6b2c;
+        --soft: rgba(255, 159, 10, 0.15);
+        --glow: rgba(255, 140, 20, 0.30);
+    }
+
+    .modal-panel:has(.modal-header.web) {
+        --accent: #ff375f;
+        --accent2: #bf5af2;
+        --soft: rgba(255, 55, 95, 0.12);
+        --glow: rgba(255, 55, 95, 0.28);
+    }
+
+    /* Fondo del modal con un resplandor suave del color */
+    .modal-panel {
+        background:
+            radial-gradient(120% 55% at 50% 0%, var(--soft), transparent 70%),
+            #f5f5f7;
+    }
+
+    .modal-header,
+    .modal-header.internet,
+    .modal-header.telefonia,
+    .modal-header.camaras,
+    .modal-header.puntos,
+    .modal-header.gps,
+    .modal-header.web {
+        background: transparent;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    /* Insignia con icono en el encabezado */
+    .modal-header-icon {
+        display: flex;
+        order: -1;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 16px;
+        border-radius: 19px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #fff;
+        font-size: 26px;
+        box-shadow: 0 10px 24px var(--glow);
+    }
+
+    .modal-header-text h2 {
+        font-size: 1.85rem;
     }
 }
