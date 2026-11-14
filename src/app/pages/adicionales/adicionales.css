@@ -1654,35 +1654,56 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   z-index: 10005;
 }
-/* Acomodo del contenido dentro de los modales a pantalla completa */
-.cotizar-form,
-.gps-detalles,
-.web-features,
-.cotizar-features {
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-}
 
-.info-grid,
-.opciones-grid {
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* ===== MODALES: DISEÑO SOLO PARA MÓVIL ===== */
+@media (max-width: 600px) {
+  /* Todo centrado */
+  .plan-grid-internet, .info-grid, .opciones-grid, .gps-detalles, .web-features {
+    display: flex; flex-direction: column; gap: 16px; margin: 0 auto 20px; width: 100%;
+  }
+  .modal-cta { display: flex; justify-content: center; margin-top: 24px; }
 
-.plan-grid-internet {
-  max-width: 900px;
-  margin: 0 auto;
-}
+  /* Tarjetas */
+  .plan-card-internet, .info-block, .opcion-card, .gps-detalle-item, .web-feature {
+    border-radius: 20px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.07); text-align: center;
+  }
+  .info-block, .opcion-card { padding: 26px 20px; align-items: center; gap: 12px; }
+  .info-icon, .opcion-icon { font-size: 2.4rem; margin: 0 auto; }
+  .info-block h3, .opcion-card h3 { font-size: 1.25rem; }
+  .info-block p, .opcion-card p { font-size: 1rem; line-height: 1.55; }
+  .plan-features { align-items: center; gap: 8px; }
+  .plan-features li { font-size: 0.98rem; padding-left: 0; text-align: center; }
+  .plan-features li::before { display: none; }
 
-.modal-cta {
-  display: flex;
-  justify-content: center;
-}
+  /* Internet */
+  .plan-card-top { padding: 28px 20px 16px; text-align: center; }
+  .plan-nombre { font-size: 1.3rem; }
+  .plan-simetrico { font-size: 0.98rem; margin-bottom: 14px; }
+  .plan-precio { font-size: 2.2rem; }
+  .plan-precio span { font-size: 0.95rem; }
+  .plan-btn-internet { height: 48px; font-size: 1rem; }
 
-.cotizar-form .form-submit {
-  align-self: center;
-  min-width: 220px;
+  /* Cámaras */
+  .cotizar-features { grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0 auto 24px; }
+  .cotizar-item { padding: 20px 10px; border-radius: 18px; }
+  .cotizar-item i { font-size: 2rem; }
+  .cotizar-item p { font-size: 0.95rem; font-weight: 600; }
+
+  /* GPS y Web */
+  .gps-detalle-item, .web-feature { flex-direction: column; align-items: center; padding: 22px 18px; gap: 10px; }
+  .gps-detalle-icon, .web-feature i { font-size: 2rem; margin: 0; }
+  .gps-detalle-item h4, .web-feature h4 { font-size: 1.1rem; margin-bottom: 4px; }
+  .gps-detalle-item p, .web-feature p { font-size: 0.98rem; line-height: 1.5; }
+
+  /* Formularios */
+  .cotizar-form { gap: 16px; width: 100%; }
+  .form-row { grid-template-columns: 1fr; gap: 16px; }
+  .form-field label { font-size: 0.98rem; text-align: left; }
+  .form-field input, .form-field select { padding: 13px 15px; font-size: 1rem; }
+  .form-submit { height: 52px; font-size: 1.05rem; }
+
+  /* Botones */
+  .modal-btn-wp { padding: 14px 30px; font-size: 1rem; }
+  .plan-btn { height: 48px; font-size: 1rem; max-width: 300px; }
 }
 
