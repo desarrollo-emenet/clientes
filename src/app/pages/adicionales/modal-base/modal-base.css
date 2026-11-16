@@ -1,7 +1,4 @@
-/* ==========================================
-   ESCRITORIO (diseño original)
-========================================== */
-
+/*Modal escritorio*/
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -139,9 +136,7 @@
     }
 }
 
-/* ==========================================
-   VERSIÓN MÓVIL — estilo Apple
-========================================== */
+/*Modal mobil*/
 
 @media (max-width: 600px) {
 
@@ -257,9 +252,7 @@
     }
 }
 
-/* ==========================================
-   MÓVIL — color de acento por modal
-========================================== */
+/*Móvil colores*/
 
 @media (max-width: 600px) {
 
