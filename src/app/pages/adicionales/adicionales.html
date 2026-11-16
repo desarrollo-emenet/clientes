@@ -65,7 +65,12 @@
                     <div class="product-info">
                         <h3>{{ producto.nombre }}</h3>
                         <p>{{ producto.descripcion }}</p>
-                        <span class="product-cta">{{ producto.precio }}</span>
+                        <div class="product-footer">
+                            <span class="product-cta">{{ producto.precio }}</span>
+                            <span class="product-arrow" aria-hidden="true">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
