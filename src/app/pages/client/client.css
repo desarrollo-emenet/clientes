@@ -1446,6 +1446,85 @@
 
 @media (max-width: 600px) {
   .plan-grid-internet {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 auto 20px;
+    width: 100%;
+  }
+
+  .plan-card-internet {
+    background: #fff;
+    border: none;
+    border-radius: 22px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+    text-align: center;
+    transform: none;
+  }
+
+  .plan-card-internet:hover {
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+  }
+
+  .plan-card-internet.plan-card-popular {
+    border: none;
+    box-shadow: 0 0 0 2px var(--accent, #0a84ff), 0 12px 28px var(--glow, rgba(10, 132, 255, .28));
+  }
+
+  .plan-card-internet.plan-card-popular::before {
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    font-size: .7rem;
+    padding: 4px 10px;
+  }
+
+  .plan-card-top {
+    padding: 30px 20px 18px;
+    text-align: center;
+  }
+
+  .plan-nombre {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    color: #1d1d1f;
+  }
+
+  .plan-simetrico {
+    font-size: 1rem;
+    color: #6e6e73;
+    margin-bottom: 14px;
+  }
+
+  .plan-precio {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .plan-precio span {
+    font-size: .95rem;
+    font-weight: 400;
+    color: #6e6e73;
+    -webkit-text-fill-color: #6e6e73;
+  }
+
+  .plan-btn-internet,
+  .plan-card-popular .plan-btn-internet,
+  .plan-card-internet:hover .plan-btn-internet {
+    height: 48px;
+    font-size: 1.02rem;
+    font-weight: 500;
+    border-radius: 980px;
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, .28));
+    width: calc(100% - 40px);
+    margin: 0 auto 22px;
   }
 }
