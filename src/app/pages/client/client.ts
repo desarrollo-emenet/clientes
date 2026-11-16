@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CurrencyPipe, NgClass, CommonModule } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { RouterLink } from '@angular/router';
@@ -29,7 +29,8 @@ import { planesInternet } from '../adicionales/serviceAdicional';
   styleUrl: './client.css'
 })
 
-export class Client implements OnInit {
+export class Client implements OnInit, OnDestroy {
+  private historialModal = false;
   infoCliente!: infoCliente;
   servicios: any;
   loading!: boolean;
@@ -256,11 +257,33 @@ export class Client implements OnInit {
   abrirModal(seccion: string): void {
     this.modalActivo = seccion;
     document.body.style.overflow = 'hidden';
+    if (!this.historialModal) {
+      history.pushState({ ...history.state, modalAbierto: true }, '');
+      this.historialModal = true;
+    }
+  }
+
+  // Botón atrás del móvil: cierra el modal sin dejar la pantalla bloqueada
+  @HostListener('window:popstate')
+  protected onPopState(): void {
+    if (!this.historialModal) return;
+    this.historialModal = false;
+    this.modalActivo = null;
+    document.body.style.overflow = '';
+  }
+
+  ngOnDestroy(): void {
+    this.historialModal = false;
+    document.body.style.overflow = '';
   }
 
   cerrarModal(): void {
     this.modalActivo = null;
     document.body.style.overflow = '';
+    if (this.historialModal) {
+      this.historialModal = false;
+      history.back();
+    }
   }
 
   solicitarMejoraPlan(plan: any): void {
