@@ -638,11 +638,19 @@
 .service-card-clickable {
   cursor: pointer;
   user-select: none;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, #0b4e94, #2563eb, #0ea5e9) border-box;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+  transition: box-shadow 0.25s ease, transform 0.2s ease, background 0.25s ease;
 }
 
 .service-card-clickable:hover {
-  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.15);
-  border-color: rgba(11, 78, 148, 0.2);
+  background:
+    linear-gradient(#f8fbff, #ffffff) padding-box,
+    linear-gradient(135deg, #0ea5e9, #2563eb, #0b4e94) border-box;
+  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.24);
   transform: translateY(-3px);
 }
 
