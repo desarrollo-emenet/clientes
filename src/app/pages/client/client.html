@@ -279,10 +279,14 @@
       [class.plan-card-popular]="plan.popular">
 
       <div class="plan-card-top">
-        <h3 class="plan-nombre">{{ plan.nombre }}</h3>
-        <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
-        <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
-        <p>Contrata ahora</p>
+        <div class="plan-card-info">
+          <h3 class="plan-nombre">{{ plan.nombre }}</h3>
+          <p class="plan-simetrico">{{ plan.velocidad }} Simétricos</p>
+        </div>
+        <div class="plan-card-pricing">
+          <div class="plan-precio">MXN ${{ plan.precio }}<span>/ al mes</span></div>
+          <p class="plan-contrata">Contrata ahora</p>
+        </div>
       </div>
       <button type="button" class="plan-btn-internet" (click)="solicitarMejoraPlan(plan)">Mejorar Plan</button>
     </div>
