@@ -1337,9 +1337,7 @@
   display: none;
 }
 
-/* =========================================
-   MODAL: PLANES DE INTERNET (MINIMALISTA)
-========================================= */
+/*MODAL: PLANES DE INTERNET (MINIMALISTA) */
 .plan-grid-internet {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
