@@ -71,9 +71,7 @@
   margin-bottom: 20px;
 }
 
-/* =========================================
-   SERVICIOS
-========================================= */
+/* SERVICIOS */
 
 .service-card {
   display: flex;
@@ -368,9 +366,7 @@
   line-height: 1.45;
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/*  RESPONSIVE */
 
 @media (max-width: 768px) {
 
@@ -432,9 +428,7 @@
   }
 }
 
-/* =========================================
-   MODALES
-========================================= */
+/* MODALES */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -956,9 +950,7 @@
   }
 }
 
-/* =========================================
-   MODAL HEADER CON BOTÓN CERRAR INTEGRADO
-========================================= */
+/* MODAL HEADER CON BOTÓN CERRAR INTEGRADO */
 
 .modal-header {
   position: relative;
@@ -983,9 +975,7 @@
   color: #fff;
 }
 
-/* =========================================
-   MODAL INTERNET — PLANES REALES
-========================================= */
+/*  MODAL INTERNET — PLANES REALES */
 
 .modal-panel-wide {
   max-width: 860px;
@@ -1210,9 +1200,7 @@
   }
 }
 
-/* =========================================
-   MODAL PRODUCTO DETALLE
-========================================= */
+/*  MODAL PRODUCTO DETALLE */
 
 .modal-panel-product {
   max-width: 700px;
@@ -1589,9 +1577,7 @@
   }
 }
 
-/* =========================================
-   ZOOM LIGHTBOX
-========================================= */
+/*  ZOOM LIGHTBOX */
 
 /* Cursor e indicador de zoom en imagen principal */
 .carousel-main {
@@ -1811,7 +1797,7 @@
   z-index: 10005;
 }
 
-/* ===== MODALES: ESTILO APPLE SOLO MÓVIL ===== */
+/* MODALES APPLE */
 @media (max-width: 600px) {
 
   .plan-grid-internet,
@@ -2098,7 +2084,7 @@
 }
 
 
-/* ===== MODALES MÓVIL: COLORES POR MODAL ===== */
+/* MODALES MÓVIL COLORES POR MODAL  */
 @media (max-width: 600px) {
 
   /* Insignias de iconos */
