@@ -1377,16 +1377,21 @@
 .plan-card-internet.plan-card-popular::before {
   content: "Recomendado";
   position: absolute;
-  top: 14px;
-  right: 14px;
-  background: rgba(37, 99, 235, 0.1);
-  color: #2563eb;
-  font-size: 0.65rem;
-  font-weight: 700;
+  top: 24px;
+  right: -41px;
+  width: 150px;
+  text-align: center;
+  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 800;
   text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 999px;
+  padding: 5px 0;
   letter-spacing: 0.04em;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .plan-card-top {
@@ -1501,8 +1506,8 @@
   .plan-card-internet.plan-card-popular::before {
     background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
     color: #fff;
-    font-size: .7rem;
-    padding: 4px 10px;
+    font-size: 0.58rem;
+    padding: 5px 0;
   }
 
   .plan-card-top {
