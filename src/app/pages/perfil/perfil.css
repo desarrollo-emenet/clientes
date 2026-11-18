@@ -2,7 +2,6 @@
   display: block;
   min-height: 100%;
   --profile-blue: #0b4e94;
-  --profile-blue-dark: #083d75;
   --profile-blue-light: #eaf3ff;
   --profile-text: #152b49;
   --profile-muted: #64748b;
@@ -937,44 +936,6 @@
   color: var(--profile-muted);
   font-size: 14px;
   line-height: 1.65;
-}
-
-.delete-account-summary {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding: 15px;
-  background: #f6f8fb;
-  border: 1px solid #e8edf3;
-  border-radius: 13px;
-}
-
-.summary-icon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  color: var(--profile-blue);
-  background: #e7f0fb;
-  border-radius: 12px;
-}
-
-.delete-account-summary span,
-.delete-account-summary strong {
-  display: block;
-}
-
-.delete-account-summary span {
-  margin-bottom: 4px;
-  color: var(--profile-muted);
-  font-size: 12px;
-}
-
-.delete-account-summary strong {
-  color: #172b4d;
-  font-size: 15px;
 }
 
 .delete-password-label {

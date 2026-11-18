@@ -37,8 +37,6 @@ export class Perfil {
     avatarUrl: null
   };
 
-  fechaRegistro: Date | string | null = null;
-
   readonly avatarSeeds: string[] = [
     'Mia',
     'Max',
@@ -316,7 +314,6 @@ export class Perfil {
   guardandoAvatar = false;
   showModal = false;
   loading!: boolean;
-  userInfo: any;
   infoCliente: infoCliente | null = null;
   passwordEliminar = '';
   mostrarPasswordEliminar = false;
@@ -520,18 +517,6 @@ export class Perfil {
     } finally {
       this.guardandoAvatar = false;
     }
-  }
-
-  copiarAlPortapapeles(texto: string): void {
-    if (!texto) return;
-
-    navigator.clipboard.writeText(texto)
-      .then(() => {
-        toast.success('Copiado al portapapeles');
-      })
-      .catch(() => {
-        toast.error('No se pudo copiar');
-      });
   }
 
   abrirConfirmacionRegistro(): void {
