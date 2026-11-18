@@ -317,7 +317,7 @@
 
 .avatar-tab-animated-active {
   color: #fff !important;
-  background: linear-gradient(90deg, #6366f1 0%, #9333ea 100%);
+  background: linear-gradient(90deg, #6366f1 0%, #0b4e94 100%);
   box-shadow: 0 2px 6px rgb(99 102 241 / 28%);
 }
 
@@ -435,7 +435,7 @@
 
 .style-chip-animated-active {
   color: #fff !important;
-  background: linear-gradient(90deg, #6366f1 0%, #9333ea 100%) !important;
+  background: linear-gradient(90deg, #8284f9 0%, #0b4e94 100%) !important;
   border-color: transparent !important;
   box-shadow: 0 2px 8px rgb(99 102 241 / 28%);
 }
@@ -1201,8 +1201,26 @@
   }
 
   .avatar-picker-card {
-    padding: 1rem;
-    border-radius: 20px;
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .avatar-picker-heading,
+  .avatar-search-wrapper,
+  .avatar-tabs-container,
+  .avatar-styles-carousel,
+  .avatar-picker-footer {
+    flex-shrink: 0;
   }
 
   .avatar-picker-heading h3 {
@@ -1233,7 +1251,10 @@
   }
 
   .avatar-grid-scroll {
-    max-height: 380px;
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   .avatar-selector-grid {
