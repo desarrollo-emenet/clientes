@@ -101,7 +101,10 @@
             </div>
 
             <!-- Info del estilo activo y cuadrícula de avatares -->
-            <div class="avatar-grid-scroll">
+            <div #avatarGridScroll class="avatar-grid-scroll"
+                (touchstart)="onAvatarGridTouchStart($event)"
+                (touchend)="onAvatarGridTouchEnd($event)"
+                (touchcancel)="onAvatarGridTouchCancel()">
                 <div class="selected-style-info" *ngIf="selectedStyle as currentStyle">
                     <div class="selected-style-title-row">
                         <h4>{{ currentStyle.name }}</h4>

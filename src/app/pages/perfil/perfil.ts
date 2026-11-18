@@ -30,6 +30,7 @@ export interface AvatarStyle {
 })
 export class Perfil {
   @ViewChild('stylesNav') stylesNavRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('avatarGridScroll') avatarGridScrollRef?: ElementRef<HTMLDivElement>;
 
   clienteAv: { nombre: string; cliente: string; avatarUrl: string | null; } = {
     nombre: '',
@@ -309,6 +310,9 @@ export class Perfil {
   private startXStyles = 0;
   private scrollLeftStyles = 0;
   private hasDraggedStyles = false;
+  private gridTouchStartX = 0;
+  private gridTouchStartY = 0;
+  private isTrackingGridSwipe = false;
 
   mostrarSelectorAvatar = false;
   guardandoAvatar = false;
@@ -420,6 +424,62 @@ export class Perfil {
     if (this.hasDraggedStyles) return;
     this.activeStyle = styleId;
     this.failedAvatars.clear();
+  }
+
+  /**
+   * Switches to the adjacent style in `filteredStyles` and keeps the active
+   * style chip centered in the horizontal carousel.
+   */
+  private navigateStyle(direction: 1 | -1): void {
+    const styles = this.filteredStyles;
+    if (styles.length === 0) return;
+
+    const currentIndex = styles.findIndex((style) => style.id === this.activeStyle);
+    const nextIndex = currentIndex === -1
+      ? 0
+      : Math.max(0, Math.min(styles.length - 1, currentIndex + direction));
+
+    if (nextIndex === currentIndex) return;
+
+    this.selectStyle(styles[nextIndex].id);
+
+    const gridEl = this.avatarGridScrollRef?.nativeElement;
+    if (gridEl) {
+      gridEl.scrollTop = 0;
+    }
+
+    setTimeout(() => {
+      const nav = this.stylesNavRef?.nativeElement;
+      const chip = nav?.children.item(nextIndex) as HTMLElement | null;
+      chip?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    });
+  }
+
+  onAvatarGridTouchStart(event: TouchEvent): void {
+    if (event.touches.length !== 1) {
+      this.isTrackingGridSwipe = false;
+      return;
+    }
+    this.gridTouchStartX = event.touches[0].clientX;
+    this.gridTouchStartY = event.touches[0].clientY;
+    this.isTrackingGridSwipe = true;
+  }
+
+  onAvatarGridTouchEnd(event: TouchEvent): void {
+    if (!this.isTrackingGridSwipe || event.changedTouches.length === 0) return;
+    this.isTrackingGridSwipe = false;
+
+    const deltaX = event.changedTouches[0].clientX - this.gridTouchStartX;
+    const deltaY = event.changedTouches[0].clientY - this.gridTouchStartY;
+
+    // Require a clear horizontal swipe so vertical scrolling is unaffected.
+    if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+      this.navigateStyle(deltaX < 0 ? 1 : -1);
+    }
+  }
+
+  onAvatarGridTouchCancel(): void {
+    this.isTrackingGridSwipe = false;
   }
 
   onAvatarImageError(avatarUrl: string): void {

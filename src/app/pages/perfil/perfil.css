@@ -450,6 +450,7 @@
   margin-top: 0.5rem;
   padding-right: 0.15rem;
   overflow-y: auto;
+  touch-action: pan-y;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
 }
