@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="account-details">
+            <div class="account-actions">
                 <button type="button" class="action-card edit-action" routerLink="/edit-perfil">
                     <div class="action-icon"><i class="fa-regular fa-pen-to-square"></i></div>
                     <div class="action-content">
@@ -208,14 +208,14 @@
                     </div>
                     <i class="fa-solid fa-chevron-right action-chevron"></i>
                 </button>
+            </div>
 
-                <!-- Eliminar cuenta -->
-                <button type="button" class="action-card delete-action" (click)="abrirConfirmacionRegistro()">
-                    <div class="action-icon"><i class="fa-regular fa-trash-can"></i></div>
-                    <div class="action-content">
-                        <strong>Eliminar mi cuenta</strong>
-                    </div>
-                    <i class="fa-solid fa-chevron-right action-chevron"></i>
+            <!-- Eliminar cuenta -->
+            <div class="delete-account-row">
+
+                <button type="button" class="delete-link-btn" (click)="abrirConfirmacionRegistro()">
+                    <i class="fa-regular fa-trash-can" style="color: rgba(246, 12, 4, 0.6);"></i>
+                    Eliminar mi cuenta
                 </button>
             </div>
         </section>

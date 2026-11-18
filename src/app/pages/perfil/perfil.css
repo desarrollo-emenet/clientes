@@ -741,7 +741,7 @@
   line-height: 1.4;
 }
 
-.detail-content > strong,
+.detail-content>strong,
 .client-number strong {
   color: var(--profile-text);
   font-size: 1rem;
@@ -827,19 +827,36 @@
   border-color: #80b6ff;
 }
 
-.delete-action {
-  color: #dc2626;
-  background: #fffafa;
-  border-color: #fecaca;
+.account-actions {
+  margin-bottom: 1.5rem;
 }
 
-.delete-action .action-icon {
-  background: #fee2e2;
+.account-actions .action-card {
+  margin-top: 0;
 }
 
-.delete-action:hover {
-  background: #fff1f2;
-  border-color: #f87171;
+.delete-account-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--profile-border);
+}
+
+.delete-link-btn {
+  padding: 0.25rem 0.4rem;
+  color: var(--profile-muted);
+  font-size: 0.84rem;
+  font-weight: 500;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.delete-link-btn:hover {
+  color: #475569;
+  text-decoration: underline;
 }
 
 /* Modal eliminar cuenta */
@@ -1112,6 +1129,7 @@
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1123,6 +1141,7 @@
     opacity: 0;
     transform: translateY(8px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1290,10 +1309,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .avatar-picker-card,
   .avatar-option,
   .delete-modal,
   .action-card,
+  .delete-link-btn,
   .change-avatar-button,
   .avatar-edit-button {
     animation: none;
