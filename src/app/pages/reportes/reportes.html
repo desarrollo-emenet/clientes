@@ -36,184 +36,162 @@
                 </button>
             </div>
 
-            <!--<div class="card-heading">
-                <div>
-                    <h5>Nuevo reporte</h5>
-                    <p>Completa la información de tu solicitud.</p>
-                </div>
-                <span class="required-label">* Campos obligatorios</span>
-            </div>-->
-
-            <div class="form-section">
-                <label class="form-label">
-                    Servicio relacionado <span>*</span>
-                </label>
-
-                <div class="service-selector">
-                    <div class="service-icon">
-                        <i class="fa-solid fa-wifi"></i>
-                    </div>
-
-                    <div class="service-data">
-                        <strong>Cliente {{ infoCliente.cliente }}</strong>
-                        <small>Plan {{ infoCliente.velocidad}} Mbps</small>
-                    </div>
-
-                    <div class="client-badges">
-
-                        <span class="badge badge-success"
-                            *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
-                                class="fa-solid fa-signal"></i> Activo </span>
-                        <span class="badge badge-danger"
-                            *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
-                                class="fa-solid fa-signal"></i> Suspendido</span>
-                        <!--<span class="badge badge-precaution"
-                            *ngIf="infoCliente.infoRed?.estadoFibra?.toLowerCase() === 'waiting'">
-                            Sin conexión </span>-->
-                        <span class="badge badge-success" *ngIf="!infoCliente.infoRed?.estado"><i
-                                class="fa-solid fa-signal"></i> {{ infoCliente.desClasificacion || 'N/A' }}</span>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section" *ngIf="puedeReportar">
-
-                <label class="form-label">
-                    ¿Qué problema estás presentando? <span>*</span>
-                </label>
-
-                <p class="form-description">
-                    Selecciona la opción que mejor describa lo que sucede con tu servicio.
-                </p>
-
-                <div class="problem-grid">
-
-                    @for (problema of problemas; track problema.id) {
-                    <button type="button" class="problem-option" [class.selected]="problemaSeleccionado === problema.id"
-                        [attr.aria-pressed]="problemaSeleccionado === problema.id"
-                        (click)="seleccionarProblema(problema.id)">
-
-                        <div class="problem-icon">
-                            <i class="fa-solid" [class]="problema.icono"></i>
-                        </div>
-
-                        <span>{{ problema.nombre }}</span>
-
-                        <i class="fa-solid fa-circle-check check-icon" *ngIf="problemaSeleccionado === problema.id">
-                        </i>
-
-                    </button>
-                    }
-
-                </div>
-
-                <!-- Descripción -->
-                <div class="description-section">
-
-                    <label class="form-label">
-                        Cuéntanos qué sucede <span>*</span>
-                    </label>
-
-                    <textarea class="form-control report-textarea" rows="4" maxlength="500" [value]="descripcion"
-                        (input)="actualizarDescripcion($event)"
-                        placeholder="Describe brevemente el problema que estás experimentando...">
-                    </textarea>
-
-                    <div class="textarea-footer">
-                        <small>Incluye detalles que nos ayuden a solucionar tu problema.</small>
-                        <small>{{ descripcion.length }}/500</small>
-                    </div>
-
-                </div>
-
+            <form [formGroup]="reportForm" (ngSubmit)="enviarReporte()">
 
                 <div class="form-section">
                     <label class="form-label">
-                        Evidencia fotográfica
-                        <small>(Opcional)</small>
+                        Servicio relacionado <span>*</span>
                     </label>
 
-                    <div class="upload-body">
-                        <!--<div class="upload-icon">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <div class="service-selector">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-wifi"></i>
                         </div>
 
-                        <div>
-                            <strong>Adjunta fotografías o evidencias</strong>
-                            <p>Arrastra tus archivos aquí o <span>selecciona desde tu dispositivo</span></p>
-                            <small>PNG, JPG o JPEG · Máximo 2 MB por archivo</small>
+                        <div class="service-data">
+                            <strong>Cliente {{ infoCliente.cliente }}</strong>
+                            <small>Plan {{ infoCliente.velocidad}} Mbps</small>
                         </div>
 
-                        <button type="button" class="btn-upload">
-                            <i class="fa-solid fa-plus"></i>
-                            Agregar
-                        </button>-->
+                        <div class="client-badges">
 
-                        <div class="drop-zone" [class.dragging]="isDragging" [class.processing]="processingFile"
-                            (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
-                            (click)="!processingFile && fileInput.click()">
-
-                            <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
-                                class="form-control upload-input" style="display: none">
-
-                            <ng-container *ngIf="processingFile">
-
-                                <div class="upload-big-icon">
-                                    <i class="fa-solid fa-spinner fa-spin"></i>
-                                </div>
-
-                                <h6>Procesando archivo...</h6>
-                                <p>Estamos preparando tu evidencia.</p>
-
-                            </ng-container>
-
-                            <ng-container *ngIf="!processingFile &&!imagePreview;">
-                                <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                                <h6>Sube tu evidencia aquí</h6>
-                                <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
-                                <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
-                            </ng-container>
-
-                            <!--<ng-template #preview>
-                                <img [src]="imagePreview" class="preview" alt="Vista previa" width="100px"
-                                    height="auto">
-                                <p class="mt-2 fw-bold">
-                                    {{ selectedFile?.name }}
-                                </p>
-                            </ng-template>-->
-
-                            <ng-container *ngIf="!processingFile && imagePreview">
-                                <div class="preview-wrapper">
-                                    <img [src]="imagePreview" class="preview" alt="Vista previa del archivo">
-                                    <button type="button" class="remove-file-btn" aria-label="Eliminar archivo"
-                                        title="Eliminar archivo" (click)="eliminarArchivo()">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                </div>
-
-                                <p class="preview-name">
-                                    {{ selectedFile?.name }}
-                                </p>
-                                <small>Haz clic para cambiar el archivo</small>
-                            </ng-container>
+                            <span class="badge badge-success"
+                                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'activo'"><i
+                                    class="fa-solid fa-signal"></i> Activo </span>
+                            <span class="badge badge-danger"
+                                *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'"><i
+                                    class="fa-solid fa-signal"></i> Suspendido</span>
+                            <span class="badge badge-success" *ngIf="!infoCliente.infoRed?.estado"><i
+                                    class="fa-solid fa-signal"></i> {{ infoCliente.desClasificacion || 'N/A' }}</span>
                         </div>
-
-
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="button" class="btn-cancel">
-                        Cancelar
-                    </button>
+                <div class="form-section" *ngIf="puedeReportar">
 
-                    <button type="button" class="btn-submit">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        Enviar reporte
-                    </button>
+                    <label class="form-label">
+                        ¿Qué problema estás presentando? <span>*</span>
+                    </label>
+
+                    <p class="form-description">
+                        Selecciona la opción que mejor describa lo que sucede con tu servicio.
+                    </p>
+
+                    <div class="problem-grid">
+
+                        @for (problema of problemas; track problema.id) {
+
+                        <button type="button" class="problem-option"
+                            [class.selected]="reportForm.get('problema')?.value === problema.id"
+                            [attr.aria-pressed]="reportForm.get('problema')?.value === problema.id"
+                            (click)="seleccionarProblema(problema.id)">
+
+                            <div class="problem-icon">
+                                <i class="fa-solid" [class]="problema.icono"></i>
+                            </div>
+                            <span>{{ problema.nombre }}</span>
+                            <i class="fa-solid fa-circle-check check-icon"
+                                *ngIf="reportForm.get('problema')?.value === problema.id"> </i>
+                        </button>
+                        }
+
+                    </div>
+
+                    <!-- Descripción -->
+                    <small class="text-danger"
+                        *ngIf="reportForm.get('problema')?.invalid && reportForm.get('problema')?.touched">
+                        Selecciona el problema que estás presentando.
+                    </small>
+
+                    <div class="description-section">
+
+                        <label class="form-label"> Cuéntanos qué sucede <span>*</span> </label>
+
+                        <textarea class="form-control report-textarea" rows="4" maxlength="500"
+                            formControlName="descripcion"
+                            placeholder="Describe brevemente el problema que estás experimentando...">
+                    </textarea>
+                    <div *ngIf="f['descripcion'].invalid && (f['descripcion'].dirty || f['descripcion'].touched)"
+                    class="mt-1 text-danger small">
+                    <span *ngIf="f['descripcion'].errors?.['required']">Requerido.</span>
+                    <span *ngIf="f['descripcion'].errors?.['maxlength']">Excede el límite de caracteres.</span>
+                  </div>
+
+                        <div class="textarea-footer">
+                            <small>Incluye detalles que nos ayuden a solucionar tu problema.</small>
+                            {{ reportForm.get('descripcion')?.value?.length || 0 }}/500
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-section">
+                        <label class="form-label">
+                            Evidencia fotográfica <small>(Opcional)</small>
+                        </label>
+
+                        <div class="upload-body">
+
+                            <div class="drop-zone" [class.dragging]="isDragging" [class.processing]="processingFile"
+                                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+                                (drop)="onDrop($event)" (click)="!processingFile && fileInput.click()">
+
+                                <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf"
+                                    (change)="onFileChange($event)" class="form-control upload-input"
+                                    style="display: none">
+
+                                <ng-container *ngIf="processingFile">
+                                    <div class="upload-big-icon">
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                    </div>
+                                    <h6>Procesando archivo...</h6>
+                                    <p>Estamos preparando tu evidencia.</p>
+                                </ng-container>
+
+                                <!-- sin evidencia -->
+                                <ng-container *ngIf="!processingFile &&!imagePreview;">
+                                    <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                    <h6>Sube tu evidencia aquí</h6>
+                                    <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                                    <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
+                                </ng-container>
+
+                                <ng-container *ngIf="!processingFile && imagePreview">
+                                    <div class="preview-wrapper">
+                                        <img [src]="imagePreview" class="preview" alt="Vista previa del archivo">
+                                        <button type="button" class="remove-file-btn" aria-label="Eliminar archivo"
+                                            title="Eliminar archivo"
+                                            (click)="eliminarArchivo(); $event.stopPropagation()">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+
+                                    <p class="preview-name">
+                                        {{ archivoSeleccionado?.name }}
+                                    </p>
+                                    <small>Haz clic para cambiar el archivo</small>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" (click)="cancelarReporte()">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid" 
+                                [class.fa-paper-plane]="!loadingReporte"
+                                [class.fa-spinner]="loadingReporte" 
+                                [class.fa-spin]="loadingReporte">
+                            </i>
+
+                            {{ loadingReporte ? 'Enviando reporte...' : 'Enviar reporte' }}
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <br>
         <div class="form-section" *ngIf="infoCliente.infoRed?.estado?.toLowerCase() === 'suspendido'">
