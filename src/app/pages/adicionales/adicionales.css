@@ -627,7 +627,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #2563eb;
+  background: var(--accent, #2563eb);
 }
 
 .plan-btn {
@@ -635,7 +635,7 @@
   height: 38px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  background: linear-gradient(135deg, var(--accent, #0b4e94), var(--accent2, #2563eb));
   color: #fff;
   font-size: 0.85rem;
   font-weight: 600;
@@ -645,7 +645,7 @@
 
 .plan-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 8px 18px var(--glow, rgba(37, 99, 235, 0.25));
 }
 
 /* TELEFONÍA INFO */
@@ -767,8 +767,8 @@
 
 .form-field input:focus,
 .form-field select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 0 0 3px var(--soft, rgba(37, 99, 235, 0.1));
   background: #fff;
 }
 
@@ -776,7 +776,7 @@
   height: 46px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  background: linear-gradient(135deg, var(--accent, #0b4e94), var(--accent2, #2563eb));
   color: #fff;
   font-size: 0.95rem;
   font-weight: 700;
@@ -786,7 +786,7 @@
 
 .form-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 10px 24px var(--glow, rgba(37, 99, 235, 0.25));
 }
 
 /* PUNTOS DE VENTA */
@@ -916,7 +916,7 @@
 }
 
 .web-feature em {
-  color: #ec4899;
+  color: var(--accent, #ff375f);
   font-style: normal;
   font-weight: 600;
 }
@@ -1050,7 +1050,11 @@
 .plan-precio {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #2563eb), var(--accent2, #0b4e94));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   line-height: 1;
 }
 
@@ -1058,6 +1062,7 @@
   font-size: 0.82rem;
   font-weight: 500;
   color: #64748b;
+  -webkit-text-fill-color: #64748b;
   margin-left: 2px;
 }
 
@@ -1131,18 +1136,18 @@
   gap: 8px;
   padding: 12px 26px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  background: linear-gradient(135deg, var(--accent, #0b4e94), var(--accent2, #2563eb));
   color: #fff;
   font-size: 0.92rem;
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 18px rgba(27, 172, 80, 0.3);
+  box-shadow: 0 6px 18px var(--glow, rgba(37, 99, 235, 0.28));
 }
 
 .modal-btn-wp:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(27, 172, 80, 0.38);
+  box-shadow: 0 10px 24px var(--glow, rgba(37, 99, 235, 0.36));
 }
 
 
@@ -1158,28 +1163,31 @@
   height: 40px;
   border: none;
   border-radius: 12px;
-  background: #f1f5f9;
-  color: #334155;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  color: #fff;
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: auto;
+  box-shadow: 0 6px 16px var(--glow, rgba(10, 132, 255, 0.28));
 }
 
 .plan-card-internet:hover .plan-btn-internet {
-  background: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(11, 78, 148, 0.25);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 20px var(--glow, rgba(10, 132, 255, 0.34));
 }
 
 .plan-card-popular .plan-btn-internet {
-  background: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
   color: #ffffff;
 }
 
 .plan-card-popular:hover .plan-btn-internet {
-  background: #093c73;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  filter: brightness(1.06);
 }
 
 /* Responsive plan internet */
@@ -1295,7 +1303,11 @@
 .product-modal-price {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0b4e94;
+  background: linear-gradient(135deg, #0a84ff, #5e5ce6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   line-height: 1;
 }
 
@@ -1335,7 +1347,7 @@
 .section-description {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0b4e94;
+  color: #0a84ff;
   margin: 0;
   line-height: 1.5;
 }
@@ -1412,18 +1424,19 @@
   gap: 8px;
   padding: 14px 32px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  background: linear-gradient(135deg, #0a84ff, #5e5ce6);
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 6px 18px rgba(11, 78, 148, 0.25);
+  box-shadow: 0 10px 22px rgba(10, 132, 255, 0.28);
 }
 
 .btn-contactar:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(11, 78, 148, 0.35);
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px rgba(10, 132, 255, 0.36);
 }
 
 /* Responsive Product Modal — Pantalla completa en móvil (estilo Apple) */

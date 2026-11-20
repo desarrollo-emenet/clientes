@@ -124,6 +124,56 @@
     background: linear-gradient(135deg, #ec4899, #be185d);
 }
 
+/* Variables de color por modal (escritorio, mismos colores que móvil) */
+.modal-panel {
+    --accent: #0a84ff;
+    --accent2: #5e5ce6;
+    --soft: rgba(10, 132, 255, 0.12);
+    --glow: rgba(10, 132, 255, 0.28);
+}
+
+.modal-panel:has(.modal-header.internet) {
+    --accent: #0a84ff;
+    --accent2: #5e5ce6;
+    --soft: rgba(10, 132, 255, 0.12);
+    --glow: rgba(10, 132, 255, 0.28);
+}
+
+.modal-panel:has(.modal-header.telefonia) {
+    --accent: #00b4d8;
+    --accent2: #0a84ff;
+    --soft: rgba(0, 180, 216, 0.13);
+    --glow: rgba(0, 180, 216, 0.30);
+}
+
+.modal-panel:has(.modal-header.camaras) {
+    --accent: #af52de;
+    --accent2: #5e5ce6;
+    --soft: rgba(175, 82, 222, 0.12);
+    --glow: rgba(175, 82, 222, 0.28);
+}
+
+.modal-panel:has(.modal-header.puntos) {
+    --accent: #12b76a;
+    --accent2: #06a077;
+    --soft: rgba(18, 183, 106, 0.13);
+    --glow: rgba(18, 183, 106, 0.28);
+}
+
+.modal-panel:has(.modal-header.gps) {
+    --accent: #ff9f0a;
+    --accent2: #ff6b2c;
+    --soft: rgba(255, 159, 10, 0.15);
+    --glow: rgba(255, 140, 20, 0.30);
+}
+
+.modal-panel:has(.modal-header.web) {
+    --accent: #ff375f;
+    --accent2: #bf5af2;
+    --soft: rgba(255, 55, 95, 0.12);
+    --glow: rgba(255, 55, 95, 0.28);
+}
+
 @keyframes modalEntrada {
     from {
         opacity: 0;
