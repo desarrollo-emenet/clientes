@@ -10,6 +10,8 @@ import { HttpService } from '../../services/utility/http.service';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { ClientService } from '../../services/user/clientService';
 import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { FileOpener } from '@capawesome-team/capacitor-file-opener';
 
 @Component({
   selector: 'app-login',
@@ -182,5 +184,44 @@ export class Login implements OnInit {
     window.location.href = intentUrl;
 
   }
+
+    async abrirManual(event: Event): Promise<void> {
+    if (!Capacitor.isNativePlatform()) return;
+    event.preventDefault();
+    try {
+      const response = await fetch('assets/pdf/ManualDeUsuario_miemenet.pdf');
+      const blob = await response.blob();
+      const base64Data = await this.convertirBlobABase64(blob);
+
+      const fileName = 'ManualDeUsuario_miemenet.pdf';
+      const saveFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Cache
+      });
+
+      await FileOpener.openFile({
+        path: saveFile.uri,
+        mimeType: 'application/pdf'
+      });
+
+    } catch (error) {
+      console.error('Error al abrir el manual:', error);
+      toast.error('Error al abrir el manual. Intenta nuevamente.');
+    }
+  }
+
+  private convertirBlobABase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        resolve(dataUrl.split(',')[1]);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
 
 }
