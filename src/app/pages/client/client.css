@@ -1434,7 +1434,11 @@
 .plan-precio {
   font-size: 1.75rem;
   font-weight: 800;
-  color: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -1442,7 +1446,8 @@
 .plan-precio span {
   font-size: 0.78rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: #6e6e73;
+  -webkit-text-fill-color: #6e6e73;
   margin-left: 4px;
 }
 
@@ -1462,33 +1467,35 @@
   width: 100%;
   margin: auto 0 0;
   height: 40px;
-  border: 1px solid #e2e8f0;
+  border: none;
   border-radius: 12px;
-  background: #f8fafc;
-  color: #1e293b;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  color: #ffffff;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, 0.28));
 }
 
 .plan-card-internet:hover .plan-btn-internet {
-  background: #0b4e94;
-  border-color: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
   color: #ffffff;
-  box-shadow: 0 6px 16px rgba(11, 78, 148, 0.2);
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px var(--glow, rgba(10, 132, 255, 0.36));
 }
 
 .plan-card-popular .plan-btn-internet {
-  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
   border-color: transparent;
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.22);
+  box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, 0.28));
 }
 
 .plan-card-popular:hover .plan-btn-internet {
-  background: linear-gradient(135deg, #093c73, #1d4ed8);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px var(--glow, rgba(10, 132, 255, 0.36));
 }
 
 @media (max-width: 600px) {
