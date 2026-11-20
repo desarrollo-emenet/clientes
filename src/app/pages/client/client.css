@@ -486,20 +486,55 @@
 }
 
 .ver-formas {
+  position: relative;
   font-size: 0.85rem;
   color: #0b4e94;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: color 0.15s;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(215, 206, 206, 0.207);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
 }
 
+.ver-formas i {
+  font-size: 0.75rem;
+  display: inline-block;
+  animation: verFormasChevron 2.2s ease-in-out infinite;
+  transition: transform 0.25s ease;
+}
+
 .ver-formas:hover {
-  color: #1558a0;
-  text-decoration: underline;
+  color: #093c73;
+  background: rgba(11, 78, 148, 0.13);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(11, 78, 148, 0.16);
+  text-decoration: none;
+}
+
+.ver-formas:hover i {
+  animation: none;
+  transform: translateX(4px);
+}
+
+.ver-formas:active {
+  transform: scale(0.97);
+}
+
+@keyframes verFormasChevron {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
 }
 
 /*Resumen de cuenta*/
