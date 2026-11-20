@@ -318,6 +318,7 @@ export class Perfil {
   guardandoAvatar = false;
   showModal = false;
   loading!: boolean;
+  loadingDelete!: boolean;
   infoCliente: infoCliente | null = null;
   passwordEliminar = '';
   mostrarPasswordEliminar = false;
@@ -601,7 +602,7 @@ export class Perfil {
       this.errorEliminar = 'Ingresa tu contraseña para continuar.';
       return;
     }
-    this.loading = true;
+    this.loadingDelete = true;
 
     try {
       const respuesta = await firstValueFrom(
@@ -619,7 +620,7 @@ export class Perfil {
         'No se pudo eliminar la cuenta'
       );
     } finally {
-      this.loading = false;
+      this.loadingDelete = false;
     }
   }
 }

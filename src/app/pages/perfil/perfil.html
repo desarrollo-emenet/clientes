@@ -227,8 +227,6 @@
 </div>
 
 
-
-
 <div class="delete-modal-overlay" *ngIf="showModal" (click)="cerrarModal()" (keydown.escape)="cerrarModal()">
     <section class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title"
         (click)="$event.stopPropagation()">
@@ -280,13 +278,13 @@
                     Cancelar
                 </button>
 
-                <button type="submit" class="delete-confirm-button" [disabled]="loading || !passwordEliminar.trim()">
-                    <ng-container *ngIf="!loading">
+                <button type="submit" class="delete-confirm-button" [disabled]="loadingDelete || !passwordEliminar.trim()">
+                    <ng-container *ngIf="!loadingDelete">
                         <i class="fa-regular fa-trash-can"></i>
                         Eliminar cuenta
                     </ng-container>
 
-                    <ng-container *ngIf="loading">
+                    <ng-container *ngIf="loadingDelete">
                         <i class="fa-solid fa-spinner fa-spin"></i>
                         Procesando...
                     </ng-container>
