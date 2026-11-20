@@ -224,7 +224,7 @@
                   <div class="input-money">
                     <span class="currency">$</span>
                     <input type="text" formControlName="monto" class="form-control custom-input"
-                      placeholder="Monto a pagar" (input)="soloNumeros($event, 'monto', 5)">
+                      placeholder="Monto a pagar" (input)="soloNumeros($event, 'monto', 5, false)">
                   </div>
 
                   <div *ngIf="f['monto'].invalid && (f['monto'].dirty || f['monto'].touched)"

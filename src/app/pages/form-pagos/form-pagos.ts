@@ -409,8 +409,8 @@ export class FormPagos {
     this.pagosForm.patchValue({ monto: totalMensual.toString() });
   }
 
-  soloNumeros(event: Event, controlName: string, maxLength: number): void {
-    this.user.soloNumerosSinGuion(event, this.pagosForm, controlName, maxLength);
+  soloNumeros(event: Event, controlName: string, maxLength: number, isFormateado: boolean = true): void {
+    this.user.soloNumeros(event, this.pagosForm, controlName, maxLength, isFormateado);
   }
 
   contactarSoporte(): void {
