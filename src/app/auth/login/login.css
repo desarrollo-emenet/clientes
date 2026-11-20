@@ -1223,7 +1223,6 @@
   color: #0f172a;
 }
 
-
 .tutorial-view {
   display: flex;
   flex-direction: column;
@@ -1760,6 +1759,36 @@
 .tutorial-view__video:fullscreen .tutorial-view__fullscreen {
   right: 20px;
   bottom: 20px;
+}
+
+
+
+
+
+.help-panel__btn-manual {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #f0f4ff; 
+  color: #1d4ed8;            
+  border: 1px solid #bfdbfe; 
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  width: 100%;               
+  justify-content: center;  
+  box-sizing: border-box;
+}
+
+.help-panel__btn-manual:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.15);
 }
 
 

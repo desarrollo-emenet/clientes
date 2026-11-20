@@ -193,13 +193,14 @@
                 <strong>asociado a tu cuenta.</strong>
               </span>
             </li>
-            <li class="help-panel__paso--nota">
-              <span>
-                <strong><a href="assets/pdf/ManualDeUsuario_miemenet.pdf" target="_blank" rel="noopener noreferrer" (click)="abrirManual($event)">
-                    Manual de usuario</a>
-                </strong>
-              </span>
+            <li class="help-panel__paso--nota ">
+              <a class="help-panel__btn-manual" href="assets/pdf/ManualDeUsuario_miemenet.pdf" target="_blank"
+                rel="noopener noreferrer" (click)="abrirManual($event)">
+                <i class="fa-regular fa-file-lines"></i>
+                <span>Manual de usuario</span>
+              </a>
             </li>
+
           </ol>
 
 
@@ -291,7 +292,7 @@
     <p class="subtitleModalApp">
       Consulta tu estado de cuenta, paga en segundos y recibe notificaciones desde nuestra app móvil.
     </p>
-    
+
     <div class="actionsModalApp">
       <button type="button" (click)="abrirODescargarApp()" class="btnPrimaryModalApp">
         Continuar en la app

@@ -47,7 +47,7 @@ export class Reportes {
 
   readonly problemas = [
     { id: 'internet_lento', nombre: 'Internet lento', icono: 'fa-gauge-high' },
-    { id: 'wifi', nombre: 'Problemas con WiFi', icono: 'fa-router' },
+    { id: 'wifi', nombre: 'Problemas con WiFi', icono: 'fa-network-wired' },
     { id: 'sin_internet', nombre: 'Sin internet', icono: 'fa-wifi' },
     { id: 'conexion', nombre: 'Problema de conexión', icono: 'fa-plug' },
     { id: 'equipos', nombre: 'Problemas con equipos', icono: 'fa-computer' },
