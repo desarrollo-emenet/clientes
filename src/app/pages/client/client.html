@@ -134,6 +134,12 @@
                 <div class="svc-name">{{ serv.nombre }}</div>
                 <div class="svc-name-plan">{{ serv.plan }}</div>
               </div>
+              <svg *ngIf="serv.nombre === 'Internet'" class="svc-arrow" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M7 17L17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
             </div>
             <div class="svc-badge" [ngClass]="serv.badge">
               {{ serv.info }}
@@ -270,7 +276,7 @@
   </iframe>
 </div>
 
-<!-- MODAL: INTERNET -->
+gi<!-- MODAL: INTERNET -->
 <app-modal-base *ngIf="modalActivo === 'internet'" titulo="Planes de Internet" subtitulo="Elige el plan ideal para ti"
   icono="fa-wifi" clase="internet" (cerrar)="cerrarModal()">
 

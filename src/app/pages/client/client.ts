@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CurrencyPipe, NgClass, CommonModule } from '@angular/common';
 import { ClientService } from '../../services/user/clientService';
 import { RouterLink } from '@angular/router';
@@ -29,7 +29,7 @@ import { planesInternet } from '../adicionales/serviceAdicional';
   styleUrl: './client.css'
 })
 
-export class Client implements OnInit {
+export class Client implements OnInit, OnDestroy {
   infoCliente!: infoCliente;
   servicios: any;
   loading!: boolean;
@@ -256,6 +256,20 @@ export class Client implements OnInit {
   abrirModal(seccion: string): void {
     this.modalActivo = seccion;
     document.body.style.overflow = 'hidden';
+  }
+
+  // Botón atrás de Android (disparado desde app.ts): cierra el modal en vez de salir
+  @HostListener('window:app-back', ['$event'])
+  protected onAppBack(evento: Event): void {
+    const hayModal = this.modalActivo !== null || this.showPagoModal;
+    if (!hayModal) return;
+    evento.preventDefault();
+    this.cerrarModal();
+    this.cerrarPagoModal();
+  }
+
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
   }
 
   cerrarModal(): void {

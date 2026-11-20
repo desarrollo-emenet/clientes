@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+﻿import { Component, HostListener, OnDestroy } from '@angular/core';
 import { NgClass, CommonModule, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { PRODUCTOS, Producto, SERVICIOS_ADICIONALES, planesInternet } from './serviceAdicional';
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './adicionales.html',
   styleUrl: './adicionales.css'
 })
-export class Adicionales {
+export class Adicionales implements OnDestroy {
 
   activeSection: string = 'servicios';
   modalActivo: string | null = null;
@@ -50,6 +50,21 @@ export class Adicionales {
 
   private bloquearScroll(): void {
     document.body.style.overflow = 'hidden';
+  }
+
+  // Botón atrás de Android (disparado desde app.ts): cierra el modal en vez de salir
+  @HostListener('window:app-back', ['$event'])
+  onAppBack(evento: Event): void {
+    if (this.modalActivo === null && this.zoomIndex === null) { return; }
+    evento.preventDefault();
+    this.zoomIndex = null;
+    this.modalActivo = null;
+    this.productoSeleccionado = null;
+    this.desbloquearScroll();
+  }
+
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
   }
 
   private desbloquearScroll(): void {
