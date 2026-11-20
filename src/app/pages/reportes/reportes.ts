@@ -45,7 +45,6 @@ export class Reportes {
     'application/pdf'
   ];
 
-
   constructor(
     private user: UserService,
     private clientS: ClientService,
@@ -232,19 +231,16 @@ private establecerProblemaInicial(cliente: infoCliente): void {
   const estado = cliente.infoRed?.estado?.toLowerCase();
   const estadoFibra = cliente.infoRed?.estadoFibra?.toLowerCase();
 
-  // Los inalámbricos pueden reportar, aunque no tengan estado de fibra.
   if (clasificacion === 'INA') {
     this.problemaSeleccionado = 'internet_lento';
     return;
   }
 
-  // Los suspendidos no necesitan una selección de problema.
   if (estado !== 'activo') {
     this.problemaSeleccionado = '';
     return;
   }
 
-  // Selección automática según el estado técnico.
   switch (estadoFibra) {
     case 'waiting':
       this.problemaSeleccionado = 'sin_internet';
@@ -277,12 +273,10 @@ get puedeReportar(): boolean {
   const clasificacion = this.infoCliente.clasificacion.toUpperCase();
   const estado = this.infoCliente.infoRed.estado?.toLowerCase();
 
-  // Los inalámbricos pueden reportar si no están suspendidos.
   if (clasificacion === 'INA') {
     return true;
   }
 
-  // Para fibra, únicamente se permite reportar si está activo.
   return estado === 'activo';
 }
 

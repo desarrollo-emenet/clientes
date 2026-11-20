@@ -81,16 +81,18 @@
 
         <!-- paginacion -->
         <nav class="pagination-container" *ngIf="pagination.totalPages > 1">
-          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage - 1)" [disabled]="pagination.currentPage === 1">
+          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage - 1)"
+            [disabled]="pagination.currentPage === 1">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
 
-          <button *ngFor="let pagina of pagination.pages" class="btn-page" [class.active]="pagina === pagination.currentPage"
-            (click)="pagination.goToPage(pagina)">
+          <button *ngFor="let pagina of pagination.pages" class="btn-page"
+            [class.active]="pagina === pagination.currentPage" (click)="pagination.goToPage(pagina)">
             {{ pagina }}
           </button>
 
-          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage + 1)" [disabled]="pagination.currentPage === pagination.totalPages">
+          <button class="btn-page" (click)="pagination.goToPage(pagination.currentPage + 1)"
+            [disabled]="pagination.currentPage === pagination.totalPages">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </nav>
@@ -246,26 +248,44 @@
             </div>
             <div class="card-body upload-body">
               <div class="upload-center">
-
                 <div class="drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
                   (drop)="onDrop($event)" (click)="fileInput.click()">
 
                   <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event)"
-                     class="form-control upload-input" style="display: none">
+                    class="form-control upload-input" style="display: none">
 
-                  <ng-container *ngIf="!imagePreview; else preview">
+                  <ng-container *ngIf="processingFile">
+
+                    <div class="upload-big-icon">
+                      <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+
+                    <h6>Procesando archivo...</h6>
+                    <p>Estamos preparando tu evidencia.</p>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="!processingFile &&!imagePreview;">
                     <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                    <h6>Sube tu comprobante aquí</h6>
+                    <h6>Sube tu evidencia aquí</h6>
                     <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
                     <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
                   </ng-container>
 
-                  <ng-template #preview>
+
+                  <!--<ng-container *ngIf="!imagePreview; else preview">
+                    <div class="upload-big-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h6>Sube tu comprobante aquí</h6>
+                    <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                    <small>JPEG · JPG · PNG · PDF · Máx. 2 MB</small>
+                  </ng-container>-->
+
+                  <!--<ng-template #preview>
                     <img [src]="imagePreview" class="preview" alt="Vista previa" width="100px" height="auto">
                     <p class="mt-2 fw-bold">
                       {{ selectedFile?.name }}
                     </p>
-                  </ng-template>
+                  </ng-template>-->
 
                   <div *ngIf="f['comprobante'].invalid && (f['comprobante'].dirty || f['comprobante'].touched)"
                     class="mt-1 text-danger small">
@@ -274,6 +294,20 @@
                       error imagen
                     </span>
                   </div>
+                  <ng-container *ngIf="!processingFile && imagePreview">
+                    <div class="preview-wrapper">
+                      <img [src]="imagePreview" class="preview" alt="Vista previa del archivo">
+                      <button type="button" class="remove-file-btn" aria-label="Eliminar archivo"
+                        title="Eliminar archivo" (click)="eliminarArchivo()">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </div>
+
+                    <p class="preview-name">
+                      {{ selectedFile?.name }}
+                    </p>
+                    <small>Haz clic para cambiar el archivo</small>
+                  </ng-container>
                 </div>
               </div>
             </div>
@@ -330,6 +364,6 @@
 
     </div>
   </div>
-        <!--<ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1"/>-->
+  <!--<ngx-sonner-toaster richColors position="top-center" [visibleToasts]="1"/>-->
 
 </main>

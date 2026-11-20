@@ -129,6 +129,22 @@ export class UserService {
     return valorFormateado;
   }
 
+  soloNumerosSinGuion(event: Event, form?: FormGroup, controlName?: string, maxLength: number = 10): string {
+    const input = event.target as HTMLInputElement;
+    const valorLimpio = input.value.replace(/\D/g, '').slice(0, maxLength);
+    if (form && controlName) {
+      input.value = valorLimpio;
+      form.get(controlName)?.setValue(valorLimpio, { emitEvent: false });
+    } else {
+      setTimeout(() => {
+        input.value = valorLimpio;
+      });
+    }
+    return valorLimpio;
+  }
+
+  
+
   obtenerServicioActivo(): string | null {
     return (
       localStorage.getItem('servicio_activo')
