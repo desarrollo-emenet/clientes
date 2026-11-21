@@ -133,11 +133,11 @@
             <div class="contact-content">
               <div class="contact-label">Dirección</div>
               <div class="contact-value">
-                {{ infoCliente.direccion }}
-                <span *ngIf="infoCliente.colonia">, {{ infoCliente.colonia }}</span>
-                <span *ngIf="infoCliente.municipio">, {{ infoCliente.municipio }}</span>
-                <span *ngIf="infoCliente.estado">, {{ infoCliente.estado }}</span>
-                <span *ngIf="infoCliente.pais">, {{ infoCliente.pais }}</span>
+                {{ infoCliente.direccion | titlecase }}
+                <span *ngIf="infoCliente.colonia">, {{ infoCliente.colonia | titlecase }}</span>
+                <span *ngIf="infoCliente.municipio">, {{ infoCliente.municipio | titlecase }}</span>
+                <span *ngIf="infoCliente.estado">, {{ infoCliente.estado | titlecase }}</span>
+                <span *ngIf="infoCliente.pais">, {{ infoCliente.pais | titlecase }}</span>
               </div>
             </div>
           </div>
