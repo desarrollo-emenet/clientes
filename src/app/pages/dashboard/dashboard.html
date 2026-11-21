@@ -45,11 +45,17 @@
         <!-- client-actions -->
         <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
 
-          <button class="action-item" routerLink="/edit-perfil">
+          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
             <div class="action-icon action-icon-blue">
-              <i class="fa-solid fa-lock"></i>
+              <i class="fa-solid fa-cash-register"></i>
             </div>
-            <span class="action-label">Datos de <br>acceso</span>
+            <span class="action-label">Formas de <br>pago</span>
+          </button>
+          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
+            <div class="action-icon action-icon-orange">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <span class="action-label">Registrar<br>pago</span>
           </button>
 
           <!--<button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
@@ -88,12 +94,7 @@
             <span class="action-label">Hablar con<br>Embot</span>
           </button>
 
-          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
-            <div class="action-icon action-icon-orange">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-            </div>
-            <span class="action-label">Registrar<br>pago</span>
-          </button>
+
         </div>
 
       </div>
