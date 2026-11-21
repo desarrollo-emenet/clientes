@@ -505,7 +505,6 @@
 .login-layout {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  will-change: transform, opacity;
 }
 
 .flip-in {
@@ -527,7 +526,7 @@
   }
 
   100% {
-    -webkit-transform: perspective(2500px) rotateY(0deg) scale(1);
+    -webkit-transform: none;
     opacity: 1;
   }
 }
@@ -539,7 +538,7 @@
   }
 
   100% {
-    transform: perspective(2500px) rotateY(0deg) scale(1);
+    transform: none;
     opacity: 1;
   }
 }
