@@ -64,8 +64,9 @@
                     </div>
                     <div class="product-info">
                         <h3>{{ producto.nombre }}</h3>
-                        <p>{{ producto.descripcion }}</p>
                         <span class="product-cta">{{ producto.precio }}</span>
+                        <span class="product-badge">{{ producto.disponibilidad }}</span>
+                        <p>{{ producto.descripcion }}</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +117,7 @@
 
                 <div class="info-block">
                     <div class="info-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                    <h3>emenet Mobile</h3>
+                    <h3>Emenet Mobile</h3>
                     <p>Velocidad, cobertura y cero complicaciones.</p>
                     <ul class="plan-features">
                         <li>Datos incluidos</li>
@@ -351,9 +352,7 @@
 
 
 
-        <!-- ==========================================
-         MODALES DE productos
-        ========================================== -->
+        <!-- MODAL PRODUCTOS -->
         <div class="modal-overlay" *ngIf="modalActivo === 'producto'" (click)="cerrarModal($event)">
             <div class="modal-panel modal-panel-product" (click)="$event.stopPropagation()">
                 <button class="modal-close" (click)="cerrarModal()">&#x2715;</button>
@@ -369,6 +368,7 @@
                                     (click)="abrirZoom(productoSeleccionado.imagenActual)" title="Click para ampliar" />
                                 <div class="carousel-zoom-hint" (click)="abrirZoom(productoSeleccionado.imagenActual)">
                                     <i class="fa-solid fa-magnifying-glass-plus"></i>
+
                                 </div>
                             </div>
                             <div class="carousel-thumbnails" *ngIf="productoSeleccionado.imagenes.length > 1">
@@ -425,6 +425,7 @@
                             <i class="fa-solid fa-cart-shopping"></i> Contactar para comprar
                         </a>
                     </div>
+                    <p></p>
                 </div>
             </div>
         </div>

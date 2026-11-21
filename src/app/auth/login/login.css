@@ -1,11 +1,10 @@
 .login-layout {
   display: flex;
   height: 100dvh;
-  /* dvh respeta el espacio visible real de la pantalla en móviles */
   width: 100%;
   background-color: #ffffff;
   overflow: hidden;
-  /* Evita que la página completa y la imagen hagan scroll */
+  touch-action: none;
 }
 
 .login-sidebar {
@@ -383,6 +382,7 @@
 .ep-links-row {
   display: flex;
   justify-content: space-between;
+  font-size: 1rem;
   width: 100%;
   margin-top: 4px;
   padding: 0 4px;
@@ -1074,6 +1074,155 @@
   display: block;
 }
 
+.overlayModalApp {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  touch-action: none;
+  overscroll-behavior: contain;
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.overlayModalApp.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modalApp {
+  background: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 28px 28px 0 0;
+  padding: 28px 24px max(24px, env(safe-area-inset-bottom));
+  text-align: center;
+  position: relative;
+  border-top: 4px solid #0b4e94; /* Acento sutil estilo Emenet */
+  box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.12);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.overlayModalApp.active .modalApp {
+  transform: translateY(0);
+}
+
+@media (min-width: 576px) {
+  .overlayModalApp {
+    align-items: center;
+    padding: 16px;
+  }
+  .modalApp {
+    border-radius: 24px;
+    border-top: none;
+    border: 1px solid #e2e8f0;
+    transform: scale(0.96);
+  }
+  .overlayModalApp.active .modalApp {
+    transform: scale(1);
+  }
+}
+
+.closeModalApp {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeModalApp:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.badgeModalApp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(11, 78, 148, 0.08);
+  color: #0b4e94;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.titleModalApp {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.subtitleModalApp {
+  margin: 0 0 22px;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.actionsModalApp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btnPrimaryModalApp {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: #0b4e94;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btnPrimaryModalApp:hover {
+  background: #083b70;
+  color: #ffffff;
+}
+
+.btnSecondaryModalApp {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnSecondaryModalApp:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
 .tutorial-view {
   display: flex;
   flex-direction: column;
@@ -1611,3 +1760,36 @@
   right: 20px;
   bottom: 20px;
 }
+
+
+
+
+
+.help-panel__btn-manual {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #f0f4ff; 
+  color: #1d4ed8;            
+  border: 1px solid #bfdbfe; 
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  width: 100%;               
+  justify-content: center;  
+  box-sizing: border-box;
+}
+
+.help-panel__btn-manual:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.15);
+}
+
+
+

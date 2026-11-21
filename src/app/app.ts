@@ -131,6 +131,9 @@ export class App implements OnDestroy {
     if (!this.platform.ANDROID) return;
     this.backButtonListener = await CapacitorApp.addListener('backButton',
       ({ canGoBack }) => {
+        // Permite a modales abiertos cerrarse antes de navegar atrás
+        const alguienLoManejo = !window.dispatchEvent(new CustomEvent('app-back', { cancelable: true }));
+        if (alguienLoManejo) { return; }
         if (canGoBack) { window.history.back(); return; }
         CapacitorApp.exitApp();
       }

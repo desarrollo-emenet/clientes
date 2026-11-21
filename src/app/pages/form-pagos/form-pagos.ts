@@ -43,9 +43,6 @@ export class FormPagos {
   loading = false;
   loading1 = false;
 
-  archivoSeleccionado!: File;
-  selectedFile: File | null = null;
-
   pagosForm!: FormGroup;
   data: any;
   serv: any;
@@ -59,6 +56,11 @@ export class FormPagos {
   pagosAbierto: string | null = null;
   formularioAbierto: string | null = null;
 
+  processingFile = false;
+  isDragging = false;
+
+  archivoSeleccionado: File | null = null;
+  selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
 
   filtroEstado = 'todos';
@@ -156,21 +158,29 @@ export class FormPagos {
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.isDragging = true;
+
   }
 
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.isDragging = false;
+
   }
 
   onFileChange(event: any) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) { this.processFile(file); }
+    input.value = '';
   }
 
   onDrop(event: DragEvent) {
-    event.preventDefault(); event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
     const file = event.dataTransfer?.files?.[0];
     if (!file) { return; }
     this.processFile(file);
@@ -182,27 +192,63 @@ export class FormPagos {
       toast.error('Tipo de archivo no permitido.');
       return;
     }
-    const compressedFile = await this.compress.compressImage(file);
 
-    if (compressedFile.size > this.MAX_FILE_SIZE) {
-      toast.error('El archivo no debe superar los 2 MB');
-      return;
+    this.processingFile = true;
+
+    try {
+      let compressedFile = file;
+
+      if (file.type.startsWith('image/')) {
+        compressedFile = await this.compress.compressImage(file);
+      }
+
+      if (compressedFile.size > this.MAX_FILE_SIZE) {
+        toast.error('El archivo no debe superar los 2 MB');
+        return;
+      }
+
+      this.archivoSeleccionado = compressedFile;
+      this.selectedFile = compressedFile;
+
+      if (compressedFile.type.startsWith('image/')) {
+        this.imagePreview = await this.generatePreview(compressedFile);
+      } else {
+        this.imagePreview = 'assets/img/pdf.webp';
+      }
+
+      const comprobanteControl = this.pagosForm.get('comprobante');
+
+      comprobanteControl?.setValue(compressedFile);
+      comprobanteControl?.markAsDirty();
+      comprobanteControl?.markAsTouched();
+      comprobanteControl?.updateValueAndValidity();
+
+    } catch (error) {
+      toast.error('Error al procesar el archivo.');
+    } finally {
+      this.processingFile = false;
     }
+  }
 
-    this.archivoSeleccionado = compressedFile;
-    this.selectedFile = compressedFile;
-
-    if (compressedFile.type.startsWith('image/')) {
+  private generatePreview(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => this.imagePreview = reader.result;
-      reader.readAsDataURL(compressedFile);
-    } else {
-      this.imagePreview = 'assets/img/pdf.webp';
-    }
 
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  eliminarArchivo(): void {
+    this.archivoSeleccionado = null;
+    this.selectedFile = null;
+    this.imagePreview = null;
+    this.processingFile = false;
     const comprobanteControl = this.pagosForm.get('comprobante');
 
-    comprobanteControl?.setValue(compressedFile);
+    comprobanteControl?.setValue(null);
     comprobanteControl?.markAsDirty();
     comprobanteControl?.markAsTouched();
     comprobanteControl?.updateValueAndValidity();
@@ -224,7 +270,13 @@ export class FormPagos {
 
     try {
       //console.log('data', this.crearFormData());
-      await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
+      const formData = this.crearFormData();
+      console.log('Datos enviados:');
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
+      
+      //await firstValueFrom(this.clientS.pagosBanco(this.crearFormData()));
       toast.success('Datos enviados');
       this.limpiarFormulario();
     } catch (error) {
@@ -238,9 +290,11 @@ export class FormPagos {
 
   limpiarFormulario(): void {
     this.pagosForm.reset();
-    this.archivoSeleccionado = null as any;
+    this.archivoSeleccionado = null;
     this.selectedFile = null;
     this.imagePreview = null;
+    this.processingFile = false;
+
   }
 
   private crearFormData(): FormData {
@@ -256,8 +310,9 @@ export class FormPagos {
     formData.append('numOperacion', raw.numOperacion);
     formData.append('telefono', raw.telefono.replace(/\D/g, ''));
     formData.append('monto', raw.monto);
-    formData.append('comprobante', this.archivoSeleccionado);
-
+    if (this.archivoSeleccionado) {
+      formData.append('comprobante', this.archivoSeleccionado);
+    }
     return formData;
   }
 
@@ -354,8 +409,8 @@ export class FormPagos {
     this.pagosForm.patchValue({ monto: totalMensual.toString() });
   }
 
-  soloNumeros(event: Event, controlName: string, maxLength: number): void {
-    this.user.soloNumeros(event, this.pagosForm, controlName, maxLength);
+  soloNumeros(event: Event, controlName: string, maxLength: number, isFormateado: boolean = true): void {
+    this.user.soloNumeros(event, this.pagosForm, controlName, maxLength, isFormateado);
   }
 
   contactarSoporte(): void {
@@ -364,4 +419,5 @@ export class FormPagos {
       'Hola, mi servicio se encuentra dado de baja y quisiera recibir información para reactivarlo.'
     );
   }
+
 }

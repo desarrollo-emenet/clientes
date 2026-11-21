@@ -115,9 +115,9 @@ export class UserService {
     }
   }
 
-  soloNumeros(event: Event, form?: FormGroup, controlName?: string, maxLength: number = 10): string {
+  soloNumeros(event: Event, form?: FormGroup, controlName?: string, maxLength: number = 10, isFormateado: boolean = true): string {
     const input = event.target as HTMLInputElement;
-    const valorFormateado = this.formatearTextoTelefono(input.value, maxLength);
+    const valorFormateado = isFormateado ? this.formatearTextoTelefono(input.value, maxLength) : input.value.replace(/\D/g, '').slice(0, maxLength);
     if (form && controlName) {
       input.value = valorFormateado;
       form.get(controlName)?.setValue(valorFormateado, { emitEvent: false });

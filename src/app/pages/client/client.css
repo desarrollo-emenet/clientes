@@ -486,20 +486,55 @@
 }
 
 .ver-formas {
+  position: relative;
   font-size: 0.85rem;
   color: #0b4e94;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: color 0.15s;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(215, 206, 206, 0.207);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
 }
 
+.ver-formas i {
+  font-size: 0.75rem;
+  display: inline-block;
+  animation: verFormasChevron 2.2s ease-in-out infinite;
+  transition: transform 0.25s ease;
+}
+
 .ver-formas:hover {
-  color: #1558a0;
-  text-decoration: underline;
+  color: #093c73;
+  background: rgba(11, 78, 148, 0.13);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(11, 78, 148, 0.16);
+  text-decoration: none;
+}
+
+.ver-formas:hover i {
+  animation: none;
+  transform: translateX(4px);
+}
+
+.ver-formas:active {
+  transform: scale(0.97);
+}
+
+@keyframes verFormasChevron {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
 }
 
 /*Resumen de cuenta*/
@@ -638,16 +673,36 @@
 .service-card-clickable {
   cursor: pointer;
   user-select: none;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .service-card-clickable:hover {
-  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.15);
-  border-color: rgba(11, 78, 148, 0.2);
-  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
 }
 
 .service-card-clickable:active {
   transform: translateY(-1px) scale(0.99);
+}
+
+.svc-arrow {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #94a3b8;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.service-card-clickable .service-card-top {
+  padding-right: 28px;
+}
+
+.service-card-clickable:hover .svc-arrow {
+  color: #0b4e94;
+  transform: translate(2px, -2px);
 }
 
 .service-card-top {
@@ -907,6 +962,10 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  .service-card-clickable .service-card-top {
+    padding-right: 0;
   }
 
   .svc-name,
@@ -1329,85 +1388,126 @@
   display: none;
 }
 
-/* =========================================
-   MODAL: PLANES DE INTERNET
-========================================= */
+/*MODAL: PLANES DE INTERNET (MINIMALISTA) */
 .plan-grid-internet {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 
 .plan-card-internet {
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1.5px solid #e2e8f0;
+  border: 1px solid #e8eef5;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 22px 20px 18px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;
 }
 
+.plan-card-internet:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .plan-card-internet:hover {
-  transform: translateY(-4px);
-  border-color: rgba(11, 78, 148, 0.4);
-  box-shadow: 0 12px 30px rgba(11, 78, 148, 0.08);
+  transform: translateY(-3px);
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
 }
 
 .plan-card-internet.plan-card-popular {
-  border: 2.5px solid #0b4e94;
-  box-shadow: 0 8px 24px rgba(11, 78, 148, 0.06);
+  border: 1.5px solid #2563eb;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
 }
 
 .plan-card-internet.plan-card-popular::before {
   content: "Recomendado";
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #0b4e94;
-  color: #fff;
-  font-size: 0.68rem;
-  font-weight: 700;
+  top: 24px;
+  right: -41px;
+  width: 150px;
+  text-align: center;
+  background: linear-gradient(135deg, #0b4e94, #2563eb);
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 800;
   text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 20px;
-  letter-spacing: 0.05em;
+  padding: 5px 0;
+  letter-spacing: 0.04em;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .plan-card-top {
   background: transparent;
-  padding: 24px 20px 16px;
+  padding: 0 0 18px;
   color: #0f172a;
 }
 
+.plan-card-internet:last-child:nth-child(odd) .plan-card-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 12px 22px;
+}
+
+.plan-card-internet:last-child:nth-child(odd) .plan-simetrico {
+  margin-bottom: 0;
+}
+
+.plan-card-internet:last-child:nth-child(odd) .plan-card-pricing {
+  padding-left: 16px;
+}
+
 .plan-nombre {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  margin: 0 0 4px;
+  margin: 0 0 2px;
   color: #0f172a;
+  letter-spacing: -0.01em;
 }
 
 .plan-simetrico {
   font-size: 0.8rem;
   color: #64748b;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-weight: 500;
 }
 
 .plan-precio {
-  font-size: 1.8rem;
+  font-size: 1.75rem;
   font-weight: 800;
-  color: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .plan-precio span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #6e6e73;
+  -webkit-text-fill-color: #6e6e73;
+  margin-left: 4px;
+}
+
+.plan-contrata,
+.plan-card-top p:not(.plan-simetrico) {
+  margin: 6px 0 0;
   font-size: 0.82rem;
   font-weight: 500;
   color: #64748b;
-  margin-left: 2px;
 }
 
 .plan-btn-internet {
@@ -1415,37 +1515,130 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  width: calc(100% - 32px);
-  margin: 0 auto 16px;
+  width: 100%;
+  margin: auto 0 0;
   height: 40px;
   border: none;
   border-radius: 12px;
-  background: #f1f2f9;
-  color: #334155;
-  font-size: 0.88rem;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  color: #ffffff;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: auto;
+  box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, 0.28));
 }
 
 .plan-card-internet:hover .plan-btn-internet {
-  background: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(11, 78, 148, 0.25);
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px var(--glow, rgba(10, 132, 255, 0.36));
 }
 
 .plan-card-popular .plan-btn-internet {
-  background: #0b4e94;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  border-color: transparent;
   color: #ffffff;
+  box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, 0.28));
 }
 
 .plan-card-popular:hover .plan-btn-internet {
-  background: #093c73;
+  background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px var(--glow, rgba(10, 132, 255, 0.36));
 }
 
 @media (max-width: 600px) {
   .plan-grid-internet {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 auto 20px;
+    width: 100%;
+  }
+
+  .plan-card-internet {
+    background: #fff;
+    border: none;
+    border-radius: 22px;
+    padding: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+    text-align: center;
+    transform: none;
+  }
+
+  .plan-card-internet:hover {
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+  }
+
+  .plan-card-internet.plan-card-popular {
+    border: none;
+    box-shadow: 0 0 0 2px var(--accent, #0a84ff), 0 12px 28px var(--glow, rgba(10, 132, 255, .28));
+  }
+
+  .plan-card-internet.plan-card-popular::before {
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    color: #fff;
+    font-size: 0.58rem;
+    padding: 5px 0;
+  }
+
+  .plan-card-top,
+  .plan-card-internet:last-child:nth-child(odd) .plan-card-top {
+    display: block;
+    padding: 30px 20px 18px;
+    text-align: center;
+  }
+
+  .plan-card-internet:last-child:nth-child(odd) .plan-card-pricing {
+    padding-left: 0;
+  }
+
+  .plan-nombre {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    color: #1d1d1f;
+  }
+
+  .plan-simetrico,
+  .plan-card-internet:last-child:nth-child(odd) .plan-simetrico {
+    font-size: 1rem;
+    color: #6e6e73;
+    margin-bottom: 14px;
+  }
+
+  .plan-precio {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .plan-precio span {
+    font-size: .95rem;
+    font-weight: 400;
+    color: #6e6e73;
+    -webkit-text-fill-color: #6e6e73;
+  }
+
+  .plan-btn-internet,
+  .plan-card-popular .plan-btn-internet,
+  .plan-card-internet:hover .plan-btn-internet {
+    height: 48px;
+    font-size: 1.02rem;
+    font-weight: 500;
+    border-radius: 980px;
+    background: linear-gradient(135deg, var(--accent, #0a84ff), var(--accent2, #5e5ce6));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--glow, rgba(10, 132, 255, .28));
+    width: calc(100% - 40px);
+    margin: 0 auto 22px;
   }
 }

@@ -193,13 +193,14 @@
                 <strong>asociado a tu cuenta.</strong>
               </span>
             </li>
-            <li class="help-panel__paso--nota">
-              <span> 
-                <strong><a href="assets/pdf/ManualDeUsuario_miemenet.pdf" target="_blank" rel="noopener noreferrer">
-                    Manual de usuario</a>
-                  </strong>
-              </span>
+            <li class="help-panel__paso--nota ">
+              <a class="help-panel__btn-manual" href="assets/pdf/ManualDeUsuario_miemenet.pdf" target="_blank"
+                rel="noopener noreferrer" (click)="abrirManual($event)">
+                <i class="fa-regular fa-file-lines"></i>
+                <span>Manual de usuario</span>
+              </a>
             </li>
+
           </ol>
 
 
@@ -273,4 +274,33 @@
     <i class="fa-solid fa-question" *ngIf="!mostrarAyuda"></i>
     <i class="fa-solid fa-xmark" *ngIf="mostrarAyuda"></i>
   </button>
+</div>
+
+
+<div class="overlayModalApp" [class.active]="mostrarModalApp" (click)="cerrarModalAppPorFondo($event)" role="dialog"
+  aria-modal="true" aria-labelledby="titleModalApp">
+
+  <div class="modalApp">
+    <button type="button" class="closeModalApp" (click)="cerrarModalApp()" aria-label="Cerrar">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h3 id="titleModalApp" class="titleModalApp"> mi emenet </h3>
+    <span class="badgeModalApp"> <i class="fa-brands fa-android"></i> Disponible en Android </span>
+    <!--<span class="badgeModalApp"> <i class="fa-brands fa-apple"></i> Disponible en iOS </span>-->
+    <h3 id="titleModalApp" class="titleModalApp"> ¡Gestiona tu servicio más rápido! </h3>
+    <p class="subtitleModalApp">
+      Consulta tu estado de cuenta, paga en segundos y recibe notificaciones desde nuestra app móvil.
+    </p>
+
+    <div class="actionsModalApp">
+      <button type="button" (click)="abrirODescargarApp()" class="btnPrimaryModalApp">
+        Continuar en la app
+      </button>
+      <button type="button" (click)="cerrarModalApp()" class="btnSecondaryModalApp">
+        Continuar en la web
+      </button>
+    </div>
+
+  </div>
 </div>
