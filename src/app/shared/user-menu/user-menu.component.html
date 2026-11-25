@@ -34,33 +34,36 @@
 
     <div class="dropdown-section" *ngIf="!isServiceRoute">
       <button class="dropdown-item" (click)="navigateTo('/mi-perfil')">
-        <i class="fa-solid fa-lock"></i>
-        <span>Mi perfil</span>
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Perfil</span>
       </button>
-
-      <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
-        <i class="fa-solid fa-credit-card"></i>
-        <span>Formas de pago</span>
+      <button class="dropdown-item" (click)="navigateTo('/visitas')">
+        <i class="fa-solid fa-wrench"></i>
+        <span>Visitas</span>
+      </button>
+      <button class="dropdown-item" (click)="navigateTo('/reportes')">
+        <i class="fa-solid fa-headset"></i>
+        <span>Soporte</span>
       </button>
       <button class="dropdown-item" (click)="navigateTo('/formulario-pagos')">
         <i class="fa-solid fa-list-check"></i>
         <span>Registrar pago</span>
       </button>
 
-      <button class="dropdown-item" (click)="navigateTo('/reportes')">
-        <i class="fa-solid fa-headset"></i>
-        <span>Soporte</span>
+      <button class="dropdown-item" (click)="navigateTo('/formas-de-pago')">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Formas de pago</span>
       </button>
 
-      <button class="dropdown-item" (click)="navigateTo('/visitas')">
-        <i class="fa-solid fa-wrench"></i>
-        <span>Visitas</span>
-      </button>
+
+
+
+
 
       <div class="section-divider"></div>
       <button routerLink="/servicios" (click)="navigateTo('/servicios')" class="dropdown-item" title="Servicios">
         <i class="fa-solid fa-wifi"></i>
-        <span>Servicios</span>
+        <span>Mis servicios</span>
       </button>
 
     </div>

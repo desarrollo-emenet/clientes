@@ -66,8 +66,7 @@
                 MXN {{ this.calculo.calcularTotalMensual(servicios) | currency:'MXN':'symbol-narrow':'1.2-2' }}
               </div>
             </ng-template>
-            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluye
-              todos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
+            <div class="banner-sub muted">{{ sinAdeudo() || calculo.deudaValida(infoCliente.deuda) == null ? 'Incluye todos los servicios activos' : 'Incluye tus mensualidades pendientes'}}</div>
           </div>
         </div>
       </div>

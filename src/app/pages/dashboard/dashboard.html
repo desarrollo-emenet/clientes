@@ -4,9 +4,6 @@
     <!-- Loading con logo -->
     <app-preloader *ngIf="!infoCliente || loading"></app-preloader>
     <section class="client-details-section" *ngIf="infoCliente">
-      <h2 class="client-details-title">Detalles del Cliente</h2>
-
-
       <div class="client-card">
         <div class="client-card-header">
           <div class="client-avatar">
@@ -48,11 +45,17 @@
         <!-- client-actions -->
         <div class="flex-actions" *ngIf="infoCliente.clasificacion !== 'BAJA'">
 
-          <button class="action-item" routerLink="/edit-perfil">
+          <button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
             <div class="action-icon action-icon-blue">
-              <i class="fa-solid fa-lock"></i>
+              <i class="fa-solid fa-cash-register"></i>
             </div>
-            <span class="action-label">Datos de <br>acceso</span>
+            <span class="action-label">Formas de <br>pago</span>
+          </button>
+          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
+            <div class="action-icon action-icon-orange">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <span class="action-label">Registrar<br>pago</span>
           </button>
 
           <!--<button class="action-item" [routerLink]="['/formas-de-pago', infoCliente.cliente]">
@@ -91,12 +94,7 @@
             <span class="action-label">Hablar con<br>Embot</span>
           </button>
 
-          <button class="action-item" [routerLink]="['/formulario-pagos', infoCliente.cliente]">
-            <div class="action-icon action-icon-orange">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-            </div>
-            <span class="action-label">Registrar<br>pago</span>
-          </button>
+
         </div>
 
       </div>
@@ -136,11 +134,11 @@
             <div class="contact-content">
               <div class="contact-label">Dirección</div>
               <div class="contact-value">
-                {{ infoCliente.direccion }}
-                <span *ngIf="infoCliente.colonia">, {{ infoCliente.colonia }}</span>
-                <span *ngIf="infoCliente.municipio">, {{ infoCliente.municipio }}</span>
-                <span *ngIf="infoCliente.estado">, {{ infoCliente.estado }}</span>
-                <span *ngIf="infoCliente.pais">, {{ infoCliente.pais }}</span>
+                {{ infoCliente.direccion | titlecase }}
+                <span *ngIf="infoCliente.colonia">, {{ infoCliente.colonia | titlecase }}</span>
+                <span *ngIf="infoCliente.municipio">, {{ infoCliente.municipio | titlecase }}</span>
+                <span *ngIf="infoCliente.estado">, {{ infoCliente.estado | titlecase }}</span>
+                <span *ngIf="infoCliente.pais">, {{ infoCliente.pais | titlecase }}</span>
               </div>
             </div>
           </div>

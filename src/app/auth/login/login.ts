@@ -158,7 +158,7 @@ export class Login implements OnInit {
     if (esAndroid && !yaCerrado) {
       setTimeout(() => {
         this.mostrarModalApp = true;
-      }, 600);
+      }, 750);
     }
   }
 
