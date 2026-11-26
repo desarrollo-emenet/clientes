@@ -276,7 +276,7 @@ export class Client implements OnInit {
       `Plan a contratar: ${planNombre}\n` +
       `Costo: ${costo}`;
 
-    const numeroWhatsApp = '5217131334557';
+    const numeroWhatsApp = '5219541240864';
     const mensajeCodificado = encodeURIComponent(mensaje);
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensajeCodificado}`;
 
