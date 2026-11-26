@@ -49,7 +49,7 @@ export const routes: Routes = [
   { path: 'formulario-pagos/:numero_cliente', component: FormPagos, canActivate: [requireAuthGuard] },
   { path: 'adicionales', component: Adicionales, canActivate: [requireAuthGuard]},
   { path: 'speedtest', component: SpeedTest, canActivate: [requireAuthGuard]},
-  { path: 'reportes', component: Reportes, canActivate: [requireAuthGuard]},
+  //{ path: 'reportes', component: Reportes, canActivate: [requireAuthGuard]},
 
 
   { path: '**', redirectTo: '/iniciar-sesion' }
